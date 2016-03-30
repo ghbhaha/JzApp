@@ -37,6 +37,5 @@ public abstract class BaseManager {
         LogUtils.getAvEx(avEx);
     }
 
-
     protected Context _context;
 }
