@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/background_height" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/card_margin_let_right"
+        android:layout_marginRight="@dimen/card_margin_let_right"
+        android:layout_marginTop="@dimen/card_margin_top"
+        android:layout_marginBottom="@dimen/card_margin_buttom"
+        android:background="@drawable/card">
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
+    </RelativeLayout>
+
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/add_new_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white"
+        app:fab_colorNormal="@color/blue"
+        app:fab_colorPressed="@color/blue"
+        app:fab_colorRipple="@color/ripple" />
+
+
+
+</RelativeLayout>

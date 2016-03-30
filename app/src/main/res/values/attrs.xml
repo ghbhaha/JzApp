@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MaterialLayout">
+        <attr name="alpha" format="integer" />
+        <attr name="alpha_step" format="integer" />
+        <attr name="framerate" format="integer" />
+        <attr name="duration" format="integer" />
+        <attr name="custom_color" format="color" />
+        <attr name="scale" format="float" />
+    </declare-styleable>
+
+
+    <declare-styleable name="MyRoundColorView">
+        <attr name="myRoundColor" format="color" />
+        <attr name="myRoundSize" format="integer" />
+    </declare-styleable>
+
+</resources>

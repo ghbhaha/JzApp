@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+
+
+        <ImageView
+            android:id="@+id/record_icon"
+            android:layout_width="@dimen/record_type_size"
+            android:layout_height="@dimen/record_type_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_shouru_type_gongzi" />
+
+        <TextView
+            android:id="@+id/record_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/record_icon"
+            android:text="奖金"
+            android:textSize="20sp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/zhi_chu"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:onClick="switchZhiChuOrShouRu"
+                android:text="收"
+                android:textColor="@color/blue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/shou_ru"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:onClick="switchZhiChuOrShouRu"
+                android:text="支"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/money_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="0.00"
+            android:textSize="30sp" />
+
+
+    </RelativeLayout>
+
+
+
+        <com.suda.jzapp.view.drag.DragGridView
+            android:id="@+id/record_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/title"
+
+            android:cacheColorHint="@android:color/transparent"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="5"
+            android:verticalSpacing="10dp">
+
+        </com.suda.jzapp.view.drag.DragGridView>
+
+
+    <include
+        android:id="@+id/panel"
+        layout="@layout/record_edit_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+</RelativeLayout>

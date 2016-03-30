@@ -1,0 +1,175 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/account_name_lo"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginLeft="@dimen/card_margin_let_right"
+        android:layout_marginRight="@dimen/card_margin_let_right"
+        android:layout_marginTop="@dimen/card_margin_top"
+        android:background="@drawable/card"
+        android:onClick="editAccount"
+        android:tag="editAccountName">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:text="账户名称"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="28dp"
+
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="162dp"
+        android:layout_below="@+id/account_name_lo"
+        android:layout_marginLeft="@dimen/card_margin_let_right"
+        android:layout_marginRight="@dimen/card_margin_let_right"
+        android:layout_marginTop="@dimen/card_margin_top"
+        android:background="@drawable/card"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:onClick="editAccount"
+            android:paddingLeft="10dp"
+            android:tag="editAccountType">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="账户类型"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/account_type_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="28dp"
+                android:text="网络账户"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/account_type_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/account_type_desc"
+                android:src="@drawable/icon_account_zhifubao_grey" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:onClick="editAccount"
+            android:paddingLeft="10dp"
+            android:tag="editAccountMoney">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="金额"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/account_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="28dp"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:onClick="editAccount"
+            android:paddingLeft="10dp"
+            android:tag="editAccountRemark">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="备注"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/account_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="28dp"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <!--<com.melnykov.fab.FloatingActionButton-->
+        <!--android:id="@+id/submit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@drawable/ic_done_white"-->
+        <!--app:fab_colorNormal="@color/blue"-->
+        <!--app:fab_colorPressed="@color/blue"-->
+        <!--app:fab_colorRipple="@color/ripple" />-->
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        >
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            />
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+
+</RelativeLayout>

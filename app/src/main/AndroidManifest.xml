@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.suda.jzapp">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name">
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppCompatThemeWithNoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.account.CreateOrEditAccountActivity"
+            android:label="@string/title_activity_create_or_edit_account"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.account.EditAccountActivity"
+            android:label="@string/title_activity_edit_account_prop"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.system.EditThemeActivity"
+            android:label="@string/title_activity_edit_account_prop"
+            android:theme="@style/ThemeDialogStyle" />
+        <activity
+            android:name=".ui.activity.account.MonthReportActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.account.AccountLinkActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.system.SettingsActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.system.AboutActivity"
+            android:theme="@style/AppCompatThemeWithNoActionBar" />
+        <activity
+            android:name=".ui.activity.record.CreateOrEditRecordActivity"
+            android:theme="@style/AppCompatThemeWithNoActionBar" />
+        <activity
+            android:name=".ui.activity.record.SelectAccountActivity"
+            android:label="@string/account_select"
+            android:theme="@style/Transparent" />
+
+        <!-- 友盟 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="56824759e0f55a8523002909" />
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" />
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.user.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.user.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.record.CreateNewRecordTypeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:label="@string/title_activity_create_new_record_type"
+            android:theme="@style/AppTheme"></activity>
+    </application>
+
+</manifest>

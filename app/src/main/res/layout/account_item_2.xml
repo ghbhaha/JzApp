@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:background="@drawable/ripple"
+    android:minHeight="54dp"
+    android:paddingLeft="@dimen/card_margin_let_right">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="42dp"
+            android:text="现金"
+            android:paddingBottom="2dp"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/yu_e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="42dp"
+            android:textSize="10sp"
+            android:text="余额：200.05" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/account_type_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="✔"
+        android:id="@+id/select_mark"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="40dp"/>
+
+</RelativeLayout>

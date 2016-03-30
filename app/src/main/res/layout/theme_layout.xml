@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/umeng_update_dialog_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="主题切换"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="0"
+                app:myRoundColor="@color/activated_blue"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="1"
+                app:myRoundColor="@color/activated_brown"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="2"
+                app:myRoundColor="@color/activated_cyan"
+                app:myRoundSize="60" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="3"
+                app:myRoundColor="@color/activated_dark"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="4"
+                app:myRoundColor="@color/activated_deep_purple"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="5"
+                app:myRoundColor="@color/activated_green"
+                app:myRoundSize="60" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="6"
+                app:myRoundColor="@color/activated_indigo"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="7"
+                app:myRoundColor="@color/activated_orange"
+                app:myRoundSize="60" />
+
+            <com.suda.jzapp.view.MyRoundColorView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:onClick="switchTheme"
+                android:tag="8"
+                app:myRoundColor="@color/activated_red"
+                app:myRoundSize="60" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

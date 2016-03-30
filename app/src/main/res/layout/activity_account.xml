@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+    <ListView
+        android:id="@+id/account_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+
+    <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+        <!--android:id="@+id/setter"-->
+        <!--android:onClick="flash"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--fab:fab_icon="@drawable/icon_add_1"-->
+        <!--android:layout_marginRight="10dp" />-->
+
+</RelativeLayout>

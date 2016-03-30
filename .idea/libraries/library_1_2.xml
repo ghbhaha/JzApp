@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-1.2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.gxz.pagerslidingtabstrip/library/1.2/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.gxz.pagerslidingtabstrip/library/1.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.gxz.pagerslidingtabstrip/library/1.2/ce29fdbbadf30e1cca0dbfef18b719d2ee48e984/library-1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

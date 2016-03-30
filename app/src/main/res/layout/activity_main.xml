@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 主界面 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar"/>
+
+            <com.gxz.PagerSlidingTabStrip
+                android:id="@+id/tabs"
+                app:pstsShouldExpand="true"
+                android:layout_width="match_parent"
+                android:layout_height="48dip" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <!-- 侧滑菜单内容 -->
+        <LinearLayout
+            android:id="@+id/drawer_view"
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+            <include layout="@layout/left_menu"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:id="@+id/opt_items">
+            </ListView>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
