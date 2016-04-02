@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -11,32 +12,42 @@
         android:layout_height="wrap_content">
 
 
-        <ImageView
+        <com.suda.jzapp.view.MyRoundColorView
+            android:id="@+id/add_new_record"
             android:layout_width="@dimen/record_type_size"
             android:layout_height="@dimen/record_type_size"
-            android:id="@+id/record_icon"
+            app:myRoundSize="50"
+            android:visibility="gone"
             android:layout_marginTop="8dp"
-            android:src="@drawable/icon_shouru_type_gongzi"/>
+            app:myRoundImage="@drawable/ic_add_white" />
 
 
         <ImageView
+            android:id="@+id/record_icon"
+            android:layout_width="@dimen/record_type_size"
+            android:layout_height="@dimen/record_type_size"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/icon_shouru_type_gongzi" />
+
+
+        <ImageView
+            android:id="@+id/delete"
             android:layout_width="@dimen/pay_type_del"
             android:layout_height="@dimen/pay_type_del"
-            android:id="@+id/delete"
             android:layout_alignLeft="@+id/record_icon"
-            android:src="@drawable/icon_paytype_delete"/>
+            android:src="@drawable/icon_paytype_delete" />
 
     </RelativeLayout>
 
 
     <TextView
+        android:id="@+id/record_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:id="@+id/record_title"
-        android:singleLine="true"
         android:ellipsize="end"
-        android:textSize="14sp"
-        android:text="工资"/>
+        android:singleLine="true"
+        android:text="工资"
+        android:textSize="14sp" />
 
 </LinearLayout>

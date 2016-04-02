@@ -44,7 +44,7 @@ public class DragGridView extends GridView {
     /**
      * DragGridView的item长按响应的时间， 默认是800毫秒，也可以自行设置
      */
-    private long dragResponseMS = 800;
+    private long dragResponseMS = 600;
 
     /**
      * 是否正在拖拽
@@ -534,7 +534,7 @@ public class DragGridView extends GridView {
      * @param oldPosition
      * @param newPosition
      */
-    private void animateReorder(final int oldPosition, final int newPosition) {
+    public void animateReorder(final int oldPosition, final int newPosition) {
         boolean isForward = newPosition > oldPosition;
         List<Animator> resultList = new LinkedList<Animator>();
         if (isForward) {

@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mrengineer13.snackbar.SnackBar;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.R;
@@ -17,6 +19,7 @@ import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.view.drag.DragGridApi;
+import com.suda.jzapp.view.drag.DragGridView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,12 +30,13 @@ import java.util.List;
  */
 public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
 
-    public NewRecordTypeAdapter(Context context, List<RecordType> recordTypes) {
+    public NewRecordTypeAdapter(Context context, List<RecordType> recordTypes, DragGridView mRecordDr) {
         super();
         this.recordTypes = recordTypes;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.recordManager = new RecordManager(context);
+        this.mDragGridView = mRecordDr;
     }
 
     @Override
@@ -60,11 +64,15 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
             holder.title = (TextView) convertView.findViewById(R.id.record_title);
             holder.icon = (ImageView) convertView.findViewById(R.id.record_icon);
             holder.deleteIcon = (ImageView) convertView.findViewById(R.id.delete);
+            holder.addNewRecordView = convertView.findViewById(R.id.add_new_record);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        //清除之前的动画
+        if (position == 0)
+            cleatAnim();
 
         if (position == mHidePosition) {
             convertView.setVisibility(View.INVISIBLE);
@@ -77,41 +85,61 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
             if (convertView.getTag(R.string.app_name) == null)
                 convertView.setTag(R.string.app_name, "last");
 
+            holder.addNewRecordView.setVisibility(View.VISIBLE);
+            holder.icon.setVisibility(View.GONE);
+
             holder.title.setText("添加");
             holder.icon.setImageResource(R.drawable.ic_add_white);
-            // holder.icon.setBackgroundResource(R.drawable.cricle_add);
+            AnimatorSet mAnimatorSet = new AnimatorSet();
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0);
+            objectAnimator.setDuration(0);
+            mAnimatorSet.playTogether(objectAnimator);
+            mAnimatorSet.start();
             holder.deleteIcon.setVisibility(View.GONE);
         } else {
+            holder.addNewRecordView.setVisibility(View.GONE);
+            holder.icon.setVisibility(View.VISIBLE);
+
             convertView.setTag(R.string.app_name, null);
             final RecordType recordType = recordTypes.get(position);
-            // holder.icon.setBackgroundResource(-1);
             holder.title.setText(recordType.getRecordDesc());
             holder.icon.setImageResource(IconTypeUtil.getTypeIcon(recordType.getRecordIcon()));
 
             if (mShake) {
                 AnimatorSet mAnimatorSet = new AnimatorSet();
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 2, 0, -2);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 3, 0, -3);
                 objectAnimator.setRepeatMode(Animation.REVERSE);
                 objectAnimator.setRepeatCount(Integer.MAX_VALUE);
-                objectAnimator.setDuration(400);
+                objectAnimator.setDuration(150);
                 mAnimatorSet.playTogether(objectAnimator);
                 mAnimatorSet.start();
                 animatorSets.add(mAnimatorSet);
                 holder.deleteIcon.setVisibility(View.VISIBLE);
             } else {
+                AnimatorSet mAnimatorSet = new AnimatorSet();
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0);
+                objectAnimator.setDuration(0);
+                mAnimatorSet.playTogether(objectAnimator);
+                mAnimatorSet.start();
                 holder.deleteIcon.setVisibility(View.GONE);
             }
             holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (recordTypes.size() == 2) {
+                        new SnackBar.Builder((Activity) context)
+                                .withMessage("请至少保留一个收支类型")
+                                .withDuration(SnackBar.SHORT_SNACK)
+                                .show();
+                        return;
+                    }
                     recordTypes.remove(position);
                     recordManager.deleteRecordType(recordType);
+                    mDragGridView.animateReorder(position, recordTypes.size());
                     notifyDataSetChanged();
                 }
             });
         }
-
-
 
 
         return convertView;
@@ -144,23 +172,26 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
         public TextView title;
         public ImageView icon;
         public ImageView deleteIcon;
+        private View addNewRecordView;
     }
 
     public void setShake(boolean shake) {
         mShake = shake;
         this.notifyDataSetChanged();
-        if (!shake) {
-            for (AnimatorSet mAnimatorSet : animatorSets) {
-                mAnimatorSet.end();
-            }
-            animatorSets.clear();
+    }
+
+    private void cleatAnim() {
+        for (AnimatorSet mAnimatorSet : animatorSets) {
+            mAnimatorSet.cancel();
         }
+        animatorSets.clear();
     }
 
     public boolean ismShake() {
         return mShake;
     }
 
+    private DragGridView mDragGridView;
     private boolean mShake = false;
     private List<RecordType> recordTypes;
     private Context context;

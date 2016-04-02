@@ -14,6 +14,7 @@
     <declare-styleable name="MyRoundColorView">
         <attr name="myRoundColor" format="color" />
         <attr name="myRoundSize" format="integer" />
+        <attr name="myRoundImage" format="reference" />
     </declare-styleable>
 
 </resources>

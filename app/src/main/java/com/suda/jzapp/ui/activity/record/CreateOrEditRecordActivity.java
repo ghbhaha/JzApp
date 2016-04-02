@@ -40,7 +40,6 @@ public class CreateOrEditRecordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_or_edit_record);
-
         recordManager = new RecordManager(this);
         accountManager = new AccountManager(this);
 
@@ -68,7 +67,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
             setCurRecordType(0, mOldRecordType);
         }
 
-        recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes);
+        recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes ,mRecordDr);
 
         mRecordDr.setAdapter(recordTypeAdapter);
 
@@ -94,6 +93,8 @@ public class CreateOrEditRecordActivity extends BaseActivity {
         mRecordDr.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == recordTypes.size() - 1)
+                    return false;
                 if (!recordTypeAdapter.ismShake()) {
                     recordTypeAdapter.setShake(true);
                 }
@@ -129,7 +130,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
             }
         });
     }
-    
+
     @Override
     protected void initWidget() {
         mRecordDr = (DragGridView) findViewById(R.id.record_item);
@@ -155,14 +156,18 @@ public class CreateOrEditRecordActivity extends BaseActivity {
         } else {
             mCurRecordType = recordType;
         }
-        tvTypeTitle.setText(mCurRecordType.getRecordDesc());
-        typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
+        if (recordTypes != null && recordTypes.size() > 1) {
+            tvTypeTitle.setText(mCurRecordType.getRecordDesc());
+            typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
+        }
     }
 
     private void setList() {
         int type = zhiChu ? Constant.RecordType.ZUICHU.getId() : Constant.RecordType.SHOURU.getId();
         recordTypes.addAll(recordManager.getRecordTypeByType(type));
-        recordTypes.add(new RecordType());
+        RecordType recordType = new RecordType();
+        recordType.setRecordType(type);
+        recordTypes.add(recordType);
     }
 
 
@@ -301,7 +306,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
                 return;
             }
             if (!"0".equals(money.substring(0, money.length() - 3))) {
-                int tmp = Integer.parseInt(money.substring(0, money.length() - 3));
+                long tmp = Long.parseLong(money.substring(0, money.length() - 3));
                 tmp = tmp / 10;
                 moneyCount = tmp;
                 tempCount = Double.parseDouble(money);

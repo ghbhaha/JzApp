@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/record_type_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/md_white_1000"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/zhi_chu"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:onClick="switchZhiChuOrShouRu"
+            android:text="收"
+            android:textColor="@color/blue"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/shou_ru"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:onClick="switchZhiChuOrShouRu"
+            android:text="支"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
 
 
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="54dp">
-
+        android:layout_height="54dp"
+        android:background="@color/md_white_1000"
+        android:layout_below="@+id/record_type_ll">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/gray_white" />
 
         <ImageView
             android:id="@+id/record_icon"
@@ -30,35 +68,6 @@
             android:textSize="20sp" />
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/zhi_chu"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:onClick="switchZhiChuOrShouRu"
-                android:text="收"
-                android:textColor="@color/blue"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/shou_ru"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:onClick="switchZhiChuOrShouRu"
-                android:text="支"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-
         <TextView
             android:id="@+id/money_count"
             android:layout_width="wrap_content"
@@ -73,22 +82,26 @@
     </RelativeLayout>
 
 
+    <com.suda.jzapp.view.drag.DragGridView
+        android:id="@+id/record_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:background="@color/gray_white"
+        android:cacheColorHint="@android:color/transparent"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="5"
+        android:verticalSpacing="10dp">
 
-        <com.suda.jzapp.view.drag.DragGridView
-            android:id="@+id/record_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/title"
+    </com.suda.jzapp.view.drag.DragGridView>
 
-            android:cacheColorHint="@android:color/transparent"
-            android:gravity="center"
-            android:horizontalSpacing="10dp"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="5"
-            android:verticalSpacing="10dp">
-
-        </com.suda.jzapp.view.drag.DragGridView>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/title"
+        android:background="@color/gray_white" />
 
     <include
         android:id="@+id/panel"

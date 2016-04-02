@@ -34,8 +34,8 @@ public class Constant {
     }
 
 
-    public enum RecordType{
-        SHOURU(1),ZUICHU(2);
+    public enum RecordType {
+        SHOURU(1), ZUICHU(-1), ZHUANZHANG(0);
         private int id;
 
         RecordType(int id) {
@@ -59,7 +59,6 @@ public class Constant {
 
     //记录类型
     public static class RecordTypeConstant {
-
 
 
         //支出
