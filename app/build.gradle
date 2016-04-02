@@ -66,7 +66,7 @@ dependencies {
     compile 'de.greenrobot:greendao:2.1.0'
 
     //友盟
-    compile files('libs/umeng-update-v2.6.0.1.jar')
+    compile files('libs/umeng-update-v2.7.0.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
 
     //三方库
