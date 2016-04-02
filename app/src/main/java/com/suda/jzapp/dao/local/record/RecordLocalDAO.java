@@ -33,7 +33,9 @@ public class RecordLocalDAO extends BaseLocalDao {
                 " and b.RECORD_TYPE=-1 and a.ACCOUNT_ID=" + accountId + " and a.RECORD_DATE between " + startDate.getTime() + " and " + endDate.getTime();
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         c.moveToFirst();
-        return Math.abs(c.getDouble(0));
+        double todayCost = c.getDouble(0);
+        c.close();
+        return Math.abs(todayCost);
     }
 
 }
