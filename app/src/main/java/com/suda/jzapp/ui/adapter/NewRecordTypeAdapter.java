@@ -90,8 +90,8 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
 
             if (mShake) {
                 AnimatorSet mAnimatorSet = new AnimatorSet();
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0, 3, -3, 0);
-                objectAnimator.setRepeatMode(Animation.RESTART);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 2, 0, -2);
+                objectAnimator.setRepeatMode(Animation.REVERSE);
                 objectAnimator.setRepeatCount(Integer.MAX_VALUE);
                 objectAnimator.setDuration(400);
                 mAnimatorSet.playTogether(objectAnimator);
