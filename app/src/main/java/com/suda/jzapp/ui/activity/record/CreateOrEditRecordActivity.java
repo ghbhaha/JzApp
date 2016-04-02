@@ -53,6 +53,8 @@ public class CreateOrEditRecordActivity extends BaseActivity {
 
         newRecord = new Record();
 
+        //newRecord.setAccountID();
+
         if (oldRecord == null)
             setCurRecordType(0);
         else {
@@ -126,11 +128,8 @@ public class CreateOrEditRecordActivity extends BaseActivity {
 
             }
         });
-
-
     }
-
-
+    
     @Override
     protected void initWidget() {
         mRecordDr = (DragGridView) findViewById(R.id.record_item);
@@ -247,20 +246,24 @@ public class CreateOrEditRecordActivity extends BaseActivity {
     }
 
     private void saveAndExit() {
-        newRecord.setRecordMoney(Double.parseDouble(tvMoneyCount.getText().toString()) * mCurRecordType.getRecordType());
+        newRecord.setRecordMoney(Double.parseDouble(tvMoneyCount.getText().toString())
+                * (mCurRecordType.getRecordType() / Math.abs(mCurRecordType.getRecordType())));
         newRecord.setRemark("");
         newRecord.setRecordTypeID(mCurRecordType.getRecordTypeID());
         if (oldRecord == null) {
             newRecord.setRecordDate(new Date(System.currentTimeMillis()));
             recordManager.createNewRecord(newRecord);
+            accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
         } else {
             //判断账户是否发生变化
             if (oldRecord.getAccountID() == newRecord.getAccountID()) {
-                //原账户
+                //账户 -oldRecord.getRecordMoney() + newRecord.getRecordMoney();
                 double addMoney = -oldRecord.getRecordMoney() + newRecord.getRecordMoney();
+                accountManager.updateAccountMoney(newRecord.getAccountID(), addMoney, null);
             } else {
-                //原账户 -oldRecord.getRecordMoney() 新账户 + newRecord.getRecordMoney();
-
+                //原账户 -oldRecord.getRecordMoney(), 新账户 + newRecord.getRecordMoney();
+                accountManager.updateAccountMoney(newRecord.getAccountID(), -oldRecord.getRecordMoney(), null);
+                accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
             }
         }
         finish();
@@ -399,7 +402,6 @@ public class CreateOrEditRecordActivity extends BaseActivity {
                 money = "0.00";
             }
 
-
             if (isDO) {
 
                 if (!"0".equals(s1.toString())) {
@@ -434,7 +436,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
     NewRecordTypeAdapter recordTypeAdapter;
     ArrayList<RecordType> recordTypes;
     RecordManager recordManager;
-    RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
+
     private int mainColor;
     private int mainDarkColor;
 

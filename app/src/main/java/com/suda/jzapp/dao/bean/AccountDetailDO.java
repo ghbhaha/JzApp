@@ -15,6 +15,7 @@ public class AccountDetailDO {
     private Boolean isDel;
     private String AccountDesc;
     private Integer AccountIcon;
+    private Double todayCost;
 
     public Long getId() {
         return id;
@@ -102,5 +103,13 @@ public class AccountDetailDO {
 
     public void setAccountIcon(Integer accountIcon) {
         AccountIcon = accountIcon;
+    }
+
+    public Double getTodayCost() {
+        return todayCost;
+    }
+
+    public void setTodayCost(Double todayCost) {
+        this.todayCost = todayCost;
     }
 }

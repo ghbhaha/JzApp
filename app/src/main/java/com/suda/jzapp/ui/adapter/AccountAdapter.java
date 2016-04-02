@@ -59,6 +59,8 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
             holder.mTvAccountTypeTitle.setText(account.getAccountDesc());
 
+            holder.mTvTodayCost.setText(String.format(context.getResources().getString(R.string.money_format), account.getTodayCost()));
+
             holder.mVEditAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -7,6 +7,7 @@ import com.suda.jzapp.dao.bean.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.local.account.AccountLocalDao;
+import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
@@ -61,6 +62,7 @@ public class AccountManager extends BaseManager {
                 for (Account account : accounts) {
                     AccountType accountType = accountLocalDao.getAccountTypeByID(account.getAccountTypeID(), _context);
                     AccountDetailDO accountDetailDO = DataConvertUtil.getAccountDetailDO(account, accountType);
+                    accountDetailDO.setTodayCost(recordLocalDAO.countTodayCostByAccountId(_context,account.getAccountID()));
                     accountDetailDOs.add(accountDetailDO);
                 }
                 sendMessage(handler, accountDetailDOs);
@@ -168,4 +170,5 @@ public class AccountManager extends BaseManager {
     }
 
     private AccountLocalDao accountLocalDao = new AccountLocalDao();
+    private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
 }

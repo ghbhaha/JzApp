@@ -153,6 +153,7 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
             for (AnimatorSet mAnimatorSet : animatorSets) {
                 mAnimatorSet.end();
             }
+            animatorSets.clear();
         }
     }
 

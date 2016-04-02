@@ -7,6 +7,9 @@ import com.suda.jzapp.dao.greendao.DaoMaster;
 import com.suda.jzapp.dao.greendao.DaoSession;
 import com.suda.jzapp.dao.greendao.MyDbOpenHelper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,6 +38,11 @@ public abstract class BaseLocalDao {
             }
         }
         return _daoMaster;
+    }
+
+    protected static String fmDate(Date date) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return format.format(date);
     }
 
     protected final static String USER_TABLE = "zhangdan.db";
