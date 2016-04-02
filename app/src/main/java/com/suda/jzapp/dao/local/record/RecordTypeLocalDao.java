@@ -18,7 +18,6 @@ import java.util.List;
 public class RecordTypeLocalDao extends BaseLocalDao {
 
 
-
     public void createNewRecordType(Context context, RecordType recordType) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         recordTypeDao.insert(recordType);
@@ -28,7 +27,8 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         return recordTypeDao.queryBuilder().
                 where(RecordTypeDao.Properties.IsDel.eq(false))
-                .where(RecordTypeDao.Properties.RecordType.eq(-1))
+                .whereOr(RecordTypeDao.Properties.RecordType.eq(Constant.RecordType.ZUICHU.getId()),
+                        RecordTypeDao.Properties.RecordType.eq(Constant.RecordType.AA_ZHICHU.getId()))
                 .orderAsc(RecordTypeDao.Properties.Index)
                 .build()
                 .list();
@@ -38,7 +38,8 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         return recordTypeDao.queryBuilder().
                 where(RecordTypeDao.Properties.IsDel.eq(false))
-                .where(RecordTypeDao.Properties.RecordType.eq(1))
+                .whereOr(RecordTypeDao.Properties.RecordType.eq(Constant.RecordType.SHOURU.getId()),
+                        RecordTypeDao.Properties.RecordType.eq(Constant.RecordType.AA_SHOURU.getId()))
                 .orderAsc(RecordTypeDao.Properties.Index)
                 .build()
                 .list();
@@ -74,14 +75,13 @@ public class RecordTypeLocalDao extends BaseLocalDao {
 
     }
 
-
     public int getMaxIndexByRecordType(Context context, int type) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         RecordType recordType = getSingleData(recordTypeDao.queryBuilder().where(RecordTypeDao.Properties.RecordType.eq(type))
                 .where(RecordTypeDao.Properties.IsDel.eq(false))
                 .orderDesc(RecordTypeDao.Properties.Index).limit(1).list());
 
-        return recordType==null ? 0 : recordType.getIndex();
+        return recordType == null ? 0 : recordType.getIndex();
     }
 
     public void updateRecordType(Context context, RecordType recordType) {

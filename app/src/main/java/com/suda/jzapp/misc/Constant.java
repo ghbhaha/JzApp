@@ -35,7 +35,9 @@ public class Constant {
 
 
     public enum RecordType {
-        SHOURU(1), ZUICHU(-1), ZHUANZHANG(0);
+        SHOURU(1), ZUICHU(-1), ZHUANZHANG(0),
+        AA_ZHICHU(-2),AA_SHOURU(2),
+        CHANGE(3);
         private int id;
 
         RecordType(int id) {

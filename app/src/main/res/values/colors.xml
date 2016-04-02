@@ -173,6 +173,7 @@
     <color name="username_text">#ff666666</color>
     <color name="username_text_dark">#ff707070</color>
 
+    <color name="panel_back">@color/primary_material_light</color>
 
     <color name="transparent">#00000000</color>
 </resources>
