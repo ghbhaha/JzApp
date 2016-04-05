@@ -62,6 +62,17 @@ public class RecordManager extends BaseManager {
 
     }
 
+    public void updateOldRecord(final Record record){
+        //1网络创建不成功 SyncStatus 置0
+        record.setIsDel(false);
+        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+
+        } else {
+            record.setSyncStatus(false);
+            recordDao.updateOldRecord(_context, record);
+        }
+    }
+
     /**
      * 创建新新记录类型
      */

@@ -48,13 +48,13 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         initWidget();
 
         recordTypes = new ArrayList<>();
-        setList();
 
-        oldRecord = (Record)getIntent().getSerializableExtra(IntentConstant.OLD_RECORD);
+        oldRecord = (Record) getIntent().getSerializableExtra(IntentConstant.OLD_RECORD);
 
         newRecord = new Record();
 
         if (oldRecord == null) {
+            setList();
             Account account = accountManager.getSuitAccount();
             newRecord.setAccountID(account.getAccountID());
             mAccountTv.setText(account.getAccountName());
@@ -72,7 +72,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             mOldRecordType = recordManager.getRecordTypeByID(oldRecord.getRecordTypeID());
             setCurRecordType(0, mOldRecordType);
             tvMoneyCount.setText(String.format(getResources().getString(R.string.record_money_format), Math.abs(oldRecord.getRecordMoney())));
-
+            zhiChu = oldRecord.getRecordType() < 0;
+            setList();
         }
 
         recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes, mRecordDr);
@@ -181,7 +182,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         } else {
             mCurRecordType = recordType;
         }
-        if (recordTypes != null && recordTypes.size() > 1) {
+        if (recordTypes != null) {
             tvTypeTitle.setText(mCurRecordType.getRecordDesc());
             typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
         }
@@ -242,7 +243,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     public void selectAccount(View view) {
         Intent intent = new Intent(this, SelectAccountActivity.class);
-        intent.putExtra(IntentConstant.ACCOUNT_ID,newRecord.getAccountID());
+        intent.putExtra(IntentConstant.ACCOUNT_ID, newRecord.getAccountID());
         startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
     }
 
@@ -296,6 +297,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 accountManager.updateAccountMoney(newRecord.getAccountID(), -oldRecord.getRecordMoney(), null);
                 accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
             }
+            recordManager.updateOldRecord(newRecord);
         }
         finish();
     }
@@ -309,7 +311,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         setRecordDate(calendar.getTime());
     }
 
-    private void setRecordDate(Date date){
+    private void setRecordDate(Date date) {
         newRecord.setRecordDate(date);
         mDateTv.setText(fmDate(date));
     }

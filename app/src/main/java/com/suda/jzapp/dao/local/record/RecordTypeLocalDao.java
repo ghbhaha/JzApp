@@ -47,9 +47,8 @@ public class RecordTypeLocalDao extends BaseLocalDao {
 
     public RecordType getRecordTypeById(Context context, long id) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
-        return getSingleData(recordTypeDao.queryBuilder().
-                where(RecordTypeDao.Properties.IsDel.eq(false))
-                .where(RecordTypeDao.Properties.Id.eq(id))
+        return getSingleData(recordTypeDao.queryBuilder()
+                .where(RecordTypeDao.Properties.RecordTypeID.eq(id))
                 .build()
                 .list());
     }

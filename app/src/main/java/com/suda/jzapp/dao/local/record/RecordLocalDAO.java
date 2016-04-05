@@ -85,4 +85,9 @@ public class RecordLocalDAO extends BaseLocalDao {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         return getSingleData(recordDao.queryBuilder().where(RecordDao.Properties.Id.eq(recordId)).list());
     }
+
+    public void updateOldRecord(Context context, Record record) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        recordDao.update(record);
+    }
 }
