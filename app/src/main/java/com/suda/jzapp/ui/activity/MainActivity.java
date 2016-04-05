@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_ACCOUNT) {
                 reloadAccountCallBack.reload();
             }
-            if (requestCode == REQUEST_RECORD) {
+            if (requestCode == REQUEST_RECORD || requestCode == REQUEST_EDIT_THEME) {
                 reloadRecordCallBack.reload();
                 reloadAccountCallBack.reload();
             }
@@ -233,5 +233,5 @@ public class MainActivity extends BaseActivity {
 
     public final static int REQUEST_ACCOUNT = 100;
     public final static int REQUEST_RECORD = 101;
-
+    public final static int REQUEST_EDIT_THEME = 102;
 }

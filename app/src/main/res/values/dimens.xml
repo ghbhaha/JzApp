@@ -29,4 +29,5 @@
 
     <dimen name="record_icon_size">26dp</dimen>
     <dimen name="record_item_height">54dp</dimen>
+    <dimen name="record_in_out_text_size">12sp</dimen>
 </resources>

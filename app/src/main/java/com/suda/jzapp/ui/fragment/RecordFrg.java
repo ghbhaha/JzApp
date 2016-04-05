@@ -49,6 +49,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
         recordDetailDOs = new ArrayList<>();
         mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs);
         recordLv.setAdapter(mRecordAdapter);
+        recordLv.setOverScrollMode(View.OVER_SCROLL_NEVER);
         recordManager.getRecordByPageIndex(1, new Handler() {
             @Override
             public void handleMessage(Message msg) {

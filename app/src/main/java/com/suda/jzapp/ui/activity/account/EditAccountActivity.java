@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +53,7 @@ public class EditAccountActivity extends BaseActivity {
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
                 getSupportActionBar().setTitle("修改账户余额");
-                mEtProp.setText(String.valueOf(mMoney));
+                mEtProp.setText(String.format(getResources().getString(R.string.record_money_format),mMoney));
                 mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
@@ -72,6 +75,30 @@ public class EditAccountActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 saveProp(mEtProp.getText().toString());
+            }
+        });
+
+        mEtProp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mEditType != PROP_TYPE_ACCOUNT_MONEY)
+                    return;
+                String tmp = s.toString();
+                if (tmp.contains(".")) {
+                    String[] strs = tmp.split("\\.");
+                    if (strs[1].length() > 2) {
+                        mEtProp.setText(tmp.substring(0, tmp.length() - 1));
+                        mEtProp.setSelection(tmp.length()-1);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 

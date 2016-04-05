@@ -18,6 +18,8 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.ThemeUtil;
+import com.suda.jzapp.view.MyRoundColorView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -75,6 +77,8 @@ public class RecordAdapter extends BaseAdapter {
             holder.recordDateTv = (TextView) convertView.findViewById(R.id.record_date);
             holder.delV = convertView.findViewById(R.id.icon_del);
             holder.editV = convertView.findViewById(R.id.icon_edit);
+            holder.lineV = convertView.findViewById(R.id.record_line);
+            holder.myRoundColorView = (MyRoundColorView)convertView.findViewById(R.id.myRound);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -86,6 +90,15 @@ public class RecordAdapter extends BaseAdapter {
         if (getPositionForSection(recordDetailDO.getRecordDate().getTime()) == position) {
             isFirst = true;
         }
+
+        //设置颜色
+        int color = mContext.getResources().getColor(ThemeUtil.getTheme(mContext).getMainColorID());
+        holder.lineV.setBackgroundColor(color);
+        holder.myRoundColorView.setMyRoundColor(color);
+        holder.inTv.setTextColor(color);
+        holder.outTv.setTextColor(color);
+        holder.inRemarkTv.setTextColor(color);
+        holder.outRemarkTv.setTextColor(color);
 
         holder.inLy.setVisibility(recordDetailDO.getRecordMoney() > 0 || (isFirst && recordDetailDO.getTodayAllInMoney() > 0)
                 ? View.VISIBLE : View.INVISIBLE);
@@ -189,5 +202,7 @@ public class RecordAdapter extends BaseAdapter {
         public TextView outTv, inTv, outRemarkTv, inRemarkTv, recordDateTv;
         public ImageView icon;
         public View delV, editV;
+        public View lineV;
+        public MyRoundColorView myRoundColorView;
     }
 }

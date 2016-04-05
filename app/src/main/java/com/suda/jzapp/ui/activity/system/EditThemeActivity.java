@@ -24,6 +24,7 @@ public class EditThemeActivity extends Activity {
     public void switchTheme(View view) {
         String tag = view.getTag().toString();
         ThemeUtil.setThemeColor(this, Integer.parseInt(tag));
+        setResult(RESULT_OK);
         this.finish();
     }
 

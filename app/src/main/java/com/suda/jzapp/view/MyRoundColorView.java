@@ -48,8 +48,11 @@ public class MyRoundColorView extends ImageView {
                 : myRoundColor);
 
         a.recycle();
+    }
 
-
+    public void setMyRoundColor(int color) {
+        mPaint.setColor(color);
+        invalidate();
     }
 
     @Override

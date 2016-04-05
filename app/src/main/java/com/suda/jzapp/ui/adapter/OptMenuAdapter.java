@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.bean.OptDO;
+import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 
 import java.util.List;
 
@@ -69,7 +71,10 @@ public class OptMenuAdapter extends BaseAdapter {
                     context.finish();
                 } else {
                     Intent intent = new Intent(context, optDO.getAct());
-                    context.startActivity(intent);
+                    if (optDO.getAct() == EditThemeActivity.class) {
+                        ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_EDIT_THEME);
+                    } else
+                        context.startActivity(intent);
                 }
             }
         });

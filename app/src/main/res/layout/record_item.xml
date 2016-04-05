@@ -8,11 +8,13 @@
         android:layout_width="1dp"
         android:layout_height="@dimen/record_item_height"
         android:layout_centerInParent="true"
+        android:id="@+id/record_line"
         android:background="@color/blue" />
 
     <com.suda.jzapp.view.MyRoundColorView
         android:layout_width="@dimen/record_icon_size"
         android:layout_height="@dimen/record_icon_size"
+        android:id="@+id/myRound"
         android:layout_centerInParent="true"
         app:changeColorWithTheme="true"
         app:myRoundColor="@color/accent_blue" />
@@ -47,6 +49,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:textSize="@dimen/record_in_out_text_size"
             android:text="" />
 
 
@@ -77,6 +80,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:textSize="@dimen/record_in_out_text_size"
             android:text="" />
 
 
