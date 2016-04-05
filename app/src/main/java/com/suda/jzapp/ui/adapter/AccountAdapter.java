@@ -2,7 +2,6 @@ package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
 import com.suda.jzapp.dao.bean.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
 import com.suda.jzapp.util.IconTypeUtil;
-import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CreateOrEditAccountActivity.class);
                     intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
-                    context.startActivity(intent);
+                    ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_ACCOUNT);
                 }
             });
 

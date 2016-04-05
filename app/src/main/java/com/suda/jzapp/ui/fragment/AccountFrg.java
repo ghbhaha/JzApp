@@ -14,11 +14,12 @@ import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
-import com.suda.jzapp.ui.adapter.AccountAdapter;
 import com.suda.jzapp.dao.bean.AccountDetailDO;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
+import com.suda.jzapp.ui.adapter.AccountAdapter;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
@@ -27,13 +28,21 @@ import java.util.List;
 /**
  * Created by ghbha on 2016/2/15.
  */
-public class AccountFrg extends Fragment {
+public class AccountFrg extends Fragment implements MainActivity.ReloadAccountCallBack {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        accountManager = new AccountManager(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.account_frg_layout, container, false);
         initWidget(view);
+        ((MainActivity) getActivity()).setReloadAccountCallBack(this);
+        refreshData();
         return view;
     }
 
@@ -47,7 +56,7 @@ public class AccountFrg extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateOrEditAccountActivity.class);
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT);
             }
         });
 
@@ -83,11 +92,10 @@ public class AccountFrg extends Fragment {
         mAddNewAccountButton.setColorNormal(mainColor);
         mAddNewAccountButton.setColorPressed(mainDarkColor);
 
-        if (accountManager != null)
-            accountManager = null;
-        accountManager = new AccountManager(getActivity());
+    }
 
-
+    @Override
+    public void reload() {
         refreshData();
     }
 
@@ -99,5 +107,6 @@ public class AccountFrg extends Fragment {
     private AccountAdapter mAccountAdapter;
     private AccountManager accountManager;
     List<AccountDetailDO> accounts = new ArrayList<>();
+
 
 }

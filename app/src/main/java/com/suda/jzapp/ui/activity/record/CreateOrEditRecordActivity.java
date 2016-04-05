@@ -299,6 +299,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
             recordManager.updateOldRecord(newRecord);
         }
+        setResult(RESULT_OK);
         finish();
     }
 

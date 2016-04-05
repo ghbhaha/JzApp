@@ -1,6 +1,5 @@
 package com.suda.jzapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -63,6 +62,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if (needUpdate) {
+                    setResult(RESULT_OK);
+                }
                 finish();
                 return true;
             default:
@@ -87,4 +89,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int mainColor;
     protected int mainDarkColor;
     protected int textColor;
+    protected boolean needUpdate = false;
 }

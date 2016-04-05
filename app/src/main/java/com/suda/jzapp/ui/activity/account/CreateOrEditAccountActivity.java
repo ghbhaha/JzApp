@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,6 +76,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                                 @Override
                                 public void onClick(View v) {
                                     accountManager.deleteAccountByID(mAccountID, null);
+                                    setResult(RESULT_OK);
                                     finish();
                                 }
                             })
@@ -90,24 +92,15 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                         Snackbar.make(v, "请填写账户名称", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null)
                                 .show();
-//
-//                        new SnackBar.Builder(CreateOrEditAccountActivity.this)
-//                                .withMessage("请填写账户名称")
-//                                .withDuration(SnackBar.SHORT_SNACK)
-//                                .withBackgroundColorId(getMainTheme().getMainColorID())
-//                                .show();
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,
                             accountRemark, null);
+                    setResult(RESULT_OK);
                     finish();
                 }
-
-
             }
         });
-
-
     }
 
 
@@ -143,6 +136,8 @@ public class CreateOrEditAccountActivity extends BaseActivity {
 
         if (data == null)
             return;
+
+        needUpdate = true;
         if (requestCode == EditAccountActivity.PROP_TYPE_ACCOUNT_NAME) {
             accountName = data.getStringExtra(IntentConstant.EDIT_ACCOUNT_NAME);
             mTvAccountName.setText(accountName);
@@ -170,6 +165,14 @@ public class CreateOrEditAccountActivity extends BaseActivity {
             });
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && needUpdate) {
+            setResult(RESULT_OK);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

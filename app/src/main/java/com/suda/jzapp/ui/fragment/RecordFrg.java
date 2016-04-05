@@ -13,12 +13,11 @@ import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.AccountDetailDO;
 import com.suda.jzapp.dao.bean.RecordDetailDO;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
-import com.suda.jzapp.ui.adapter.AccountAdapter;
 import com.suda.jzapp.ui.adapter.RecordAdapter;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * Created by ghbha on 2016/2/15.
  */
-public class RecordFrg extends Fragment {
+public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCallBack {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class RecordFrg extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
-                startActivity(intent);
+                getActivity().startActivityForResult(intent,MainActivity.REQUEST_RECORD);
             }
         });
 
@@ -62,6 +61,7 @@ public class RecordFrg extends Fragment {
             }
         });
 
+        ((MainActivity) getActivity()).setReloadRecordCallBack(this);
         return view;
     }
 
@@ -73,6 +73,21 @@ public class RecordFrg extends Fragment {
         mAddRecordBt.setColorNormal(mainColor);
         mAddRecordBt.setColorPressed(mainDarkColor);
         backGround.setBackground(new ColorDrawable(mainColor));
+    }
+
+    @Override
+    public void reload() {
+        recordManager.getRecordByPageIndex(1, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == Constant.MSG_SUCCESS) {
+                    recordDetailDOs.clear();
+                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
+                    mRecordAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private ListView recordLv;

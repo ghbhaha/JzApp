@@ -1,6 +1,5 @@
 package com.suda.jzapp.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,17 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.bean.RecordDetailDO;
-import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
-import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.util.IconTypeUtil;
 
@@ -163,7 +160,7 @@ public class RecordAdapter extends BaseAdapter {
                 intent.putExtra(IntentConstant.OLD_RECORD, recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID()));
                 resetOptBt();
                 lastSelOpt = -1;
-                mContext.startActivity(intent);
+                ((MainActivity)mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
 

@@ -1,5 +1,6 @@
 package com.suda.jzapp.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -108,7 +109,7 @@ public class MainActivity extends BaseActivity {
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources()
                         .getDisplayMetrics()));
         // 选中的文字颜色
-         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
+        mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
         mPagerSlidingTabStrip.setTextColor(Color.BLACK);
 
@@ -186,6 +187,28 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_ACCOUNT) {
+                reloadAccountCallBack.reload();
+            }
+            if (requestCode == REQUEST_RECORD) {
+                reloadRecordCallBack.reload();
+                reloadAccountCallBack.reload();
+            }
+        }
+    }
+
+    public void setReloadAccountCallBack(ReloadAccountCallBack reloadAccountCallBack) {
+        this.reloadAccountCallBack = reloadAccountCallBack;
+    }
+
+    public void setReloadRecordCallBack(ReloadRecordCallBack reloadRecordCallBack) {
+        this.reloadRecordCallBack = reloadRecordCallBack;
+    }
+
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
     private ViewPager mViewPager;
     private Toolbar mToolbar;
@@ -196,5 +219,19 @@ public class MainActivity extends BaseActivity {
 
     private boolean openOrClose = false;
     private boolean canQuit = false;
+
+    private ReloadAccountCallBack reloadAccountCallBack;
+    private ReloadRecordCallBack reloadRecordCallBack;
+
+    public interface ReloadAccountCallBack {
+        void reload();
+    }
+
+    public interface ReloadRecordCallBack {
+        void reload();
+    }
+
+    public final static int REQUEST_ACCOUNT = 100;
+    public final static int REQUEST_RECORD = 101;
 
 }
