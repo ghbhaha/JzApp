@@ -25,7 +25,7 @@ public class MyRoundColorView extends ImageView {
     private int myRoundColor;
     private Drawable myRoundImage;
 
-    private int myRoundSize;
+    private boolean changeColorWithTheme = false;
 
     private Paint mPaint;
     private int pointX;
@@ -41,10 +41,12 @@ public class MyRoundColorView extends ImageView {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MyRoundColorView);
 
         myRoundColor = a.getColor(R.styleable.MyRoundColorView_myRoundColor, Color.LTGRAY);
-        myRoundSize = a.getInt(R.styleable.MyRoundColorView_myRoundSize, 46);
         myRoundImage = a.getDrawable(R.styleable.MyRoundColorView_myRoundImage);
+        changeColorWithTheme = a.getBoolean(R.styleable.MyRoundColorView_changeColorWithTheme, false);
         mPaint = new Paint();
-        mPaint.setColor(myRoundImage == null ? myRoundColor : context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+        mPaint.setColor((myRoundImage != null || changeColorWithTheme) ? context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID())
+                : myRoundColor);
+
         a.recycle();
 
 
@@ -57,7 +59,7 @@ public class MyRoundColorView extends ImageView {
         pointY = (int) canvas.getWidth() / 2;
 
         mPaint.setAntiAlias(true);
-        canvas.drawCircle(pointX, pointY, myRoundSize, mPaint);
+        canvas.drawCircle(pointX, pointY, pointX, mPaint);
         if (myRoundImage != null) {
             Bitmap bitmap = drawableToBitmap(myRoundImage);
             int size = bitmap.getHeight();
@@ -65,6 +67,7 @@ public class MyRoundColorView extends ImageView {
         }
 
     }
+
     private Bitmap drawableToBitmap(Drawable drawable) {
         BitmapDrawable bd = (BitmapDrawable) drawable;
         return bd.getBitmap();

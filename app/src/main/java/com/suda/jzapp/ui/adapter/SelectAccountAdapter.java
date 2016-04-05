@@ -24,13 +24,15 @@ public class SelectAccountAdapter extends BaseAdapter {
     private Context context;
     private List<AccountDetailDO> accounts;
     private LayoutInflater mInflater;
-    int colorID ;
+    int colorID;
+    private long accountID;
 
-    public SelectAccountAdapter(Context context, List<AccountDetailDO> accounts) {
+    public SelectAccountAdapter(Context context, List<AccountDetailDO> accounts, long accountID) {
         this.accounts = accounts;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         colorID = ThemeUtil.getTheme(context).getMainColorID();
+        this.accountID = accountID;
     }
 
 
@@ -65,13 +67,16 @@ public class SelectAccountAdapter extends BaseAdapter {
         }
 
         AccountDetailDO accountDetailDO = accounts.get(position);
+
+        holder.selectMark.setVisibility(accountID == accountDetailDO.getAccountID() ? View.VISIBLE : View.GONE);
+
         holder.icon.setImageResource(IconTypeUtil.getAccountIcon(accountDetailDO.getAccountTypeID()));
         holder.name.setText(accountDetailDO.getAccountName());
         holder.money.setText(String.format(context.getResources().getString(R.string.money_format_2), accountDetailDO.getAccountMoney()));
 
 
         holder.name.setTextColor(context.getResources().getColor(colorID));
-       // holder.money.setTextColor(context.getResources().getColor(colorID));
+        // holder.money.setTextColor(context.getResources().getColor(colorID));
         holder.name.setTextColor(context.getResources().getColor(colorID));
         holder.selectMark.setTextColor(context.getResources().getColor(colorID));
         return convertView;

@@ -38,6 +38,7 @@ public class SelectAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_account);
+        accountID = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID,0l);
         initWidget();
         accountManager = new AccountManager(this);
         refreshData();
@@ -71,7 +72,7 @@ public class SelectAccountActivity extends BaseActivity {
                     accounts.clear();
                     accounts.addAll((List<AccountDetailDO>) msg.obj);
                     if (mAccountAdapter == null) {
-                        mAccountAdapter = new SelectAccountAdapter(SelectAccountActivity.this, accounts);
+                        mAccountAdapter = new SelectAccountAdapter(SelectAccountActivity.this, accounts,accountID);
                         mRyAccount.setAdapter(mAccountAdapter);
                     } else {
                         mAccountAdapter.notifyDataSetChanged();
@@ -100,6 +101,6 @@ public class SelectAccountActivity extends BaseActivity {
 
     private AccountManager accountManager;
     List<AccountDetailDO> accounts = new ArrayList<>();
-
+    private long accountID;
 
 }

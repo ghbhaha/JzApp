@@ -16,7 +16,6 @@
             android:id="@+id/add_new_record"
             android:layout_width="@dimen/record_type_size"
             android:layout_height="@dimen/record_type_size"
-            app:myRoundSize="50"
             android:visibility="gone"
             android:layout_marginTop="8dp"
             app:myRoundImage="@drawable/ic_add_white" />

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,12 +15,11 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.github.mrengineer13.snackbar.SnackBar;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
-import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
@@ -29,12 +29,14 @@ import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.drag.DragGridView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 
-public class CreateOrEditRecordActivity extends BaseActivity {
+public class CreateOrEditRecordActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +50,32 @@ public class CreateOrEditRecordActivity extends BaseActivity {
         recordTypes = new ArrayList<>();
         setList();
 
-        oldRecord = getIntent().getParcelableExtra(IntentConstant.OLD_RECORD);
+        oldRecord = (Record)getIntent().getSerializableExtra(IntentConstant.OLD_RECORD);
 
         newRecord = new Record();
 
-        //newRecord.setAccountID();
-
-        if (oldRecord == null)
+        if (oldRecord == null) {
+            Account account = accountManager.getSuitAccount();
+            newRecord.setAccountID(account.getAccountID());
+            mAccountTv.setText(account.getAccountName());
             setCurRecordType(0);
-        else {
+            setRecordDate(Calendar.getInstance().getTime());
+        } else {
+            mAccountTv.setText(accountManager.getAccountByID(oldRecord.getAccountID()).getAccountName());
             newRecord.setId(oldRecord.getId());
             newRecord.setAccountID(oldRecord.getAccountID());
             newRecord.setRecordTypeID(oldRecord.getRecordTypeID());
             newRecord.setRecordMoney(oldRecord.getRecordMoney());
             newRecord.setRemark(oldRecord.getRemark());
-            newRecord.setRecordDate(oldRecord.getRecordDate());
-            mOldRecordType = recordManager.getRecordTypeByID(oldRecord.getId());
+            setRecordDate(oldRecord.getRecordDate());
+            mDateTv.setText(fmDate(newRecord.getRecordDate()));
+            mOldRecordType = recordManager.getRecordTypeByID(oldRecord.getRecordTypeID());
             setCurRecordType(0, mOldRecordType);
+            tvMoneyCount.setText(String.format(getResources().getString(R.string.record_money_format), Math.abs(oldRecord.getRecordMoney())));
+
         }
 
-        recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes ,mRecordDr);
+        recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes, mRecordDr);
 
         mRecordDr.setAdapter(recordTypeAdapter);
 
@@ -127,6 +135,23 @@ public class CreateOrEditRecordActivity extends BaseActivity {
             @Override
             public void onLeft() {
 
+            }
+        });
+
+        mDateTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(newRecord.getRecordDate());
+                DatePickerDialog tpd = DatePickerDialog.newInstance(
+                        CreateOrEditRecordActivity.this,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                tpd.setAccentColor(getResources().getColor(getMainTheme().getMainColorID()));
+                tpd.show(getFragmentManager(), "Timepickerdialog");
+                tpd.setMaxDate(Calendar.getInstance());
             }
         });
     }
@@ -217,6 +242,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
 
     public void selectAccount(View view) {
         Intent intent = new Intent(this, SelectAccountActivity.class);
+        intent.putExtra(IntentConstant.ACCOUNT_ID,newRecord.getAccountID());
         startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
     }
 
@@ -255,8 +281,8 @@ public class CreateOrEditRecordActivity extends BaseActivity {
                 * (mCurRecordType.getRecordType() / Math.abs(mCurRecordType.getRecordType())));
         newRecord.setRemark("");
         newRecord.setRecordTypeID(mCurRecordType.getRecordTypeID());
+        newRecord.setRecordType(mCurRecordType.getRecordType());
         if (oldRecord == null) {
-            newRecord.setRecordDate(new Date(System.currentTimeMillis()));
             recordManager.createNewRecord(newRecord);
             accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
         } else {
@@ -272,6 +298,20 @@ public class CreateOrEditRecordActivity extends BaseActivity {
             }
         }
         finish();
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DATE, dayOfMonth);
+        setRecordDate(calendar.getTime());
+    }
+
+    private void setRecordDate(Date date){
+        newRecord.setRecordDate(date);
+        mDateTv.setText(fmDate(date));
     }
 
     ////////////////////////////计算panel////////////////////////////////
@@ -367,10 +407,11 @@ public class CreateOrEditRecordActivity extends BaseActivity {
             opt = Opt.OK;
             tempCount = 0;
             if (Double.parseDouble(money) <= 0) {
-                new SnackBar.Builder(this)
-                        .withMessage("金额不能小于或等于0")
-                        .withDuration(SnackBar.SHORT_SNACK)
+
+                Snackbar.make(view, "金额不能小于或等于0", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null)
                         .show();
+
                 return;
             }
 
@@ -463,6 +504,7 @@ public class CreateOrEditRecordActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;
+
 
     private enum Opt {
         NULL, PLUS, MINUS, DEL, CLEAR, OK, EQUAL;

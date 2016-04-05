@@ -6,6 +6,7 @@
 
 
     <string name="money_format">￥%.2f</string>
+    <string name="record_money_format">%.2f</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -36,4 +37,5 @@
     <string name="title_activity_login">登陆</string>
     <string name="title_activity_register">注册</string>
     <string name="title_activity_create_new_record_type">创建新记录</string>
+    <string name="title_activity_account_transaction">AccountTransactionActivity</string>
 </resources>

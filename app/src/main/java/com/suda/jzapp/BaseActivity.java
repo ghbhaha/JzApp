@@ -13,6 +13,10 @@ import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Suda on 2015/10/10.
  */
@@ -65,6 +69,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected static String fmDate(Date date) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
     }
 
     protected int getTypeIconId(int iconType) {

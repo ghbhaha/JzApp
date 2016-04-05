@@ -56,19 +56,6 @@
             android:name=".ui.activity.record.SelectAccountActivity"
             android:label="@string/account_select"
             android:theme="@style/Transparent" />
-
-        <!-- 友盟 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="56824759e0f55a8523002909" />
-
-        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" />
-
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.user.LoginActivity"
             android:label="@string/title_activity_login"
@@ -79,9 +66,26 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.record.CreateNewRecordTypeActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="@string/title_activity_create_new_record_type"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ui.activity.account.AccountTransactionActivity"
+            android:label="@string/title_activity_account_transaction"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- 友盟 -->
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="56824759e0f55a8523002909" />
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" />
+
     </application>
 
 </manifest>

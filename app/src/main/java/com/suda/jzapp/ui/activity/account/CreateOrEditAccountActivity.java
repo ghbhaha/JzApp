@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.github.mrengineer13.snackbar.SnackBar;
-
-import android.support.design.widget.FloatingActionButton;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
@@ -22,7 +19,6 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
-import com.suda.jzapp.util.TextUtil;
 
 import me.drakeet.materialdialog.MaterialDialog;
 

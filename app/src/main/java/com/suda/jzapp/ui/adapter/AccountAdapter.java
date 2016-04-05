@@ -86,6 +86,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         private TextView mTvTodayCost;
         private ImageView mIgAccountTypeIcon;
         private View mVEditAccount;
+        private View mVAccountFlow;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -95,6 +96,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             mVEditAccount = itemView.findViewById(R.id.edit_account);
             mTvAccountTypeTitle = (TextView) itemView.findViewById(R.id.account_type_title);
             mIgAccountTypeIcon = (ImageView) itemView.findViewById(R.id.account_type_icon);
+            mVAccountFlow = itemView.findViewById(R.id.account_flow);
         }
 
     }

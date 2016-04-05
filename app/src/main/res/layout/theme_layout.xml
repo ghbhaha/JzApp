@@ -30,34 +30,31 @@
             android:padding="10dp">
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="0"
-                app:myRoundColor="@color/activated_blue"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_blue" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="1"
-                app:myRoundColor="@color/activated_brown"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_brown" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="2"
-                app:myRoundColor="@color/activated_cyan"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_cyan" />
 
         </LinearLayout>
 
@@ -68,34 +65,31 @@
             android:padding="10dp">
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="3"
-                app:myRoundColor="@color/activated_dark"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_dark" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="4"
-                app:myRoundColor="@color/activated_deep_purple"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_deep_purple" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="5"
-                app:myRoundColor="@color/activated_green"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_green" />
 
         </LinearLayout>
 
@@ -107,34 +101,31 @@
             android:padding="10dp">
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="6"
-                app:myRoundColor="@color/activated_indigo"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_indigo" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="7"
-                app:myRoundColor="@color/activated_orange"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_orange" />
 
             <com.suda.jzapp.view.MyRoundColorView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:onClick="switchTheme"
                 android:tag="8"
-                app:myRoundColor="@color/activated_red"
-                app:myRoundSize="60" />
+                app:myRoundColor="@color/activated_red" />
 
 
         </LinearLayout>

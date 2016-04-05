@@ -2,6 +2,7 @@ package com.suda.jzapp.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,17 +13,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.github.mrengineer13.snackbar.SnackBar;
 import com.gxz.PagerSlidingTabStrip;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.bean.OptDO;
 import com.suda.jzapp.ui.activity.account.AccountLinkActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
-import com.suda.jzapp.dao.bean.OptDO;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.update.UmengUpdateAgent;
@@ -167,11 +167,9 @@ public class MainActivity extends BaseActivity {
             if (canQuit) {
                 this.finish();
             } else {
-                new SnackBar.Builder(this)
-                        .withMessage("再按一次退出")
-                        .withDuration(SnackBar.SHORT_SNACK)
+                Snackbar.make(mPagerSlidingTabStrip, "再按一次退出", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null)
                         .show();
-
             }
             canQuit = true;
 

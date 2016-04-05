@@ -50,4 +50,5 @@ public abstract class BaseLocalDao {
     private static volatile DaoMaster _daoMaster;
     private static DaoSession _daoSession;
 
+
 }

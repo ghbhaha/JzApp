@@ -9,13 +9,13 @@
     <LinearLayout
         android:id="@+id/record_type_ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:gravity="center"
         android:background="@color/md_white_1000"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/zhi_chu"
+            android:id="@+id/shou_ru"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:background="#00000000"
@@ -25,7 +25,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/shou_ru"
+            android:id="@+id/zhi_chu"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:background="#00000000"

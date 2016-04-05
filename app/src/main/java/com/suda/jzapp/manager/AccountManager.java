@@ -23,6 +23,13 @@ public class AccountManager extends BaseManager {
         super(context);
     }
 
+
+
+    public Account getSuitAccount(){
+        return accountLocalDao.getSuitAccount(_context);
+    }
+
+
     /**
      * 获取多有账户
      *

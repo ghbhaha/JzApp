@@ -26,4 +26,7 @@
     <dimen name="record_type_size">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="pay_type_del">24dp</dimen>
+
+    <dimen name="record_icon_size">26dp</dimen>
+    <dimen name="record_item_height">54dp</dimen>
 </resources>

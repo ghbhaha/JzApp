@@ -4,21 +4,21 @@ import android.content.Context;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.SaveCallback;
-import com.suda.jzapp.dao.cloud.avos.pojo.AVAccount;
+import com.suda.jzapp.dao.bean.RecordDetailDO;
 import com.suda.jzapp.dao.cloud.avos.pojo.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.MyAVUser;
 import com.suda.jzapp.dao.greendao.Record;
-import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.misc.Constant;
-import com.suda.jzapp.util.LogUtils;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Handler;
 import android.text.TextUtils;
@@ -76,7 +76,7 @@ public class RecordManager extends BaseManager {
 //            recordType.setIndex(index + 1);
 //        }
 
-        recordType.setIndex(recordTypeDao.getMaxIndexByRecordType(_context,recordType.getRecordType()));
+        recordType.setIndex(recordTypeDao.getMaxIndexByRecordType(_context, recordType.getRecordType()));
 
         recordType.setSexProp(Constant.Sex.ALL.getId());
         recordType.setOccupation(Constant.Occupation.ALL.getId());
@@ -124,6 +124,52 @@ public class RecordManager extends BaseManager {
     public void updateRecordTypesOrder(List<RecordType> list) {
         recordTypeDao.updateRecordOrder(_context, list);
         //同步部分
+    }
+
+    public void getRecordByPageIndex(final int pageIndex, final Handler handler) {
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Date> dates = recordDao.getRecordDateByPageSize(_context, pageIndex);
+                List<RecordDetailDO> recordDetailDos = new ArrayList<>();
+                double todayAllInMoney, todayAllOutMoney = 0;
+                Map<Long, RecordType> recordTypeMap = new HashMap<>();
+                for (Date date : dates) {
+                    todayAllInMoney = 0;
+                    todayAllOutMoney = 0;
+                    RecordDetailDO todayRecordDetail = new RecordDetailDO();
+                    todayRecordDetail.setRecordDate(date);
+                    recordDetailDos.add(todayRecordDetail);
+                    List<Record> records = recordDao.getRecordByDate(_context, date);
+                    for (Record record : records) {
+                        RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
+                        if (recordType == null) {
+                            recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                            recordTypeMap.put(record.getRecordTypeID(), recordType);
+                        }
+                        RecordDetailDO recordDetailDO = new RecordDetailDO();
+                        recordDetailDO.setRecordDate(record.getRecordDate());
+                        recordDetailDO.setRecordID(record.getId());
+                        recordDetailDO.setRecordMoney(record.getRecordMoney());
+                        recordDetailDO.setRemark(record.getRemark());
+                        recordDetailDO.setIconId(recordType.getRecordIcon());
+                        recordDetailDO.setRecordDesc(recordType.getRecordDesc());
+                        if (recordDetailDO.getRecordMoney() > 0)
+                            todayAllInMoney += recordDetailDO.getRecordMoney();
+                        else
+                            todayAllOutMoney += recordDetailDO.getRecordMoney();
+
+                        recordDetailDos.add(recordDetailDO);
+                    }
+                    todayRecordDetail.setTodayAllInMoney(todayAllInMoney);
+                    todayRecordDetail.setTodayAllOutMoney(todayAllOutMoney);
+                }
+
+                sendMessage(handler, recordDetailDos, true);
+            }
+        });
+
+        // return recordDetailDos;
     }
 
     RecordLocalDAO recordDao = new RecordLocalDAO();

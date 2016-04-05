@@ -25,12 +25,13 @@ public class RecordDao extends AbstractDao<Record, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property RecordTypeID = new Property(1, Long.class, "RecordTypeID", false, "RECORD_TYPE_ID");
-        public final static Property AccountID = new Property(2, Long.class, "AccountID", false, "ACCOUNT_ID");
-        public final static Property RecordMoney = new Property(3, Double.class, "RecordMoney", false, "RECORD_MONEY");
-        public final static Property RecordDate = new Property(4, java.util.Date.class, "RecordDate", false, "RECORD_DATE");
-        public final static Property Remark = new Property(5, String.class, "Remark", false, "REMARK");
-        public final static Property SyncStatus = new Property(6, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
-        public final static Property IsDel = new Property(7, Boolean.class, "isDel", false, "IS_DEL");
+        public final static Property RecordType = new Property(2, Integer.class, "RecordType", false, "RECORD_TYPE");
+        public final static Property AccountID = new Property(3, Long.class, "AccountID", false, "ACCOUNT_ID");
+        public final static Property RecordMoney = new Property(4, Double.class, "RecordMoney", false, "RECORD_MONEY");
+        public final static Property RecordDate = new Property(5, java.util.Date.class, "RecordDate", false, "RECORD_DATE");
+        public final static Property Remark = new Property(6, String.class, "Remark", false, "REMARK");
+        public final static Property SyncStatus = new Property(7, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
+        public final static Property IsDel = new Property(8, Boolean.class, "isDel", false, "IS_DEL");
     };
 
 
@@ -48,12 +49,13 @@ public class RecordDao extends AbstractDao<Record, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"RECORD\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"RECORD_TYPE_ID\" INTEGER," + // 1: RecordTypeID
-                "\"ACCOUNT_ID\" INTEGER," + // 2: AccountID
-                "\"RECORD_MONEY\" REAL," + // 3: RecordMoney
-                "\"RECORD_DATE\" INTEGER," + // 4: RecordDate
-                "\"REMARK\" TEXT," + // 5: Remark
-                "\"SYNC_STATUS\" INTEGER," + // 6: SyncStatus
-                "\"IS_DEL\" INTEGER);"); // 7: isDel
+                "\"RECORD_TYPE\" INTEGER," + // 2: RecordType
+                "\"ACCOUNT_ID\" INTEGER," + // 3: AccountID
+                "\"RECORD_MONEY\" REAL," + // 4: RecordMoney
+                "\"RECORD_DATE\" INTEGER," + // 5: RecordDate
+                "\"REMARK\" TEXT," + // 6: Remark
+                "\"SYNC_STATUS\" INTEGER," + // 7: SyncStatus
+                "\"IS_DEL\" INTEGER);"); // 8: isDel
     }
 
     /** Drops the underlying database table. */
@@ -77,34 +79,39 @@ public class RecordDao extends AbstractDao<Record, Long> {
             stmt.bindLong(2, RecordTypeID);
         }
  
+        Integer RecordType = entity.getRecordType();
+        if (RecordType != null) {
+            stmt.bindLong(3, RecordType);
+        }
+ 
         Long AccountID = entity.getAccountID();
         if (AccountID != null) {
-            stmt.bindLong(3, AccountID);
+            stmt.bindLong(4, AccountID);
         }
  
         Double RecordMoney = entity.getRecordMoney();
         if (RecordMoney != null) {
-            stmt.bindDouble(4, RecordMoney);
+            stmt.bindDouble(5, RecordMoney);
         }
  
         java.util.Date RecordDate = entity.getRecordDate();
         if (RecordDate != null) {
-            stmt.bindLong(5, RecordDate.getTime());
+            stmt.bindLong(6, RecordDate.getTime());
         }
  
         String Remark = entity.getRemark();
         if (Remark != null) {
-            stmt.bindString(6, Remark);
+            stmt.bindString(7, Remark);
         }
  
         Boolean SyncStatus = entity.getSyncStatus();
         if (SyncStatus != null) {
-            stmt.bindLong(7, SyncStatus ? 1L: 0L);
+            stmt.bindLong(8, SyncStatus ? 1L: 0L);
         }
  
         Boolean isDel = entity.getIsDel();
         if (isDel != null) {
-            stmt.bindLong(8, isDel ? 1L: 0L);
+            stmt.bindLong(9, isDel ? 1L: 0L);
         }
     }
 
@@ -120,12 +127,13 @@ public class RecordDao extends AbstractDao<Record, Long> {
         Record entity = new Record( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // RecordTypeID
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // AccountID
-            cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3), // RecordMoney
-            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)), // RecordDate
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // Remark
-            cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0, // SyncStatus
-            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0 // isDel
+            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // RecordType
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3), // AccountID
+            cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4), // RecordMoney
+            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)), // RecordDate
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // Remark
+            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // SyncStatus
+            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0 // isDel
         );
         return entity;
     }
@@ -135,12 +143,13 @@ public class RecordDao extends AbstractDao<Record, Long> {
     public void readEntity(Cursor cursor, Record entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setRecordTypeID(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setAccountID(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
-        entity.setRecordMoney(cursor.isNull(offset + 3) ? null : cursor.getDouble(offset + 3));
-        entity.setRecordDate(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
-        entity.setRemark(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setSyncStatus(cursor.isNull(offset + 6) ? null : cursor.getShort(offset + 6) != 0);
-        entity.setIsDel(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
+        entity.setRecordType(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
+        entity.setAccountID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
+        entity.setRecordMoney(cursor.isNull(offset + 4) ? null : cursor.getDouble(offset + 4));
+        entity.setRecordDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setRemark(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setSyncStatus(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
+        entity.setIsDel(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
      }
     
     /** @inheritdoc */

@@ -8,6 +8,7 @@ public class Record implements java.io.Serializable {
 
     private Long id;
     private Long RecordTypeID;
+    private Integer RecordType;
     private Long AccountID;
     private Double RecordMoney;
     private java.util.Date RecordDate;
@@ -22,9 +23,10 @@ public class Record implements java.io.Serializable {
         this.id = id;
     }
 
-    public Record(Long id, Long RecordTypeID, Long AccountID, Double RecordMoney, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel) {
+    public Record(Long id, Long RecordTypeID, Integer RecordType, Long AccountID, Double RecordMoney, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel) {
         this.id = id;
         this.RecordTypeID = RecordTypeID;
+        this.RecordType = RecordType;
         this.AccountID = AccountID;
         this.RecordMoney = RecordMoney;
         this.RecordDate = RecordDate;
@@ -47,6 +49,14 @@ public class Record implements java.io.Serializable {
 
     public void setRecordTypeID(Long RecordTypeID) {
         this.RecordTypeID = RecordTypeID;
+    }
+
+    public Integer getRecordType() {
+        return RecordType;
+    }
+
+    public void setRecordType(Integer RecordType) {
+        this.RecordType = RecordType;
     }
 
     public Long getAccountID() {

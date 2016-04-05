@@ -18,6 +18,15 @@ import java.util.List;
  */
 public class AccountLocalDao extends BaseLocalDao {
 
+
+    public Account getSuitAccount(Context context) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        return getSingleData(accountDao.queryBuilder().
+                orderDesc(AccountDao.Properties.AccountMoney)
+                .build()
+                .list());
+    }
+
     public Account getAccountByID(long accountID, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         return getSingleData(accountDao.queryBuilder().

@@ -12,21 +12,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/card_margin_buttom"
         android:layout_marginLeft="@dimen/card_margin_let_right"
         android:layout_marginRight="@dimen/card_margin_let_right"
         android:layout_marginTop="@dimen/card_margin_top"
-        android:layout_marginBottom="@dimen/card_margin_buttom"
         android:background="@drawable/card">
 
-
-
-        <android.support.v7.widget.RecyclerView
+        <ListView
+            android:id="@+id/record_lv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </android.support.v7.widget.RecyclerView>
-
+            android:layout_height="match_parent"
+            android:divider="#00000000"
+            android:dividerHeight="0dip" />
 
 
     </RelativeLayout>
@@ -37,13 +34,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_white"
         app:fab_colorNormal="@color/blue"
         app:fab_colorPressed="@color/blue"
         app:fab_colorRipple="@color/ripple" />
-
 
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.suda.jzapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.mrengineer13.snackbar.SnackBar;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.R;
@@ -123,13 +123,14 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
                 mAnimatorSet.start();
                 holder.deleteIcon.setVisibility(View.GONE);
             }
+
+
             holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (recordTypes.size() == 2) {
-                        new SnackBar.Builder((Activity) context)
-                                .withMessage("请至少保留一个收支类型")
-                                .withDuration(SnackBar.SHORT_SNACK)
+                        Snackbar.make(v, "请至少保留一个收支类型", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null)
                                 .show();
                         return;
                     }
