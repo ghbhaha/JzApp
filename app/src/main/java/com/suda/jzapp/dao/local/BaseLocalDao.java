@@ -2,10 +2,8 @@ package com.suda.jzapp.dao.local;
 
 import android.content.Context;
 
-import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.DaoMaster;
 import com.suda.jzapp.dao.greendao.DaoSession;
-import com.suda.jzapp.dao.greendao.MyDbOpenHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +30,7 @@ public abstract class BaseLocalDao {
         if (_daoMaster == null) {
             synchronized (BaseLocalDao.class) {
                 if (_daoMaster == null) {
-                    DaoMaster.OpenHelper helper = new MyDbOpenHelper(ctx, USER_TABLE, null);
+                    DaoMaster.OpenHelper helper =new DaoMaster.DevOpenHelper(ctx, USER_TABLE, null);
                     _daoMaster = new DaoMaster(helper.getWritableDatabase());
                 }
             }

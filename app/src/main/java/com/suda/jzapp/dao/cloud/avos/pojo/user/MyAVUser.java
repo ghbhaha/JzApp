@@ -1,6 +1,7 @@
 package com.suda.jzapp.dao.cloud.avos.pojo.user;
 
 import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 
 /**
@@ -17,4 +18,15 @@ public class MyAVUser extends AVUser {
             return getCurrentUser().getObjectId();
         }
     }
+
+    public AVFile getHeadImage() {
+        return getAVFile(HEAD_IMAGE);
+    }
+
+    public void setHeadImage(AVFile value) {
+        put(HEAD_IMAGE, value);
+    }
+
+
+    public final static String HEAD_IMAGE = "headImage";
 }

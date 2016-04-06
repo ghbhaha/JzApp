@@ -8,7 +8,9 @@ import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,15 +52,57 @@ public class LoginActivity extends BaseActivity {
                 doLogin();
             }
         });
+
+        mTitUserId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTilUserId.setErrorEnabled(false);
+            }
+        });
+
+        mTitPassWord.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTilPassWord.setErrorEnabled(false);
+            }
+        });
     }
 
     private void doLogin() {
         boolean isEmail = false;
         String user = mTitUserId.getText().toString();
         String password = mTitPassWord.getText().toString();
-        if (TextUtils.isEmpty(user) || TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(user)) {
+            mTilUserId.setError("请输入用户名或邮箱");
             return;
         }
+        if (TextUtils.isEmpty(password)) {
+            mTilPassWord.setError("请输入密码");
+            return;
+        }
+
+        hideKeyboard();
+
         isEmail = isNameAddressFormat(user);
         userManager.login(isEmail ? null : user, password, isEmail ? user : null, new Handler() {
             @Override
@@ -71,6 +116,13 @@ public class LoginActivity extends BaseActivity {
                     Snackbar.make(mTilUserId, "登录成功", Snackbar.LENGTH_SHORT)
                             .setAction("Action", null)
                             .show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    }, 500);
                 }
             }
         });
@@ -78,18 +130,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private boolean isNameAddressFormat(String email) {
-        boolean isExist = false;
-
         Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}");
         Matcher m = p.matcher(email);
-        boolean b = m.matches();
-        if (b) {
-            System.out.println("有效邮件地址");
-            isExist = true;
-        } else {
-            System.out.println("无效邮件地址");
-        }
-        return isExist;
+        return m.matches();
     }
 
     public void register(View view) {

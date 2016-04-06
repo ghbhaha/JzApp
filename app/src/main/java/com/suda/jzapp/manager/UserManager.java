@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
@@ -14,11 +14,11 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
-import com.suda.jzapp.manager.BaseManager;
+import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.dao.local.user.UserLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.LogUtils;
-import com.suda.jzapp.util.TextUtil;
 
 import java.util.List;
 
@@ -61,11 +61,16 @@ public class UserManager extends BaseManager {
                     final Message message = new Message();
                     if (e == null) {
                         if (list.size() > 0) {
-                            MyAVUser myAVUser = list.get(0);
+                            final MyAVUser myAVUser = list.get(0);
                             myAVUser.logInInBackground(myAVUser.getUsername(), password, new LogInCallback<AVUser>() {
                                 @Override
                                 public void done(AVUser avUser, AVException e) {
                                     if (e == null) {
+                                        User user = new User();
+                                        user.setUserId(myAVUser.getObjectId());
+                                        user.setHeadImage(getImgUrl(myAVUser.getHeadImage()) );
+                                        user.setUserName(myAVUser.getUsername());
+                                        userLocalDao.insertUser(user, _context);
                                         message.what = Constant.MSG_SUCCESS;
                                     } else {
                                         message.what = Constant.MSG_ERROR;
@@ -97,6 +102,11 @@ public class UserManager extends BaseManager {
             public void done(MyAVUser avUser, AVException e) {
                 Message message = new Message();
                 if (e == null) {
+                    User user = new User();
+                    user.setUserId(avUser.getObjectId());
+                    user.setHeadImage(getImgUrl(avUser.getHeadImage()));
+                    user.setUserName(avUser.getUsername());
+                    userLocalDao.insertUser(user, _context);
                     message.what = Constant.MSG_SUCCESS;
                 } else {
                     message.what = Constant.MSG_ERROR;
@@ -107,4 +117,64 @@ public class UserManager extends BaseManager {
             }
         }, MyAVUser.class);
     }
+
+    public void getMe(final Handler handler) {
+        final Message message = new Message();
+        if (user != null) {
+            message.what = Constant.MSG_SUCCESS;
+            message.obj = user;
+            handler.sendMessage(message);
+        } else {
+            if (MyAVUser.getCurrentUser() == null) {
+                handler.sendEmptyMessage(Constant.MSG_ERROR);
+                return;
+            }
+            user = userLocalDao.getUser(MyAVUser.getCurrentUserId(), _context);
+            if (user != null) {
+                message.what = Constant.MSG_SUCCESS;
+                message.obj = user;
+                handler.sendMessage(message);
+                return;
+            }
+
+            AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
+            query.whereEqualTo("objectId", MyAVUser.getCurrentUser().getObjectId());
+            query.findInBackground(new FindCallback<MyAVUser>() {
+                @Override
+                public void done(List<MyAVUser> list, AVException e) {
+                    if (e == null) {
+                        MyAVUser avUser = list.get(0);
+                        user = new User();
+                        user.setUserId(avUser.getObjectId());
+                        user.setHeadImage(getImgUrl(avUser.getHeadImage()));
+                        user.setUserName(avUser.getUsername());
+                        userLocalDao.insertUser(user, _context);
+                        message.what = Constant.MSG_SUCCESS;
+                        message.obj = user;
+                    } else {
+                        message.what = Constant.MSG_ERROR;
+                    }
+                    handler.sendMessage(message);
+                }
+            });
+        }
+    }
+
+    private String getImgUrl(AVFile avFile) {
+        if (avFile != null)
+            return avFile.getUrl();
+        else
+            return "";
+    }
+
+    private static User user;
+
+    public String getCurUserName() {
+        if (MyAVUser.getCurrentUser() != null)
+            return MyAVUser.getCurrentUser().getUsername();
+        else
+            return null;
+    }
+
+    private UserLocalDao userLocalDao = new UserLocalDao();
 }

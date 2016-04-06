@@ -3,21 +3,30 @@ package com.suda.jzapp.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gxz.PagerSlidingTabStrip;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
+import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.account.AccountLinkActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
@@ -26,6 +35,7 @@ import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
+import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -33,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends BaseActivity {
@@ -42,6 +54,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         UmengUpdateAgent.update(this);
+        userManager = new UserManager(this);
         initWidget();
     }
 
@@ -53,7 +66,24 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mLvOptItems = (ListView) findViewById(R.id.opt_items);
         mLayoutBackGround = (RelativeLayout) findViewById(R.id.account_background);
+        headImg = (CircleImageView) findViewById(R.id.profile_image);
 
+        String userName = userManager.getCurUserName();
+        userNameTv = (TextView) findViewById(R.id.user_tv);
+        userNameTv.setText(TextUtils.isEmpty(userName) ?
+                "登陆/注册" : userName);
+        if (!TextUtils.isEmpty(userName)) {
+            userManager.getMe(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == Constant.MSG_SUCCESS) {
+                        User user = (User) msg.obj;
+                        Glide.with(MainActivity.this).load(user.getHeadImage()).into(headImg);
+                    }
+                }
+            });
+        }
 
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
 
@@ -206,6 +236,8 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_LOGIN) {
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
+                userNameTv.setText(TextUtils.isEmpty(userManager.getCurUserName()) ?
+                        "登陆/注册" : userManager.getCurUserName());
             }
         }
     }
@@ -230,9 +262,13 @@ public class MainActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mLvOptItems;
     private RelativeLayout mLayoutBackGround;
+    private TextView userNameTv;
+    private CircleImageView headImg;
 
     private boolean openOrClose = false;
     private boolean canQuit = false;
+
+    private UserManager userManager;
 
     private ReloadAccountCallBack reloadAccountCallBack;
     private ReloadRecordCallBack reloadRecordCallBack;
