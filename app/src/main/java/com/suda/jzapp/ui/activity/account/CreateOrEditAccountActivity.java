@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;

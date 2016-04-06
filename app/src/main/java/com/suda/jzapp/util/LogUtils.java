@@ -1,7 +1,9 @@
 package com.suda.jzapp.util;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.suda.jzapp.BuildConfig;
@@ -56,9 +58,13 @@ public class LogUtils {
             Log.v(tag, msg);
     }
 
-    public static void getAvEx(AVException avException) {
-        if (avException != null)
-            Log.e("AVException", avException.toString());
+    public static void getAvEx(AVException avException, Context context) {
+        if (avException != null) {
+            if (isDebug) {
+                Toast.makeText(context, avException.toString(), Toast.LENGTH_SHORT);
+                Log.e("AVException", avException.toString());
+            }
+        }
     }
 
 

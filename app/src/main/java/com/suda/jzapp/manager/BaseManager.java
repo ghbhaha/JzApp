@@ -34,7 +34,7 @@ public abstract class BaseManager {
     }
 
     protected void getAvEx(AVException avEx){
-        LogUtils.getAvEx(avEx);
+        LogUtils.getAvEx(avEx,_context);
     }
 
     protected Context _context;

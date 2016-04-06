@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.SaveCallback;
-import com.suda.jzapp.dao.bean.RecordDetailDO;
-import com.suda.jzapp.dao.cloud.avos.pojo.AVRecord;
-import com.suda.jzapp.dao.cloud.avos.pojo.MyAVUser;
+import com.suda.jzapp.manager.domain.RecordDetailDO;
+import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
@@ -160,7 +160,7 @@ public class RecordManager extends BaseManager {
                         }
                         RecordDetailDO recordDetailDO = new RecordDetailDO();
                         recordDetailDO.setRecordDate(record.getRecordDate());
-                        recordDetailDO.setRecordID(record.getId());
+                        recordDetailDO.setRecordID(record.getRecordId());
                         recordDetailDO.setRecordMoney(record.getRecordMoney());
                         recordDetailDO.setRemark(record.getRemark());
                         recordDetailDO.setIconId(recordType.getRecordIcon());
@@ -180,7 +180,6 @@ public class RecordManager extends BaseManager {
             }
         });
 
-        // return recordDetailDos;
     }
 
     RecordLocalDAO recordDao = new RecordLocalDAO();

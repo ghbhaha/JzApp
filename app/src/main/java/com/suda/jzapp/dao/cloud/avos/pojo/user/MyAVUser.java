@@ -1,4 +1,4 @@
-package com.suda.jzapp.dao.cloud.avos.pojo;
+package com.suda.jzapp.dao.cloud.avos.pojo.user;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVUser;

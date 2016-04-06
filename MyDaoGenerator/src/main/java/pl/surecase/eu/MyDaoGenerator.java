@@ -32,9 +32,11 @@ public class MyDaoGenerator {
         Entity record = schema.addEntity("Record");
         record.implementsSerializable();
         record.addIdProperty().primaryKey().autoincrement();
-        record.addLongProperty("RecordTypeID");
-        record.addLongProperty("AccountID");
+        record.addLongProperty("RecordId");
         record.addDoubleProperty("RecordMoney");
+        record.addLongProperty("RecordTypeID");
+        record.addIntProperty("RecordType");
+        record.addLongProperty("AccountID");
         record.addDateProperty("RecordDate");
         record.addStringProperty("Remark");
         record.addBooleanProperty("SyncStatus");
@@ -63,16 +65,5 @@ public class MyDaoGenerator {
         record.addBooleanProperty("SyncStatus");
         record.addBooleanProperty("isDel");
     }
-
-    private static void addStaging(Schema schema) {
-        Entity staging = schema.addEntity("Staging");
-        staging.addIdProperty();
-        staging.addLongProperty("StagingID");
-        staging.addStringProperty("StagingDesc");
-        staging.addDoubleProperty("StagingCount");
-        staging.addIntProperty("StagingCycle");
-        staging.addDateProperty("StagingStartDate");
-    }
-
 
 }

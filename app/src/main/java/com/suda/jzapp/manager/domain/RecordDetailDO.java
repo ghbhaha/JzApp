@@ -1,4 +1,4 @@
-package com.suda.jzapp.dao.bean;
+package com.suda.jzapp.manager.domain;
 
 import java.util.Date;
 

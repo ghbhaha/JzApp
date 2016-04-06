@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,16 +13,12 @@ import android.widget.TextView;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.AccountDetailDO;
-import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
-import com.suda.jzapp.ui.adapter.AccountAdapter;
 import com.suda.jzapp.ui.adapter.SelectAccountAdapter;
 import com.suda.jzapp.util.StatusBarCompat;
-import com.suda.jzapp.util.TextUtil;
-import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;

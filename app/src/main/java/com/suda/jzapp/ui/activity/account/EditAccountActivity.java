@@ -90,7 +90,7 @@ public class EditAccountActivity extends BaseActivity {
                 String tmp = s.toString();
                 if (tmp.contains(".")) {
                     String[] strs = tmp.split("\\.");
-                    if (strs[1].length() > 2) {
+                    if (strs.length>1 && strs[1].length() > 2) {
                         mEtProp.setText(tmp.substring(0, tmp.length() - 1));
                         mEtProp.setSelection(tmp.length()-1);
                     }

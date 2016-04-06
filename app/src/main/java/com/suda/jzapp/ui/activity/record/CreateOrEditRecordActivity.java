@@ -63,6 +63,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         } else {
             mAccountTv.setText(accountManager.getAccountByID(oldRecord.getAccountID()).getAccountName());
             newRecord.setId(oldRecord.getId());
+            newRecord.setRecordId(oldRecord.getRecordId());
             newRecord.setAccountID(oldRecord.getAccountID());
             newRecord.setRecordTypeID(oldRecord.getRecordTypeID());
             newRecord.setRecordMoney(oldRecord.getRecordMoney());
@@ -284,6 +285,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         newRecord.setRecordTypeID(mCurRecordType.getRecordTypeID());
         newRecord.setRecordType(mCurRecordType.getRecordType());
         if (oldRecord == null) {
+            newRecord.setRecordId(System.currentTimeMillis());
             recordManager.createNewRecord(newRecord);
             accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
         } else {

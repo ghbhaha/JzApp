@@ -59,11 +59,11 @@
         <activity
             android:name=".ui.activity.user.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme"  />
         <activity
             android:name=".ui.activity.user.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme"  />
         <activity
             android:name=".ui.activity.record.CreateNewRecordTypeActivity"
             android:label="@string/title_activity_create_new_record_type"

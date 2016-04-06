@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.RecordDetailDO;
+import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
@@ -41,7 +41,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
-                getActivity().startActivityForResult(intent,MainActivity.REQUEST_RECORD);
+                getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
 
@@ -62,6 +62,8 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
             }
         });
 
+        //recordLv.setEmptyView();
+
         ((MainActivity) getActivity()).setReloadRecordCallBack(this);
         return view;
     }
@@ -77,14 +79,16 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
     }
 
     @Override
-    public void reload() {
+    public void reload(final boolean needUpdateData) {
         recordManager.getRecordByPageIndex(1, new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_SUCCESS) {
-                    recordDetailDOs.clear();
-                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
+                    if (needUpdateData) {
+                        recordDetailDOs.clear();
+                        recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
+                    }
                     mRecordAdapter.notifyDataSetChanged();
                 }
             }

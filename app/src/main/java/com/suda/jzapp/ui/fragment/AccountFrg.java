@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
@@ -42,7 +42,7 @@ public class AccountFrg extends Fragment implements MainActivity.ReloadAccountCa
         View view = inflater.inflate(R.layout.account_frg_layout, container, false);
         initWidget(view);
         ((MainActivity) getActivity()).setReloadAccountCallBack(this);
-        refreshData();
+        refreshData(true);
         return view;
     }
 
@@ -63,14 +63,16 @@ public class AccountFrg extends Fragment implements MainActivity.ReloadAccountCa
         mAddNewAccountButton.attachToRecyclerView(mRyAccount);
     }
 
-    private void refreshData() {
+    private void refreshData(final boolean needUpdateData) {
         accountManager.getAllAccount(new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_SUCCESS) {
-                    accounts.clear();
-                    accounts.addAll((List<AccountDetailDO>) msg.obj);
+                    if (needUpdateData) {
+                        accounts.clear();
+                        accounts.addAll((List<AccountDetailDO>) msg.obj);
+                    }
                     if (mAccountAdapter == null) {
                         mAccountAdapter = new AccountAdapter(getActivity(), accounts);
                         mRyAccount.setAdapter(mAccountAdapter);
@@ -95,8 +97,8 @@ public class AccountFrg extends Fragment implements MainActivity.ReloadAccountCa
     }
 
     @Override
-    public void reload() {
-        refreshData();
+    public void reload(boolean needUpdateData) {
+        refreshData(needUpdateData);
     }
 
     private View backGround;

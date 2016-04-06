@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.ThemeUtil;
 

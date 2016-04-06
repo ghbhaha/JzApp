@@ -3,7 +3,7 @@ package com.suda.jzapp.manager;
 import android.content.Context;
 import android.os.Handler;
 
-import com.suda.jzapp.dao.bean.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.local.account.AccountLocalDao;
@@ -23,12 +23,9 @@ public class AccountManager extends BaseManager {
         super(context);
     }
 
-
-
     public Account getSuitAccount(){
         return accountLocalDao.getSuitAccount(_context);
     }
-
 
     /**
      * 获取多有账户

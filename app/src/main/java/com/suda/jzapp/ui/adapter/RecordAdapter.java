@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.RecordDetailDO;
+import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;

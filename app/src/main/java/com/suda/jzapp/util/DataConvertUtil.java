@@ -1,6 +1,6 @@
 package com.suda.jzapp.util;
 
-import com.suda.jzapp.dao.bean.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountType;
 

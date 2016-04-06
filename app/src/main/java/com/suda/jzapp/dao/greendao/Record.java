@@ -7,10 +7,11 @@ package com.suda.jzapp.dao.greendao;
 public class Record implements java.io.Serializable {
 
     private Long id;
+    private Long RecordId;
+    private Double RecordMoney;
     private Long RecordTypeID;
     private Integer RecordType;
     private Long AccountID;
-    private Double RecordMoney;
     private java.util.Date RecordDate;
     private String Remark;
     private Boolean SyncStatus;
@@ -23,12 +24,13 @@ public class Record implements java.io.Serializable {
         this.id = id;
     }
 
-    public Record(Long id, Long RecordTypeID, Integer RecordType, Long AccountID, Double RecordMoney, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel) {
+    public Record(Long id, Long RecordId, Double RecordMoney, Long RecordTypeID, Integer RecordType, Long AccountID, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel) {
         this.id = id;
+        this.RecordId = RecordId;
+        this.RecordMoney = RecordMoney;
         this.RecordTypeID = RecordTypeID;
         this.RecordType = RecordType;
         this.AccountID = AccountID;
-        this.RecordMoney = RecordMoney;
         this.RecordDate = RecordDate;
         this.Remark = Remark;
         this.SyncStatus = SyncStatus;
@@ -41,6 +43,22 @@ public class Record implements java.io.Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRecordId() {
+        return RecordId;
+    }
+
+    public void setRecordId(Long RecordId) {
+        this.RecordId = RecordId;
+    }
+
+    public Double getRecordMoney() {
+        return RecordMoney;
+    }
+
+    public void setRecordMoney(Double RecordMoney) {
+        this.RecordMoney = RecordMoney;
     }
 
     public Long getRecordTypeID() {
@@ -65,14 +83,6 @@ public class Record implements java.io.Serializable {
 
     public void setAccountID(Long AccountID) {
         this.AccountID = AccountID;
-    }
-
-    public Double getRecordMoney() {
-        return RecordMoney;
-    }
-
-    public void setRecordMoney(Double RecordMoney) {
-        this.RecordMoney = RecordMoney;
     }
 
     public java.util.Date getRecordDate() {

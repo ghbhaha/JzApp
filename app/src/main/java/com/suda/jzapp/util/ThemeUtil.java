@@ -3,7 +3,7 @@ package com.suda.jzapp.util;
 import android.content.Context;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.ThemeDO;
+import com.suda.jzapp.manager.domain.ThemeDO;
 
 import java.util.HashMap;
 import java.util.Map;

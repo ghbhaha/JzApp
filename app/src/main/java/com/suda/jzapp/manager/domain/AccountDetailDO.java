@@ -1,4 +1,4 @@
-package com.suda.jzapp.dao.bean;
+package com.suda.jzapp.manager.domain;
 
 /**
  * Created by ghbha on 2016/2/16.

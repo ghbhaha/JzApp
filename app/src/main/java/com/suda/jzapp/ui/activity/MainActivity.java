@@ -17,12 +17,13 @@ import android.widget.RelativeLayout;
 import com.gxz.PagerSlidingTabStrip;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.OptDO;
+import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.ui.activity.account.AccountLinkActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
+import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.ThemeUtil;
@@ -192,13 +193,26 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_ACCOUNT) {
-                reloadAccountCallBack.reload();
+                reloadAccountCallBack.reload(true);
             }
-            if (requestCode == REQUEST_RECORD || requestCode == REQUEST_EDIT_THEME) {
-                reloadRecordCallBack.reload();
-                reloadAccountCallBack.reload();
+            if (requestCode == REQUEST_RECORD) {
+                reloadRecordCallBack.reload(true);
+                reloadAccountCallBack.reload(true);
+            }
+            if (requestCode == REQUEST_EDIT_THEME) {
+                reloadRecordCallBack.reload(false);
+                reloadAccountCallBack.reload(false);
+            }
+            if (requestCode == REQUEST_LOGIN) {
+                reloadRecordCallBack.reload(true);
+                reloadAccountCallBack.reload(true);
             }
         }
+    }
+
+    public void login(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     public void setReloadAccountCallBack(ReloadAccountCallBack reloadAccountCallBack) {
@@ -224,14 +238,15 @@ public class MainActivity extends BaseActivity {
     private ReloadRecordCallBack reloadRecordCallBack;
 
     public interface ReloadAccountCallBack {
-        void reload();
+        void reload(boolean needUpdateData);
     }
 
     public interface ReloadRecordCallBack {
-        void reload();
+        void reload(boolean needUpdateData);
     }
 
     public final static int REQUEST_ACCOUNT = 100;
     public final static int REQUEST_RECORD = 101;
     public final static int REQUEST_EDIT_THEME = 102;
+    public final static int REQUEST_LOGIN = 103;
 }

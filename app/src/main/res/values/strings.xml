@@ -38,4 +38,8 @@
     <string name="title_activity_register">注册</string>
     <string name="title_activity_create_new_record_type">创建新记录</string>
     <string name="title_activity_account_transaction">AccountTransactionActivity</string>
+
+    <string name="login">登录</string>
+    <string name="new_user_tip">新用户注册</string>
+    <string name="forget_pass">忘记密码？</string>
 </resources>

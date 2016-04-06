@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.suda.jzapp.dao.bean.ThemeDO;
+import com.suda.jzapp.manager.domain.ThemeDO;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.util.ThemeUtil;

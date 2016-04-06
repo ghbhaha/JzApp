@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.bean.OptDO;
+import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 
