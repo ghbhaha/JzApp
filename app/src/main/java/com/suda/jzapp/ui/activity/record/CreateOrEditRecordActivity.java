@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Account;
@@ -170,6 +172,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         btShouRu = (Button) findViewById(R.id.shou_ru);
         mAccountTv = (TextView) findViewById(R.id.account);
         mDateTv = (TextView) findViewById(R.id.date);
+        circleProgressBar = (CircleProgressBar) findViewById(R.id.progressBar);
+        circleProgressBar.setVisibility(View.INVISIBLE);
     }
 
 
@@ -279,6 +283,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     }
 
     private void saveAndExit() {
+        circleProgressBar.setVisibility(View.VISIBLE);
+        circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
         newRecord.setRecordMoney(Double.parseDouble(tvMoneyCount.getText().toString())
                 * (mCurRecordType.getRecordType() / Math.abs(mCurRecordType.getRecordType())));
         newRecord.setRemark("");
@@ -286,23 +292,63 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         newRecord.setRecordType(mCurRecordType.getRecordType());
         if (oldRecord == null) {
             newRecord.setRecordId(System.currentTimeMillis());
-            recordManager.createNewRecord(newRecord);
-            accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
+            recordManager.createNewRecord(newRecord, new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    });
+                }
+            });
         } else {
             //判断账户是否发生变化
             if (oldRecord.getAccountID() == newRecord.getAccountID()) {
                 //账户 -oldRecord.getRecordMoney() + newRecord.getRecordMoney();
                 double addMoney = -oldRecord.getRecordMoney() + newRecord.getRecordMoney();
-                accountManager.updateAccountMoney(newRecord.getAccountID(), addMoney, null);
+                accountManager.updateAccountMoney(newRecord.getAccountID(), addMoney, new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        recordManager.updateOldRecord(newRecord, new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        });
+                    }
+                });
             } else {
                 //原账户 -oldRecord.getRecordMoney(), 新账户 + newRecord.getRecordMoney();
-                accountManager.updateAccountMoney(newRecord.getAccountID(), -oldRecord.getRecordMoney(), null);
-                accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), null);
+                accountManager.updateAccountMoney(oldRecord.getAccountID(), -oldRecord.getRecordMoney(), new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        accountManager.updateAccountMoney(newRecord.getAccountID(), newRecord.getRecordMoney(), new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                recordManager.updateOldRecord(newRecord, new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
-            recordManager.updateOldRecord(newRecord);
         }
-        setResult(RESULT_OK);
-        finish();
     }
 
     @Override
@@ -491,6 +537,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private int mainColor;
     private int mainDarkColor;
 
+    private CircleProgressBar circleProgressBar;
     private TextView tvMoneyCount, tvTypeTitle;
     private ImageView typeIcon;
     private Button btZhiChu, btShouRu;

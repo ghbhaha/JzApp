@@ -61,14 +61,13 @@ public class LogUtils {
     public static void getAvEx(AVException avException, Context context) {
         if (avException != null) {
             if (isDebug) {
-                Toast.makeText(context, avException.toString(), Toast.LENGTH_SHORT);
-                Log.e("AVException", avException.toString());
+                Log.e("AVException@@@", avException.toString());
             }
         }
     }
 
 
-    public static boolean isDebug = BuildConfig.RELEASE;
+    public static boolean isDebug = !BuildConfig.RELEASE;
     private static final String TAG = "JZ_APP";
 
 }

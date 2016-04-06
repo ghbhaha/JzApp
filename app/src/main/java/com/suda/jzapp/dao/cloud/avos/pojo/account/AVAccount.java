@@ -2,17 +2,18 @@ package com.suda.jzapp.dao.cloud.avos.pojo.account;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 
 /**
  * Created by Suda on 2015/9/16.
  */
 
-@AVClassName("AccountDAO")
+@AVClassName("Account")
 public class AVAccount extends AVObject {
 
-
-    public void setUserId(String userId) {
-        put(USER_ID, userId);
+    public void setUser(AVUser user) {
+        put(USER, user);
     }
 
     public void setAccountId(long accountId) {
@@ -39,8 +40,12 @@ public class AVAccount extends AVObject {
         put(ACCOUNT_REMARK, accountRemark);
     }
 
-    public String getUserId() {
-        return getString(USER_ID);
+    public void setAccountIsDel(boolean isDel) {
+        put(ACCOUNT_IS_DEL, isDel);
+    }
+
+    public AVUser getUser() {
+        return getAVUser(USER, AVUser.class);
     }
 
     public long getAccountId() {
@@ -67,12 +72,17 @@ public class AVAccount extends AVObject {
         return getString(ACCOUNT_REMARK);
     }
 
-    public final static String USER_ID = "UserID";
+    public boolean isAccountDel() {
+        return getBoolean(ACCOUNT_IS_DEL);
+    }
+
+
+    public final static String USER = "User";
     public final static String ACCOUNT_ID = "AccountID";
     public final static String ACCOUNT_TYPE_ID = "AccountTypeID";
     public final static String ACCOUNT_COLOR = "AccountColor";
     public final static String ACCOUNT_NAME = "AccountName";
     public final static String ACCOUNT_MONEY = "AccountMoney";
     public final static String ACCOUNT_REMARK = "AccountRemark";
-
+    public final static String ACCOUNT_IS_DEL = "IsDel";
 }

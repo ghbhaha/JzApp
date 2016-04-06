@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/panel_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -104,5 +105,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
 
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progressBar"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        android:layout_centerInParent="true"
+        app:mlpb_enable_circle_background="true"
+        app:mlpb_progress_stoke_width="3dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
 
 </RelativeLayout>

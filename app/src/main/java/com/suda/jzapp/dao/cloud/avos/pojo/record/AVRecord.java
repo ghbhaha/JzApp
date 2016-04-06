@@ -2,6 +2,7 @@ package com.suda.jzapp.dao.cloud.avos.pojo.record;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
 
 import java.util.Date;
 
@@ -12,8 +13,9 @@ import java.util.Date;
 @AVClassName("Record")
 public class AVRecord extends AVObject {
 
-    public void setUserId(String userId) {
-        put(USER_ID, userId);
+
+    public void setUser(AVUser user) {
+        put(USER, user);
     }
 
     public void setAccountId(long accountId) {
@@ -36,12 +38,24 @@ public class AVRecord extends AVObject {
         put(REMARK, remark);
     }
 
+    public void setRecordId(long recordId) {
+        put(RECORD_ID, recordId);
+    }
+
+    public void setRecordType(int recordType) {
+        put(RECORD_TYPE, recordType);
+    }
+
+    public void setRecordIsDel(boolean isDel) {
+        put(RECORD_IS_DEL, isDel);
+    }
+
     public long getAccountId() {
         return getLong(ACCOUNT_ID);
     }
 
-    public String getUserId() {
-        return getString(USER_ID);
+    public AVUser getUser() {
+        return getAVUser(USER, AVUser.class);
     }
 
     public long getRecordTypeId() {
@@ -60,11 +74,25 @@ public class AVRecord extends AVObject {
         return getString(REMARK);
     }
 
-    public final static String USER_ID = "UserID";
-    public final static String ACCOUNT_ID = "AccountID";
-    public final static String RECORD_TYPE_ID = "RecordTypeID";
-    public final static String RECORD_MONEY = "RecordMoney";
-    public final static String RECORD_DATE = "RecordDate";
-    public final static String REMARK = "Remark";
+    public long getRecordId() {
+        return getLong(RECORD_ID);
+    }
 
+    public int getRecordType() {
+        return getInt(RECORD_TYPE);
+    }
+
+    public boolean isRecordDel() {
+        return getBoolean(RECORD_IS_DEL);
+    }
+
+    public final static String USER = "User";
+    public final static String ACCOUNT_ID = "AccountID";
+    public final static String RECORD_ID = "RecordID";
+    public final static String RECORD_MONEY = "RecordMoney";
+    public final static String RECORD_TYPE_ID = "RecordTypeID";
+    public final static String RECORD_TYPE = "RecordType";
+    public final static String RECORD_DATE = "RecordDate";
+    public final static String REMARK = "RecordRemark";
+    public final static String RECORD_IS_DEL = "IsDel";
 }

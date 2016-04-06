@@ -75,9 +75,16 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                             .setPositiveButton("确认", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    accountManager.deleteAccountByID(mAccountID, null);
-                                    setResult(RESULT_OK);
-                                    finish();
+                                    accountManager.deleteAccountByID(mAccountID, new Handler() {
+                                        @Override
+                                        public void handleMessage(Message msg) {
+                                            super.handleMessage(msg);
+                                            if (msg.what == Constant.MSG_SUCCESS) {
+                                                setResult(RESULT_OK);
+                                                finish();
+                                            }
+                                        }
+                                    });
                                 }
                             })
                             .setNegativeButton("取消", new View.OnClickListener() {
@@ -95,9 +102,18 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,
-                            accountRemark, null);
-                    setResult(RESULT_OK);
-                    finish();
+                            accountRemark, new Handler() {
+                                @Override
+                                public void handleMessage(Message msg) {
+                                    super.handleMessage(msg);
+                                    if (msg.what == Constant.MSG_ERROR) {
+
+                                    } else {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                }
+                            });
                 }
             }
         });

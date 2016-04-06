@@ -35,35 +35,35 @@ public class AccountLocalDao extends BaseLocalDao {
                 .list());
     }
 
-    public void updateAccountName(long accountID, String accountName, Context context) {
+    public void updateAccountName(long accountID, String accountName, boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountName(accountName);
-        account.setSyncStatus(false);
+        account.setSyncStatus(isSync);
         accountDao.update(account);
     }
 
-    public void updateAccountMoney(long accountID, double money, Context context) {
+    public void updateAccountMoney(long accountID, double money, boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountMoney(account.getAccountMoney() + money);
-        account.setSyncStatus(false);
+        account.setSyncStatus(isSync);
         accountDao.update(account);
     }
 
-    public void updateAccountRemark(long accountID, String remark, Context context) {
+    public void updateAccountRemark(long accountID, String remark,boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountRemark(remark);
-        account.setSyncStatus(false);
+        account.setSyncStatus(isSync);
         accountDao.update(account);
     }
 
-    public void updateAccountTypeID(long accountID, int typeID, Context context) {
+    public void updateAccountTypeID(long accountID, int typeID, boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountTypeID(typeID);
-        account.setSyncStatus(false);
+        account.setSyncStatus(isSync);
         accountDao.update(account);
     }
 
@@ -91,11 +91,11 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.insert(account);
     }
 
-    public void deleteAccount(long accountID, Context context) {
+    public void deleteAccount(long accountID,boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setIsDel(true);
-        account.setSyncStatus(false);
+        account.setSyncStatus(isSync);
         accountDao.update(account);
     }
 

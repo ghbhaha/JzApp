@@ -3,6 +3,9 @@ package com.suda.jzapp.manager;
 import android.content.Context;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
@@ -12,6 +15,7 @@ import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -36,23 +40,27 @@ public class RecordManager extends BaseManager {
      *
      * @param record
      */
-    public void createNewRecord(final Record record) {
+    public void createNewRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
         record.setIsDel(false);
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
             final AVRecord avRecord = new AVRecord();
+            avRecord.setUser(MyAVUser.getCurrentUser());
+            avRecord.setRecordId(record.getRecordId());
             avRecord.setAccountId(record.getAccountID());
             avRecord.setRecordDate(record.getRecordDate());
             avRecord.setRecordMoney(record.getRecordMoney());
             avRecord.setRecordTypeId(record.getRecordTypeID());
+            avRecord.setRecordType(record.getRecordType());
             avRecord.setRemark(record.getRemark());
-            avRecord.setUserId(MyAVUser.getCurrentUserId());
+            avRecord.setRecordIsDel(false);
             avRecord.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
                     record.setSyncStatus(e == null ? true : false);
                     recordDao.createNewRecord(_context, record);
                     getAvEx(e);
+                    handler.sendEmptyMessage(Constant.MSG_SUCCESS);
                 }
             });
         } else {
@@ -62,14 +70,61 @@ public class RecordManager extends BaseManager {
 
     }
 
-    public void updateOldRecord(final Record record){
+    public void updateOldRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
         record.setIsDel(false);
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
-
+            AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
+            query.whereEqualTo(AVRecord.RECORD_ID, record.getRecordId());
+            query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+            query.findInBackground(new FindCallback<AVRecord>() {
+                @Override
+                public void done(List<AVRecord> list, AVException e) {
+                    if (e == null) {
+                        AVRecord avRecord = null;
+                        if (list.size() > 0) {
+                            avRecord = list.get(0);
+                        } else {
+                            avRecord = new AVRecord();
+                            avRecord.setUser(MyAVUser.getCurrentUser());
+                            avRecord.setRecordId(record.getRecordId());
+                            avRecord.setAccountId(record.getAccountID());
+                            avRecord.setRecordDate(record.getRecordDate());
+                            avRecord.setRecordMoney(record.getRecordMoney());
+                            avRecord.setRecordTypeId(record.getRecordTypeID());
+                            avRecord.setRecordType(record.getRecordType());
+                            avRecord.setRemark(record.getRemark());
+                            avRecord.setRecordIsDel(false);
+                        }
+                        avRecord.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null) {
+                                    record.setSyncStatus(true);
+                                    recordDao.updateOldRecord(_context, record);
+                                } else {
+                                    record.setSyncStatus(false);
+                                    recordDao.updateOldRecord(_context, record);
+                                }
+                                if (handler != null)
+                                    handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                                getAvEx(e);
+                            }
+                        });
+                    } else {
+                        record.setSyncStatus(false);
+                        recordDao.updateOldRecord(_context, record);
+                        if (handler != null)
+                            handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                        getAvEx(e);
+                    }
+                }
+            });
         } else {
             record.setSyncStatus(false);
             recordDao.updateOldRecord(_context, record);
+            if (handler != null)
+                handler.sendEmptyMessage(Constant.MSG_SUCCESS);
         }
     }
 

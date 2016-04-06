@@ -8,6 +8,8 @@ import com.avos.avoscloud.AVException;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.LogUtils;
 
+import javax.security.auth.callback.Callback;
+
 /**
  * Created by Suda on 2015/11/16.
  */
@@ -33,9 +35,13 @@ public abstract class BaseManager {
         handler.sendMessage(message);
     }
 
-    protected void getAvEx(AVException avEx){
-        LogUtils.getAvEx(avEx,_context);
+    protected void getAvEx(AVException avEx) {
+        LogUtils.getAvEx(avEx, _context);
     }
 
     protected Context _context;
+
+    protected interface Callback {
+        void doSth(boolean isSync);
+    }
 }
