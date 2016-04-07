@@ -63,7 +63,7 @@ public class UserManager extends BaseManager {
                 } else {
                     message.what = Constant.MSG_ERROR;
                     message.obj = ExceptionInfoUtil.getError(e.getCode());
-                    LogUtils.getAvEx(e, _context);
+                    getAvEx(e);
                 }
                 handler.sendMessage(message);
             }
@@ -102,7 +102,7 @@ public class UserManager extends BaseManager {
                                     } else {
                                         message.what = Constant.MSG_ERROR;
                                         message.obj = ExceptionInfoUtil.getError(e.getCode());
-                                        LogUtils.getAvEx(e, _context);
+                                        getAvEx(e);
                                     }
                                     handler.sendMessage(message);
                                 }
@@ -116,7 +116,7 @@ public class UserManager extends BaseManager {
                         message.what = Constant.MSG_ERROR;
                         message.obj = ExceptionInfoUtil.getError(e.getCode());
                         handler.sendMessage(message);
-                        LogUtils.getAvEx(e, _context);
+                        getAvEx(e);
                     }
                 }
             });
@@ -138,7 +138,7 @@ public class UserManager extends BaseManager {
                 } else {
                     message.what = Constant.MSG_ERROR;
                     message.obj = ExceptionInfoUtil.getError(e.getCode());
-                    LogUtils.getAvEx(e, _context);
+                    getAvEx(e);
                 }
                 handler.sendMessage(message);
             }

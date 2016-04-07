@@ -19,7 +19,6 @@ import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
-import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -135,17 +134,15 @@ public class AccountManager extends BaseManager {
                     } else {
                         account.setSyncStatus(false);
                         accountLocalDao.createNewAccount(account, _context);
-                        LogUtils.getAvEx(e, _context);
+                        getAvEx(e);
                     }
-                    if (handler != null)
-                        handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                    sendEmptyMessage(handler,Constant.MSG_SUCCESS);
                 }
             });
         } else {
             account.setSyncStatus(false);
             accountLocalDao.createNewAccount(account, _context);
-            if (handler != null)
-                handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+            sendEmptyMessage(handler,Constant.MSG_SUCCESS);
         }
     }
 
@@ -334,12 +331,6 @@ public class AccountManager extends BaseManager {
      */
     public void initAccountData(final Handler handler) {
         AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
-//        query.countInBackground(new CountCallback() {
-//            @Override
-//            public void done(int i, AVException e) {
-//
-//            }
-//        });
 
         query.limit(1000);
         query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
