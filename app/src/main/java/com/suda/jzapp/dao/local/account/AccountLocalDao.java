@@ -1,6 +1,7 @@
 package com.suda.jzapp.dao.local.account;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountDao;
@@ -17,7 +18,6 @@ import java.util.List;
  * Created by ghbha on 2016/2/15.
  */
 public class AccountLocalDao extends BaseLocalDao {
-
 
     public Account getSuitAccount(Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
@@ -40,35 +40,52 @@ public class AccountLocalDao extends BaseLocalDao {
                 .list());
     }
 
-    public void updateAccountName(long accountID, String accountName, boolean isSync, Context context) {
+    public void updateAccountName(long accountID, String accountName, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountName(accountName);
         account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
         accountDao.update(account);
     }
 
-    public void updateAccountMoney(long accountID, double money, boolean isSync, Context context) {
+    public void updateAccountMoney(long accountID, double money, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountMoney(account.getAccountMoney() + money);
         account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
         accountDao.update(account);
     }
 
-    public void updateAccountRemark(long accountID, String remark, boolean isSync, Context context) {
+    public void updateAccountRemark(long accountID, String remark, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountRemark(remark);
         account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
         accountDao.update(account);
     }
 
-    public void updateAccountTypeID(long accountID, int typeID, boolean isSync, Context context) {
+    public void updateAccountTypeID(long accountID, int typeID, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountTypeID(typeID);
         account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
+        accountDao.update(account);
+    }
+
+    public void updateAccount(Context context,Account account){
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
         accountDao.update(account);
     }
 
@@ -96,17 +113,26 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.insert(account);
     }
 
-    public void deleteAccount(long accountID, boolean isSync, Context context) {
+    public void deleteAccount(long accountID, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setIsDel(true);
         account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
         accountDao.update(account);
     }
 
     public List<AccountType> getAllAccountType(Context context) {
         AccountTypeDao accountTypeDao = getDaoSession(context).getAccountTypeDao();
         return accountTypeDao.queryBuilder().build().list();
+    }
+
+    public List<Account> getNotSyncData(Context context) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        return accountDao.queryBuilder().where(AccountDao.Properties.SyncStatus.eq(false))
+                .list();
     }
 
 }

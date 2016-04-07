@@ -28,6 +28,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.drag.DragGridView;
@@ -460,11 +461,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             opt = Opt.OK;
             tempCount = 0;
             if (Double.parseDouble(money) <= 0) {
-
-                Snackbar.make(view, "金额不能小于或等于0", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null)
-                        .show();
-
+                SnackBarUtil.showSnackInfo(view, this, "金额不能小于或等于0");
                 return;
             }
 

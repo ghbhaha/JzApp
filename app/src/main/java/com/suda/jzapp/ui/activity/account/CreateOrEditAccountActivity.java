@@ -20,6 +20,7 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -95,10 +96,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                             }).show();
                 } else {
                     if (TextUtils.isEmpty(accountName)) {
-
-                        Snackbar.make(v, "请填写账户名称", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null)
-                                .show();
+                        SnackBarUtil.showSnackInfo(v, CreateOrEditAccountActivity.this, "请填写账户名称");
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,

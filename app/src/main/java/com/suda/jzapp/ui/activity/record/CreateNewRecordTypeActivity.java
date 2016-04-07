@@ -21,6 +21,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordTypeIconAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 
 import java.util.ArrayList;
@@ -76,8 +77,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
     private void addNewRecord(View view) {
         String recordName = mEtRecordName.getText().toString();
         if (TextUtils.isEmpty(recordName)) {
-            Snackbar.make(view, R.string.please_enter_record_type_name, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            SnackBarUtil.showSnackInfo(view, this, getString(R.string.please_enter_record_type_name));
             return;
         }
 

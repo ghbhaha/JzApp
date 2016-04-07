@@ -27,6 +27,7 @@ import com.suda.jzapp.dao.greendao.User;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.service.SyncService;
 import com.suda.jzapp.ui.activity.account.AccountLinkActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
@@ -36,6 +37,7 @@ import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.ui.activity.user.UserActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.update.UmengUpdateAgent;
@@ -55,6 +57,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         UmengUpdateAgent.update(this);
+
+        startService(new Intent(this, SyncService.class));
+
         userManager = new UserManager(this);
         initWidget();
     }
@@ -202,9 +207,7 @@ public class MainActivity extends BaseActivity {
             if (canQuit) {
                 this.finish();
             } else {
-                Snackbar.make(mPagerSlidingTabStrip, "再按一次退出", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null)
-                        .show();
+                SnackBarUtil.showSnackInfo(mPagerSlidingTabStrip, this, "再按一次退出");
             }
             canQuit = true;
 

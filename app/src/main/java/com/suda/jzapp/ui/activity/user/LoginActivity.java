@@ -21,6 +21,7 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.util.SnackBarUtil;
 
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -113,19 +114,13 @@ public class LoginActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_ERROR) {
-                    Snackbar.make(mTilUserId, msg.obj.toString(), Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null)
-                            .show();
+                    SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, msg.obj.toString());
                 } else {
-                    Snackbar.make(mTilUserId, "登录成功", Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null)
-                            .show();
+                    SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "登录成功");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Snackbar.make(mTilUserId, "正在同步数据", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null)
-                                    .show();
+                            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在同步数据");
                             accountManager.initAccountData(new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {

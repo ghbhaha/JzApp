@@ -4,7 +4,6 @@ package com.suda.jzapp.ui.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,15 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.view.drag.DragGridApi;
 import com.suda.jzapp.view.drag.DragGridView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by ghbha on 2016/2/25.
@@ -34,7 +36,7 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
     public RecordTypeAdapter(Context context, List<RecordType> recordTypes, DragGridView mRecordDr) {
         super();
         this.recordTypes = recordTypes;
-        this.context = context;
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.recordManager = new RecordManager(context);
         this.mDragGridView = mRecordDr;
@@ -130,25 +132,37 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
                 @Override
                 public void onClick(View v) {
                     if (recordTypes.size() == 2) {
-                        Snackbar.make(v, "请至少保留一个收支类型", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null)
-                                .show();
+                        SnackBarUtil.showSnackInfo(v, mContext, "请至少保留一个收支类型");
                         return;
                     }
-                    recordTypes.remove(position);
-                    recordType.setIsDel(true);
-                    mDragGridView.animateReorder(position, recordTypes.size());
-                    notifyDataSetChanged();
-                    recordManager.updateRecordType(recordType, new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                        }
-                    });
+                    final MaterialDialog materialDialog = new MaterialDialog(mContext);
+                    materialDialog.setTitle("删除类型？")
+                            .setMessage("")
+                            .setPositiveButton("确认", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    recordTypes.remove(position);
+                                    recordType.setIsDel(true);
+                                    mDragGridView.animateReorder(position, recordTypes.size());
+                                    notifyDataSetChanged();
+                                    recordManager.updateRecordType(recordType, new Handler() {
+                                        @Override
+                                        public void handleMessage(Message msg) {
+                                            super.handleMessage(msg);
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    materialDialog.dismiss();
+                                }
+                            }).show();
+
                 }
             });
         }
-
 
         return convertView;
     }
@@ -202,7 +216,7 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
     private DragGridView mDragGridView;
     private boolean mShake = false;
     private List<RecordType> recordTypes;
-    private Context context;
+    private Context mContext;
     private LayoutInflater mInflater;
     private int mHidePosition = -1;
     private RecordManager recordManager;

@@ -25,6 +25,7 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 
 public class RegisterActivity extends BaseActivity {
@@ -160,13 +161,9 @@ public class RegisterActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_ERROR) {
-                    Snackbar.make(mTilUserID, msg.obj.toString(), Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null)
-                            .show();
+                    SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, msg.obj.toString());
                 } else {
-                    Snackbar.make(mTilUserID, "注册成功", Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null)
-                            .show();
+                    SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, "注册成功");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

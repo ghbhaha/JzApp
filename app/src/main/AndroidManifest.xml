@@ -77,6 +77,8 @@
             android:label="@string/title_activity_account_transaction"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service android:name=".service.SyncService"/>
+
         <!-- 友盟 -->
 
         <activity

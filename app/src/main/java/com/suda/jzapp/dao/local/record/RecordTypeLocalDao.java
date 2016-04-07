@@ -35,7 +35,9 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         RecordType recordType = getRecordTypeById(context, recordTypeIndexDO.getRecordTypeID());
         if (recordType == null)
             return;
-        recordType.setIsDel(false);
+        if (recordType.getSysType()) {
+            recordType.setIsDel(false);
+        }
         recordType.setIndex(recordTypeIndexDO.getIndex());
         recordTypeDao.update(recordType);
     }
@@ -131,5 +133,12 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         }
 
         return JSON.toJSONString(list1);
+    }
+
+    public List<RecordType> getNotSyncData(Context context) {
+        RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
+        return recordTypeDao.queryBuilder().where(RecordTypeDao.Properties.SyncStatus.eq(false))
+                .where(RecordTypeDao.Properties.SysType.eq(false))
+                .list();
     }
 }

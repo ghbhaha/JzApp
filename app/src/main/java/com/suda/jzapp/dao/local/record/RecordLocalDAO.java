@@ -96,4 +96,10 @@ public class RecordLocalDAO extends BaseLocalDao {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         recordDao.update(record);
     }
+
+    public List<Record> getNotSyncData(Context context) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        return recordDao.queryBuilder().where(RecordDao.Properties.SyncStatus.eq(false))
+                .list();
+    }
 }

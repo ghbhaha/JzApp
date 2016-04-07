@@ -46,6 +46,6 @@ public abstract class BaseManager {
     protected Context _context;
 
     protected interface Callback {
-        void doSth(boolean isSync);
+        void doSth(boolean isSync,String objId);
     }
 }

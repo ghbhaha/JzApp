@@ -37,16 +37,6 @@ public class AccountManager extends BaseManager {
         return accountLocalDao.getSuitAccount(_context);
     }
 
-    /**
-     * 获取多有账户
-     *
-     * @param userName
-     * @param handler
-     */
-    public void getAllAccount(String userName, Handler handler) {
-        //  List<Account> accounts =
-
-    }
 
     public AccountDetailDO getAccountByID(final long accountID) {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
@@ -63,7 +53,6 @@ public class AccountManager extends BaseManager {
                 sendMessage(handler, accountType, accountType != null);
             }
         });
-
     }
 
     public void getAllAccount(final Handler handler) {
@@ -139,8 +128,8 @@ public class AccountManager extends BaseManager {
     public void deleteAccountByID(final long accountID, final Handler handler) {
         editAccount(EDIT_TYPE_DEL, accountID, null, 0, 0, null, new Callback() {
             @Override
-            public void doSth(boolean isSync) {
-                accountLocalDao.deleteAccount(accountID, true, _context);
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.deleteAccount(accountID, true, objId, _context);
             }
         }, handler);
     }
@@ -148,8 +137,8 @@ public class AccountManager extends BaseManager {
     public void updateAccountName(final long accountID, final String accountName, final Handler handler) {
         editAccount(EDIT_TYPE_ACCOUNT_NAME, accountID, null, 0, 0, accountName, new Callback() {
             @Override
-            public void doSth(boolean isSync) {
-                accountLocalDao.updateAccountName(accountID, accountName, isSync, _context);
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.updateAccountName(accountID, accountName, isSync, objId, _context);
             }
         }, handler);
     }
@@ -158,8 +147,8 @@ public class AccountManager extends BaseManager {
     public void updateAccountTypeID(final long accountID, final int typeID, final Handler handler) {
         editAccount(EDIT_TYPE_ACCOUNT_TYPE, accountID, null, typeID, 0, null, new Callback() {
             @Override
-            public void doSth(boolean isSync) {
-                accountLocalDao.updateAccountTypeID(accountID, typeID, isSync, _context);
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.updateAccountTypeID(accountID, typeID, isSync, objId, _context);
             }
         }, handler);
     }
@@ -169,8 +158,8 @@ public class AccountManager extends BaseManager {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
         editAccount(EDIT_TYPE_ACCOUNT_MONEY, accountID, null, 0, account.getAccountMoney() + money, null, new Callback() {
             @Override
-            public void doSth(boolean isSync) {
-                accountLocalDao.updateAccountMoney(accountID, money, isSync, _context);
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.updateAccountMoney(accountID, money, isSync, objId, _context);
             }
         }, handler);
     }
@@ -180,8 +169,8 @@ public class AccountManager extends BaseManager {
 
         editAccount(EDIT_TYPE_ACCOUNT_REMARK, accountID, remark, 0, 0, null, new Callback() {
             @Override
-            public void doSth(boolean isSync) {
-                accountLocalDao.updateAccountRemark(accountID, remark, isSync, _context);
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.updateAccountRemark(accountID, remark, isSync, objId, _context);
             }
         }, handler);
     }
@@ -189,6 +178,44 @@ public class AccountManager extends BaseManager {
     private void editAccount(final int editType, final long accountID, final String remark, final int typeID, final double money, final String accountName,
                              final Callback callback, final Handler handler) {
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+            Account account = accountLocalDao.getAccountByID(accountID, _context);
+            if (!TextUtils.isEmpty(account.getObjectID())) {
+                AVAccount avAccount = new AVAccount();
+                avAccount.setAccountName(account.getAccountName());
+                avAccount.setUser(MyAVUser.getCurrentUser());
+                avAccount.setAccountColor(account.getAccountColor());
+                avAccount.setAccountId(account.getAccountID());
+                avAccount.setAccountTypeId(account.getAccountTypeID());
+                avAccount.setAccountMoney(account.getAccountMoney());
+                avAccount.setAccountRemark(account.getAccountRemark());
+                avAccount.setAccountIsDel(false);
+                avAccount.setObjectId(account.getObjectID());
+                if (editType == EDIT_TYPE_DEL) {
+                    avAccount.setAccountIsDel(true);
+                } else if (editType == EDIT_TYPE_ACCOUNT_TYPE) {
+                    avAccount.setAccountTypeId(typeID);
+                } else if (editType == EDIT_TYPE_ACCOUNT_MONEY) {
+                    avAccount.setAccountMoney(money);
+                } else if (editType == EDIT_TYPE_ACCOUNT_REMARK) {
+                    avAccount.setAccountRemark(remark);
+                } else if (editType == EDIT_TYPE_ACCOUNT_NAME) {
+                    avAccount.setAccountName(accountName);
+                }
+                avAccount.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        getAvEx(e);
+                        if (e == null) {
+                            callback.doSth(true, null);
+                        } else {
+                            callback.doSth(false, null);
+                        }
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                    }
+                });
+                return;
+            }
+
             AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
             query.whereEqualTo(AVAccount.ACCOUNT_ID, accountID);
             query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
@@ -209,7 +236,7 @@ public class AccountManager extends BaseManager {
                             avAccount.setAccountTypeId(account.getAccountTypeID());
                             avAccount.setAccountMoney(account.getAccountMoney());
                             avAccount.setAccountRemark(account.getAccountRemark());
-                            avAccount.setAccountIsDel(false);
+                            avAccount.setAccountIsDel(account.getIsDel());
                         }
                         if (editType == EDIT_TYPE_DEL) {
                             avAccount.setAccountIsDel(true);
@@ -222,31 +249,29 @@ public class AccountManager extends BaseManager {
                         } else if (editType == EDIT_TYPE_ACCOUNT_NAME) {
                             avAccount.setAccountName(accountName);
                         }
+                        final String objId = avAccount.getObjectId();
                         avAccount.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
                                 if (e == null) {
-                                    callback.doSth(true);
+                                    callback.doSth(true, objId);
                                 } else {
                                     getAvEx(e);
-                                    callback.doSth(false);
+                                    callback.doSth(false, objId);
                                 }
-                                if (handler != null)
-                                    handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                             }
                         });
                     } else {
                         getAvEx(e);
-                        callback.doSth(false);
-                        if (handler != null)
-                            handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                        callback.doSth(false, null);
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                     }
                 }
             });
         } else {
-            callback.doSth(false);
-            if (handler != null)
-                handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+            callback.doSth(false, null);
+            sendEmptyMessage(handler, Constant.MSG_SUCCESS);
         }
     }
 
@@ -262,6 +287,7 @@ public class AccountManager extends BaseManager {
                 if (e == null) {
                     for (AVAccount avAccount : list) {
                         Account account = new Account();
+                        account.setObjectID(avAccount.getObjectId());
                         account.setAccountID(avAccount.getAccountId());
                         account.setAccountTypeID(avAccount.getAccountTypeId());
                         account.setAccountMoney(avAccount.getAccountMoney());

@@ -183,10 +183,21 @@ public class RecordManager extends BaseManager {
         }
     }
 
-    public void updateRecordTypeIndex(final Handler handler) {
+    public synchronized void updateRecordTypeIndex(final Handler handler) {
+        updateRecordTypeIndex(handler, false);
+    }
+
+    public synchronized void updateRecordTypeIndex(final Handler handler, boolean serviceSync) {
 
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+            Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
+            if (config != null && "true".equals(config.getValue()) && serviceSync) {
+                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                return;
+            }
+
             AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
+            query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
             query.findInBackground(new FindCallback<AVRecordTypeIndex>() {
                 @Override
                 public void done(List<AVRecordTypeIndex> list, AVException e) {
@@ -245,6 +256,7 @@ public class RecordManager extends BaseManager {
             } else {
                 //自定义类型
                 AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
+                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
                 query.findInBackground(new FindCallback<AVRecordType>() {
                     @Override
                     public void done(List<AVRecordType> list, AVException e) {
@@ -379,6 +391,7 @@ public class RecordManager extends BaseManager {
                         recordLocalDAO.clearAllRecord(_context);
                     for (AVRecord avRecord : list) {
                         Record record = new Record();
+                        record.setObjectID(avRecord.getObjectId());
                         record.setAccountID(avRecord.getAccountId());
                         record.setRecordId(avRecord.getRecordId());
                         record.setRecordType(avRecord.getRecordType());
@@ -402,7 +415,7 @@ public class RecordManager extends BaseManager {
 
     public void initRecordTypeData(final Handler handler) {
         AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
-        query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVRecordType>() {
             @Override
             public void done(List<AVRecordType> list, AVException e) {
@@ -413,6 +426,7 @@ public class RecordManager extends BaseManager {
                         configLocalDao.initRecordType(_context);
                         for (AVRecordType avRecordType : list) {
                             RecordType recordType = new RecordType();
+                            recordType.setObjectID(avRecordType.getObjectId());
                             recordType.setRecordTypeID(avRecordType.getRecordTypeId());
                             recordType.setRecordType(avRecordType.getRecordType());
                             recordType.setIsDel(avRecordType.isRecordTypeDel());
@@ -439,7 +453,7 @@ public class RecordManager extends BaseManager {
 
     public void initRecordTypeIndex(final Handler handler) {
         AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
-        query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.whereEqualTo(AVRecordTypeIndex.USER, MyAVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVRecordTypeIndex>() {
             @Override
             public void done(List<AVRecordTypeIndex> list, AVException e) {
