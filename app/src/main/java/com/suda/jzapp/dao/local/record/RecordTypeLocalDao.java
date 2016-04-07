@@ -25,6 +25,20 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         recordTypeDao.insert(recordType);
     }
 
+    public void update2DelSysType(Context context) {
+        String sql = "update RECORD_TYPE set IS_DEL =1 where SYS_TYPE =1";
+        getDaoSession(context).getDatabase().execSQL(sql);
+    }
+
+    public void updateRecordTypeIndex(Context context, RecordTypeIndexDO recordTypeIndexDO) {
+        RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
+        RecordType recordType = getRecordTypeById(context, recordTypeIndexDO.getRecordTypeID());
+        if (recordType == null)
+            return;
+        recordType.setIsDel(false);
+        recordType.setIndex(recordTypeIndexDO.getIndex());
+        recordTypeDao.update(recordType);
+    }
 
     public void clearAllRecordType(Context context) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();

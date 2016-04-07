@@ -130,17 +130,23 @@ public class LoginActivity extends BaseActivity {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     super.handleMessage(msg);
-                                    recordManager.initRecordData(new Handler() {
+                                    recordManager.initRecordTypeData(new Handler() {
                                         @Override
                                         public void handleMessage(Message msg) {
                                             super.handleMessage(msg);
-                                            new Handler().postDelayed(new Runnable() {
+                                            recordManager.initRecordData(new Handler() {
                                                 @Override
-                                                public void run() {
-                                                    setResult(RESULT_OK);
-                                                    finish();
+                                                public void handleMessage(Message msg) {
+                                                    super.handleMessage(msg);
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            setResult(RESULT_OK);
+                                                            finish();
+                                                        }
+                                                    }, 500);
                                                 }
-                                            }, 500);
+                                            });
                                         }
                                     });
                                 }

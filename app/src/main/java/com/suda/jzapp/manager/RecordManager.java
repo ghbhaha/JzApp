@@ -2,6 +2,7 @@ package com.suda.jzapp.manager;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
@@ -20,6 +21,7 @@ import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
+import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
@@ -392,6 +394,67 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    public void initRecordTypeData(final Handler handler) {
+        AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
+        query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.findInBackground(new FindCallback<AVRecordType>() {
+            @Override
+            public void done(List<AVRecordType> list, AVException e) {
+                Message message = new Message();
+                if (e == null) {
+                    if (list.size() > 0) {
+                        recordTypeDao.clearAllRecordType(_context);
+                        configLocalDao.initRecordType(_context);
+                        for (AVRecordType avRecordType : list) {
+                            RecordType recordType = new RecordType();
+                            recordType.setRecordTypeID(avRecordType.getRecordTypeId());
+                            recordType.setRecordType(avRecordType.getRecordType());
+                            recordType.setIsDel(avRecordType.isRecordTypeDel());
+                            recordType.setIndex(avRecordType.getIndex());
+                            recordType.setRecordIcon(avRecordType.getRecordRecordIcon());
+                            recordType.setSexProp(Constant.Sex.ALL.getId());
+                            recordType.setSysType(false);
+                            recordType.setOccupation(Constant.Occupation.ALL.getId());
+                            recordType.setSyncStatus(true);
+                            recordType.setRecordDesc(avRecordType.getRecordDesc());
+                            recordTypeDao.createNewRecordType(_context, recordType);
+                        }
+                    }
+                    initRecordTypeIndex(handler);
+                    return;
+                } else {
+                    message.what = Constant.MSG_ERROR;
+                    getAvEx(e);
+                }
+                handler.sendMessage(message);
+            }
+        });
+    }
+
+    public void initRecordTypeIndex(final Handler handler) {
+        AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
+        query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.findInBackground(new FindCallback<AVRecordTypeIndex>() {
+            @Override
+            public void done(List<AVRecordTypeIndex> list, AVException e) {
+                if (e == null) {
+                    if (list.size() > 0) {
+                        AVRecordTypeIndex avRecordTypeIndex = list.get(0);
+                        String data = avRecordTypeIndex.getData();
+                        List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
+                        recordTypeDao.update2DelSysType(_context);
+                        for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
+                            recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
+                        }
+                    }
+                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                } else {
+                    sendEmptyMessage(handler, Constant.MSG_ERROR);
+                    getAvEx(e);
+                }
+            }
+        });
+    }
 
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
