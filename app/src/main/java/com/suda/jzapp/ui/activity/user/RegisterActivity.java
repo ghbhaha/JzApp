@@ -11,6 +11,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.RequestEmailVerifyCallback;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
@@ -153,6 +156,12 @@ public class RegisterActivity extends BaseActivity {
                 if (msg.what == Constant.MSG_ERROR) {
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, msg.obj.toString());
                 } else {
+                    AVUser.requestEmailVerfiyInBackground(mTieEmail.getText().toString(), new RequestEmailVerifyCallback() {
+                        @Override
+                        public void done(AVException e) {
+
+                        }
+                    });
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, "注册成功");
                     MyAVUser.getCurrentUser().logOut();
                     new Handler().postDelayed(new Runnable() {
