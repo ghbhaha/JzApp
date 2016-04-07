@@ -135,7 +135,7 @@ public class LoginActivity extends BaseActivity {
                                                             setResult(RESULT_OK);
                                                             finish();
                                                         }
-                                                    }, 500);
+                                                    }, 600);
                                                 }
                                             });
                                         }
@@ -143,7 +143,7 @@ public class LoginActivity extends BaseActivity {
                                 }
                             });
                         }
-                    }, 500);
+                    }, 600);
                 }
             }
         });

@@ -31,6 +31,9 @@ public class ExceptionInfoUtil {
             case AVException.USER_MOBILE_PHONENUMBER_TAKEN:
                 info = "该手机号已被注册";
                 break;
+            case 216:
+                info = "先验证邮箱才能登陆哦";
+                break;
             default:
                 break;
         }

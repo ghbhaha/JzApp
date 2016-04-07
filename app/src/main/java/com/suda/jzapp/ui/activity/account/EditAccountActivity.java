@@ -23,6 +23,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -170,7 +171,8 @@ public class EditAccountActivity extends BaseActivity {
                             record.setAccountID(mAccountID);
                             record.setRecordType(Constant.RecordType.CHANGE.getId());
                             record.setRecordTypeID(27L);
-                            record.setRecordMoney(money - mMoney);
+                            BigDecimal b = new BigDecimal(money - mMoney);
+                            record.setRecordMoney(b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             record.setRecordDate(new Date(System.currentTimeMillis()));
                             recordManager.createNewRecord(record, null);
                             setResult(RESULT_OK, intent);

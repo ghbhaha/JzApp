@@ -156,12 +156,6 @@ public class RegisterActivity extends BaseActivity {
                 if (msg.what == Constant.MSG_ERROR) {
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, msg.obj.toString());
                 } else {
-                    AVUser.requestEmailVerfiyInBackground(mTieEmail.getText().toString(), new RequestEmailVerifyCallback() {
-                        @Override
-                        public void done(AVException e) {
-
-                        }
-                    });
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, "注册成功");
                     MyAVUser.getCurrentUser().logOut();
                     new Handler().postDelayed(new Runnable() {
