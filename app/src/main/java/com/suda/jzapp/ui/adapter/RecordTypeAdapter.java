@@ -137,12 +137,12 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
                     }
                     recordTypes.remove(position);
                     recordType.setIsDel(true);
+                    mDragGridView.animateReorder(position, recordTypes.size());
+                    notifyDataSetChanged();
                     recordManager.updateRecordType(recordType, new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
                             super.handleMessage(msg);
-                            mDragGridView.animateReorder(position, recordTypes.size());
-                            notifyDataSetChanged();
                         }
                     });
                 }

@@ -239,6 +239,9 @@ public class RecordManager extends BaseManager {
             if (recordType.getSysType()) {
                 //系统类型
                 recordTypeDao.updateRecordType(_context, recordType);
+                if (recordType.getIsDel()) {
+                    updateRecordTypeIndex(null);
+                }
             } else {
                 //自定义类型
                 AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
@@ -281,6 +284,9 @@ public class RecordManager extends BaseManager {
             if (!recordType.getSysType())
                 recordType.setSyncStatus(false);
             recordTypeDao.updateRecordType(_context, recordType);
+            if (recordType.getIsDel()) {
+                updateRecordTypeIndex(null);
+            }
             sendEmptyMessage(handler, Constant.MSG_SUCCESS);
         }
     }
