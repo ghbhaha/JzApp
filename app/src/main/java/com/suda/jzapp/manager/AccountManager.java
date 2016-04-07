@@ -125,14 +125,7 @@ public class AccountManager extends BaseManager {
         account.setSyncStatus(true);
         account.setIsDel(false);
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
-            AVAccount avAccount = new AVAccount();
-            avAccount.setAccountName(account.getAccountName());
-            avAccount.setUser(MyAVUser.getCurrentUser());
-            avAccount.setAccountColor(account.getAccountColor());
-            avAccount.setAccountId(account.getAccountID());
-            avAccount.setAccountTypeId(account.getAccountTypeID());
-            avAccount.setAccountMoney(account.getAccountMoney());
-            avAccount.setAccountRemark(account.getAccountRemark());
+            AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
             avAccount.setAccountIsDel(false);
             avAccount.saveInBackground(new SaveCallback() {
                 @Override
@@ -255,16 +248,8 @@ public class AccountManager extends BaseManager {
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
             Account account = accountLocalDao.getAccountByID(accountID, _context);
             if (!TextUtils.isEmpty(account.getObjectID())) {
-                AVAccount avAccount = new AVAccount();
-                avAccount.setAccountName(account.getAccountName());
-                avAccount.setUser(MyAVUser.getCurrentUser());
-                avAccount.setAccountColor(account.getAccountColor());
-                avAccount.setAccountId(account.getAccountID());
-                avAccount.setAccountTypeId(account.getAccountTypeID());
-                avAccount.setAccountMoney(account.getAccountMoney());
-                avAccount.setAccountRemark(account.getAccountRemark());
+                AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
                 avAccount.setAccountIsDel(false);
-                avAccount.setObjectId(account.getObjectID());
                 if (editType == EDIT_TYPE_DEL) {
                     avAccount.setAccountIsDel(true);
                 } else if (editType == EDIT_TYPE_ACCOUNT_TYPE) {
@@ -303,15 +288,7 @@ public class AccountManager extends BaseManager {
                             avAccount = list.get(0);
                         } else {
                             Account account = accountLocalDao.getAccountByID(accountID, _context);
-                            avAccount = new AVAccount();
-                            avAccount.setAccountName(account.getAccountName());
-                            avAccount.setUser(MyAVUser.getCurrentUser());
-                            avAccount.setAccountColor(account.getAccountColor());
-                            avAccount.setAccountId(account.getAccountID());
-                            avAccount.setAccountTypeId(account.getAccountTypeID());
-                            avAccount.setAccountMoney(account.getAccountMoney());
-                            avAccount.setAccountRemark(account.getAccountRemark());
-                            avAccount.setAccountIsDel(account.getIsDel());
+                            avAccount = DataConvertUtil.convertAccount2AVAccount(account);
                         }
                         if (editType == EDIT_TYPE_DEL) {
                             avAccount.setAccountIsDel(true);

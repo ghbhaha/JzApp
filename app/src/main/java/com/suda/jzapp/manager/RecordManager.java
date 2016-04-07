@@ -25,6 +25,7 @@ import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -50,15 +51,7 @@ public class RecordManager extends BaseManager {
         //1网络创建不成功 SyncStatus 置0
         record.setIsDel(false);
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
-            final AVRecord avRecord = new AVRecord();
-            avRecord.setUser(MyAVUser.getCurrentUser());
-            avRecord.setRecordId(record.getRecordId());
-            avRecord.setAccountId(record.getAccountID());
-            avRecord.setRecordDate(record.getRecordDate());
-            avRecord.setRecordMoney(record.getRecordMoney());
-            avRecord.setRecordTypeId(record.getRecordTypeID());
-            avRecord.setRecordType(record.getRecordType());
-            avRecord.setRemark(record.getRemark());
+            final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
             avRecord.setRecordIsDel(false);
             avRecord.saveInBackground(new SaveCallback() {
                 @Override
@@ -86,17 +79,7 @@ public class RecordManager extends BaseManager {
         //1网络创建不成功 SyncStatus 置0
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
             if (!TextUtils.isEmpty(record.getObjectID())) {
-                AVRecord avRecord = new AVRecord();
-                avRecord.setObjectId(record.getObjectID());
-                avRecord.setUser(MyAVUser.getCurrentUser());
-                avRecord.setRecordId(record.getRecordId());
-                avRecord.setAccountId(record.getAccountID());
-                avRecord.setRecordDate(record.getRecordDate());
-                avRecord.setRecordMoney(record.getRecordMoney());
-                avRecord.setRecordTypeId(record.getRecordTypeID());
-                avRecord.setRecordType(record.getRecordType());
-                avRecord.setRemark(record.getRemark());
-                avRecord.setRecordIsDel(record.getIsDel());
+                AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
                 avRecord.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
@@ -121,21 +104,10 @@ public class RecordManager extends BaseManager {
                 @Override
                 public void done(List<AVRecord> list, AVException e) {
                     if (e == null) {
-                        AVRecord avRecord = null;
+                        AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
                         if (list.size() > 0) {
-                            avRecord = list.get(0);
-                        } else {
-                            avRecord = new AVRecord();
+                            avRecord.setObjectId(list.get(0).getObjectId());
                         }
-                        avRecord.setUser(MyAVUser.getCurrentUser());
-                        avRecord.setRecordId(record.getRecordId());
-                        avRecord.setAccountId(record.getAccountID());
-                        avRecord.setRecordDate(record.getRecordDate());
-                        avRecord.setRecordMoney(record.getRecordMoney());
-                        avRecord.setRecordTypeId(record.getRecordTypeID());
-                        avRecord.setRecordType(record.getRecordType());
-                        avRecord.setRemark(record.getRemark());
-                        avRecord.setRecordIsDel(record.getIsDel());
                         avRecord.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(AVException e) {
@@ -182,13 +154,7 @@ public class RecordManager extends BaseManager {
 
         //1网络创建不成功 SyncStatus 置0
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
-            final AVRecordType avRecordType = new AVRecordType();
-            avRecordType.setRecordType(recordType.getRecordType());
-            avRecordType.setRecordTypeId(recordType.getRecordTypeID());
-            avRecordType.setUser(MyAVUser.getCurrentUser());
-            avRecordType.setRecordIcon(recordType.getRecordIcon());
-            avRecordType.setIndex(recordType.getIndex());
-            avRecordType.setRecordDesc(recordType.getRecordDesc());
+            final AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
             avRecordType.setRecordTypeIsDel(false);
             avRecordType.saveInBackground(new SaveCallback() {
                 @Override
@@ -296,15 +262,7 @@ public class RecordManager extends BaseManager {
             } else {
                 //自定义类型
                 if (!TextUtils.isEmpty(recordType.getObjectID())) {
-                    AVRecordType avRecordType = new AVRecordType();
-                    avRecordType.setObjectId(recordType.getObjectID());
-                    avRecordType.setRecordType(recordType.getRecordType());
-                    avRecordType.setRecordTypeId(recordType.getRecordTypeID());
-                    avRecordType.setUser(MyAVUser.getCurrentUser());
-                    avRecordType.setRecordIcon(recordType.getRecordIcon());
-                    avRecordType.setIndex(recordType.getIndex());
-                    avRecordType.setRecordDesc(recordType.getRecordDesc());
-                    avRecordType.setRecordTypeIsDel(recordType.getIsDel());
+                    AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
                     avRecordType.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(AVException e) {
@@ -324,19 +282,10 @@ public class RecordManager extends BaseManager {
                     @Override
                     public void done(List<AVRecordType> list, AVException e) {
                         if (e == null) {
-                            AVRecordType avRecordType = null;
+                            AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
                             if (list.size() > 0) {
-                                avRecordType = list.get(0);
-                            } else {
-                                avRecordType = new AVRecordType();
+                                avRecordType.setObjectId(list.get(0).getObjectId());
                             }
-                            avRecordType.setRecordType(recordType.getRecordType());
-                            avRecordType.setRecordTypeId(recordType.getRecordTypeID());
-                            avRecordType.setUser(MyAVUser.getCurrentUser());
-                            avRecordType.setRecordIcon(recordType.getRecordIcon());
-                            avRecordType.setIndex(recordType.getIndex());
-                            avRecordType.setRecordDesc(recordType.getRecordDesc());
-                            avRecordType.setRecordTypeIsDel(recordType.getIsDel());
                             avRecordType.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(AVException e) {
