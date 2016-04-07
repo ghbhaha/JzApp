@@ -19,6 +19,10 @@ public abstract class BaseManager {
         _context = context;
     }
 
+    protected void sendEmptyMessage(Handler handler, int what) {
+        if (handler != null)
+            handler.sendEmptyMessage(what);
+    }
 
     protected void sendMessage(Handler handler, Object value) {
         sendMessage(handler, value, true);

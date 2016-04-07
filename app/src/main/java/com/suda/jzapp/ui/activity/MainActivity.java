@@ -33,6 +33,7 @@ import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
+import com.suda.jzapp.ui.activity.user.UserActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.TextUtil;
@@ -79,7 +80,9 @@ public class MainActivity extends BaseActivity {
                     super.handleMessage(msg);
                     if (msg.what == Constant.MSG_SUCCESS) {
                         User user = (User) msg.obj;
-                        Glide.with(MainActivity.this).load(user.getHeadImage()).into(headImg);
+                        Glide.with(MainActivity.this).
+                                load(user.getHeadImage())
+                                .placeholder(R.mipmap.suda).into(headImg);
                     }
                 }
             });
@@ -243,8 +246,15 @@ public class MainActivity extends BaseActivity {
     }
 
     public void login(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+        if (MyAVUser.getCurrentUser() == null) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
+        } else {
+            Intent intent = new Intent(this, UserActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);
+        }
+
+
     }
 
     public void setReloadAccountCallBack(ReloadAccountCallBack reloadAccountCallBack) {

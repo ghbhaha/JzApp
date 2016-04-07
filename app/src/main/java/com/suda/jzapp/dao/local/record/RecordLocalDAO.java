@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class RecordLocalDAO extends BaseLocalDao {
 
+
     public void createNewRecord(Context context, Record record) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(record.getRecordDate());
@@ -30,6 +31,11 @@ public class RecordLocalDAO extends BaseLocalDao {
 
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         recordDao.insert(record);
+    }
+
+    public void clearAllRecord(Context context) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        recordDao.deleteAll();
     }
 
     public double countTodayCostByAccountId(Context context, long accountId) {

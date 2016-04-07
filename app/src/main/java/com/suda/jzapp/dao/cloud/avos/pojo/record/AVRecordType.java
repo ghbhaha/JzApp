@@ -2,6 +2,7 @@ package com.suda.jzapp.dao.cloud.avos.pojo.record;
 
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
 
 /**
  * Created by Suda on 2015/9/16.
@@ -10,11 +11,11 @@ import com.avos.avoscloud.AVObject;
 @AVClassName("RecordType")
 public class AVRecordType extends AVObject {
 
-    public void setUserId(String userId) {
-        put(USER_ID, userId);
+    public void setUser(AVUser user) {
+        put(USER, user);
     }
 
-    public void setRecordTypeId(String recordTypeId) {
+    public void setRecordTypeId(long recordTypeId) {
         put(RECORD_TYPE_ID, recordTypeId);
     }
 
@@ -34,12 +35,17 @@ public class AVRecordType extends AVObject {
         put(INDEX, index);
     }
 
-    public String getUserId() {
-        return getString(USER_ID);
+    public void setRecordTypeIsDel(boolean isDel) {
+        put(RECORD_TYPE_IS_DEL, isDel);
     }
 
-    public String getRecordTypeId() {
-        return getString(RECORD_TYPE_ID);
+    public AVUser getUser() {
+        return getAVUser(USER, AVUser.class);
+    }
+
+
+    public long getRecordTypeId() {
+        return getLong(RECORD_TYPE_ID);
     }
 
     public String getRecordDesc() {
@@ -58,10 +64,15 @@ public class AVRecordType extends AVObject {
         return getInt(INDEX);
     }
 
-    public final static String USER_ID = "UserID";
+    public boolean isRecordTypeDel() {
+        return getBoolean(RECORD_TYPE_IS_DEL);
+    }
+
+    public final static String USER = "User";
     public final static String RECORD_TYPE_ID = "RecordTypeID";
     public final static String RECORD_DESC = "RecordDesc";
     public final static String RECORD_TYPE = "RecordType";
     public final static String RECORD_ICON = "RecordIcon";
     public final static String INDEX = "Index";
+    public final static String RECORD_TYPE_IS_DEL = "IsDel";
 }

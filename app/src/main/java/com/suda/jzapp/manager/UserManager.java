@@ -1,6 +1,8 @@
 package com.suda.jzapp.manager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -13,11 +15,21 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccount;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.dao.greendao.Record;
+import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.dao.local.account.AccountLocalDao;
+import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
+import com.suda.jzapp.dao.local.record.RecordLocalDAO;
+import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.dao.local.user.UserLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ExceptionInfoUtil;
+import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.LogUtils;
 
 import java.util.List;
@@ -32,6 +44,9 @@ public class UserManager extends BaseManager {
 
     public void register(String userName, String password, String email, final Handler handler) {
         final MyAVUser user = new MyAVUser();
+        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), R.mipmap.suda);
+        AVFile avFile = new AVFile(MyAVUser.HEAD_IMAGE, ImageUtil.Bitmap2Bytes(bitmap));
+        user.setHeadImage(avFile);
         user.setUsername(userName);
         user.setPassword(password);
         user.setEmail(email);
@@ -68,7 +83,7 @@ public class UserManager extends BaseManager {
                                     if (e == null) {
                                         User user = new User();
                                         user.setUserId(myAVUser.getObjectId());
-                                        user.setHeadImage(getImgUrl(myAVUser.getHeadImage()) );
+                                        user.setHeadImage(getImgUrl(myAVUser.getHeadImage()));
                                         user.setUserName(myAVUser.getUsername());
                                         userLocalDao.insertUser(user, _context);
                                         message.what = Constant.MSG_SUCCESS;
@@ -176,5 +191,22 @@ public class UserManager extends BaseManager {
             return null;
     }
 
+
+    public void logOut() {
+        recordLocalDAO.clearAllRecord(_context);
+        accountLocalDao.clearAllAccount(_context);
+        recordTypeLocalDao.clearAllRecordType(_context);
+        userLocalDao.delUserByUserId(MyAVUser.getCurrentUserId(), _context);
+        MyAVUser.getCurrentUser().logOut();
+        user = null;
+        configLocalDao.initRecordType(_context);
+        configLocalDao.createDefaultAccount(_context);
+    }
+
     private UserLocalDao userLocalDao = new UserLocalDao();
+    private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
+    private RecordTypeLocalDao recordTypeLocalDao = new RecordTypeLocalDao();
+    private AccountLocalDao accountLocalDao = new AccountLocalDao();
+    private ConfigLocalDao configLocalDao = new ConfigLocalDao();
+
 }

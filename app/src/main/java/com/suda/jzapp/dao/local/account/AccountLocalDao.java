@@ -27,6 +27,11 @@ public class AccountLocalDao extends BaseLocalDao {
                 .list());
     }
 
+    public void clearAllAccount(Context context) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        accountDao.deleteAll();
+    }
+
     public Account getAccountByID(long accountID, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         return getSingleData(accountDao.queryBuilder().
@@ -51,7 +56,7 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.update(account);
     }
 
-    public void updateAccountRemark(long accountID, String remark,boolean isSync, Context context) {
+    public void updateAccountRemark(long accountID, String remark, boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setAccountRemark(remark);
@@ -91,7 +96,7 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.insert(account);
     }
 
-    public void deleteAccount(long accountID,boolean isSync, Context context) {
+    public void deleteAccount(long accountID, boolean isSync, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);
         account.setIsDel(true);

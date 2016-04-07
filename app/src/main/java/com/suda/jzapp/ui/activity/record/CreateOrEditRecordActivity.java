@@ -26,7 +26,7 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
-import com.suda.jzapp.ui.adapter.NewRecordTypeAdapter;
+import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
@@ -79,7 +79,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             setList();
         }
 
-        recordTypeAdapter = new NewRecordTypeAdapter(this, recordTypes, mRecordDr);
+        recordTypeAdapter = new RecordTypeAdapter(this, recordTypes, mRecordDr);
 
         mRecordDr.setAdapter(recordTypeAdapter);
 
@@ -315,6 +315,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     @Override
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);
+                        newRecord.setIsDel(false);
                         recordManager.updateOldRecord(newRecord, new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
@@ -335,6 +336,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                             @Override
                             public void handleMessage(Message msg) {
                                 super.handleMessage(msg);
+                                newRecord.setIsDel(false);
                                 recordManager.updateOldRecord(newRecord, new Handler() {
                                     @Override
                                     public void handleMessage(Message msg) {
@@ -530,7 +532,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private DragGridView mRecordDr;
     private View panelBackView, panel;
 
-    NewRecordTypeAdapter recordTypeAdapter;
+    RecordTypeAdapter recordTypeAdapter;
     ArrayList<RecordType> recordTypes;
     RecordManager recordManager;
 

@@ -2,6 +2,8 @@ package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.greendao.Record;
+import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.misc.IntentConstant;
@@ -26,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by ghbha on 2016/4/5.
  */
@@ -37,6 +43,7 @@ public class RecordAdapter extends BaseAdapter {
     private List<View> optViews;
     private int lastSelOpt = -1;
     private RecordLocalDAO recordLocalDAO;
+    private RecordManager recordManager;
 
     public RecordAdapter(Context context, List<RecordDetailDO> list) {
         recordDetailDOs = list;
@@ -44,6 +51,7 @@ public class RecordAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
         optViews = new ArrayList<>();
         recordLocalDAO = new RecordLocalDAO();
+        recordManager = new RecordManager(context);
     }
 
     @Override
@@ -62,7 +70,7 @@ public class RecordAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -78,7 +86,7 @@ public class RecordAdapter extends BaseAdapter {
             holder.delV = convertView.findViewById(R.id.icon_del);
             holder.editV = convertView.findViewById(R.id.icon_edit);
             holder.lineV = convertView.findViewById(R.id.record_line);
-            holder.myRoundColorView = (MyRoundColorView)convertView.findViewById(R.id.myRound);
+            holder.myRoundColorView = (MyRoundColorView) convertView.findViewById(R.id.myRound);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -162,7 +170,31 @@ public class RecordAdapter extends BaseAdapter {
         holder.delV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final MaterialDialog materialDialog = new MaterialDialog(mContext);
+                materialDialog.setTitle("删除记录？")
+                        .setMessage("")
+                        .setPositiveButton("确认", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Record record = recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID());
+                                record.setIsDel(true);
+                                recordManager.updateOldRecord(record, new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        recordDetailDOs.remove(position);
+                                        notifyDataSetChanged();
+                                        materialDialog.dismiss();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                materialDialog.dismiss();
+                            }
+                        }).show();
             }
         });
 
@@ -173,7 +205,7 @@ public class RecordAdapter extends BaseAdapter {
                 intent.putExtra(IntentConstant.OLD_RECORD, recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID()));
                 resetOptBt();
                 lastSelOpt = -1;
-                ((MainActivity)mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
+                ((MainActivity) mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
 

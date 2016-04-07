@@ -2,6 +2,7 @@ package com.suda.jzapp.manager;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
@@ -247,6 +248,37 @@ public class AccountManager extends BaseManager {
             if (handler != null)
                 handler.sendEmptyMessage(Constant.MSG_SUCCESS);
         }
+    }
+
+    public void initAccountData(final Handler handler) {
+        AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
+        query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
+        query.findInBackground(new FindCallback<AVAccount>() {
+            @Override
+            public void done(List<AVAccount> list, AVException e) {
+                Message message = new Message();
+                if (list.size() > 0)
+                    accountLocalDao.clearAllAccount(_context);
+                if (e == null) {
+                    for (AVAccount avAccount : list) {
+                        Account account = new Account();
+                        account.setAccountID(avAccount.getAccountId());
+                        account.setAccountTypeID(avAccount.getAccountTypeId());
+                        account.setAccountMoney(avAccount.getAccountMoney());
+                        account.setAccountRemark(avAccount.getAccountRemark());
+                        account.setIsDel(avAccount.isAccountDel());
+                        account.setAccountName(avAccount.getAccountName());
+                        account.setSyncStatus(true);
+                        accountLocalDao.createNewAccount(account, _context);
+                    }
+                    message.what = Constant.MSG_SUCCESS;
+                } else {
+                    message.what = Constant.MSG_ERROR;
+                    getAvEx(e);
+                }
+                handler.sendMessage(message);
+            }
+        });
     }
 
     private final static int EDIT_TYPE_DEL = -1;

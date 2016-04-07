@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.manager.AccountManager;
+import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 
@@ -32,6 +34,8 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);
+        accountManager = new AccountManager(this);
+        recordManager = new RecordManager(this);
         initWidget();
     }
 
@@ -119,8 +123,28 @@ public class LoginActivity extends BaseActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            setResult(RESULT_OK);
-                            finish();
+                            Snackbar.make(mTilUserId, "正在同步数据", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null)
+                                    .show();
+                            accountManager.initAccountData(new Handler() {
+                                @Override
+                                public void handleMessage(Message msg) {
+                                    super.handleMessage(msg);
+                                    recordManager.initRecordData(new Handler() {
+                                        @Override
+                                        public void handleMessage(Message msg) {
+                                            super.handleMessage(msg);
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    setResult(RESULT_OK);
+                                                    finish();
+                                                }
+                                            }, 500);
+                                        }
+                                    });
+                                }
+                            });
                         }
                     }, 500);
                 }
@@ -149,5 +173,7 @@ public class LoginActivity extends BaseActivity {
     private TextInputLayout mTilUserId, mTilPassWord;
     private Button loginBt;
     private UserManager userManager;
+    private AccountManager accountManager;
+    private RecordManager recordManager;
 
 }

@@ -59,11 +59,14 @@
         <activity
             android:name=".ui.activity.user.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme"  />
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activity.user.UserActivity"
+            android:theme="@style/AppTheme"
+            />
         <activity
             android:name=".ui.activity.user.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme"  />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.record.CreateNewRecordTypeActivity"
             android:label="@string/title_activity_create_new_record_type"
@@ -72,19 +75,22 @@
         <activity
             android:name=".ui.activity.account.AccountTransactionActivity"
             android:label="@string/title_activity_account_transaction"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 友盟 -->
 
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="56824759e0f55a8523002909" />
+
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" />
+
 
     </application>
 

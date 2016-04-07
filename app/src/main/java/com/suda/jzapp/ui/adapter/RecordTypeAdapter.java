@@ -1,8 +1,9 @@
 package com.suda.jzapp.ui.adapter;
 
 
-import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +29,9 @@ import java.util.List;
 /**
  * Created by ghbha on 2016/2/25.
  */
-public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
+public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
 
-    public NewRecordTypeAdapter(Context context, List<RecordType> recordTypes, DragGridView mRecordDr) {
+    public RecordTypeAdapter(Context context, List<RecordType> recordTypes, DragGridView mRecordDr) {
         super();
         this.recordTypes = recordTypes;
         this.context = context;
@@ -135,9 +136,15 @@ public class NewRecordTypeAdapter extends BaseAdapter implements DragGridApi {
                         return;
                     }
                     recordTypes.remove(position);
-                    recordManager.deleteRecordType(recordType);
-                    mDragGridView.animateReorder(position, recordTypes.size());
-                    notifyDataSetChanged();
+                    recordType.setIsDel(true);
+                    recordManager.updateRecordType(recordType, new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            mDragGridView.animateReorder(position, recordTypes.size());
+                            notifyDataSetChanged();
+                        }
+                    });
                 }
             });
         }

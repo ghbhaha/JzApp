@@ -1,6 +1,8 @@
 package com.suda.jzapp.ui.activity.record;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -57,7 +59,6 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
             mIconsList.add(i);
         }
 
-
         mCurrentIcon = 0;
         mIvRecordIcon.setImageResource(getTypeIconId(mCurrentIcon));
 
@@ -70,9 +71,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
                 mIvRecordIcon.setImageResource(getTypeIconId(mCurrentIcon));
             }
         });
-
     }
-
 
     private void addNewRecord(View view) {
         String recordName = mEtRecordName.getText().toString();
@@ -88,10 +87,14 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
         recordType.setRecordIcon(mCurrentIcon);
         recordType.setRecordDesc(recordName);
         recordType.setIsDel(false);
-        recordManager.createNewRecordType(recordType);
-        setResult(RESULT_OK);
-        finish();
-
+        recordManager.createNewRecordType(recordType, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 
 
