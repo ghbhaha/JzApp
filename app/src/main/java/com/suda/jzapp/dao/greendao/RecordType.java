@@ -17,6 +17,7 @@ public class RecordType {
     private Integer Occupation;
     private Boolean SyncStatus;
     private Boolean isDel;
+    private String ObjectID;
 
     public RecordType() {
     }
@@ -25,7 +26,7 @@ public class RecordType {
         this.id = id;
     }
 
-    public RecordType(Long id, Long RecordTypeID, String RecordDesc, Integer RecordType, Boolean SysType, Integer RecordIcon, Integer Index, Integer SexProp, Integer Occupation, Boolean SyncStatus, Boolean isDel) {
+    public RecordType(Long id, Long RecordTypeID, String RecordDesc, Integer RecordType, Boolean SysType, Integer RecordIcon, Integer Index, Integer SexProp, Integer Occupation, Boolean SyncStatus, Boolean isDel, String ObjectID) {
         this.id = id;
         this.RecordTypeID = RecordTypeID;
         this.RecordDesc = RecordDesc;
@@ -37,6 +38,7 @@ public class RecordType {
         this.Occupation = Occupation;
         this.SyncStatus = SyncStatus;
         this.isDel = isDel;
+        this.ObjectID = ObjectID;
     }
 
     public Long getId() {
@@ -125,6 +127,14 @@ public class RecordType {
 
     public void setIsDel(Boolean isDel) {
         this.isDel = isDel;
+    }
+
+    public String getObjectID() {
+        return ObjectID;
+    }
+
+    public void setObjectID(String ObjectID) {
+        this.ObjectID = ObjectID;
     }
 
 }

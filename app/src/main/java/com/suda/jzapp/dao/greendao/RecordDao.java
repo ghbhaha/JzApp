@@ -33,6 +33,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Remark = new Property(7, String.class, "Remark", false, "REMARK");
         public final static Property SyncStatus = new Property(8, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
         public final static Property IsDel = new Property(9, Boolean.class, "isDel", false, "IS_DEL");
+        public final static Property ObjectID = new Property(10, String.class, "ObjectID", false, "OBJECT_ID");
     };
 
 
@@ -57,7 +58,8 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 "\"RECORD_DATE\" INTEGER," + // 6: RecordDate
                 "\"REMARK\" TEXT," + // 7: Remark
                 "\"SYNC_STATUS\" INTEGER," + // 8: SyncStatus
-                "\"IS_DEL\" INTEGER);"); // 9: isDel
+                "\"IS_DEL\" INTEGER," + // 9: isDel
+                "\"OBJECT_ID\" TEXT);"); // 10: ObjectID
     }
 
     /** Drops the underlying database table. */
@@ -120,6 +122,11 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (isDel != null) {
             stmt.bindLong(10, isDel ? 1L: 0L);
         }
+ 
+        String ObjectID = entity.getObjectID();
+        if (ObjectID != null) {
+            stmt.bindString(11, ObjectID);
+        }
     }
 
     /** @inheritdoc */
@@ -141,7 +148,8 @@ public class RecordDao extends AbstractDao<Record, Long> {
             cursor.isNull(offset + 6) ? null : new java.util.Date(cursor.getLong(offset + 6)), // RecordDate
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // Remark
             cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // SyncStatus
-            cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0 // isDel
+            cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0, // isDel
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // ObjectID
         );
         return entity;
     }
@@ -159,6 +167,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         entity.setRemark(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setSyncStatus(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
         entity.setIsDel(cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0);
+        entity.setObjectID(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
      }
     
     /** @inheritdoc */

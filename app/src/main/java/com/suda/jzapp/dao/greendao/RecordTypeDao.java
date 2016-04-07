@@ -34,6 +34,7 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
         public final static Property Occupation = new Property(8, Integer.class, "Occupation", false, "OCCUPATION");
         public final static Property SyncStatus = new Property(9, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
         public final static Property IsDel = new Property(10, Boolean.class, "isDel", false, "IS_DEL");
+        public final static Property ObjectID = new Property(11, String.class, "ObjectID", false, "OBJECT_ID");
     };
 
 
@@ -59,7 +60,8 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
                 "\"SEX_PROP\" INTEGER," + // 7: SexProp
                 "\"OCCUPATION\" INTEGER," + // 8: Occupation
                 "\"SYNC_STATUS\" INTEGER," + // 9: SyncStatus
-                "\"IS_DEL\" INTEGER);"); // 10: isDel
+                "\"IS_DEL\" INTEGER," + // 10: isDel
+                "\"OBJECT_ID\" TEXT);"); // 11: ObjectID
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +129,11 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
         if (isDel != null) {
             stmt.bindLong(11, isDel ? 1L: 0L);
         }
+ 
+        String ObjectID = entity.getObjectID();
+        if (ObjectID != null) {
+            stmt.bindString(12, ObjectID);
+        }
     }
 
     /** @inheritdoc */
@@ -149,7 +156,8 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // SexProp
             cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // Occupation
             cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0, // SyncStatus
-            cursor.isNull(offset + 10) ? null : cursor.getShort(offset + 10) != 0 // isDel
+            cursor.isNull(offset + 10) ? null : cursor.getShort(offset + 10) != 0, // isDel
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // ObjectID
         );
         return entity;
     }
@@ -168,6 +176,7 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
         entity.setOccupation(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
         entity.setSyncStatus(cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0);
         entity.setIsDel(cursor.isNull(offset + 10) ? null : cursor.getShort(offset + 10) != 0);
+        entity.setObjectID(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
      }
     
     /** @inheritdoc */
