@@ -38,6 +38,12 @@ public class AccountManager extends BaseManager {
     }
 
 
+    /**
+     * 根据id查账户详细
+     *
+     * @param accountID
+     * @return
+     */
     public AccountDetailDO getAccountByID(final long accountID) {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
         AccountType accountType = accountLocalDao.getAccountTypeByID(account.getAccountTypeID(), _context);
@@ -45,6 +51,12 @@ public class AccountManager extends BaseManager {
         return accountDetailDO;
     }
 
+    /**
+     * 根据id查账户类型
+     *
+     * @param accountTypeId
+     * @param handler
+     */
     public void getAccountTypeByID(final long accountTypeId, final Handler handler) {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -55,6 +67,11 @@ public class AccountManager extends BaseManager {
         });
     }
 
+    /**
+     * 获取所有账户信息
+     *
+     * @param handler
+     */
     public void getAllAccount(final Handler handler) {
 
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
@@ -73,6 +90,11 @@ public class AccountManager extends BaseManager {
         });
     }
 
+    /**
+     * 查询所有账户类型
+     *
+     * @param handler
+     */
     public void getAllAccountType(final Handler handler) {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -83,6 +105,15 @@ public class AccountManager extends BaseManager {
         });
     }
 
+    /**
+     * 创建新账户
+     *
+     * @param accountName
+     * @param accountMoney
+     * @param accountTypeID
+     * @param accountRemark
+     * @param handler
+     */
     public void createNewAccount(String accountName, double accountMoney, int accountTypeID, String accountRemark, final Handler handler) {
         final Account account = new Account();
         account.setAccountID(System.currentTimeMillis());
@@ -125,6 +156,12 @@ public class AccountManager extends BaseManager {
         }
     }
 
+    /**
+     * 删除账户
+     *
+     * @param accountID
+     * @param handler
+     */
     public void deleteAccountByID(final long accountID, final Handler handler) {
         editAccount(EDIT_TYPE_DEL, accountID, null, 0, 0, null, new Callback() {
             @Override
@@ -134,6 +171,13 @@ public class AccountManager extends BaseManager {
         }, handler);
     }
 
+    /**
+     * 更新账户名
+     *
+     * @param accountID
+     * @param accountName
+     * @param handler
+     */
     public void updateAccountName(final long accountID, final String accountName, final Handler handler) {
         editAccount(EDIT_TYPE_ACCOUNT_NAME, accountID, null, 0, 0, accountName, new Callback() {
             @Override
@@ -144,6 +188,13 @@ public class AccountManager extends BaseManager {
     }
 
 
+    /**
+     * 更新账户类型
+     *
+     * @param accountID
+     * @param typeID
+     * @param handler
+     */
     public void updateAccountTypeID(final long accountID, final int typeID, final Handler handler) {
         editAccount(EDIT_TYPE_ACCOUNT_TYPE, accountID, null, typeID, 0, null, new Callback() {
             @Override
@@ -153,7 +204,13 @@ public class AccountManager extends BaseManager {
         }, handler);
     }
 
-
+    /**
+     * 更新账户余额
+     *
+     * @param accountID
+     * @param money
+     * @param handler
+     */
     public void updateAccountMoney(final long accountID, final double money, final Handler handler) {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
         editAccount(EDIT_TYPE_ACCOUNT_MONEY, accountID, null, 0, account.getAccountMoney() + money, null, new Callback() {
@@ -165,8 +222,14 @@ public class AccountManager extends BaseManager {
     }
 
 
+    /**
+     * 更新账户说明
+     *
+     * @param accountID
+     * @param remark
+     * @param handler
+     */
     public void updateAccountRemark(final long accountID, final String remark, final Handler handler) {
-
         editAccount(EDIT_TYPE_ACCOUNT_REMARK, accountID, remark, 0, 0, null, new Callback() {
             @Override
             public void doSth(boolean isSync, String objId) {
@@ -175,6 +238,18 @@ public class AccountManager extends BaseManager {
         }, handler);
     }
 
+    /**
+     * 修改账户通用方法
+     *
+     * @param editType
+     * @param accountID
+     * @param remark
+     * @param typeID
+     * @param money
+     * @param accountName
+     * @param callback
+     * @param handler
+     */
     private void editAccount(final int editType, final long accountID, final String remark, final int typeID, final double money, final String accountName,
                              final Callback callback, final Handler handler) {
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
@@ -275,8 +350,21 @@ public class AccountManager extends BaseManager {
         }
     }
 
+    /**
+     * 从云端获取全部账户信息初始化数据
+     *
+     * @param handler
+     */
     public void initAccountData(final Handler handler) {
         AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
+//        query.countInBackground(new CountCallback() {
+//            @Override
+//            public void done(int i, AVException e) {
+//
+//            }
+//        });
+
+        query.limit(1000);
         query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVAccount>() {
             @Override

@@ -42,6 +42,14 @@ public class UserManager extends BaseManager {
         super(context);
     }
 
+    /**
+     * 注册
+     *
+     * @param userName
+     * @param password
+     * @param email
+     * @param handler
+     */
     public void register(String userName, String password, String email, final Handler handler) {
         final MyAVUser user = new MyAVUser();
         Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), R.mipmap.suda);
@@ -66,6 +74,14 @@ public class UserManager extends BaseManager {
         });
     }
 
+    /**
+     * 登陆
+     *
+     * @param userName
+     * @param password
+     * @param email
+     * @param handler
+     */
     public void login(String userName, final String password, String email, final Handler handler) {
         //邮箱登录
         if (!TextUtils.isEmpty(email)) {
@@ -192,6 +208,9 @@ public class UserManager extends BaseManager {
     }
 
 
+    /**
+     * 用户登出
+     */
     public void logOut() {
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);

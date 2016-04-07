@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.CountCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
@@ -183,10 +184,17 @@ public class RecordManager extends BaseManager {
         }
     }
 
+    @Deprecated
     public synchronized void updateRecordTypeIndex(final Handler handler) {
         updateRecordTypeIndex(handler, false);
     }
 
+    /**
+     * 更新记录类型排序
+     *
+     * @param handler
+     * @param serviceSync
+     */
     public synchronized void updateRecordTypeIndex(final Handler handler, boolean serviceSync) {
 
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
@@ -244,6 +252,12 @@ public class RecordManager extends BaseManager {
         }
     }
 
+    /**
+     * 更新记录类型
+     *
+     * @param recordType
+     * @param handler
+     */
     public void updateRecordType(final RecordType recordType, final Handler handler) {
         //1网络修改不成功 SyncStatus 置0
         if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
@@ -257,6 +271,7 @@ public class RecordManager extends BaseManager {
                 //自定义类型
                 AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
                 query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                query.whereEqualTo(AVRecordType.RECORD_TYPE_ID, recordType.getRecordTypeID());
                 query.findInBackground(new FindCallback<AVRecordType>() {
                     @Override
                     public void done(List<AVRecordType> list, AVException e) {
@@ -318,10 +333,21 @@ public class RecordManager extends BaseManager {
 
     }
 
+    /**
+     * 根据id获取记录类型
+     *
+     * @param id
+     * @return
+     */
     public RecordType getRecordTypeByID(long id) {
         return recordTypeDao.getRecordTypeById(_context, id);
     }
 
+    /**
+     * 更新排序
+     *
+     * @param list
+     */
     public void updateRecordTypesOrder(List<RecordType> list) {
         recordTypeDao.updateRecordOrder(_context, list);
         //同步部分
@@ -379,16 +405,39 @@ public class RecordManager extends BaseManager {
 
     }
 
+    /**
+     * 初始化从云端加载记录数据
+     *
+     * @param handler
+     */
     public void initRecordData(final Handler handler) {
         AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
         query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, AVException e) {
+                int count = i / PAGE_SIZE + 1;
+                appendRecord(handler, 1, count);
+            }
+        });
+    }
+
+    /**
+     * 分页查询全部数据
+     *
+     * @param handler
+     * @param pageIndex
+     * @param pageCount
+     */
+    private void appendRecord(final Handler handler, final int pageIndex, final int pageCount) {
+        AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
+        query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+        query.skip((pageIndex - 1) * PAGE_SIZE);
+        query.limit(PAGE_SIZE);
         query.findInBackground(new FindCallback<AVRecord>() {
             @Override
             public void done(List<AVRecord> list, AVException e) {
-                Message message = new Message();
                 if (e == null) {
-                    if (list.size() > 0)
-                        recordLocalDAO.clearAllRecord(_context);
                     for (AVRecord avRecord : list) {
                         Record record = new Record();
                         record.setObjectID(avRecord.getObjectId());
@@ -403,19 +452,28 @@ public class RecordManager extends BaseManager {
                         record.setSyncStatus(true);
                         recordLocalDAO.createNewRecord(_context, record);
                     }
-                    message.what = Constant.MSG_SUCCESS;
+
+                    if (pageIndex < pageCount) {
+                        appendRecord(handler, pageIndex + 1, pageCount);
+                    } else {
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                    }
                 } else {
-                    message.what = Constant.MSG_ERROR;
-                    getAvEx(e);
+                    sendEmptyMessage(handler, Constant.MSG_ERROR);
                 }
-                handler.sendMessage(message);
             }
         });
     }
 
+    /**
+     * 初始化记录类型数据
+     *
+     * @param handler
+     */
     public void initRecordTypeData(final Handler handler) {
         AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
         query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+        query.limit(1000);
         query.findInBackground(new FindCallback<AVRecordType>() {
             @Override
             public void done(List<AVRecordType> list, AVException e) {
@@ -451,6 +509,11 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    /**
+     * 初始化记录类型索引数据
+     *
+     * @param handler
+     */
     public void initRecordTypeIndex(final Handler handler) {
         AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
         query.whereEqualTo(AVRecordTypeIndex.USER, MyAVUser.getCurrentUser());

@@ -46,6 +46,8 @@ public abstract class BaseManager {
     protected Context _context;
 
     protected interface Callback {
-        void doSth(boolean isSync,String objId);
+        void doSth(boolean isSync, String objId);
     }
+
+    protected static final int PAGE_SIZE = 1000;
 }
