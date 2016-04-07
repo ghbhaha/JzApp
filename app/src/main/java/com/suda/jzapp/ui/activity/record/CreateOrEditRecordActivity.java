@@ -70,6 +70,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             newRecord.setRecordTypeID(oldRecord.getRecordTypeID());
             newRecord.setRecordMoney(oldRecord.getRecordMoney());
             newRecord.setRemark(oldRecord.getRemark());
+            newRecord.setObjectID(oldRecord.getObjectID());
             setRecordDate(oldRecord.getRecordDate());
             mDateTv.setText(fmDate(newRecord.getRecordDate()));
             mOldRecordType = recordManager.getRecordTypeByID(oldRecord.getRecordTypeID());
