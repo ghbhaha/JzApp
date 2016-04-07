@@ -16,12 +16,16 @@ import android.widget.ListView;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.AccountType;
+import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.manager.AccountManager;
+import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EditAccountActivity extends BaseActivity {
@@ -32,7 +36,7 @@ public class EditAccountActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_account_prop);
 
         accountManager = new AccountManager(this);
-
+        recordManager = new RecordManager(this);
         initParam();
         initWidget();
     }
@@ -153,12 +157,22 @@ public class EditAccountActivity extends BaseActivity {
                 //
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
-                double money = Double.parseDouble(param);
+                final double money = Double.parseDouble(param);
                 if (mAccountID > 0) {
                     accountManager.updateAccountMoney(mAccountID, money - mMoney, new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
                             super.handleMessage(msg);
+                            Record record = new Record();
+                            record.setIsDel(false);
+                            record.setRemark("余额变更");
+                            record.setRecordId(System.currentTimeMillis());
+                            record.setAccountID(mAccountID);
+                            record.setRecordType(Constant.RecordType.CHANGE.getId());
+                            record.setRecordTypeID(27L);
+                            record.setRecordMoney(money - mMoney);
+                            record.setRecordDate(new Date(System.currentTimeMillis()));
+                            recordManager.createNewRecord(record, null);
                             setResult(RESULT_OK, intent);
                             finish();
                         }
@@ -220,6 +234,7 @@ public class EditAccountActivity extends BaseActivity {
     private long mAccountID = 0;
     private AccountManager accountManager;
     private AccountTypeAdapter mAccountTypeAdapter;
+    private RecordManager recordManager;
     private List<AccountType> accountTypes = new ArrayList<>();
 
     ///////////////////////////////////////////////////////////

@@ -66,7 +66,7 @@ public class RecordManager extends BaseManager {
                     record.setSyncStatus(e == null ? true : false);
                     recordLocalDAO.createNewRecord(_context, record);
                     getAvEx(e);
-                    handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                    sendEmptyMessage(handler,Constant.MSG_SUCCESS);
                 }
             });
         } else {

@@ -83,6 +83,10 @@ public class RecordLocalDAO extends BaseLocalDao {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         return recordDao.queryBuilder().where(RecordDao.Properties.IsDel.eq(false))
                 .where(RecordDao.Properties.RecordDate.eq(date))
+                .whereOr(RecordDao.Properties.RecordType.eq(Constant.RecordType.SHOURU.getId()),
+                        RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_SHOURU.getId()),
+                        RecordDao.Properties.RecordType.eq(Constant.RecordType.ZUICHU.getId()),
+                        RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_ZHICHU.getId()))
                 .orderDesc(RecordDao.Properties.Id).list();
     }
 

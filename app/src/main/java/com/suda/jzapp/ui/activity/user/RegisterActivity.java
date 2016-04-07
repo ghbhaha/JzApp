@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.SnackBarUtil;
@@ -153,6 +154,7 @@ public class RegisterActivity extends BaseActivity {
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, msg.obj.toString());
                 } else {
                     SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, "注册成功");
+                    MyAVUser.getCurrentUser().logOut();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -162,8 +164,6 @@ public class RegisterActivity extends BaseActivity {
                 }
             }
         });
-
-
     }
 
 
