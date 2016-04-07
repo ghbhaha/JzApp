@@ -8,8 +8,6 @@ import com.avos.avoscloud.AVException;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.LogUtils;
 
-import javax.security.auth.callback.Callback;
-
 /**
  * Created by Suda on 2015/11/16.
  */

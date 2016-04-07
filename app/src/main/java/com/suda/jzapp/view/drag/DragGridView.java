@@ -1,8 +1,5 @@
 package com.suda.jzapp.view.drag;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,7 +26,9 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.R;
-import com.suda.jzapp.util.LogUtils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author xiaanming

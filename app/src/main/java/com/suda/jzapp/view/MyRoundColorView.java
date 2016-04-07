@@ -8,12 +8,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThemeUtil;
 
 /**

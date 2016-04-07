@@ -1,11 +1,9 @@
 package com.suda.jzapp.ui.activity.user;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
@@ -13,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
@@ -23,7 +20,6 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.SnackBarUtil;
 
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

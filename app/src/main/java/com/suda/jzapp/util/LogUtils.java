@@ -3,7 +3,6 @@ package com.suda.jzapp.util;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.suda.jzapp.BuildConfig;

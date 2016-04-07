@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;

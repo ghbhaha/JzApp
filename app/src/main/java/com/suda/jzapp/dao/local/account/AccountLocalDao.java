@@ -8,10 +8,8 @@ import com.suda.jzapp.dao.greendao.AccountDao;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.AccountTypeDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
-import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.TextUtil;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**

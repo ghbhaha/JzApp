@@ -13,8 +13,8 @@ import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.RecordManager;
+import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;

@@ -3,30 +3,19 @@ package com.suda.jzapp.ui.activity.user;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.SaveCallback;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
-import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
-import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.util.TextUtil;
 
 public class RegisterActivity extends BaseActivity {
 

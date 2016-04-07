@@ -8,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.util.IconTypeUtil;

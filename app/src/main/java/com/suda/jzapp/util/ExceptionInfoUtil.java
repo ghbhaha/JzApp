@@ -1,8 +1,5 @@
 package com.suda.jzapp.util;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import com.avos.avoscloud.AVException;
 
 /**

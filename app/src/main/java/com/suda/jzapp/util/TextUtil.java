@@ -1,7 +1,5 @@
 package com.suda.jzapp.util;
 
-import android.text.TextUtils;
-
 import java.text.DecimalFormat;
 
 /**

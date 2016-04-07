@@ -15,12 +15,11 @@ import android.widget.ListView;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
-import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
-import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class EditAccountActivity extends BaseActivity {
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
                 getSupportActionBar().setTitle("修改账户余额");
-                mEtProp.setText(String.format(getResources().getString(R.string.record_money_format),mMoney));
+                mEtProp.setText(String.format(getResources().getString(R.string.record_money_format), mMoney));
                 mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
@@ -90,9 +89,9 @@ public class EditAccountActivity extends BaseActivity {
                 String tmp = s.toString();
                 if (tmp.contains(".")) {
                     String[] strs = tmp.split("\\.");
-                    if (strs.length>1 && strs[1].length() > 2) {
+                    if (strs.length > 1 && strs[1].length() > 2) {
                         mEtProp.setText(tmp.substring(0, tmp.length() - 1));
-                        mEtProp.setSelection(tmp.length()-1);
+                        mEtProp.setSelection(tmp.length() - 1);
                     }
                 }
             }
@@ -135,21 +134,35 @@ public class EditAccountActivity extends BaseActivity {
 
     private void saveProp(String param) {
 
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
 
         //账户号>0 实时保存
         switch (mEditType) {
             case PROP_TYPE_ACCOUNT_NAME:
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_NAME, param);
                 if (mAccountID > 0) {
-                    accountManager.updateAccountName(mAccountID, param, null);
+                    accountManager.updateAccountName(mAccountID, param, new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
                 }
                 //
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
                 double money = Double.parseDouble(param);
                 if (mAccountID > 0) {
-                    accountManager.updateAccountMoney(mAccountID, money - mMoney, null);
+                    accountManager.updateAccountMoney(mAccountID, money - mMoney, new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
                 }
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
                 //
@@ -157,7 +170,14 @@ public class EditAccountActivity extends BaseActivity {
             case PROP_TYPE_ACCOUNT_REMARK:
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_REMARK, param);
                 if (mAccountID > 0) {
-                    accountManager.updateAccountRemark(mAccountID, param, null);
+                    accountManager.updateAccountRemark(mAccountID, param, new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    });
                 }
                 //
                 break;
@@ -165,8 +185,7 @@ public class EditAccountActivity extends BaseActivity {
                 break;
         }
 
-        setResult(RESULT_OK, intent);
-        finish();
+
     }
 
 

@@ -1,6 +1,9 @@
 package com.suda.jzapp.manager;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVException;
@@ -9,19 +12,17 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.CountCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordTypeIndex;
-import com.suda.jzapp.dao.greendao.Config;
-import com.suda.jzapp.dao.greendao.ConfigDao;
-import com.suda.jzapp.dao.greendao.RecordDao;
-import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
-import com.suda.jzapp.manager.domain.RecordDetailDO;
-import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
+import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
+import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ThreadPoolUtil;
@@ -31,10 +32,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
 
 /**
  * Created by ghbha on 2016/2/28.

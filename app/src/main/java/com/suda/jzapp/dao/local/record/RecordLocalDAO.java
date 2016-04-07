@@ -3,7 +3,6 @@ package com.suda.jzapp.dao.local.record;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;

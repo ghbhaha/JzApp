@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -38,7 +37,6 @@ import com.suda.jzapp.ui.activity.user.UserActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.update.UmengUpdateAgent;
 

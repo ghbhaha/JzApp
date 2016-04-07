@@ -3,8 +3,6 @@ package com.suda.jzapp.dao.local.record;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.suda.jzapp.dao.greendao.Record;
-import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.greendao.RecordTypeDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;

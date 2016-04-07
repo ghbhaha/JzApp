@@ -3,15 +3,14 @@ package com.suda.jzapp.dao.local.conf;
 import android.content.Context;
 
 import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.ConfigDao;
-import com.suda.jzapp.dao.local.BaseLocalDao;
-import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.RecordType;
+import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.Constant.AccountTypeConstant;
 import com.suda.jzapp.misc.Constant.RecordTypeConstant;
-import com.suda.jzapp.util.TextUtil;
 
 
 /**

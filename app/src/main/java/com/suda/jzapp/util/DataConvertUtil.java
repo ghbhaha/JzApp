@@ -6,11 +6,11 @@ import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccount;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
-import com.suda.jzapp.dao.greendao.Account;
-import com.suda.jzapp.dao.greendao.AccountType;
 
 /**
  * Created by ghbha on 2016/2/16.

@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
-import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.AccountManager;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
