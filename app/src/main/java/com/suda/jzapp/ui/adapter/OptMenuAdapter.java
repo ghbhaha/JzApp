@@ -13,6 +13,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
+import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
 
@@ -62,7 +63,8 @@ public class OptMenuAdapter extends BaseAdapter {
 
         final OptDO optDO = optDOs.get(position);
 
-        holder.icon.setBackgroundResource(optDO.getIcon());
+        holder.icon.setImageResource(optDO.getIcon());
+        holder.icon.setColorFilter(context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
         holder.title.setText(optDO.getTltle());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

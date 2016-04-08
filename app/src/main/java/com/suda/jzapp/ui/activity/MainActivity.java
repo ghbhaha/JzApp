@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), this));
         mViewPager.setOffscreenPageLimit(3);
 
-
+        mViewPager.setCurrentItem(1);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
         mPagerSlidingTabStrip
                 .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -196,10 +196,10 @@ public class MainActivity extends BaseActivity {
         optDOs.add(new OptDO(AccountLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
         optDOs.add(new OptDO(MonthReportActivity.class, 1, R.drawable.ic_drawer_guide, "月报"));
         optDOs.add(new OptDO(SettingsActivity.class, 2, R.drawable.ic_drawer_settings, "设置"));
-        optDOs.add(new OptDO(EditThemeActivity.class, 0, R.drawable.ic_drawer_friends, "主题切换"));
+        optDOs.add(new OptDO(EditThemeActivity.class, 0, R.drawable.ic_color_lens_black_24dp, "主题切换"));
         optDOs.add(new OptDO(AboutActivity.class, 3, R.drawable.ic_drawer_about, "关于"));
         optDOs.add(new OptDO(null, 4, R.drawable.ic_drawer_exit, "退出"));
-        OptMenuAdapter optMenuAdapter = new OptMenuAdapter(optDOs, this);
+        optMenuAdapter = new OptMenuAdapter(optDOs, this);
         mLvOptItems.setAdapter(optMenuAdapter);
 
     }
@@ -248,6 +248,7 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_EDIT_THEME) {
                 reloadRecordCallBack.reload(false);
                 reloadAccountCallBack.reload(false);
+                optMenuAdapter.notifyDataSetChanged();
             }
             if (requestCode == REQUEST_LOGIN) {
                 reloadRecordCallBack.reload(true);
@@ -301,6 +302,8 @@ public class MainActivity extends BaseActivity {
 
     private ReloadAccountCallBack reloadAccountCallBack;
     private ReloadRecordCallBack reloadRecordCallBack;
+    private OptMenuAdapter optMenuAdapter;
+
 
     public interface ReloadAccountCallBack {
         void reload(boolean needUpdateData);
