@@ -65,6 +65,7 @@ public class RecordManager extends BaseManager {
         } else {
             record.setSyncStatus(false);
             recordLocalDAO.createNewRecord(_context, record);
+            sendEmptyMessage(handler, Constant.MSG_SUCCESS);
         }
 
     }
@@ -135,8 +136,7 @@ public class RecordManager extends BaseManager {
         } else {
             record.setSyncStatus(false);
             recordLocalDAO.updateOldRecord(_context, record);
-            if (handler != null)
-                handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+            sendEmptyMessage(handler,Constant.MSG_SUCCESS);
         }
     }
 

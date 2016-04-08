@@ -52,7 +52,7 @@ public abstract class BaseManager {
 
     protected boolean canSync() {
         return MyAVUser.getCurrentUser() != null &&
-                ((boolean) SPUtils.get(_context, true, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkNetwork(_context) : NetworkUtil.checkNetwork(_context));
+                ((boolean) SPUtils.get(_context, true, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkWifi(_context) : NetworkUtil.checkNetwork(_context));
     }
 
     protected static final int PAGE_SIZE = 1000;
