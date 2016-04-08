@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <color name="white">#ffffff</color>
+    <color name="gray_de">#666666</color>
+    <color name="list_item_press">#216b74ff</color>
+
     <!-- 蓝色皮肤 -->
     <color name="theme_blue">#6699FF</color>
-
 
     <!-- 红色皮肤 -->
     <color name="theme_red">@android:color/holo_red_light</color>

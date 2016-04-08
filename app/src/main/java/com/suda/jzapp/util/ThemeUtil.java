@@ -36,4 +36,31 @@ public class ThemeUtil {
         map.put(8, new ThemeDO(0, R.color.activated_red, R.color.dark_red, R.color.activated_red));
     }
 
+    public static int getAppStyleId(Context context) {
+        int theme = (int) SPUtils.get(context, "themeID", 0);
+        switch (theme) {
+            case 0:
+                return R.style.AppTheme_BLUE;
+            case 1:
+                return R.style.AppTheme_BROWN;
+            case 2:
+                return R.style.AppTheme_CYAN;
+            case 3:
+                return R.style.AppTheme_DRAK;
+            case 4:
+                return R.style.AppTheme_DEEP_PURPLE;
+            case 5:
+                return R.style.AppTheme_GREEN;
+            case 6:
+                return R.style.AppTheme_INDIGO;
+            case 7:
+                return R.style.AppTheme_ORANGE;
+            case 8:
+                return R.style.AppTheme_RED;
+            default:
+                return R.style.AppTheme;
+        }
+
+    }
+
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+    android:layout="@layout/preference_item"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.suda.jzapp.view.MyPreferenceCategory
+        android:title="@string/common_settings">
+
+        <CheckBoxPreference
+            android:key="sync_only_wifi"
+            android:layout="@layout/preference_item"
+            android:title="@string/sync_setting"
+            android:summaryOn="@string/sync_setting_on"
+            android:summaryOff="@string/sync_setting_off"
+            android:defaultValue="false"/>
+
+    </com.suda.jzapp.view.MyPreferenceCategory>
+
+
+</PreferenceScreen>

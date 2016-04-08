@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
 
     <style name="AppCompatThemeWithNoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar"></style>
@@ -54,6 +55,43 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Base application theme. -->
+    <style name="AppTheme_BLUE" parent="AppTheme">
+        <item name="colorAccent">@color/blue</item>
+    </style>
+
+    <style name="AppTheme_BROWN" parent="AppTheme">
+        <item name="colorAccent">@color/activated_brown</item>
+    </style>
+
+    <style name="AppTheme_CYAN" parent="AppTheme">
+        <item name="colorAccent">@color/activated_cyan</item>
+    </style>
+
+    <style name="AppTheme_DRAK" parent="AppTheme">
+        <item name="colorAccent">@color/activated_dark</item>
+    </style>
+
+    <style name="AppTheme_DEEP_PURPLE" parent="AppTheme">
+        <item name="colorAccent">@color/activated_deep_purple</item>
+    </style>
+
+    <style name="AppTheme_GREEN" parent="AppTheme">
+        <item name="colorAccent">@color/accent_green</item>
+    </style>
+
+    <style name="AppTheme_INDIGO" parent="AppTheme">
+        <item name="colorAccent">@color/accent_indigo</item>
+    </style>
+
+    <style name="AppTheme_ORANGE" parent="AppTheme">
+        <item name="colorAccent">@color/accent_orange</item>
+    </style>
+
+    <style name="AppTheme_RED" parent="AppTheme">
+        <item name="colorAccent">@color/activated_red</item>
+    </style>
 
 
 </resources>

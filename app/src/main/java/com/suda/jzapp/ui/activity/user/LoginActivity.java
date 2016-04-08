@@ -19,6 +19,7 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,6 +29,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeUtil.getAppStyleId(this));
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);

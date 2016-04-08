@@ -189,7 +189,7 @@ public class SyncService extends Service {
 
     private boolean canSync() {
         return MyAVUser.getCurrentUser() != null &&
-                ((boolean) SPUtils.get(this, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkNetwork(this) : NetworkUtil.checkNetwork(this));
+                ((boolean) SPUtils.get(this, true, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkNetwork(this) : NetworkUtil.checkNetwork(this));
     }
 
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

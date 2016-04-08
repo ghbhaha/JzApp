@@ -20,12 +20,14 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeUtil.getAppStyleId(this));
         setContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);

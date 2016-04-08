@@ -1,10 +1,16 @@
 package com.suda.jzapp.ui.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -46,6 +52,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class MainActivity extends BaseActivity {
@@ -57,6 +64,10 @@ public class MainActivity extends BaseActivity {
         UmengUpdateAgent.update(this);
 
         startService(new Intent(this, SyncService.class));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
 
         userManager = new UserManager(this);
         initWidget();
@@ -264,6 +275,12 @@ public class MainActivity extends BaseActivity {
 
     public void setReloadRecordCallBack(ReloadRecordCallBack reloadRecordCallBack) {
         this.reloadRecordCallBack = reloadRecordCallBack;
+    }
+
+    protected void getPermission(final String permission) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
+        }
     }
 
     private PagerSlidingTabStrip mPagerSlidingTabStrip;
