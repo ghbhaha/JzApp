@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.suda.jzapp"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"

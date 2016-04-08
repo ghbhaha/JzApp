@@ -25,24 +25,24 @@ public class StatusBarCompat {
             return;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            int color = COLOR_DEFAULT;
-            ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
-            if (statusColor != INVALID_VAL) {
-                color = statusColor;
-            }
-            View statusBarView = contentView.getChildAt(0);
-            //改变颜色时避免重复添加statusBarView
-            if (statusBarView != null && statusBarView.getMeasuredHeight() == getStatusBarHeight(activity)) {
-                statusBarView.setBackgroundColor(color);
-                return;
-            }
-            statusBarView = new View(activity);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    getStatusBarHeight(activity));
-            statusBarView.setBackgroundColor(color);
-            contentView.addView(statusBarView, lp);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            int color = COLOR_DEFAULT;
+//            ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
+//            if (statusColor != INVALID_VAL) {
+//                color = statusColor;
+//            }
+//            View statusBarView = contentView.getChildAt(0);
+//            //改变颜色时避免重复添加statusBarView
+//            if (statusBarView != null && statusBarView.getMeasuredHeight() == getStatusBarHeight(activity)) {
+//                statusBarView.setBackgroundColor(color);
+//                return;
+//            }
+//            statusBarView = new View(activity);
+//            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                    getStatusBarHeight(activity));
+//            statusBarView.setBackgroundColor(color);
+//            contentView.addView(statusBarView, lp);
+//        }
 
     }
 
