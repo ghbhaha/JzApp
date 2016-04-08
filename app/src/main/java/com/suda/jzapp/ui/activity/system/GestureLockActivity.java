@@ -1,6 +1,8 @@
 package com.suda.jzapp.ui.activity.system;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -10,8 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.greendao.User;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
@@ -21,6 +25,8 @@ import com.suda.jzapp.util.MD5Util;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.view.GestureLockViewGroup;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GestureLockActivity extends BaseActivity {
 
@@ -36,6 +42,20 @@ public class GestureLockActivity extends BaseActivity {
         mGestureLockViewGroup = (GestureLockViewGroup) findViewById(R.id.id_gestureLockViewGroup);
         mForget = (TextView) findViewById(R.id.forget_secret);
         isSetting = getIntent().getBooleanExtra(IntentConstant.SETTING_MODE, false);
+        mHeadImg = (CircleImageView) findViewById(R.id.profile_image);
+
+        new UserManager(this).getMe(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == Constant.MSG_SUCCESS) {
+                    User user = (User) msg.obj;
+                    Glide.with(GestureLockActivity.this).
+                            load(user.getHeadImage())
+                            .placeholder(R.mipmap.suda).into(mHeadImg);
+                }
+            }
+        });
 
         mForget.setText(Html.fromHtml("<u>" + "忘记手势密码" + "</u>"));
         mForget.setVisibility(isSetting ? View.INVISIBLE : View.VISIBLE);
@@ -118,6 +138,7 @@ public class GestureLockActivity extends BaseActivity {
 
     private boolean isSetting = false;
     private GestureLockViewGroup mGestureLockViewGroup;
+    private CircleImageView mHeadImg;
     private TextView mTvTip, mForget;
     private String secret = "";
     private int mTryTime = 5;
