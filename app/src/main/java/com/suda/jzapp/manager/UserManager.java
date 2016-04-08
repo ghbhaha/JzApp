@@ -27,6 +27,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.SPUtils;
 
 import java.util.List;
 
@@ -212,6 +213,7 @@ public class UserManager extends BaseManager {
         accountLocalDao.clearAllAccount(_context);
         recordTypeLocalDao.clearAllRecordType(_context);
         userLocalDao.delUserByUserId(MyAVUser.getCurrentUserId(), _context);
+        SPUtils.put(_context, Constant.SP_GESTURE, "");
         MyAVUser.getCurrentUser().logOut();
         user = null;
         configLocalDao.initRecordType(_context);

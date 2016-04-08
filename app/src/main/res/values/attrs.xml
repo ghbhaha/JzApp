@@ -7,4 +7,20 @@
         <attr name="myRoundImage" format="reference" />
     </declare-styleable>
 
+    <attr name="color_no_finger_inner_circle" format="color" />
+    <attr name="color_no_finger_outer_circle" format="color" />
+    <attr name="color_finger_on" format="color" />
+    <attr name="color_finger_up" format="color" />
+    <attr name="count" format="integer" />
+    <attr name="tryTimes" format="integer" />
+
+    <declare-styleable name="GestureLockViewGroup">
+        <attr name="color_no_finger_inner_circle" />
+        <attr name="color_no_finger_outer_circle" />
+        <attr name="color_finger_on" />
+        <attr name="color_finger_up" />
+        <attr name="count" />
+        <attr name="tryTimes" />
+    </declare-styleable>
+
 </resources>

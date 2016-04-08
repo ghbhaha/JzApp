@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen
-    android:layout="@layout/preference_item"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.suda.jzapp.view.MyPreferenceCategory
-        android:title="@string/common_settings">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout="@layout/preference_item">
+    <com.suda.jzapp.view.MyPreferenceCategory android:title="@string/common_settings">
 
         <CheckBoxPreference
+            android:defaultValue="false"
             android:key="sync_only_wifi"
             android:layout="@layout/preference_item"
-            android:title="@string/sync_setting"
-            android:summaryOn="@string/sync_setting_on"
             android:summaryOff="@string/sync_setting_off"
-            android:defaultValue="false"/>
+            android:summaryOn="@string/sync_setting_on"
+            android:title="@string/sync_setting" />
+
+    </com.suda.jzapp.view.MyPreferenceCategory>
+
+    <com.suda.jzapp.view.MyPreferenceCategory android:title="@string/security_settings">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="gesture_lock"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/gesture_setting_off"
+            android:summaryOn="@string/gesture_setting_on"
+            android:title="@string/gesture_settings"/>
 
     </com.suda.jzapp.view.MyPreferenceCategory>
 

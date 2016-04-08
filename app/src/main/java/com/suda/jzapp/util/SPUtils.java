@@ -18,6 +18,10 @@ public class SPUtils {
      */
     public static final String FILE_NAME = "zhangdan";
 
+    public static void put(Context context, String key, Object object) {
+        put(context, false, key, object);
+    }
+
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      *
@@ -25,9 +29,9 @@ public class SPUtils {
      * @param key
      * @param object
      */
-    public static void put(Context context, String key, Object object) {
+    public static void put(Context context, boolean defaultPkg, String key, Object object) {
 
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
+        SharedPreferences sp = context.getSharedPreferences(defaultPkg ? context.getPackageName() + "_preferences" : FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
