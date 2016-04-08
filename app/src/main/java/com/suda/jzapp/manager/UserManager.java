@@ -24,6 +24,7 @@ import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.dao.local.user.UserLocalDao;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.LogUtils;
@@ -214,6 +215,7 @@ public class UserManager extends BaseManager {
         recordTypeLocalDao.clearAllRecordType(_context);
         userLocalDao.delUserByUserId(MyAVUser.getCurrentUserId(), _context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
+        SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
         MyAVUser.getCurrentUser().logOut();
         user = null;
         configLocalDao.initRecordType(_context);

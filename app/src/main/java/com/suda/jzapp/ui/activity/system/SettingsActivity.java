@@ -80,7 +80,7 @@ public class SettingsActivity extends BaseActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-            mGestureLockCheck = (CheckBoxPreference) findPreference(gesture_lock);
+            mGestureLockCheck = (CheckBoxPreference) findPreference(GESTURE_LOCK);
             mGestureLockCheck.setOnPreferenceChangeListener(this);
         }
 
@@ -112,7 +112,7 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    public static final String gesture_lock = "gesture_lock";
+    public static final String GESTURE_LOCK = "gesture_lock";
 
     private SettingsFragment mSettingsFragment;
 }

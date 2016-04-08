@@ -92,8 +92,14 @@ public class GestureLockActivity extends BaseActivity {
                             mTvTip.setText("手势密码需要四位，请重新输入");
                         }
                         if (errorCode == GestureLockViewGroup.CODE_NOT_SAME) {
-                            new UserManager(GestureLockActivity.this).logOut();
-                            enterMain();
+                            mTvTip.setText("您已输错5次，即将退出账号");
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new UserManager(GestureLockActivity.this).logOut();
+                                    enterMain();
+                                }
+                            }, 300);
                         }
                     }
 
