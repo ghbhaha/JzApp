@@ -123,7 +123,7 @@ public class AccountManager extends BaseManager {
         account.setAccountRemark(accountRemark);
         account.setSyncStatus(true);
         account.setIsDel(false);
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
             avAccount.setAccountIsDel(false);
             avAccount.saveInBackground(new SaveCallback() {
@@ -242,7 +242,7 @@ public class AccountManager extends BaseManager {
      */
     private void editAccount(final int editType, final long accountID, final String remark, final int typeID, final double money, final String accountName,
                              final Callback callback, final Handler handler) {
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             Account account = accountLocalDao.getAccountByID(accountID, _context);
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
@@ -331,7 +331,6 @@ public class AccountManager extends BaseManager {
      */
     public void initAccountData(final Handler handler) {
         AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
-
         query.limit(1000);
         query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
         query.findInBackground(new FindCallback<AVAccount>() {

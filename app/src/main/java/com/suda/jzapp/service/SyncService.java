@@ -22,9 +22,11 @@ import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.RecordManager;
+import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class SyncService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!NetworkUtil.checkNetwork(this) || MyAVUser.getCurrentUser() == null)
+        if (!canSync())
             return;
         LogUtils.e(TAG, "START_SYNC");
         syncRecord();
@@ -183,6 +185,11 @@ public class SyncService extends Service {
                 });
             }
         }
+    }
+
+    private boolean canSync() {
+        return MyAVUser.getCurrentUser() != null &&
+                ((boolean) SPUtils.get(this, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkNetwork(this) : NetworkUtil.checkNetwork(this));
     }
 
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

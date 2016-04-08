@@ -5,8 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.avos.avoscloud.AVException;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
 
 /**
  * Created by Suda on 2015/11/16.
@@ -45,6 +48,11 @@ public abstract class BaseManager {
 
     protected interface Callback {
         void doSth(boolean isSync, String objId);
+    }
+
+    protected boolean canSync() {
+        return MyAVUser.getCurrentUser() != null &&
+                ((boolean) SPUtils.get(_context, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkNetwork(_context) : NetworkUtil.checkNetwork(_context));
     }
 
     protected static final int PAGE_SIZE = 1000;

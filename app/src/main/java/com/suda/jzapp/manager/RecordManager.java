@@ -50,7 +50,7 @@ public class RecordManager extends BaseManager {
     public void createNewRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
         record.setIsDel(false);
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
             avRecord.setRecordIsDel(false);
             avRecord.saveInBackground(new SaveCallback() {
@@ -77,7 +77,7 @@ public class RecordManager extends BaseManager {
      */
     public void updateOldRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
                 avRecord.saveInBackground(new SaveCallback() {
@@ -153,7 +153,7 @@ public class RecordManager extends BaseManager {
         recordType.setSysType(false);
 
         //1网络创建不成功 SyncStatus 置0
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             final AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
             avRecordType.setRecordTypeIsDel(false);
             avRecordType.saveInBackground(new SaveCallback() {
@@ -189,7 +189,7 @@ public class RecordManager extends BaseManager {
      */
     public synchronized void updateRecordTypeIndex(final Handler handler, boolean serviceSync) {
 
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
             if (config != null && "true".equals(config.getValue()) && serviceSync) {
                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
@@ -252,7 +252,7 @@ public class RecordManager extends BaseManager {
      */
     public void updateRecordType(final RecordType recordType, final Handler handler) {
         //1网络修改不成功 SyncStatus 置0
-        if (!TextUtils.isEmpty(MyAVUser.getCurrentUserId())) {
+        if (canSync()) {
             if (recordType.getSysType()) {
                 //系统类型
                 recordTypeDao.updateRecordType(_context, recordType);

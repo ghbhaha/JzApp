@@ -36,13 +36,14 @@ public class Constant {
 
     public enum RecordType {
         SHOURU(1), ZUICHU(-1), ZHUANZHANG(0),
-        AA_ZHICHU(-2),AA_SHOURU(2),
+        AA_ZHICHU(-2), AA_SHOURU(2),
         CHANGE(3);
         private int id;
 
         RecordType(int id) {
             this.id = id;
         }
+
         public int getId() {
             return id;
         }
@@ -117,6 +118,8 @@ public class Constant {
 
         public final static int ICON_TYPE_COUNT = 46;
     }
+
+    public final static String SP_SYNC_ONLY_WIFI = "sync_only_wifi";
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;
