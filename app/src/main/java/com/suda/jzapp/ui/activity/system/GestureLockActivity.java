@@ -20,10 +20,8 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
-import com.suda.jzapp.util.LogUtils;
-import com.suda.jzapp.util.MD5Util;
+import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.util.SPUtils;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.view.GestureLockViewGroup;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -63,7 +61,9 @@ public class GestureLockActivity extends BaseActivity {
         mForget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(GestureLockActivity.this, LoginActivity.class);
+                intent.putExtra(IntentConstant.FORGET_GESTURE, true);
+                startActivityForResult(intent, REQUEST_CODE_FORGET_GESTURE);
             }
         });
 
@@ -122,13 +122,15 @@ public class GestureLockActivity extends BaseActivity {
                             if (TextUtils.isEmpty(secret)) {
                                 secret = value;
                                 mTvTip.setText("请再次绘制解锁图案");
-                            } else if (!value.equals(secret)) {
-                                secret = value;
-                                mTvTip.setText("与上次绘制不一致，请重新输入");
-                            } else if (value.equals(secret)) {
-                                mTvTip.setText("录入成功");
-                                SPUtils.put(GestureLockActivity.this, Constant.SP_GESTURE, secret);
-                                finish();
+                            } else {
+                                if (!value.equals(secret)) {
+                                    secret = value;
+                                    mTvTip.setText("与上次绘制不一致，请重新输入");
+                                } else if (value.equals(secret)) {
+                                    mTvTip.setText("录入成功");
+                                    SPUtils.put(GestureLockActivity.this, Constant.SP_GESTURE, secret);
+                                    finish();
+                                }
                             }
                         }
                     }
@@ -141,6 +143,17 @@ public class GestureLockActivity extends BaseActivity {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_FORGET_GESTURE) {
+                enterMain();
+                SPUtils.put(this, Constant.SP_GESTURE, "");
+                SPUtils.put(this, true, SettingsActivity.GESTURE_LOCK, false);
+            }
+        }
+    }
 
     private boolean isSetting = false;
     private GestureLockViewGroup mGestureLockViewGroup;
@@ -148,4 +161,6 @@ public class GestureLockActivity extends BaseActivity {
     private TextView mTvTip, mForget;
     private String secret = "";
     private int mTryTime = 5;
+
+    private static final int REQUEST_CODE_FORGET_GESTURE = 1;
 }

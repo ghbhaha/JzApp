@@ -84,7 +84,7 @@ public class UserManager extends BaseManager {
         //邮箱登录
         if (!TextUtils.isEmpty(email)) {
             AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
-            query.whereEqualTo("email",email);
+            query.whereEqualTo("email", email);
             query.findInBackground(new FindCallback<MyAVUser>() {
                 @Override
                 public void done(List<MyAVUser> list, AVException e) {
@@ -206,18 +206,25 @@ public class UserManager extends BaseManager {
             return null;
     }
 
-
     /**
      * 用户登出
      */
     public void logOut() {
+        logOut(true);
+    }
+
+    /**
+     * 用户登出
+     */
+    public void logOut(boolean clearAvUser) {
+        if (clearAvUser)
+            MyAVUser.getCurrentUser().logOut();
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);
         recordTypeLocalDao.clearAllRecordType(_context);
         userLocalDao.delUserByUserId(MyAVUser.getCurrentUserId(), _context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
-        MyAVUser.getCurrentUser().logOut();
         user = null;
         configLocalDao.initRecordType(_context);
         configLocalDao.createDefaultAccount(_context);

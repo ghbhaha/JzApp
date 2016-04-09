@@ -18,6 +18,7 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -35,6 +36,9 @@ public class LoginActivity extends BaseActivity {
         userManager = new UserManager(this);
         accountManager = new AccountManager(this);
         recordManager = new RecordManager(this);
+        forgetGesture = getIntent().getBooleanExtra(IntentConstant.FORGET_GESTURE, false);
+        orgUser = userManager.getCurUserName();
+
         initWidget();
     }
 
@@ -93,7 +97,7 @@ public class LoginActivity extends BaseActivity {
 
     private void doLogin() {
         boolean isEmail = false;
-        String user = mTitUserId.getText().toString();
+        final String user = mTitUserId.getText().toString();
         String password = mTitPassWord.getText().toString();
         if (TextUtils.isEmpty(user)) {
             mTilUserId.setError("请输入用户名或邮箱");
@@ -114,38 +118,46 @@ public class LoginActivity extends BaseActivity {
                 if (msg.what == Constant.MSG_ERROR) {
                     SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, msg.obj.toString());
                 } else {
-                    SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "登录成功");
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在同步数据");
-                            accountManager.initAccountData(new Handler() {
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    super.handleMessage(msg);
-                                    recordManager.initRecordTypeData(new Handler() {
-                                        @Override
-                                        public void handleMessage(Message msg) {
-                                            super.handleMessage(msg);
-                                            recordManager.initRecordData(new Handler() {
-                                                @Override
-                                                public void handleMessage(Message msg) {
-                                                    super.handleMessage(msg);
-                                                    new Handler().postDelayed(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            setResult(RESULT_OK);
-                                                            finish();
-                                                        }
-                                                    }, 600);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            });
+                    if (forgetGesture && user.equals(orgUser)) {
+                        setResult(RESULT_OK);
+                        finish();
+                    } else {
+                        if (forgetGesture) {
+                            userManager.logOut(false);
                         }
-                    }, 600);
+                        SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "登录成功");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在同步数据");
+                                accountManager.initAccountData(new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        recordManager.initRecordTypeData(new Handler() {
+                                            @Override
+                                            public void handleMessage(Message msg) {
+                                                super.handleMessage(msg);
+                                                recordManager.initRecordData(new Handler() {
+                                                    @Override
+                                                    public void handleMessage(Message msg) {
+                                                        super.handleMessage(msg);
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                setResult(RESULT_OK);
+                                                                finish();
+                                                            }
+                                                        }, 600);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }, 600);
+                    }
                 }
             }
         });
@@ -174,5 +186,7 @@ public class LoginActivity extends BaseActivity {
     private UserManager userManager;
     private AccountManager accountManager;
     private RecordManager recordManager;
+    private boolean forgetGesture = false;
+    private String orgUser;
 
 }

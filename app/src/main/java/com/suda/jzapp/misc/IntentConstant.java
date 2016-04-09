@@ -10,8 +10,9 @@ public class IntentConstant {
     public static final String EDIT_ACCOUNT_NAME = "EDIT_ACCOUNT_NAME";
     public static final String EDIT_ACCOUNT_MONEY = "EDIT_ACCOUNT_MONEY";
     public static final String EDIT_ACCOUNT_REMARK = "EDIT_ACCOUNT_REMARK";
-    public static final String EDIT_ACCOUNT_TYPE  = "EDIT_ACCOUNT_TYPE ";
-    public static final String RECORD_TYPE  = "RECORD_TYPE ";
-    public static final String OLD_RECORD  = "OLD_RECORD ";
-    public static final String SETTING_MODE="setting_mode";
+    public static final String EDIT_ACCOUNT_TYPE = "EDIT_ACCOUNT_TYPE ";
+    public static final String RECORD_TYPE = "RECORD_TYPE ";
+    public static final String OLD_RECORD = "OLD_RECORD ";
+    public static final String SETTING_MODE = "setting_mode";
+    public static final String FORGET_GESTURE = "FORGET_GESTURE";
 }
