@@ -130,6 +130,8 @@ public class IconTypeUtil {
                 return R.drawable.icon_add_19;
             case RecordTypeConstant.ICON_TYPE_ADD_20:
                 return R.drawable.icon_add_20;
+            case RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG:
+                return R.drawable.yuegenghuan;
         }
 
         return R.drawable.icon_shouru_type_qita;

@@ -15,6 +15,7 @@ public class RecordDetailDO {
     private int iconId;
     private String Remark;
     private String recordDesc;
+    private boolean isFirstDay;
 
     public long getRecordID() {
         return recordID;
@@ -78,5 +79,13 @@ public class RecordDetailDO {
 
     public void setRecordDesc(String recordDesc) {
         this.recordDesc = recordDesc;
+    }
+
+    public boolean isFirstDay() {
+        return isFirstDay;
+    }
+
+    public void setIsFirstDay(boolean isFirstDay) {
+        this.isFirstDay = isFirstDay;
     }
 }

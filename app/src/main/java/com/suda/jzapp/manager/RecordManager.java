@@ -26,9 +26,11 @@ import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
+import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -136,7 +138,7 @@ public class RecordManager extends BaseManager {
         } else {
             record.setSyncStatus(false);
             recordLocalDAO.updateOldRecord(_context, record);
-            sendEmptyMessage(handler,Constant.MSG_SUCCESS);
+            sendEmptyMessage(handler, Constant.MSG_SUCCESS);
         }
     }
 
@@ -352,7 +354,7 @@ public class RecordManager extends BaseManager {
     }
 
     /**
-     * 时间作为分页条件查询记录
+     * 月份作为分页条件查询记录
      *
      * @param pageIndex
      * @param handler
@@ -361,8 +363,27 @@ public class RecordManager extends BaseManager {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {
-                List<Date> dates = recordLocalDAO.getRecordDateByPageSize(_context, pageIndex);
+                int page = pageIndex;
+                if (page == 0)
+                    page = 1;
+                else
+                    page = page - 1;
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.MONTH, -page);
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date startDate = calendar.getTime();
+                calendar.add(Calendar.MONTH, 1);
+                Date endDate = calendar.getTime();
+                List<Date> dates = recordLocalDAO.getRecordDate(_context, startDate, endDate);
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
+                RecordDetailDO recordDetailDOFirst = new RecordDetailDO();
+                recordDetailDOFirst.setIsFirstDay(true);
+                recordDetailDOFirst.setRecordDate(startDate);
+                recordDetailDos.add(recordDetailDOFirst);
                 double todayAllInMoney, todayAllOutMoney = 0;
                 Map<Long, RecordType> recordTypeMap = new HashMap<>();
                 for (Date date : dates) {
@@ -401,6 +422,60 @@ public class RecordManager extends BaseManager {
         });
 
     }
+
+    /**
+     * 获取账户当月流水账
+     *
+     * @param accountID
+     * @param startDate
+     * @param endDate
+     * @param handler
+     */
+    public void getRecordsByMonthAndAccount(final long accountID, final long startDate, final long endDate, final Handler handler) {
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+
+                Map<String, Object> map = new HashMap<String, Object>();
+                List<RecordDetailDO> recordDetailDos = new ArrayList<>();
+                Map<Long, RecordType> recordTypeMap = new HashMap<>();
+                double outCount = 0;
+                double inCount = 0;
+                List<Record> records = recordLocalDAO.getRecordByMonthAndAccount(_context, accountID, startDate, endDate);
+                for (Record record : records) {
+                    RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
+                    if (recordType == null) {
+                        recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                        recordTypeMap.put(record.getRecordTypeID(), recordType);
+                    }
+                    RecordDetailDO recordDetailDO = new RecordDetailDO();
+                    recordDetailDO.setRecordDate(record.getRecordDate());
+                    recordDetailDO.setRecordID(record.getRecordId());
+                    recordDetailDO.setRecordMoney(record.getRecordMoney());
+                    recordDetailDO.setRemark(record.getRemark());
+                    recordDetailDO.setIconId(recordType.getRecordIcon());
+                    if (recordType.getRecordType() == Constant.RecordType.CHANGE.getId()) {
+                        recordDetailDO.setIconId(Constant.RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG);
+                    }
+
+                    recordDetailDO.setRecordDesc(recordType.getRecordDesc());
+                    recordDetailDos.add(recordDetailDO);
+                    if (record.getRecordMoney() > 0) {
+                        inCount += record.getRecordMoney();
+                    } else {
+                        outCount += record.getRecordMoney();
+                    }
+
+                }
+                map.put("recordDetailDos", recordDetailDos);
+                map.put("inCount", inCount);
+                map.put("outCount", Math.abs(outCount));
+
+                sendMessage(handler, map, true);
+            }
+        });
+    }
+
 
     /**
      * 初始化从云端加载记录数据

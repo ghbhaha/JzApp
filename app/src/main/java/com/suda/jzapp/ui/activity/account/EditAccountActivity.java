@@ -166,7 +166,7 @@ public class EditAccountActivity extends BaseActivity {
                             super.handleMessage(msg);
                             Record record = new Record();
                             record.setIsDel(false);
-                            record.setRemark("余额变更");
+                            record.setRemark(money - mMoney > 0 ? "平账收入" : "平账支出");
                             record.setRecordId(System.currentTimeMillis());
                             record.setAccountID(mAccountID);
                             record.setRecordType(Constant.RecordType.CHANGE.getId());

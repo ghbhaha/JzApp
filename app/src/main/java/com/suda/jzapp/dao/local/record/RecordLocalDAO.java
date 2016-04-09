@@ -56,11 +56,9 @@ public class RecordLocalDAO extends BaseLocalDao {
     }
 
 
-    public List<Date> getRecordDateByPageSize(Context context, int pageIndex) {
-        int pageSize = 5;
-        if (pageIndex == 0)
-            pageIndex = 1;
-        int start = (pageIndex - 1) * pageSize;
+    public List<Date> getRecordDate(Context context, Date startDate, Date endDate) {
+
+
         List<Date> list = new ArrayList<>();
 
         StringBuilder builder = new StringBuilder();
@@ -69,8 +67,10 @@ public class RecordLocalDAO extends BaseLocalDao {
         builder.append(Constant.RecordType.AA_SHOURU.getId()).append(",");
         builder.append(Constant.RecordType.AA_ZHICHU.getId());
 
-        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and RECORD_TYPE in (" + builder.toString() +
-                ") GROUP BY RECORD_DATE ORDER BY RECORD_DATE DESC limit " + start + "," + pageSize + "";
+        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and "
+                + " (RECORD_DATE BETWEEN " + startDate.getTime() + " and " + endDate.getTime()
+                + ") and RECORD_TYPE in (" + builder.toString() +
+                ") GROUP BY RECORD_DATE ORDER BY RECORD_DATE DESC";
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         while (c.moveToNext()) {
             list.add(new Date(c.getLong(0)));
@@ -103,6 +103,18 @@ public class RecordLocalDAO extends BaseLocalDao {
     public List<Record> getNotSyncData(Context context) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         return recordDao.queryBuilder().where(RecordDao.Properties.SyncStatus.eq(false))
+                .list();
+    }
+
+    public List<Record> getRecordByMonthAndAccount(Context context, long accountID, long startDate, long endDate) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        return recordDao.queryBuilder()
+                .where(RecordDao.Properties.AccountID.eq(accountID))
+                .where(RecordDao.Properties.IsDel.eq(false))
+                .where(RecordDao.Properties.RecordDate.gt(startDate))
+                .where(RecordDao.Properties.RecordDate.lt(endDate))
+                .orderDesc(RecordDao.Properties.RecordDate)
+                .orderDesc(RecordDao.Properties.RecordId)
                 .list();
     }
 }

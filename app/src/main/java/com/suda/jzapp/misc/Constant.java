@@ -117,6 +117,7 @@ public class Constant {
         public final static int ICON_TYPE_ADD_20 = 45;
 
         public final static int ICON_TYPE_COUNT = 46;
+        public final static int ICON_TYPE_YU_E_BIAN_GENG = 47;
     }
 
     public final static String SP_SYNC_ONLY_WIFI = "sync_only_wifi";

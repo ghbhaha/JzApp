@@ -37,7 +37,7 @@
     <string name="title_activity_login">登陆</string>
     <string name="title_activity_register">注册</string>
     <string name="title_activity_create_new_record_type">创建新记录</string>
-    <string name="title_activity_account_transaction">AccountTransactionActivity</string>
+    <string name="title_activity_account_transaction">交易流水</string>
 
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -54,4 +54,6 @@
     <string name="gesture_settings">手势解锁</string>
     <string name="gesture_setting_on">手势解锁已开启</string>
     <string name="gesture_setting_off">手势解锁已关闭</string>
+    <string name="inMoney">本月收入\n%.2f</string>
+    <string name="outMoney">本月支出\n%.2f</string>
 </resources>

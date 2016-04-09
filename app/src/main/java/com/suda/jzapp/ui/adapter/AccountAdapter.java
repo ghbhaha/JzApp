@@ -14,6 +14,7 @@ import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.account.AccountTransactionActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
 import com.suda.jzapp.util.IconTypeUtil;
 
@@ -56,18 +57,27 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         holder.mTvAccountName.setText(account.getAccountName());
         holder.mTvAccountMoney.setText(String.format(context.getResources().getString(R.string.money_format), account.getAccountMoney()));
 
-            holder.mTvAccountTypeTitle.setText(account.getAccountDesc());
+        holder.mTvAccountTypeTitle.setText(account.getAccountDesc());
 
-            holder.mTvTodayCost.setText(String.format(context.getResources().getString(R.string.money_format), account.getTodayCost()));
+        holder.mTvTodayCost.setText(String.format(context.getResources().getString(R.string.money_format), account.getTodayCost()));
 
-            holder.mVEditAccount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, CreateOrEditAccountActivity.class);
-                    intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
-                    ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_ACCOUNT);
-                }
-            });
+        holder.mVEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CreateOrEditAccountActivity.class);
+                intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
+                ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT);
+            }
+        });
+
+        holder.mVAccountFlow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AccountTransactionActivity.class);
+                intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

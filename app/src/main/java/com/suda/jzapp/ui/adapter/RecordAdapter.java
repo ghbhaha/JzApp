@@ -28,6 +28,8 @@ import com.suda.jzapp.view.MyRoundColorView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -44,6 +46,7 @@ public class RecordAdapter extends BaseAdapter {
     private int lastSelOpt = -1;
     private RecordLocalDAO recordLocalDAO;
     private RecordManager recordManager;
+    private Date today;
 
     public RecordAdapter(Context context, List<RecordDetailDO> list) {
         recordDetailDOs = list;
@@ -52,6 +55,14 @@ public class RecordAdapter extends BaseAdapter {
         optViews = new ArrayList<>();
         recordLocalDAO = new RecordLocalDAO();
         recordManager = new RecordManager(context);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        today = calendar.getTime();
+
     }
 
     @Override
@@ -108,7 +119,7 @@ public class RecordAdapter extends BaseAdapter {
         holder.inRemarkTv.setTextColor(color);
         holder.outRemarkTv.setTextColor(color);
 
-        holder.inLy.setVisibility(recordDetailDO.getRecordMoney() > 0 || (isFirst && recordDetailDO.getTodayAllInMoney() > 0)
+        holder.inLy.setVisibility(recordDetailDO.getRecordMoney() > 0 || (isFirst && recordDetailDO.getTodayAllInMoney() > 0) || (recordDetailDO.isFirstDay())
                 ? View.VISIBLE : View.INVISIBLE);
         holder.outLY.setVisibility(recordDetailDO.getRecordMoney() < 0 || (isFirst && recordDetailDO.getTodayAllOutMoney() < 0)
                 ? View.VISIBLE : View.INVISIBLE);
@@ -130,19 +141,36 @@ public class RecordAdapter extends BaseAdapter {
             holder.inRemarkTv.setText("");
         }
 
-        if (recordDetailDO.getTodayAllInMoney() >= 0 && isFirst) {
-            holder.inTv.setText(String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getTodayAllInMoney()))
-                    + " 收入");
-            holder.outRemarkTv.setText("");
+        if (recordDetailDO.isFirstDay()) {
+            DateFormat format = new SimpleDateFormat("yyyy年");
+            holder.inTv.setText(format.format(recordDetailDO.getRecordDate()));
+        } else {
+            if (recordDetailDO.getTodayAllInMoney() >= 0 && isFirst) {
+                holder.inTv.setText(String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getTodayAllInMoney()))
+                        + " 收入");
+                holder.outRemarkTv.setText("");
+            }
         }
+
 
         if (recordDetailDO.getTodayAllOutMoney() <= 0 && isFirst) {
             holder.outTv.setText("支出 " + String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getTodayAllOutMoney())));
             holder.inRemarkTv.setText("");
         }
 
-        DateFormat format = new SimpleDateFormat("dd");
-        holder.recordDateTv.setText(format.format(recordDetailDO.getRecordDate()) + "日");
+
+        if (recordDetailDO.isFirstDay()) {
+            DateFormat format = new SimpleDateFormat("MM月");
+            holder.recordDateTv.setText(format.format(recordDetailDO.getRecordDate()));
+        } else {
+            if (today.equals(recordDetailDO.getRecordDate())) {
+                holder.recordDateTv.setText("今日");
+            } else {
+                DateFormat format = new SimpleDateFormat("dd日");
+                holder.recordDateTv.setText(format.format(recordDetailDO.getRecordDate()));
+            }
+        }
+
         holder.icon.setImageResource(IconTypeUtil.getTypeIcon(recordDetailDO.getIconId()));
 
         final ViewHolder finalHolder = holder;
