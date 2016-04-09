@@ -84,6 +84,7 @@ public class UserManager extends BaseManager {
         //邮箱登录
         if (!TextUtils.isEmpty(email)) {
             AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
+            query.whereEqualTo("email",email);
             query.findInBackground(new FindCallback<MyAVUser>() {
                 @Override
                 public void done(List<MyAVUser> list, AVException e) {
