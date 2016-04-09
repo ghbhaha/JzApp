@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pass"
+            android:password="true"
             android:hint="密码" />
 
     </android.support.design.widget.TextInputLayout>

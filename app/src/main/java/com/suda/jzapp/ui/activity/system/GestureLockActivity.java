@@ -124,7 +124,6 @@ public class GestureLockActivity extends BaseActivity {
                                 mTvTip.setText("请再次绘制解锁图案");
                             } else {
                                 if (!value.equals(secret)) {
-                                    secret = value;
                                     mTvTip.setText("与上次绘制不一致，请重新输入");
                                 } else if (value.equals(secret)) {
                                     mTvTip.setText("录入成功");

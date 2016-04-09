@@ -36,6 +36,7 @@ public class LoginActivity extends BaseActivity {
         userManager = new UserManager(this);
         accountManager = new AccountManager(this);
         recordManager = new RecordManager(this);
+
         forgetGesture = getIntent().getBooleanExtra(IntentConstant.FORGET_GESTURE, false);
         orgUser = userManager.getCurUserName();
 
