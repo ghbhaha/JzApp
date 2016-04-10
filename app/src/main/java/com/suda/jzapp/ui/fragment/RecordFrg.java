@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -50,19 +51,26 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
         mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs);
         recordLv.setAdapter(mRecordAdapter);
         recordLv.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        recordManager.getRecordByPageIndex(1, new Handler() {
+        loadData();
+
+        //recordLv.setEmptyView();
+
+        recordLv.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == Constant.MSG_SUCCESS) {
-                    recordDetailDOs.clear();
-                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
-                    mRecordAdapter.notifyDataSetChanged();
-                }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0)
+                    return;
+                if (firstVisibleItem + visibleItemCount == totalItemCount && !isRefresh) {
+                     loadData();
+                 }
             }
         });
 
-        //recordLv.setEmptyView();
 
         ((MainActivity) getActivity()).setReloadRecordCallBack(this);
         return view;
@@ -80,20 +88,46 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
 
     @Override
     public void reload(final boolean needUpdateData) {
+        if (!needUpdateData) {
+            mRecordAdapter.notifyDataSetChanged();
+            return;
+        }
+
+        isRefresh = true;
         recordManager.getRecordByPageIndex(1, new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                isRefresh = false;
+                curPage = 0;
                 if (msg.what == Constant.MSG_SUCCESS) {
-                    if (needUpdateData) {
-                        recordDetailDOs.clear();
-                        recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
-                    }
+                    recordDetailDOs.clear();
+                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
                     mRecordAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
+
+    private void loadData() {
+        isRefresh = true;
+        recordManager.getRecordByPageIndex(curPage, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == Constant.MSG_SUCCESS) {
+                    curPage++;
+                    if (((List<RecordDetailDO>) msg.obj).size() == 0) {
+                        return;
+                    }
+                    isRefresh = false;
+                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
+                    mRecordAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
 
     private ListView recordLv;
     private View backGround;
@@ -103,4 +137,6 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
     private RecordManager recordManager;
     private RecordAdapter mRecordAdapter;
     private List<RecordDetailDO> recordDetailDOs;
+    private int curPage = 1;
+    private boolean isRefresh = true;
 }

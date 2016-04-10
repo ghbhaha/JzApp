@@ -20,5 +20,10 @@ public class UpdateDB {
             db.execSQL("ALTER TABLE RECORD ADD OBJECT_ID TEXT");
             db.execSQL("ALTER TABLE ACCOUNT_TYPE ADD OBJECT_ID TEXT");
         }
+        if (oldVersion < 5) {
+            db.execSQL("ALTER TABLE RECORD ADD YEAR INTEGER");
+            db.execSQL("ALTER TABLE RECORD ADD MONTH INTEGER");
+            db.execSQL("ALTER TABLE RECORD ADD DAY INTEGER");
+        }
     }
 }

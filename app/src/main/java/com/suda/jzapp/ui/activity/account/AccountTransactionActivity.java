@@ -1,18 +1,9 @@
 package com.suda.jzapp.ui.activity.account;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +16,8 @@ import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.AccountRecordAdapter;
-import com.suda.jzapp.ui.adapter.RecordAdapter;
+import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.IconTypeUtil;
-import com.suda.jzapp.util.LogUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,19 +43,26 @@ public class AccountTransactionActivity extends BaseActivity {
     @Override
     protected void initWidget() {
         mRecordLv = (ListView) findViewById(R.id.records);
-        accountView = findViewById(R.id.account_card);
+
         recordDetailDOs = new ArrayList<>();
         mAccountRecordAdapter = new AccountRecordAdapter(this, recordDetailDOs);
-        mRecordLv.setAdapter(mAccountRecordAdapter);
 
-        inMoneyTv = (TextView) findViewById(R.id.in_money_tv);
-        outMoneyTv = (TextView) findViewById(R.id.out_money_tv);
-        dateTv = (TextView) findViewById(R.id.date_tv);
+
+
+        View head = View.inflate(this, R.layout.account_head, null);
+
+        inMoneyTv = (TextView) head.findViewById(R.id.in_money_tv);
+        outMoneyTv = (TextView) head.findViewById(R.id.out_money_tv);
+        dateTv = (TextView) head.findViewById(R.id.date_tv);
+
+        mRecordLv.addHeaderView(head);
+
+        mRecordLv.setAdapter(mAccountRecordAdapter);
 
         AccountDetailDO accountDetailDO = accountManager.getAccountByID(mCurAccountId);
 
-        ((TextView) findViewById(R.id.account_name)).setText(accountDetailDO.getAccountName());
-        ((ImageView) findViewById(R.id.account_type_icon)).setImageResource(IconTypeUtil.getAccountIcon(accountDetailDO.getAccountTypeID()));
+        ((TextView) head.findViewById(R.id.account_name)).setText(accountDetailDO.getAccountName());
+        ((ImageView) head.findViewById(R.id.account_type_icon)).setImageResource(IconTypeUtil.getAccountIcon(accountDetailDO.getAccountTypeID()));
 
         refresh(changeMonth);
     }
@@ -82,7 +79,11 @@ public class AccountTransactionActivity extends BaseActivity {
         calendar.add(Calendar.MONTH, 1);
         long end = calendar.getTimeInMillis();
         calendar.add(Calendar.DATE, -1);
-        dateTv.setText(format1.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
+        if (DateTimeUtil.isThisYear(calendar.getTime())){
+            dateTv.setText(format1.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
+        }else {
+            dateTv.setText(format3.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
+        }
         recordManager.getRecordsByMonthAndAccount(mCurAccountId, start, end, new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -119,9 +120,8 @@ public class AccountTransactionActivity extends BaseActivity {
 
     DateFormat format1 = new SimpleDateFormat("MM月dd日");
     DateFormat format2 = new SimpleDateFormat("dd日");
-    // holder.recordDateTv.setText(format.format(recordDetailDO.getRecordDate()));
+    DateFormat format3 = new SimpleDateFormat("yyyy年MM月dd日");
 
     int changeMonth = 0;
 
-    private View accountView;
 }

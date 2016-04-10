@@ -30,7 +30,6 @@ import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -363,35 +362,27 @@ public class RecordManager extends BaseManager {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {
-                int page = pageIndex;
-                if (page == 0)
-                    page = 1;
-                else
-                    page = page - 1;
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MONTH, -page);
-                calendar.set(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                Date startDate = calendar.getTime();
-                calendar.add(Calendar.MONTH, 1);
-                Date endDate = calendar.getTime();
-                List<Date> dates = recordLocalDAO.getRecordDate(_context, startDate, endDate);
+                LogUtils.d("@@@" + pageIndex);
+                List<Date> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
-                RecordDetailDO recordDetailDOFirst = new RecordDetailDO();
-                recordDetailDOFirst.setIsFirstDay(true);
-                recordDetailDOFirst.setRecordDate(startDate);
-                recordDetailDos.add(recordDetailDOFirst);
+
+                if (dates.size() == 0) {
+                    sendMessage(handler, recordDetailDos, true);
+                    return;
+                }
+                RecordDetailDO recordDetailDOMonthFirst = new RecordDetailDO();
+                recordDetailDOMonthFirst.setIsFirstDay(true);
+                recordDetailDOMonthFirst.setRecordDate(dates.get(0));
+                recordDetailDos.add(recordDetailDOMonthFirst);
                 double todayAllInMoney, todayAllOutMoney = 0;
                 Map<Long, RecordType> recordTypeMap = new HashMap<>();
                 for (Date date : dates) {
                     todayAllInMoney = 0;
                     todayAllOutMoney = 0;
-                    RecordDetailDO todayRecordDetail = new RecordDetailDO();
-                    todayRecordDetail.setRecordDate(date);
-                    recordDetailDos.add(todayRecordDetail);
+                    RecordDetailDO RecordDetailDayFirst = new RecordDetailDO();
+                    RecordDetailDayFirst.setIsDayFirstDay(true);
+                    RecordDetailDayFirst.setRecordDate(date);
+                    recordDetailDos.add(RecordDetailDayFirst);
                     List<Record> records = recordLocalDAO.getRecordByDate(_context, date);
                     for (Record record : records) {
                         RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
@@ -413,10 +404,9 @@ public class RecordManager extends BaseManager {
 
                         recordDetailDos.add(recordDetailDO);
                     }
-                    todayRecordDetail.setTodayAllInMoney(todayAllInMoney);
-                    todayRecordDetail.setTodayAllOutMoney(todayAllOutMoney);
+                    RecordDetailDayFirst.setTodayAllInMoney(todayAllInMoney);
+                    RecordDetailDayFirst.setTodayAllOutMoney(todayAllOutMoney);
                 }
-
                 sendMessage(handler, recordDetailDos, true);
             }
         });

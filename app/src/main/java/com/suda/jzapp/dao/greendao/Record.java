@@ -17,6 +17,9 @@ public class Record implements java.io.Serializable {
     private Boolean SyncStatus;
     private Boolean isDel;
     private String ObjectID;
+    private Integer year;
+    private Integer month;
+    private Integer day;
 
     public Record() {
     }
@@ -25,7 +28,7 @@ public class Record implements java.io.Serializable {
         this.id = id;
     }
 
-    public Record(Long id, Long RecordId, Double RecordMoney, Long RecordTypeID, Integer RecordType, Long AccountID, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel, String ObjectID) {
+    public Record(Long id, Long RecordId, Double RecordMoney, Long RecordTypeID, Integer RecordType, Long AccountID, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer year, Integer month, Integer day) {
         this.id = id;
         this.RecordId = RecordId;
         this.RecordMoney = RecordMoney;
@@ -37,6 +40,9 @@ public class Record implements java.io.Serializable {
         this.SyncStatus = SyncStatus;
         this.isDel = isDel;
         this.ObjectID = ObjectID;
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     public Long getId() {
@@ -125,6 +131,30 @@ public class Record implements java.io.Serializable {
 
     public void setObjectID(String ObjectID) {
         this.ObjectID = ObjectID;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 
 }

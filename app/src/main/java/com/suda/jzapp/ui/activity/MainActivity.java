@@ -279,6 +279,10 @@ public class MainActivity extends BaseActivity {
         this.reloadRecordCallBack = reloadRecordCallBack;
     }
 
+    public ReloadAccountCallBack getReloadAccountCallBack() {
+        return reloadAccountCallBack;
+    }
+
     protected void getPermission(final String permission) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{permission}, 0);

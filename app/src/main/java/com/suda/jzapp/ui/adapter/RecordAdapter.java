@@ -16,11 +16,13 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
+import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
+import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.MyRoundColorView;
@@ -30,7 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -46,7 +50,8 @@ public class RecordAdapter extends BaseAdapter {
     private int lastSelOpt = -1;
     private RecordLocalDAO recordLocalDAO;
     private RecordManager recordManager;
-    private Date today;
+    private AccountManager accountManager;
+    private Map<Date, RecordDetailDO> recordDetailDOMap;
 
     public RecordAdapter(Context context, List<RecordDetailDO> list) {
         recordDetailDOs = list;
@@ -55,13 +60,8 @@ public class RecordAdapter extends BaseAdapter {
         optViews = new ArrayList<>();
         recordLocalDAO = new RecordLocalDAO();
         recordManager = new RecordManager(context);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        today = calendar.getTime();
+        accountManager = new AccountManager(context);
+        recordDetailDOMap = new HashMap<>();
 
     }
 
@@ -105,9 +105,8 @@ public class RecordAdapter extends BaseAdapter {
 
         final RecordDetailDO recordDetailDO = recordDetailDOs.get(position);
 
-        boolean isFirst = false;
-        if (getPositionForSection(recordDetailDO.getRecordDate().getTime()) == position) {
-            isFirst = true;
+        if (recordDetailDO.isDayFirstDay()) {
+            recordDetailDOMap.put(recordDetailDO.getRecordDate(), recordDetailDO);
         }
 
         //设置颜色
@@ -119,13 +118,13 @@ public class RecordAdapter extends BaseAdapter {
         holder.inRemarkTv.setTextColor(color);
         holder.outRemarkTv.setTextColor(color);
 
-        holder.inLy.setVisibility(recordDetailDO.getRecordMoney() > 0 || (isFirst && recordDetailDO.getTodayAllInMoney() > 0) || (recordDetailDO.isFirstDay())
+        holder.inLy.setVisibility(recordDetailDO.getRecordMoney() > 0 || (recordDetailDO.isDayFirstDay() && recordDetailDO.getTodayAllInMoney() > 0) || (recordDetailDO.isMonthFirstDay())
                 ? View.VISIBLE : View.INVISIBLE);
-        holder.outLY.setVisibility(recordDetailDO.getRecordMoney() < 0 || (isFirst && recordDetailDO.getTodayAllOutMoney() < 0)
+        holder.outLY.setVisibility(recordDetailDO.getRecordMoney() < 0 || (recordDetailDO.isDayFirstDay() && recordDetailDO.getTodayAllOutMoney() < 0)
                 ? View.VISIBLE : View.INVISIBLE);
 
-        holder.icon.setVisibility(isFirst ? View.INVISIBLE : View.VISIBLE);
-        holder.recordDateTv.setVisibility(isFirst ? View.VISIBLE : View.INVISIBLE);
+        holder.icon.setVisibility(recordDetailDO.isDayFirstDay() || recordDetailDO.isMonthFirstDay() ? View.INVISIBLE : View.VISIBLE);
+        holder.recordDateTv.setVisibility(recordDetailDO.isDayFirstDay() || recordDetailDO.isMonthFirstDay() ? View.VISIBLE : View.INVISIBLE);
 
         resetOptBt();
 
@@ -141,29 +140,27 @@ public class RecordAdapter extends BaseAdapter {
             holder.inRemarkTv.setText("");
         }
 
-        if (recordDetailDO.isFirstDay()) {
+        if (recordDetailDO.isMonthFirstDay()) {
             DateFormat format = new SimpleDateFormat("yyyy年");
-            holder.inTv.setText(format.format(recordDetailDO.getRecordDate()));
+            holder.inTv.setText(DateTimeUtil.isThisYear(recordDetailDO.getRecordDate()) ? "" : format.format(recordDetailDO.getRecordDate()));
         } else {
-            if (recordDetailDO.getTodayAllInMoney() >= 0 && isFirst) {
+            if (recordDetailDO.getTodayAllInMoney() >= 0 && recordDetailDO.isDayFirstDay()) {
                 holder.inTv.setText(String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getTodayAllInMoney()))
                         + " 收入");
                 holder.outRemarkTv.setText("");
             }
         }
 
-
-        if (recordDetailDO.getTodayAllOutMoney() <= 0 && isFirst) {
+        if (recordDetailDO.getTodayAllOutMoney() <= 0 && recordDetailDO.isDayFirstDay()) {
             holder.outTv.setText("支出 " + String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getTodayAllOutMoney())));
             holder.inRemarkTv.setText("");
         }
 
-
-        if (recordDetailDO.isFirstDay()) {
+        if (recordDetailDO.isMonthFirstDay()) {
             DateFormat format = new SimpleDateFormat("MM月");
             holder.recordDateTv.setText(format.format(recordDetailDO.getRecordDate()));
         } else {
-            if (today.equals(recordDetailDO.getRecordDate())) {
+            if (DateTimeUtil.isToday(recordDetailDO.getRecordDate())) {
                 holder.recordDateTv.setText("今日");
             } else {
                 DateFormat format = new SimpleDateFormat("dd日");
@@ -175,7 +172,7 @@ public class RecordAdapter extends BaseAdapter {
 
         final ViewHolder finalHolder = holder;
 
-        if (!isFirst) {
+        if (!recordDetailDO.isDayFirstDay() && !recordDetailDO.isMonthFirstDay()) {
             holder.icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -204,17 +201,45 @@ public class RecordAdapter extends BaseAdapter {
                         .setPositiveButton("确认", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 Record record = recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID());
                                 record.setIsDel(true);
-                                recordManager.updateOldRecord(record, new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        recordDetailDOs.remove(position);
-                                        notifyDataSetChanged();
-                                        materialDialog.dismiss();
+                                recordManager.updateOldRecord(record, null);
+                                accountManager.updateAccountMoney(record.getAccountID(), -record.getRecordMoney(), new
+                                        Handler() {
+                                            @Override
+                                            public void handleMessage(Message msg) {
+                                                super.handleMessage(msg);
+                                                ((MainActivity) mContext).getReloadAccountCallBack().reload(true);
+                                            }
+                                        });
+                                RecordDetailDO todayRecordDetailDO = recordDetailDOMap.get(recordDetailDO.getRecordDate());
+                                if (recordDetailDO.getRecordMoney() < 0) {
+                                    todayRecordDetailDO.setTodayAllOutMoney(todayRecordDetailDO.getTodayAllOutMoney() - recordDetailDO.getRecordMoney());
+                                } else {
+                                    todayRecordDetailDO.setTodayAllInMoney(todayRecordDetailDO.getTodayAllInMoney() - recordDetailDO.getRecordMoney());
+                                }
+
+                                if (recordDetailDOs.get(position - 1).isDayFirstDay() &&
+                                        (position == recordDetailDOs.size() - 1 || recordDetailDOs.get(position + 1).isDayFirstDay() || recordDetailDOs.get(position + 1).isMonthFirstDay())) {
+                                    if (recordDetailDOs.get(position - 2).isMonthFirstDay()
+                                            && (position == recordDetailDOs.size() - 1 || recordDetailDOs.get(position + 1).isMonthFirstDay())) {
+                                        //本月最后一条数据
+                                        recordDetailDOs.remove(position - 2);
+                                        recordDetailDOs.remove(position - 2);
+                                        recordDetailDOs.remove(position - 2);
+                                    } else {
+                                        //今日最后一条数据
+                                        recordDetailDOs.remove(position - 1);
+                                        recordDetailDOs.remove(position - 1);
                                     }
-                                });
+                                } else {
+                                    recordDetailDOs.remove(position);
+                                }
+
+                                notifyDataSetChanged();
+                                materialDialog.dismiss();
+
                             }
                         })
                         .setNegativeButton("取消", new View.OnClickListener() {
@@ -230,7 +255,7 @@ public class RecordAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CreateOrEditRecordActivity.class);
-                intent.putExtra(IntentConstant.OLD_RECORD, recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID()));
+                intent.putExtra(IntentConstant.OLD_RECORD_DETAIL, recordDetailDO);
                 resetOptBt();
                 lastSelOpt = -1;
                 ((MainActivity) mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
@@ -245,17 +270,6 @@ public class RecordAdapter extends BaseAdapter {
             view.setVisibility(View.INVISIBLE);
         }
     }
-
-    private int getPositionForSection(long sectionIndex) {
-        if (recordDetailDOs != null && recordDetailDOs.size() > 0) {
-            for (int i = 0; i < recordDetailDOs.size(); i++) {
-                if (recordDetailDOs.get(i).getRecordDate().getTime() == sectionIndex)
-                    return i;
-            }
-        }
-        return 0;
-    }
-
 
     public class ViewHolder {
         public View outLY, inLy;

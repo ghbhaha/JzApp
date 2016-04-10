@@ -27,6 +27,9 @@ public class RecordLocalDAO extends BaseLocalDao {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         record.setRecordDate(calendar.getTime());
+        record.setYear(calendar.get(Calendar.YEAR));
+        record.setMonth(calendar.get(Calendar.MONTH));
+        record.setDay(calendar.get(Calendar.DAY_OF_MONTH));
 
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         recordDao.insert(record);
@@ -56,20 +59,37 @@ public class RecordLocalDAO extends BaseLocalDao {
     }
 
 
-    public List<Date> getRecordDate(Context context, Date startDate, Date endDate) {
+    public List<Date> getRecordDate(Context context, int pageIndex) {
+        if (pageIndex == 0)
+            pageIndex = 1;
+        pageIndex--;
 
 
         List<Date> list = new ArrayList<>();
-
         StringBuilder builder = new StringBuilder();
         builder.append(Constant.RecordType.SHOURU.getId()).append(",");
         builder.append(Constant.RecordType.ZUICHU.getId()).append(",");
         builder.append(Constant.RecordType.AA_SHOURU.getId()).append(",");
         builder.append(Constant.RecordType.AA_ZHICHU.getId());
 
-        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and "
-                + " (RECORD_DATE BETWEEN " + startDate.getTime() + " and " + endDate.getTime()
-                + ") and RECORD_TYPE in (" + builder.toString() +
+        String sql1 = "select YEAR,MONTH FROM RECORD WHERE IS_DEL = 0 " +
+                "and RECORD_TYPE in (" + builder.toString() +
+                ") GROUP BY YEAR,MONTH ORDER BY YEAR DESC,MONTH DESC limit " + pageIndex + ",1";
+
+        int year = 0;
+        int month = 0;
+        Cursor c1 = getDaoSession(context).getDatabase().rawQuery(sql1, null);
+        if (!c1.moveToFirst()) {
+            return list;
+        } else {
+            year = c1.getInt(0);
+            month = c1.getInt(1);
+            c1.close();
+        }
+
+        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and YEAR ="
+                + year + " and MONTH =" + month
+                + " and RECORD_TYPE in (" + builder.toString() +
                 ") GROUP BY RECORD_DATE ORDER BY RECORD_DATE DESC";
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         while (c.moveToNext()) {
@@ -97,6 +117,11 @@ public class RecordLocalDAO extends BaseLocalDao {
 
     public void updateOldRecord(Context context, Record record) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(record.getRecordDate());
+        record.setYear(calendar.get(Calendar.YEAR));
+        record.setMonth(calendar.get(Calendar.MONTH));
+        record.setDay(calendar.get(Calendar.DAY_OF_MONTH));
         recordDao.update(record);
     }
 

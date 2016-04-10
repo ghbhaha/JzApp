@@ -34,6 +34,9 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property SyncStatus = new Property(8, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
         public final static Property IsDel = new Property(9, Boolean.class, "isDel", false, "IS_DEL");
         public final static Property ObjectID = new Property(10, String.class, "ObjectID", false, "OBJECT_ID");
+        public final static Property Year = new Property(11, Integer.class, "year", false, "YEAR");
+        public final static Property Month = new Property(12, Integer.class, "month", false, "MONTH");
+        public final static Property Day = new Property(13, Integer.class, "day", false, "DAY");
     };
 
 
@@ -59,7 +62,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 "\"REMARK\" TEXT," + // 7: Remark
                 "\"SYNC_STATUS\" INTEGER," + // 8: SyncStatus
                 "\"IS_DEL\" INTEGER," + // 9: isDel
-                "\"OBJECT_ID\" TEXT);"); // 10: ObjectID
+                "\"OBJECT_ID\" TEXT," + // 10: ObjectID
+                "\"YEAR\" INTEGER," + // 11: year
+                "\"MONTH\" INTEGER," + // 12: month
+                "\"DAY\" INTEGER);"); // 13: day
     }
 
     /** Drops the underlying database table. */
@@ -127,6 +133,21 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (ObjectID != null) {
             stmt.bindString(11, ObjectID);
         }
+ 
+        Integer year = entity.getYear();
+        if (year != null) {
+            stmt.bindLong(12, year);
+        }
+ 
+        Integer month = entity.getMonth();
+        if (month != null) {
+            stmt.bindLong(13, month);
+        }
+ 
+        Integer day = entity.getDay();
+        if (day != null) {
+            stmt.bindLong(14, day);
+        }
     }
 
     /** @inheritdoc */
@@ -149,7 +170,10 @@ public class RecordDao extends AbstractDao<Record, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // Remark
             cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // SyncStatus
             cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0, // isDel
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // ObjectID
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // ObjectID
+            cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // year
+            cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12), // month
+            cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13) // day
         );
         return entity;
     }
@@ -168,6 +192,9 @@ public class RecordDao extends AbstractDao<Record, Long> {
         entity.setSyncStatus(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
         entity.setIsDel(cursor.isNull(offset + 9) ? null : cursor.getShort(offset + 9) != 0);
         entity.setObjectID(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setYear(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
+        entity.setMonth(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
+        entity.setDay(cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13));
      }
     
     /** @inheritdoc */
