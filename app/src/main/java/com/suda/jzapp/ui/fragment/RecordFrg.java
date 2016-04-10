@@ -66,8 +66,8 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
                 if (totalItemCount == 0)
                     return;
                 if (firstVisibleItem + visibleItemCount == totalItemCount && !isRefresh) {
-                     loadData();
-                 }
+                    loadData();
+                }
             }
         });
 
@@ -94,12 +94,14 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
         }
 
         isRefresh = true;
-        recordManager.getRecordByPageIndex(1, new Handler() {
+        curPage = 1;
+
+        recordManager.getRecordByPageIndex(curPage, new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                curPage++;
                 isRefresh = false;
-                curPage = 0;
                 if (msg.what == Constant.MSG_SUCCESS) {
                     recordDetailDOs.clear();
                     recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);

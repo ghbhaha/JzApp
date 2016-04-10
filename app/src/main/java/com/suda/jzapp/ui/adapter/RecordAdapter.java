@@ -255,7 +255,6 @@ public class RecordAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CreateOrEditRecordActivity.class);
-                intent.putExtra(IntentConstant.OLD_RECORD_DETAIL, recordDetailDO);
                 resetOptBt();
                 lastSelOpt = -1;
                 ((MainActivity) mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
