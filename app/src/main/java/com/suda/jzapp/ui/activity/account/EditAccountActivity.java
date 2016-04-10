@@ -154,11 +154,15 @@ public class EditAccountActivity extends BaseActivity {
                             finish();
                         }
                     });
+                } else {
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
                 //
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
                 final double money = Double.parseDouble(param);
+                intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
                 if (mAccountID > 0) {
                     accountManager.updateAccountMoney(mAccountID, money - mMoney, new Handler() {
                         @Override
@@ -179,9 +183,10 @@ public class EditAccountActivity extends BaseActivity {
                             finish();
                         }
                     });
+                }else {
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
-                //
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_REMARK, param);
@@ -194,8 +199,10 @@ public class EditAccountActivity extends BaseActivity {
                             finish();
                         }
                     });
+                }else {
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                //
                 break;
             default:
                 break;
