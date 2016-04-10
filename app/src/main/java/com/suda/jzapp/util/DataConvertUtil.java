@@ -51,6 +51,9 @@ public class DataConvertUtil {
         avRecord.setRecordType(record.getRecordType());
         avRecord.setRemark(record.getRemark());
         avRecord.setRecordIsDel(record.getIsDel());
+        if (!TextUtils.isEmpty(record.getObjectID())) {
+            avRecord.setObjectId(record.getObjectID());
+        }
         return avRecord;
     }
 
