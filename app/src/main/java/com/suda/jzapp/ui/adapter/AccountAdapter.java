@@ -75,7 +75,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(context, AccountTransactionActivity.class);
                 intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
-                context.startActivity(intent);
+                ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT_FLOW);
             }
         });
 

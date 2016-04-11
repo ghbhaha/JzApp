@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.misc.Constant;
@@ -22,13 +24,16 @@ import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.ui.adapter.RecordAdapter;
 import com.suda.jzapp.util.ThemeUtil;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ghbha on 2016/2/15.
  */
-public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCallBack {
+public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,8 +50,22 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
                 getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
+        View foot = View.inflate(getActivity(), R.layout.record_foot, null);
+
+
+        if (MyAVUser.getCurrentUser() != null) {
+            DateFormat format1 = new SimpleDateFormat("yyyy年MM月dd日");
+            foot.setVisibility(View.VISIBLE);
+            Date date = MyAVUser.getCurrentUser().getCreatedAt();
+            footTv = ((TextView) foot.findViewById(R.id.foot_tip));
+            footTv.setText(format1.format(date) + "\n您开启了记账旅程");
+        } else {
+            foot.setVisibility(View.GONE);
+        }
+
 
         recordLv = (ListView) view.findViewById(R.id.record_lv);
+        recordLv.addFooterView(foot);
         recordDetailDOs = new ArrayList<>();
         mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs);
         recordLv.setAdapter(mRecordAdapter);
@@ -84,6 +103,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
         mAddRecordBt.setColorNormal(mainColor);
         mAddRecordBt.setColorPressed(mainDarkColor);
         backGround.setBackground(new ColorDrawable(mainColor));
+        footTv.setTextColor(mainColor);
     }
 
     @Override
@@ -132,6 +152,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadRecordCall
 
 
     private ListView recordLv;
+    private TextView footTv;
     private View backGround;
     private int mainColor;
     private int mainDarkColor;

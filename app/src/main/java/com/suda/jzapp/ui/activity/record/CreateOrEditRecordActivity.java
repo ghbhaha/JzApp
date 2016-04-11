@@ -154,6 +154,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                         calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH)
                 );
+
                 tpd.setAccentColor(getResources().getColor(getMainTheme().getMainColorID()));
                 tpd.show(getFragmentManager(), "Timepickerdialog");
                 tpd.setMaxDate(Calendar.getInstance());

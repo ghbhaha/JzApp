@@ -255,9 +255,19 @@ public class RecordAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CreateOrEditRecordActivity.class);
+                intent.putExtra(IntentConstant.OLD_RECORD, recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID()));
                 resetOptBt();
                 lastSelOpt = -1;
+
                 ((MainActivity) mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastSelOpt = -1;
+                resetOptBt();
             }
         });
 

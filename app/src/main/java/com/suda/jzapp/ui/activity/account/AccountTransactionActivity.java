@@ -1,8 +1,11 @@
 package com.suda.jzapp.ui.activity.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,7 +51,6 @@ public class AccountTransactionActivity extends BaseActivity {
         mAccountRecordAdapter = new AccountRecordAdapter(this, recordDetailDOs);
 
 
-
         View head = View.inflate(this, R.layout.account_head, null);
 
         inMoneyTv = (TextView) head.findViewById(R.id.in_money_tv);
@@ -79,9 +81,9 @@ public class AccountTransactionActivity extends BaseActivity {
         calendar.add(Calendar.MONTH, 1);
         long end = calendar.getTimeInMillis();
         calendar.add(Calendar.DATE, -1);
-        if (DateTimeUtil.isThisYear(calendar.getTime())){
+        if (DateTimeUtil.isThisYear(calendar.getTime())) {
             dateTv.setText(format1.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
-        }else {
+        } else {
             dateTv.setText(format3.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
         }
         recordManager.getRecordsByMonthAndAccount(mCurAccountId, start, end, new Handler() {
@@ -109,6 +111,25 @@ public class AccountTransactionActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_EDIT_RECORD) {
+                if (!shouldRefresh)
+                    shouldRefresh = true;
+                refresh(changeMonth);
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            setResult(RESULT_OK);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     private long mCurAccountId;
     private ListView mRecordLv;
@@ -123,5 +144,7 @@ public class AccountTransactionActivity extends BaseActivity {
     DateFormat format3 = new SimpleDateFormat("yyyy年MM月dd日");
 
     int changeMonth = 0;
+    public static final int REQUEST_CODE_EDIT_RECORD = 1;
+    private boolean shouldRefresh = false;
 
 }

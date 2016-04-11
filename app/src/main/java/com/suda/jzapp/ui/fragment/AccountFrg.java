@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by ghbha on 2016/2/15.
  */
-public class AccountFrg extends Fragment implements MainActivity.ReloadAccountCallBack {
+public class AccountFrg extends Fragment implements MainActivity.ReloadCallBack {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.suda.jzapp.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -16,5 +17,9 @@ public class TextUtil {
         return df.format(money);
     }
 
+    public static double gwtFormatNum(double num) {
+        BigDecimal per = new BigDecimal(num);
+        return per.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 
 }

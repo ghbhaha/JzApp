@@ -106,7 +106,7 @@ public class AccountRecordAdapter extends BaseAdapter {
                         record.getRecordType() == Constant.RecordType.AA_ZHICHU.getId() ||
                         record.getRecordType() == Constant.RecordType.AA_SHOURU.getId()) {
                     intent.putExtra(IntentConstant.OLD_RECORD, record);
-                    ((AccountTransactionActivity) mContext).startActivityForResult(intent, 1);
+                    ((AccountTransactionActivity) mContext).startActivityForResult(intent, AccountTransactionActivity.REQUEST_CODE_EDIT_RECORD);
                 }
 
             }

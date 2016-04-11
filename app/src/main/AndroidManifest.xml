@@ -20,13 +20,14 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppCompatThemeWithNoActionBar"></activity>
+            android:theme="@style/AppCompatThemeWithNoActionBar" />
         <activity
             android:name=".ui.activity.account.CreateOrEditAccountActivity"
             android:label="@string/title_activity_create_or_edit_account"
@@ -79,6 +80,10 @@
             android:name=".ui.activity.account.AccountTransactionActivity"
             android:label="@string/title_activity_account_transaction"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.record.RecordPieAnalysisActivity"
+            android:label="@string/title_activity_record_pie_analysis"
+            android:theme="@style/AppTheme" />
 
         <service android:name=".service.SyncService" />
 
@@ -95,7 +100,6 @@
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" />
-
 
     </application>
 

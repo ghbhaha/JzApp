@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
+import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.misc.Constant;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class RecordLocalDAO extends BaseLocalDao {
         calendar.add(Calendar.DATE, 1);
         Date endDate = calendar.getTime();
         String sql = "select sum(RECORD_MONEY) as todayCost from RECORD where " +
-                " RECORD_TYPE=-1 and ACCOUNT_ID=" + accountId + " and RECORD_DATE between " + startDate.getTime() + " and " + endDate.getTime();
+                " RECORD_TYPE=-1 and ACCOUNT_ID=" + accountId + " and RECORD_DATE >= " + startDate.getTime() + " and RECORD_DATE<" + endDate.getTime();
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         c.moveToFirst();
         double todayCost = c.getDouble(0);
@@ -142,4 +143,33 @@ public class RecordLocalDAO extends BaseLocalDao {
                 .orderDesc(RecordDao.Properties.RecordId)
                 .list();
     }
+
+    public List<ChartRecordDo> getOutOrInRecordByMonth(Context context, boolean out, int year, int month) {
+        List<ChartRecordDo> list = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        if (out) {
+            builder.append(Constant.RecordType.AA_ZHICHU.getId()).append(",");
+            builder.append(Constant.RecordType.ZUICHU.getId());
+        } else {
+            builder.append(Constant.RecordType.SHOURU.getId()).append(",");
+            builder.append(Constant.RecordType.AA_SHOURU.getId());
+        }
+
+        String sql = "select b.[RECORD_TYPE_ID],b.[RECORD_DESC],b.[RECORD_ICON],SUM(a.[RECORD_MONEY]) FROM RECORD a,RECORD_TYPE b " +
+                "where a.[RECORD_TYPE_ID] = b.[RECORD_TYPE_ID] and a.[IS_DEL] = 0 and YEAR ="
+                + year + " and MONTH =" + month +
+                " and b.RECORD_TYPE in (" + builder.toString() +
+                ") group by  b.[RECORD_TYPE_ID]";
+        Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            ChartRecordDo chartRecordDo = new ChartRecordDo();
+            chartRecordDo.setRecordTypeID(c.getLong(0));
+            chartRecordDo.setRecordDesc(c.getString(1));
+            chartRecordDo.setIconId(c.getInt(2));
+            chartRecordDo.setRecordMoney(c.getDouble(3));
+            list.add(chartRecordDo);
+        }
+        return list;
+    }
+
 }

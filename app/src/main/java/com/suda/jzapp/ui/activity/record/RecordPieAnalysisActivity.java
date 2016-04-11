@@ -1,16 +1,12 @@
-package com.suda.jzapp.ui.fragment;
+package com.suda.jzapp.ui.activity.record;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -20,34 +16,46 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
-import com.suda.jzapp.ui.activity.MainActivity;
-import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
+import com.suda.jzapp.ui.adapter.RecordPieAnalysisAdapter;
+import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.TextUtil;
-import com.suda.jzapp.util.ThemeUtil;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by ghbha on 2016/2/15.
- */
-public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack {
+public class RecordPieAnalysisActivity extends BaseActivity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_record_pie_analysis_acticity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mRecordManager = new RecordManager(this);
+        initWidget();
+    }
 
-        View view = inflater.inflate(R.layout.analysis_frg_layout, container, false);
-        backGround = view.findViewById(R.id.background);
-        mTypePieChart = (PieChart) view.findViewById(R.id.type_pie_chart);
-        pieLabelTv = (TextView) view.findViewById(R.id.pie_label);
-        mRecordManager = new RecordManager(getActivity());
-        ((MainActivity) getActivity()).setReloadAnalysisCallBack(this);
-        changeTv = (TextView) view.findViewById(R.id.changeTv);
+
+    @Override
+    protected void initWidget() {
+        mRecordLv = (ListView) findViewById(R.id.records);
+        chartRecordDoList = new ArrayList<>();
+        recordPieAnalysisAdapter = new RecordPieAnalysisAdapter(this, chartRecordDoList);
+        View head = View.inflate(this, R.layout.item_pie_record, null);
+        mTypePieChart = (PieChart) head.findViewById(R.id.type_pie_chart);
+        changeTv = (TextView) head.findViewById(R.id.changeTv);
+        dateTv = (TextView) head.findViewById(R.id.date_tv);
         initPieChart();
-        return view;
+        mRecordLv.addHeaderView(head);
+        mRecordLv.setAdapter(recordPieAnalysisAdapter);
+
     }
 
     private void initPieChart() {
@@ -88,7 +96,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         });
 
 
-        refreshPie();
+        refreshPie(changeMonth);
         changeTv.setText(Html.fromHtml(pieOut ? getString(R.string.out_text) : getString(R.string.in_text)));
         changeTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,25 +105,42 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
                 changeTv.setText(Html.fromHtml(pieOut ? getString(R.string.out_text) : getString(R.string.in_text)));
 
-                refreshPie();
+                refreshPie(changeMonth);
             }
         });
 
-        pieLabelTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RecordPieAnalysisActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
-    private void refreshPie() {
-        mRecordManager.getOutOrInRecordThisMonth(new Handler() {
+    private void refreshPie(int delMon) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, delMon);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+
+        long start = calendar.getTimeInMillis();
+        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.DATE, -1);
+        if (DateTimeUtil.isThisYear(calendar.getTime())) {
+            dateTv.setText(format1.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
+        } else {
+            dateTv.setText(format3.format(new Date(start)) + "~" + format2.format(calendar.getTime()));
+        }
+
+        mRecordManager.getOutOrInRecordByMonth(new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                chartRecordDoList.clear();
+                chartRecordDoList.addAll((List<ChartRecordDo>) msg.obj);
+                recordPieAnalysisAdapter.notifyDataSetChanged();
                 mTypePieChart.clear();
                 xVals1.clear();
                 yVals1.clear();
@@ -151,7 +176,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                 //data.setValueTypeface(tf);
                 mTypePieChart.setData(data);
                 if (list.size() == 0) {
-                    mTypePieChart.setCenterText("本月还没有" + (pieOut ? "支出" : "收入") + "记录哦~");
+                    mTypePieChart.setCenterText("还没有" + (pieOut ? "支出" : "收入") + "记录哦~");
                     mTypePieChart.setCenterTextColor(Color.RED);
                 } else {
                     mTypePieChart.setCenterTextColor(mainColor);
@@ -161,37 +186,36 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                 mTypePieChart.animateXY(500, 500);  //设置动画
 
             }
-        }, pieOut);
+        }, pieOut, year, month);
     }
 
-    @Override
-    public void reload(boolean needUpdateData) {
-        refreshPie();
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mainColor = getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainColorID());
-        mainDarkColor = getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainDarkColorID());
-
-        backGround.setBackground(new ColorDrawable(mainColor));
+    public void changeDate(View view) {
+        String tag = (String) view.getTag();
+        if ("add".equals(tag)) {
+            changeMonth++;
+        } else {
+            changeMonth--;
+        }
+        refreshPie(changeMonth);
     }
 
 
-    private View backGround;
-    private int mainColor;
-    private int mainDarkColor;
     private PieChart mTypePieChart;
 
+    private ListView mRecordLv;
+    private List<ChartRecordDo> chartRecordDoList;
+    private RecordPieAnalysisAdapter recordPieAnalysisAdapter;
     private RecordManager mRecordManager;
-
-    boolean pieOut = true;
+    private boolean pieOut = true;
     private double allOutOrInMoney = 0;
-    private TextView changeTv, pieLabelTv;
+    private TextView changeTv;
     List<Entry> yVals1 = new ArrayList<Entry>();
     List<String> xVals1 = new ArrayList<String>();
+    int changeMonth = 0;
+    private TextView dateTv;
 
+    DateFormat format1 = new SimpleDateFormat("MM月dd日");
+    DateFormat format2 = new SimpleDateFormat("dd日");
+    DateFormat format3 = new SimpleDateFormat("yyyy年MM月dd日");
 
 }

@@ -244,17 +244,25 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_RECORD) {
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
+                reloadAnalysisCallBack.reload(true);
             }
             if (requestCode == REQUEST_EDIT_THEME) {
                 reloadRecordCallBack.reload(false);
                 reloadAccountCallBack.reload(false);
                 optMenuAdapter.notifyDataSetChanged();
+                reloadAnalysisCallBack.reload(false);
             }
             if (requestCode == REQUEST_LOGIN) {
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
+                reloadAnalysisCallBack.reload(true);
                 userNameTv.setText(TextUtils.isEmpty(userManager.getCurUserName()) ?
                         "登陆/注册" : userManager.getCurUserName());
+            }
+            if (requestCode == REQUEST_ACCOUNT_FLOW) {
+                reloadRecordCallBack.reload(true);
+                reloadAccountCallBack.reload(true);
+                reloadAnalysisCallBack.reload(true);
             }
         }
     }
@@ -271,15 +279,19 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void setReloadAccountCallBack(ReloadAccountCallBack reloadAccountCallBack) {
+    public void setReloadAccountCallBack(ReloadCallBack reloadAccountCallBack) {
         this.reloadAccountCallBack = reloadAccountCallBack;
     }
 
-    public void setReloadRecordCallBack(ReloadRecordCallBack reloadRecordCallBack) {
+    public void setReloadRecordCallBack(ReloadCallBack reloadRecordCallBack) {
         this.reloadRecordCallBack = reloadRecordCallBack;
     }
 
-    public ReloadAccountCallBack getReloadAccountCallBack() {
+    public void setReloadAnalysisCallBack(ReloadCallBack reloadAnalysisCallBack) {
+        this.reloadAnalysisCallBack = reloadAnalysisCallBack;
+    }
+
+    public ReloadCallBack getReloadAccountCallBack() {
         return reloadAccountCallBack;
     }
 
@@ -304,21 +316,20 @@ public class MainActivity extends BaseActivity {
 
     private UserManager userManager;
 
-    private ReloadAccountCallBack reloadAccountCallBack;
-    private ReloadRecordCallBack reloadRecordCallBack;
+    private ReloadCallBack reloadAccountCallBack;
+    private ReloadCallBack reloadRecordCallBack;
+    private ReloadCallBack reloadAnalysisCallBack;
     private OptMenuAdapter optMenuAdapter;
 
 
-    public interface ReloadAccountCallBack {
+    public interface ReloadCallBack {
         void reload(boolean needUpdateData);
     }
 
-    public interface ReloadRecordCallBack {
-        void reload(boolean needUpdateData);
-    }
 
     public final static int REQUEST_ACCOUNT = 100;
     public final static int REQUEST_RECORD = 101;
     public final static int REQUEST_EDIT_THEME = 102;
     public final static int REQUEST_LOGIN = 103;
+    public final static int REQUEST_ACCOUNT_FLOW = 104;
 }

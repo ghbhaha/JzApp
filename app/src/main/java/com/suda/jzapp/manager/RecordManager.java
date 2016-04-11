@@ -22,6 +22,7 @@ import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
+import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
@@ -30,6 +31,7 @@ import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -597,6 +599,29 @@ public class RecordManager extends BaseManager {
                     sendEmptyMessage(handler, Constant.MSG_ERROR);
                     getAvEx(e);
                 }
+            }
+        });
+    }
+
+    public void getOutOrInRecordThisMonth(final Handler handler, final boolean out) {
+        Calendar calendar = Calendar.getInstance();
+        getOutOrInRecordByMonth(handler, out, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+    }
+
+    public void getOutOrInRecordByMonth(final Handler handler, final boolean out, final int year, final int month) {
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<ChartRecordDo> list = new ArrayList<ChartRecordDo>();
+                list.addAll(recordLocalDAO.getOutOrInRecordByMonth(_context, out, year, month));
+                double moneyCount = 0;
+                for (ChartRecordDo chartRecordDo : list) {
+                    moneyCount += chartRecordDo.getRecordMoney();
+                }
+                for (ChartRecordDo chartRecordDo : list) {
+                    chartRecordDo.setPer(chartRecordDo.getRecordMoney() / moneyCount * 100);
+                }
+                sendMessage(handler, list, true);
             }
         });
     }
