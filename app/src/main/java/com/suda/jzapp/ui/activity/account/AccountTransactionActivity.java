@@ -66,6 +66,10 @@ public class AccountTransactionActivity extends BaseActivity {
         ((TextView) head.findViewById(R.id.account_name)).setText(accountDetailDO.getAccountName());
         ((ImageView) head.findViewById(R.id.account_type_icon)).setImageResource(IconTypeUtil.getAccountIcon(accountDetailDO.getAccountTypeID()));
 
+        if (!TextUtils.isEmpty(accountDetailDO.getAccountColor())) {
+            ((ImageView) head.findViewById(R.id.account_type_icon)).setColorFilter(Integer.parseInt(accountDetailDO.getAccountColor()));
+        }
+
         refresh(changeMonth);
     }
 

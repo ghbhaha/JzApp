@@ -3,6 +3,7 @@ package com.suda.jzapp.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final AccountDetailDO account = accounts.get(position);
         holder.mIgAccountTypeIcon.setImageResource(IconTypeUtil.getAccountIcon(account.getAccountTypeID()));
+
+        if (!TextUtils.isEmpty(account.getAccountColor())) {
+            holder.mIgAccountTypeIcon.setColorFilter(Integer.parseInt(account.getAccountColor()));
+        } else {
+            holder.mIgAccountTypeIcon.setColorFilter(0);
+        }
 
         holder.mTvAccountName.setText(account.getAccountName());
         holder.mTvAccountMoney.setText(String.format(context.getResources().getString(R.string.money_format), account.getAccountMoney()));

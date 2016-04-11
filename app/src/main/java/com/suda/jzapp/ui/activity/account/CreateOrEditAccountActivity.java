@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.activity.account;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.TextUtil;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -57,6 +59,9 @@ public class CreateOrEditAccountActivity extends BaseActivity {
             accountTypeId = account.getAccountTypeID();
             mTvAccountTypeDesc.setText(account.getAccountDesc());
             mIgAccountType.setImageResource(IconTypeUtil.getAccountIcon(account.getAccountIcon()));
+            if (!TextUtils.isEmpty(account.getAccountColor())) {
+                mIgAccountType.setColorFilter(Integer.parseInt(account.getAccountColor()));
+            }
             mTvAccountRemark.setText(accountRemark);
             accountMoney = account.getAccountMoney();
             mTvAccountMoney.setText(String.format(getResources().getString(R.string.money_format), accountMoney));
@@ -139,6 +144,10 @@ public class CreateOrEditAccountActivity extends BaseActivity {
             intent.putExtra(IntentConstant.EDIT_TYPE, EditAccountActivity.PROP_TYPE_ACCOUNT_TYPE);
             intent.putExtra(IntentConstant.EDIT_ACCOUNT_TYPE, accountTypeId);
             startActivityForResult(intent, EditAccountActivity.PROP_TYPE_ACCOUNT_TYPE);
+        } else if ("editAccountColor".equals(tag)) {
+            intent = new Intent(this, EditAccountColorActivity.class);
+            intent.putExtra(IntentConstant.ACCOUNT_ID, mAccountID);
+            startActivityForResult(intent, EditAccountActivity.PROP_TYPE_ACCOUNT_COLOR);
         }
 
     }
@@ -176,6 +185,10 @@ public class CreateOrEditAccountActivity extends BaseActivity {
 
                 }
             });
+        } else if (requestCode == EditAccountActivity.PROP_TYPE_ACCOUNT_COLOR) {
+            int color = data.getIntExtra("color", 0);
+            mIgAccountType.setColorFilter(color);
+
         }
 
     }

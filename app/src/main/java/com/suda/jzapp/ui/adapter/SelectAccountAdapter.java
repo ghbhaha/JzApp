@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,13 @@ public class SelectAccountAdapter extends BaseAdapter {
         holder.selectMark.setVisibility(accountID == accountDetailDO.getAccountID() ? View.VISIBLE : View.GONE);
 
         holder.icon.setImageResource(IconTypeUtil.getAccountIcon(accountDetailDO.getAccountTypeID()));
+
+        if (!TextUtils.isEmpty(accountDetailDO.getAccountColor())) {
+            holder.icon.setColorFilter(Integer.parseInt(accountDetailDO.getAccountColor()));
+        } else {
+            holder.icon.setColorFilter(0);
+        }
+
         holder.name.setText(accountDetailDO.getAccountName());
         holder.money.setText(String.format(context.getResources().getString(R.string.money_format_2), accountDetailDO.getAccountMoney()));
 

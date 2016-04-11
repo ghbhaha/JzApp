@@ -73,4 +73,8 @@ public class MyRoundColorView extends ImageView {
         BitmapDrawable bd = (BitmapDrawable) drawable;
         return bd.getBitmap();
     }
+
+    public int getRoundColor(){
+        return myRoundColor;
+    }
 }

@@ -136,13 +136,13 @@ public class AccountManager extends BaseManager {
                         accountLocalDao.createNewAccount(account, _context);
                         getAvEx(e);
                     }
-                    sendEmptyMessage(handler,Constant.MSG_SUCCESS);
+                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                 }
             });
         } else {
             account.setSyncStatus(false);
             accountLocalDao.createNewAccount(account, _context);
-            sendEmptyMessage(handler,Constant.MSG_SUCCESS);
+            sendEmptyMessage(handler, Constant.MSG_SUCCESS);
         }
     }
 
@@ -229,6 +229,23 @@ public class AccountManager extends BaseManager {
     }
 
     /**
+     * 更新账户颜色
+     *
+     * @param accountID
+     * @param color
+     * @param handler
+     */
+    public void updateAccountColor(final long accountID, final String color, final Handler handler) {
+        editAccount(EDIT_TYPE_ACCOUNT_REMARK, accountID, color, 0, 0, null, new Callback() {
+            @Override
+            public void doSth(boolean isSync, String objId) {
+                accountLocalDao.updateAccountColor(accountID, color, isSync, objId, _context);
+            }
+        }, handler);
+    }
+
+
+    /**
      * 修改账户通用方法
      *
      * @param editType
@@ -257,6 +274,8 @@ public class AccountManager extends BaseManager {
                     avAccount.setAccountRemark(remark);
                 } else if (editType == EDIT_TYPE_ACCOUNT_NAME) {
                     avAccount.setAccountName(accountName);
+                } else if (editType == EDIT_TYPE_ACCOUNT_COLOR) {
+                    avAccount.setAccountColor(remark);
                 }
                 avAccount.saveInBackground(new SaveCallback() {
                     @Override
@@ -297,6 +316,8 @@ public class AccountManager extends BaseManager {
                             avAccount.setAccountRemark(remark);
                         } else if (editType == EDIT_TYPE_ACCOUNT_NAME) {
                             avAccount.setAccountName(accountName);
+                        } else if (editType == EDIT_TYPE_ACCOUNT_COLOR) {
+                            avAccount.setAccountColor(remark);
                         }
                         final String objId = avAccount.getObjectId();
                         avAccount.saveInBackground(new SaveCallback() {
@@ -367,6 +388,8 @@ public class AccountManager extends BaseManager {
     private final static int EDIT_TYPE_ACCOUNT_MONEY = 1;
     private final static int EDIT_TYPE_ACCOUNT_TYPE = 2;
     private final static int EDIT_TYPE_ACCOUNT_REMARK = 3;
+    private final static int EDIT_TYPE_ACCOUNT_COLOR = 4;
+
 
     private AccountLocalDao accountLocalDao = new AccountLocalDao();
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

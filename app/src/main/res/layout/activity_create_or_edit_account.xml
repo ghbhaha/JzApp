@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_grey_100"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -41,7 +42,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="162dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/account_name_lo"
         android:layout_marginLeft="@dimen/card_margin_let_right"
         android:layout_marginRight="@dimen/card_margin_let_right"
@@ -75,15 +76,6 @@
                 android:text="网络账户"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/account_type_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/account_type_desc"
-                android:src="@drawable/icon_account_zhifubao_grey" />
-
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -109,6 +101,32 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="28dp"
                 android:textSize="16sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:onClick="editAccount"
+            android:paddingLeft="10dp"
+            android:tag="editAccountColor">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="颜色"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/account_type_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="28dp"
+                android:src="@drawable/icon_account_zhifubao_grey" />
 
 
         </RelativeLayout>
@@ -145,31 +163,28 @@
 
 
     <!--<com.melnykov.fab.FloatingActionButton-->
-        <!--android:id="@+id/submit"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:src="@drawable/ic_done_white"-->
-        <!--app:fab_colorNormal="@color/blue"-->
-        <!--app:fab_colorPressed="@color/blue"-->
-        <!--app:fab_colorRipple="@color/ripple" />-->
+    <!--android:id="@+id/submit"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--android:layout_margin="16dp"-->
+    <!--android:src="@drawable/ic_done_white"-->
+    <!--app:fab_colorNormal="@color/blue"-->
+    <!--app:fab_colorPressed="@color/blue"-->
+    <!--app:fab_colorRipple="@color/ripple" />-->
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentBottom="true">
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            />
+            android:layout_margin="@dimen/fab_margin" />
     </android.support.design.widget.CoordinatorLayout>
-
-
 
 
 </RelativeLayout>

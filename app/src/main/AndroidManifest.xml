@@ -84,6 +84,8 @@
             android:name=".ui.activity.record.RecordPieAnalysisActivity"
             android:label="@string/title_activity_record_pie_analysis"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activity.account.EditAccountColorActivity"
+            android:theme="@style/ThemeDialogStyle"/>
 
         <service android:name=".service.SyncService" />
 

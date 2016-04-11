@@ -71,6 +71,18 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.update(account);
     }
 
+    public void updateAccountColor(long accountID, String color, boolean isSync, String objId, Context context) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        Account account = getAccountByID(accountID, context);
+        account.setAccountColor(color);
+        account.setSyncStatus(isSync);
+        if (!TextUtils.isEmpty(objId)) {
+            account.setObjectID(objId);
+        }
+        accountDao.update(account);
+    }
+
+
     public void updateAccountTypeID(long accountID, int typeID, boolean isSync, String objId, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         Account account = getAccountByID(accountID, context);

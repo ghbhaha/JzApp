@@ -249,5 +249,6 @@ public class EditAccountActivity extends BaseActivity {
     public static final int PROP_TYPE_ACCOUNT_MONEY = 1;
     public static final int PROP_TYPE_ACCOUNT_REMARK = 2;
     public static final int PROP_TYPE_ACCOUNT_TYPE = 3;
+    public static final int PROP_TYPE_ACCOUNT_COLOR = 4;
 
 }
