@@ -159,7 +159,7 @@ public class RecordLocalDAO extends BaseLocalDao {
                 "where a.[RECORD_TYPE_ID] = b.[RECORD_TYPE_ID] and a.[IS_DEL] = 0 and YEAR ="
                 + year + " and MONTH =" + month +
                 " and b.RECORD_TYPE in (" + builder.toString() +
-                ") group by  b.[RECORD_TYPE_ID]";
+                ") group by  b.[RECORD_TYPE_ID] order by SUM(a.[RECORD_MONEY]) " +(out ? "asc" : "desc") ;
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         while (c.moveToNext()) {
             ChartRecordDo chartRecordDo = new ChartRecordDo();

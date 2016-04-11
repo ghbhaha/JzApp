@@ -211,6 +211,7 @@ public class RecordAdapter extends BaseAdapter {
                                             public void handleMessage(Message msg) {
                                                 super.handleMessage(msg);
                                                 ((MainActivity) mContext).getReloadAccountCallBack().reload(true);
+                                                ((MainActivity) mContext).getReloadAnalysisCallBack().reload(true);
                                             }
                                         });
                                 RecordDetailDO todayRecordDetailDO = recordDetailDOMap.get(recordDetailDO.getRecordDate());

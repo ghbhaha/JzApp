@@ -120,39 +120,20 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         mViewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), this));
         mViewPager.setOffscreenPageLimit(3);
-
+        // mPagerSlidingTabStrip.setFadeEnabled(false);
+        mPagerSlidingTabStrip.setZoomMax(0);
+        mPagerSlidingTabStrip.setTextSize(14);
         mViewPager.setCurrentItem(1);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
-        mPagerSlidingTabStrip
-                .setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-                    @Override
-                    public void onPageSelected(int arg0) {
-                        // colorChange(arg0);
-                    }
-
-                    @Override
-                    public void onPageScrolled(int arg0, float arg1, int arg2) {
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int arg0) {
-                    }
-                });
-
         // 底部游标颜色
         mPagerSlidingTabStrip.setIndicatorColor(Color.WHITE);
-
         // tab的分割线颜色
         mPagerSlidingTabStrip.setDividerColor(Color.TRANSPARENT);
         // tab背景
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
-
         mPagerSlidingTabStrip.setUnderlineHeight((int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources()
                         .getDisplayMetrics()));
-
-
         // 游标高度
         mPagerSlidingTabStrip.setIndicatorHeight((int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources()
@@ -160,13 +141,14 @@ public class MainActivity extends BaseActivity {
         // 选中的文字颜色
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
-        mPagerSlidingTabStrip.setTextColor(Color.BLACK);
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
     }
@@ -293,6 +275,14 @@ public class MainActivity extends BaseActivity {
 
     public ReloadCallBack getReloadAccountCallBack() {
         return reloadAccountCallBack;
+    }
+
+    public ReloadCallBack getReloadAnalysisCallBack() {
+        return reloadAnalysisCallBack;
+    }
+
+    public ReloadCallBack getReloadRecordCallBack() {
+        return reloadRecordCallBack;
     }
 
     protected void getPermission(final String permission) {

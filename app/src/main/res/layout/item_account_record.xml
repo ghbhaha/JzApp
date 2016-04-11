@@ -14,23 +14,24 @@
         android:layout_marginTop="4dp"
         android:text="1月1日" />
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginRight="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:background="@drawable/card"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/record_icon"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
@@ -60,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
                     android:text="午饭"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:visibility="gone" />
 
@@ -80,6 +82,6 @@
 
         </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 </LinearLayout>
