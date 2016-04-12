@@ -23,6 +23,7 @@ import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
+import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
@@ -620,6 +621,35 @@ public class RecordManager extends BaseManager {
                 }
                 for (ChartRecordDo chartRecordDo : list) {
                     chartRecordDo.setPer(chartRecordDo.getRecordMoney() / moneyCount * 100);
+                }
+                sendMessage(handler, list, true);
+            }
+        });
+    }
+
+    public void getYearRecordDetail(final int year, final Handler handler) {
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                Map<Integer, Double> out = recordLocalDAO.getYearRecordDetail(_context, year, true);
+                Map<Integer, Double> in = recordLocalDAO.getYearRecordDetail(_context, year, false);
+                List<LineChartDo> list = new ArrayList<LineChartDo>();
+                Calendar calendar = Calendar.getInstance();
+                int maxMon = calendar.get(Calendar.YEAR) != year ? 12 : calendar.get(Calendar.MONTH) + 1;
+
+                for (int i = 0; i < maxMon; i++) {
+                    double monthIn = 0;
+                    double monthOut = 0;
+                    if (out.get(i) != null)
+                        monthOut = out.get(i);
+                    if (in.get(i) != null)
+                        monthIn = in.get(i);
+                    LineChartDo lineChartDo = new LineChartDo();
+                    lineChartDo.setMonth(i + 1);
+                    lineChartDo.setAllIn(monthIn);
+                    lineChartDo.setAllOut(monthOut);
+                    lineChartDo.setAllLeft(monthIn + monthOut);
+                    list.add(lineChartDo);
                 }
                 sendMessage(handler, list, true);
             }

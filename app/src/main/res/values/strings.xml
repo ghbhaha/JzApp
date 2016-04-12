@@ -39,6 +39,7 @@
     <string name="title_activity_create_new_record_type">创建新记录</string>
     <string name="title_activity_account_transaction">交易流水</string>
     <string name="title_activity_record_pie_analysis">分类统计</string>
+    <string name="title_activity_record_line_analysis">收支趋势</string>
 
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -59,7 +60,7 @@
     <string name="outMoney">本月支出\n%.2f</string>
 
     <string name="type_analysis">分类统计(当月)</string>
-    <string name="intent_analysis">趋势统计(当年)</string>
+    <string name="intent_analysis">收支趋势(当年)</string>
     <string name="in_text">&lt;font color=#dc6268>收&lt;/font>&lt;font color=#e6b7c2> | 支&lt;/font></string>
     <string name="out_text">&lt;font color=#e6b7c2>收 | &lt;/font>&lt;font color=#dc6268>支&lt;/font></string>
 </resources>

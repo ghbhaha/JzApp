@@ -7,12 +7,15 @@ import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
+import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.misc.Constant;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ghbha on 2016/3/24.
@@ -159,7 +162,7 @@ public class RecordLocalDAO extends BaseLocalDao {
                 "where a.[RECORD_TYPE_ID] = b.[RECORD_TYPE_ID] and a.[IS_DEL] = 0 and YEAR ="
                 + year + " and MONTH =" + month +
                 " and b.RECORD_TYPE in (" + builder.toString() +
-                ") group by  b.[RECORD_TYPE_ID] order by SUM(a.[RECORD_MONEY]) " +(out ? "asc" : "desc") ;
+                ") group by  b.[RECORD_TYPE_ID] order by SUM(a.[RECORD_MONEY]) " + (out ? "asc" : "desc");
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         while (c.moveToNext()) {
             ChartRecordDo chartRecordDo = new ChartRecordDo();
@@ -170,6 +173,28 @@ public class RecordLocalDAO extends BaseLocalDao {
             list.add(chartRecordDo);
         }
         return list;
+    }
+
+    public Map<Integer, Double> getYearRecordDetail(Context context, int year, boolean out) {
+        Map<Integer, Double> result = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+        if (out) {
+            builder.append(Constant.RecordType.AA_ZHICHU.getId()).append(",");
+            builder.append(Constant.RecordType.ZUICHU.getId());
+        } else {
+            builder.append(Constant.RecordType.SHOURU.getId()).append(",");
+            builder.append(Constant.RecordType.AA_SHOURU.getId());
+        }
+
+        String sql = "select MONTH,sum(RECORD_MONEY) from RECORD where IS_DEL = 0 and RECORD_TYPE in (" +
+                builder.toString() +
+                ") and YEAR = " + year + " GROUP BY MONTH";
+        Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+        while (c.moveToNext()) {
+            result.put(c.getInt(0), c.getDouble(1));
+        }
+        c.close();
+        return result;
     }
 
 }

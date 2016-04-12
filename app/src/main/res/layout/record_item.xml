@@ -91,6 +91,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/out_tv"
             android:layout_marginLeft="5dp"
+            android:textSize="10sp"
             android:text="" />
 
 

@@ -84,8 +84,12 @@
             android:name=".ui.activity.record.RecordPieAnalysisActivity"
             android:label="@string/title_activity_record_pie_analysis"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.activity.account.EditAccountColorActivity"
-            android:theme="@style/ThemeDialogStyle"/>
+        <activity android:name=".ui.activity.record.RecordLineChartActivity"
+            android:label="@string/title_activity_record_line_analysis"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.account.EditAccountColorActivity"
+            android:theme="@style/ThemeDialogStyle" />
 
         <service android:name=".service.SyncService" />
 
@@ -102,6 +106,7 @@
         <service
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" />
+
 
     </application>
 

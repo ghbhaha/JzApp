@@ -67,16 +67,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/line_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/intent_analysis" />
 
-            <com.github.mikephil.charting.charts.PieChart
+            <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
     </LinearLayout>

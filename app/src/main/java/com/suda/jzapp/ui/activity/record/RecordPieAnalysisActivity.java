@@ -158,8 +158,8 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                     i++;
                 }
                 PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
-                dataSet.setSliceSpace(2f);
-                dataSet.setSelectionShift(4f);
+                dataSet.setSliceSpace(1f);
+                dataSet.setSelectionShift(2f);
 
                 dataSet.setColors(colors);
                 PieData data = new PieData(xVals1, dataSet);
@@ -186,6 +186,10 @@ public class RecordPieAnalysisActivity extends BaseActivity {
             changeMonth++;
         } else {
             changeMonth--;
+        }
+        if (changeMonth > 0) {
+            changeMonth--;
+            return;
         }
         refreshPie(changeMonth);
     }
