@@ -33,14 +33,20 @@ public class EditAccountColorActivity extends Activity {
         final Intent intent = new Intent();
         intent.putExtra("color", myRoundColorView.getRoundColor());
 
-        accountManager.updateAccountColor(mAccountID, myRoundColorView.getRoundColor() + "", new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
+        if (mAccountID>0){
+            accountManager.updateAccountColor(mAccountID, myRoundColorView.getRoundColor() + "", new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+        }else {
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
 
 
     }

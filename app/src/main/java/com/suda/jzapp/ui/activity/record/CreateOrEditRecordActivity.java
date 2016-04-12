@@ -190,6 +190,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         mAccountTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         mDateTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         remarkBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        remarkSaveBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         findViewById(R.id.line3).setBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
         initRemarkPanel();
     }

@@ -34,7 +34,7 @@ public class EditAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account_prop);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         accountManager = new AccountManager(this);
         recordManager = new RecordManager(this);
         initParam();
@@ -45,6 +45,7 @@ public class EditAccountActivity extends BaseActivity {
     protected void initWidget() {
         mEtProp = (EditText) findViewById(R.id.prop_et);
         mBtProp = (Button) findViewById(R.id.prop_bt);
+        mBtProp.setTextColor(getColor(this, getMainTheme().getMainColorID()));
         mLvAccountType = (ListView) findViewById(R.id.account_type);
 
         findViewById(mEditType == PROP_TYPE_ACCOUNT_TYPE ? R.id.account_other_param : R.id.account_type_param).setVisibility(View.GONE);
@@ -181,7 +182,7 @@ public class EditAccountActivity extends BaseActivity {
                             finish();
                         }
                     });
-                }else {
+                } else {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -197,7 +198,7 @@ public class EditAccountActivity extends BaseActivity {
                             finish();
                         }
                     });
-                }else {
+                } else {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -227,8 +228,6 @@ public class EditAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private EditText mEtProp;
