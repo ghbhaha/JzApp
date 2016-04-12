@@ -1,179 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/account"
-            android:onClick="selectAccount"
-            android:text="现金"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:layout_toRightOf="@+id/account"
-            android:text="2016-02-18"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="备注"/>
-
-    </RelativeLayout>
-
 
     <TableLayout
+        android:id="@+id/panel_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/panel_color"
+        android:layout_below="@+id/line2"
         android:background="@color/blue">
 
         <TableRow>
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="1"/>
+                android:text="1"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="2"/>
+                android:text="2"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="3"/>
+                android:text="3"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="del"/>
+                android:text="del"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
         </TableRow>
+
         <TableRow>
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="4"/>
+                android:text="4"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="5"/>
+                android:text="5"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="6"/>
+                android:text="6"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="+"/>
+                android:text="+"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
         </TableRow>
+
         <TableRow>
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="7"/>
+                android:text="7"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="8"/>
+                android:text="8"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="9"/>
+                android:text="9"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="-"/>
+                android:text="-"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
         </TableRow>
+
         <TableRow>
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="C"/>
+                android:text="C"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="0"/>
+                android:text="0"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
+                android:layout_height="@dimen/button_height"
                 android:layout_weight="1"
                 android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
                 android:onClick="onClickPanel"
-                android:text="."/>
+                android:text="."
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
+
             <Button
-                android:layout_weight="1"
-                android:background="#00000000"
-                android:layout_height="@dimen/button_height"
-                android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size"
-                android:onClick="onClickPanel"
                 android:id="@+id/ok"
-                android:text="OK"/>
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:onClick="onClickPanel"
+                android:text="OK"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/panel_text_size" />
         </TableRow>
     </TableLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/remark_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line2"
+        android:background="@color/md_white_1000"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:id="@+id/edit_remark" />
+
+        <Button
+            android:id="@+id/remark_save"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:background="#00000000"
+            android:text="保存"
+            android:textColor="@color/blue" />
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/md_grey_200" />
+
+    <RelativeLayout
+        android:id="@+id/opt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line1"
+        android:background="@color/md_white_1000">
+
+        <Button
+            android:id="@+id/account"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:ellipsize="end"
+            android:onClick="selectAccount"
+            android:singleLine="true"
+            android:text="现金" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/account"
+            android:background="@color/blue" />
+
+        <Button
+            android:id="@+id/date"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/account"
+            android:background="#00000000"
+            android:text="02-18" />
+
+        <Button
+            android:id="@+id/remark_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#00000000"
+            android:text="备注" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/opt_layout"
+        android:background="@color/panel_back" />
+
+
+</RelativeLayout>

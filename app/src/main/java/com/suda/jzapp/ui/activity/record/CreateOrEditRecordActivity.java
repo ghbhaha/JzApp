@@ -3,19 +3,24 @@ package com.suda.jzapp.ui.activity.record;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TextInputEditText;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Account;
@@ -77,6 +82,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             setCurRecordType(0, mOldRecordType);
             tvMoneyCount.setText(String.format(getResources().getString(R.string.record_money_format), Math.abs(oldRecord.getRecordMoney())));
             zhiChu = oldRecord.getRecordType() < 0;
+            etRemark.setText(oldRecord.getRemark());
             setList();
         }
 
@@ -176,6 +182,53 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         mDateTv = (TextView) findViewById(R.id.date);
         circleProgressBar = (CircleProgressBar) findViewById(R.id.progressBar);
         circleProgressBar.setVisibility(View.INVISIBLE);
+        remarkPanel = findViewById(R.id.remark_panel);
+        remarkBt = (Button) findViewById(R.id.remark_bt);
+        remarkSaveBt = (Button) findViewById(R.id.remark_save);
+        etRemark = (TextInputEditText) findViewById(R.id.edit_remark);
+
+        mAccountTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        mDateTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        remarkBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        findViewById(R.id.line3).setBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
+        initRemarkPanel();
+    }
+
+    private void initRemarkPanel() {
+
+        etRemark.setDrawingCacheBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
+
+        remarkBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (remarkPanel.getVisibility() == View.INVISIBLE) {
+                    remarkPanel.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.SlideInDown).duration(300).playOn(remarkPanel);
+                } else {
+                    YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            remarkPanel.setVisibility(View.INVISIBLE);
+                        }
+                    }, 300);
+                }
+            }
+        });
+
+        remarkSaveBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newRecord.setRemark(etRemark.getText().toString());
+                YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        remarkPanel.setVisibility(View.INVISIBLE);
+                    }
+                }, 300);
+            }
+        });
     }
 
 
@@ -280,6 +333,16 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 recordTypeAdapter.setShake(false);
                 return true;
             }
+            if (remarkPanel.getVisibility() == View.VISIBLE) {
+                YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        remarkPanel.setVisibility(View.INVISIBLE);
+                    }
+                }, 300);
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -289,7 +352,6 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
         newRecord.setRecordMoney(Double.parseDouble(tvMoneyCount.getText().toString())
                 * (mCurRecordType.getRecordType() / Math.abs(mCurRecordType.getRecordType())));
-        newRecord.setRemark("");
         newRecord.setRecordTypeID(mCurRecordType.getRecordTypeID());
         newRecord.setRecordType(mCurRecordType.getRecordType());
         if (oldRecord == null) {
@@ -553,6 +615,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     private Record newRecord, oldRecord;
     private AccountManager accountManager;
+
+    private View remarkPanel;
+    private Button remarkBt, remarkSaveBt;
+    private TextInputEditText etRemark;
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;

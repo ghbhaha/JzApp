@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected static String fmDate(Date date) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat format = new SimpleDateFormat("MM-dd");
         return format.format(date);
     }
 
