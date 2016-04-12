@@ -111,6 +111,10 @@ public class AccountTransactionActivity extends BaseActivity {
         } else {
             changeMonth--;
         }
+        if (changeMonth > 0) {
+            changeMonth--;
+            return;
+        }
         refresh(changeMonth);
 
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="62dp"
-    android:minHeight="62dp"
+    android:layout_height="54dp"
+    android:minHeight="54dp"
     android:orientation="horizontal">
 
 
@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="6dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_toRightOf="@+id/record_icon"
                 android:text="红包"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/record_per"
@@ -45,7 +45,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="32%"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/record_money"
@@ -55,7 +55,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:text="100"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
     </LinearLayout>
