@@ -22,6 +22,7 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.ui.adapter.RecordPieAnalysisAdapter;
 import com.suda.jzapp.util.DateTimeUtil;
+import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.TextUtil;
 
 import java.text.DateFormat;
@@ -145,6 +146,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                 xVals1.clear();
                 yVals1.clear();
                 List<ChartRecordDo> list = (List<ChartRecordDo>) msg.obj;
+                ArrayList<Integer> colors = new ArrayList<Integer>();
                 //mTypePieChart.setVisibility(list.size() > 0 ? View.VISIBLE : View.GONE);
                 allOutOrInMoney = 0;
                 int i = 0;
@@ -152,24 +154,13 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                     allOutOrInMoney += Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
                     yVals1.add(new Entry(Math.abs(new Double(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
                     xVals1.add(chartRecordDo.getRecordDesc());
+                    colors.add(IconTypeUtil.getTypeIconOrColor(chartRecordDo.getIconId(), false));
                     i++;
                 }
                 PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
                 dataSet.setSliceSpace(2f);
                 dataSet.setSelectionShift(4f);
-                // add a lot of colors
-                ArrayList<Integer> colors = new ArrayList<Integer>();
-                for (int c : ColorTemplate.VORDIPLOM_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.JOYFUL_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.COLORFUL_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.LIBERTY_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.PASTEL_COLORS)
-                    colors.add(c);
-                colors.add(ColorTemplate.getHoloBlue());
+
                 dataSet.setColors(colors);
                 PieData data = new PieData(xVals1, dataSet);
                 data.setDrawValues(false);
