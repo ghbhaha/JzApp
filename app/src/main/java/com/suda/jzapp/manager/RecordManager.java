@@ -19,6 +19,8 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
+import com.suda.jzapp.dao.greendao.RemarkTip;
+import com.suda.jzapp.dao.greendao.RemarkTipDao;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
@@ -29,6 +31,7 @@ import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -70,6 +73,17 @@ public class RecordManager extends BaseManager {
             record.setSyncStatus(false);
             recordLocalDAO.createNewRecord(_context, record);
             sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+        }
+
+        //记录备注
+        if (!TextUtils.isEmpty(record.getRemark())) {
+            RemarkTip remarkTip = recordLocalDAO.selectRemarkTipByRemark(_context, record.getRemark());
+            if (remarkTip == null) {
+                recordLocalDAO.insertNewRemarkTip(_context, record.getRemark(), false);
+            } else {
+                remarkTip.setUseTimes(remarkTip.getUseTimes() + 1);
+                recordLocalDAO.updateRemarkTip(_context, remarkTip, false);
+            }
         }
 
     }
@@ -652,6 +666,16 @@ public class RecordManager extends BaseManager {
                     list.add(lineChartDo);
                 }
                 sendMessage(handler, list, true);
+            }
+        });
+    }
+
+    public void getRemarkTips(final Handler handler) {
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<RemarkTip> remarkTips = recordLocalDAO.selectRemarkTips(_context);
+                sendMessage(handler,remarkTips,true);
             }
         });
     }

@@ -25,5 +25,8 @@ public class UpdateDB {
             db.execSQL("ALTER TABLE RECORD ADD MONTH INTEGER");
             db.execSQL("ALTER TABLE RECORD ADD DAY INTEGER");
         }
+        if (oldVersion < 6) {
+            RemarkTipDao.createTable(db, false);
+        }
     }
 }

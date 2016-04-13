@@ -3,11 +3,11 @@ package com.suda.jzapp.ui.activity.record;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,18 +19,18 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
+import com.suda.jzapp.dao.greendao.RemarkTip;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
+import com.suda.jzapp.ui.adapter.RemarkTipAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
@@ -41,6 +41,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class CreateOrEditRecordActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
@@ -185,17 +186,40 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         remarkPanel = findViewById(R.id.remark_panel);
         remarkBt = (Button) findViewById(R.id.remark_bt);
         remarkSaveBt = (Button) findViewById(R.id.remark_save);
-        etRemark = (TextInputEditText) findViewById(R.id.edit_remark);
+        etRemark = (EditText) findViewById(R.id.edit_remark);
+        mRemarkTipsRcyleV = (RecyclerView) findViewById(R.id.remark_tips);
 
         mAccountTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         mDateTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         remarkBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         remarkSaveBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        ((TextView)findViewById(R.id.remark_tips2)).setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         findViewById(R.id.line3).setBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
         initRemarkPanel();
     }
 
     private void initRemarkPanel() {
+        mRemarkTipsRcyleV.setLayoutManager(new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.VERTICAL));
+
+        remarkTips = new ArrayList<>();
+        remarkTipAdapter = new RemarkTipAdapter(CreateOrEditRecordActivity.this, remarkTips);
+        mRemarkTipsRcyleV.setAdapter(remarkTipAdapter);
+        recordManager.getRemarkTips(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                remarkTips.addAll((List<RemarkTip>) msg.obj);
+                remarkTipAdapter.notifyDataSetChanged();
+            }
+        });
+
+        remarkTipAdapter.setOnRecyclerViewItemClickListener(new RemarkTipAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, String data) {
+                etRemark.setText(data);
+                newRecord.setRemark(data);
+            }
+        });
 
         etRemark.setDrawingCacheBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
 
@@ -619,11 +643,14 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     private View remarkPanel;
     private Button remarkBt, remarkSaveBt;
-    private TextInputEditText etRemark;
+    private EditText etRemark;
+
+    private RecyclerView mRemarkTipsRcyleV;
+    private RemarkTipAdapter remarkTipAdapter;
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;
-
+    List<RemarkTip> remarkTips;
 
     private enum Opt {
         NULL, PLUS, MINUS, DEL, CLEAR, OK, EQUAL;

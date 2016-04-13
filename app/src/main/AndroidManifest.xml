@@ -55,6 +55,7 @@
             android:theme="@style/AppCompatThemeWithNoActionBar" />
         <activity
             android:name=".ui.activity.record.CreateOrEditRecordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppCompatThemeWithNoActionBar" />
         <activity
             android:name=".ui.activity.record.SelectAccountActivity"

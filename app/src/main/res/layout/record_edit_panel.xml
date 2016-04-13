@@ -175,24 +175,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line2"
-        android:background="@color/md_white_1000"
+        android:background="@drawable/card2"
         android:orientation="vertical"
         android:visibility="invisible">
 
-        <android.support.design.widget.TextInputEditText
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:id="@+id/edit_remark" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/remark_save"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:background="#00000000"
-            android:text="保存"
+            <EditText
+                android:id="@+id/edit_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_toLeftOf="@+id/remark_save" />
+
+            <Button
+                android:id="@+id/remark_save"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:background="#00000000"
+                android:text="保存"
+                android:textColor="@color/blue" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:id="@+id/remark_tips2"
+            android:text="经常使用"
             android:textColor="@color/blue" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/remark_tips"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="10dp">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

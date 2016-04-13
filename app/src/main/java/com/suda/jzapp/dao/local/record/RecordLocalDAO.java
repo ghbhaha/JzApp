@@ -5,6 +5,8 @@ import android.database.Cursor;
 
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordDao;
+import com.suda.jzapp.dao.greendao.RemarkTip;
+import com.suda.jzapp.dao.greendao.RemarkTipDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.LineChartDo;
@@ -195,6 +197,33 @@ public class RecordLocalDAO extends BaseLocalDao {
         }
         c.close();
         return result;
+    }
+
+    public void insertNewRemarkTip(Context context, String remark, boolean syncStatus) {
+        RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
+        RemarkTip remarkTip = new RemarkTip();
+        remarkTip.setRemark(remark);
+        remarkTip.setIsDel(false);
+        remarkTip.setUseTimes(1);
+        remarkTip.setSyncStatus(syncStatus);
+        remarkTipDao.insert(remarkTip);
+    }
+
+    public void updateRemarkTip(Context context, RemarkTip remarkTip, boolean syncStatus) {
+        RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
+        remarkTipDao.update(remarkTip);
+    }
+
+    public RemarkTip selectRemarkTipByRemark(Context context, String remark) {
+        RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
+        return getSingleData(remarkTipDao.queryBuilder().where(RemarkTipDao.Properties.Remark.eq(remark)).list());
+    }
+
+    public List<RemarkTip> selectRemarkTips(Context context) {
+        RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
+        return remarkTipDao.queryBuilder().where(RemarkTipDao.Properties.IsDel.eq(false)).where(RemarkTipDao.Properties.UseTimes.ge(2))
+                .orderDesc(RemarkTipDao.Properties.UseTimes)
+                .list();
     }
 
 }

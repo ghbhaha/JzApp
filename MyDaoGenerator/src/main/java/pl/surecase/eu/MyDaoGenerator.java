@@ -7,13 +7,14 @@ import de.greenrobot.daogenerator.Schema;
 public class MyDaoGenerator {
 
     public static void main(String args[]) throws Exception {
-        Schema schema = new Schema(5, "com.suda.jzapp.dao.greendao");
+        Schema schema = new Schema(6, "com.suda.jzapp.dao.greendao");
         addAccount(schema);
         addRecord(schema);
         addAccountType(schema);
         addRecordType(schema);
         addUser(schema);
         addConfig(schema);
+        addRemarkTip(schema);
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
@@ -89,5 +90,13 @@ public class MyDaoGenerator {
         user.addStringProperty("value");
     }
 
+    private static void addRemarkTip(Schema schema) {
+        Entity remark = schema.addEntity("RemarkTip");
+        remark.addIdProperty().autoincrement();
+        remark.addIntProperty("useTimes");
+        remark.addStringProperty("remark");
+        remark.addBooleanProperty("SyncStatus");
+        remark.addBooleanProperty("isDel");
+    }
 
 }
