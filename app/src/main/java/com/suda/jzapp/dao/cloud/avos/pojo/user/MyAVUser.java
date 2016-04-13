@@ -27,6 +27,10 @@ public class MyAVUser extends AVUser {
         put(HEAD_IMAGE, value);
     }
 
+    public Long getUserCode(){
+        return getLong(USER_CODE);
+    }
 
     public final static String HEAD_IMAGE = "headImage";
+    public final static String USER_CODE = "userCode";
 }

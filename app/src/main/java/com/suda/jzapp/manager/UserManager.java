@@ -177,6 +177,7 @@ public class UserManager extends BaseManager {
                         user = new User();
                         user.setUserId(avUser.getObjectId());
                         user.setHeadImage(getImgUrl(avUser.getHeadImage()));
+                        user.setUserCode(avUser.getUserCode());
                         user.setUserName(avUser.getUsername());
                         userLocalDao.insertUser(user, _context);
                         message.what = Constant.MSG_SUCCESS;

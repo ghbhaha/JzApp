@@ -55,8 +55,8 @@
             android:theme="@style/AppCompatThemeWithNoActionBar" />
         <activity
             android:name=".ui.activity.record.CreateOrEditRecordActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/AppCompatThemeWithNoActionBar" />
+            android:theme="@style/AppCompatThemeWithNoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".ui.activity.record.SelectAccountActivity"
             android:label="@string/account_select"
@@ -86,12 +86,18 @@
             android:name=".ui.activity.record.RecordPieAnalysisActivity"
             android:label="@string/title_activity_record_pie_analysis"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.activity.record.RecordLineChartActivity"
+        <activity
+            android:name=".ui.activity.record.RecordLineChartActivity"
             android:label="@string/title_activity_record_line_analysis"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.account.EditAccountColorActivity"
             android:theme="@style/ThemeDialogStyle" />
+        <activity android:name=".ui.activity.user.QrCodeActivity"
+            android:theme="@style/AppTheme"
+            android:label="@string/title_activity_qrcode"
+            />
+
 
         <service android:name=".service.SyncService" />
 

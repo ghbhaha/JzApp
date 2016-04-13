@@ -10,6 +10,7 @@ public class User {
     private String userId;
     private String userName;
     private String headImage;
+    private Long userCode;
 
     public User() {
     }
@@ -18,11 +19,12 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String userId, String userName, String headImage) {
+    public User(Long id, String userId, String userName, String headImage, Long userCode) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.headImage = headImage;
+        this.userCode = userCode;
     }
 
     public Long getId() {
@@ -55,6 +57,14 @@ public class User {
 
     public void setHeadImage(String headImage) {
         this.headImage = headImage;
+    }
+
+    public Long getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(Long userCode) {
+        this.userCode = userCode;
     }
 
 }

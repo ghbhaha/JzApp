@@ -27,6 +27,7 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property UserId = new Property(1, String.class, "userId", false, "USER_ID");
         public final static Property UserName = new Property(2, String.class, "userName", false, "USER_NAME");
         public final static Property HeadImage = new Property(3, String.class, "headImage", false, "HEAD_IMAGE");
+        public final static Property UserCode = new Property(4, Long.class, "userCode", false, "USER_CODE");
     };
 
 
@@ -45,7 +46,8 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"USER_ID\" TEXT," + // 1: userId
                 "\"USER_NAME\" TEXT," + // 2: userName
-                "\"HEAD_IMAGE\" TEXT);"); // 3: headImage
+                "\"HEAD_IMAGE\" TEXT," + // 3: headImage
+                "\"USER_CODE\" INTEGER);"); // 4: userCode
     }
 
     /** Drops the underlying database table. */
@@ -78,6 +80,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (headImage != null) {
             stmt.bindString(4, headImage);
         }
+ 
+        Long userCode = entity.getUserCode();
+        if (userCode != null) {
+            stmt.bindLong(5, userCode);
+        }
     }
 
     /** @inheritdoc */
@@ -93,7 +100,8 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // userId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userName
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // headImage
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // headImage
+            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // userCode
         );
         return entity;
     }
@@ -105,6 +113,7 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setUserId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setUserName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setHeadImage(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUserCode(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */

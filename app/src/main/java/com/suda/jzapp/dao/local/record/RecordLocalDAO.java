@@ -56,7 +56,7 @@ public class RecordLocalDAO extends BaseLocalDao {
         calendar.add(Calendar.DATE, 1);
         Date endDate = calendar.getTime();
         String sql = "select sum(RECORD_MONEY) as todayCost from RECORD where " +
-                " RECORD_TYPE=-1 and ACCOUNT_ID=" + accountId + " and RECORD_DATE >= " + startDate.getTime() + " and RECORD_DATE<" + endDate.getTime();
+                " RECORD_TYPE=-1 and IS_DEL =0 and ACCOUNT_ID=" + accountId + " and RECORD_DATE >= " + startDate.getTime() + " and RECORD_DATE<" + endDate.getTime();
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         c.moveToFirst();
         double todayCost = c.getDouble(0);

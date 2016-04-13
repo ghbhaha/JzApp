@@ -193,7 +193,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         mDateTv.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         remarkBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         remarkSaveBt.setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
-        ((TextView)findViewById(R.id.remark_tips2)).setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
+        ((TextView) findViewById(R.id.remark_tips2)).setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         findViewById(R.id.line3).setBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
         initRemarkPanel();
     }
@@ -518,6 +518,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             opt = Opt.PLUS;
+            if (moneyCount > 99999999.99) {
+                moneyCount = 99999999.00;
+            }
             tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
         } else if ("-".equals(tag)) {
             isDO = false;
@@ -571,6 +574,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             } else {
                 moneyCount = moneyCount + Double.parseDouble(money);
             }
+            if (moneyCount > 99999999.99) {
+                moneyCount = 99999999.00;
+            }
             tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
             opt = Opt.EQUAL;
             moneyCount = 0.00;
@@ -609,6 +615,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 money = money.substring(0, money.length() - 3) + tag + money.substring(money.length() - 3, money.length());
             }
             tempCount = Double.parseDouble(money);
+            if (tempCount > 99999999.99) {
+                tempCount = 99999999.00;
+                money = "99999999.00";
+            }
             tvMoneyCount.setText(money);
         }
 

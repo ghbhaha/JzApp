@@ -163,7 +163,7 @@ public class EditAccountActivity extends BaseActivity {
             case PROP_TYPE_ACCOUNT_MONEY:
                 final double money = Double.parseDouble(param);
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
-                if (mAccountID > 0) {
+                if (mAccountID > 0 && money - mMoney != 0) {
                     accountManager.updateAccountMoney(mAccountID, money - mMoney, new Handler() {
                         @Override
                         public void handleMessage(Message msg) {

@@ -65,6 +65,8 @@
     <string name="out_text">&lt;font color=#e6b7c2>收 | &lt;/font>&lt;font color=#dc6268>支&lt;/font></string>
     <string name="user_info">用户信息</string>
 
+    <string name="title_activity_qrcode">我的二维码</string>
+
 
 </resources>
 

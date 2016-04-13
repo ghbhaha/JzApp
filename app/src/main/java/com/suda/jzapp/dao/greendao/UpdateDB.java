@@ -28,5 +28,9 @@ public class UpdateDB {
         if (oldVersion < 6) {
             RemarkTipDao.createTable(db, false);
         }
+        if (oldVersion < 7) {
+            UserDao.dropTable(db,true);
+            UserDao.createTable(db, false);
+        }
     }
 }
