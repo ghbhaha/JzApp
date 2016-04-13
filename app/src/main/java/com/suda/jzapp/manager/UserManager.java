@@ -137,6 +137,7 @@ public class UserManager extends BaseManager {
                     user.setUserId(avUser.getObjectId());
                     user.setHeadImage(getImgUrl(avUser.getHeadImage()));
                     user.setUserName(avUser.getUsername());
+                    user.setUserCode(avUser.getUserCode());
                     userLocalDao.insertUser(user, _context);
                     message.what = Constant.MSG_SUCCESS;
                 } else {
