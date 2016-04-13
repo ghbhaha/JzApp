@@ -100,6 +100,7 @@ public class UserManager extends BaseManager {
                                         user.setUserId(myAVUser.getObjectId());
                                         user.setHeadImage(getImgUrl(myAVUser.getHeadImage()));
                                         user.setUserName(myAVUser.getUsername());
+                                        user.setUserCode(myAVUser.getUserCode());
                                         userLocalDao.insertUser(user, _context);
                                         message.what = Constant.MSG_SUCCESS;
                                     } else {
@@ -146,6 +147,34 @@ public class UserManager extends BaseManager {
                 handler.sendMessage(message);
             }
         }, MyAVUser.class);
+    }
+
+    public void updateHeadIcon(final AVFile avFile, final Handler handler) {
+        AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
+        query.whereEqualTo("objectId", MyAVUser.getCurrentUser().getObjectId());
+        query.findInBackground(new FindCallback<MyAVUser>() {
+            @Override
+            public void done(List<MyAVUser> list, AVException e) {
+                getAvEx(e);
+                if (e == null) {
+                    MyAVUser avUser = list.get(0);
+                    avUser.setHeadImage(avFile);
+                    avUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            getAvEx(e);
+                            if (e == null) {
+                                userLocalDao.clear(_context);
+                                user = null;
+                                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                            } else {
+                                sendEmptyMessage(handler, Constant.MSG_ERROR);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void getMe(final Handler handler) {

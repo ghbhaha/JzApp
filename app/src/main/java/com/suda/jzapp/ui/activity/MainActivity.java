@@ -96,8 +96,8 @@ public class MainActivity extends BaseActivity {
                     if (msg.what == Constant.MSG_SUCCESS) {
                         User user = (User) msg.obj;
                         Glide.with(MainActivity.this).
-                                load(user.getHeadImage())
-                                .placeholder(R.mipmap.suda).into(headImg);
+                                load(user.getHeadImage()).error(R.mipmap.suda)
+                               .into(headImg);
                     }
                 }
             });
@@ -151,6 +151,18 @@ public class MainActivity extends BaseActivity {
         mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
+        userManager.getMe(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == Constant.MSG_SUCCESS) {
+                    User user = (User) msg.obj;
+                    Glide.with(MainActivity.this).
+                            load(user.getHeadImage()).error(R.mipmap.suda)
+                            .into(headImg);
+                }
+            }
+        });
     }
 
     private void setDrawerLayout() {

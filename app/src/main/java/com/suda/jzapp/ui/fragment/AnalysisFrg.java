@@ -15,31 +15,28 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.LineChartDo;
+import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.RecordLineChartActivity;
 import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
-import com.suda.jzapp.ui.adapter.RecordLineAnalysisAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -59,6 +56,9 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         mRecordManager = new RecordManager(getActivity());
         ((MainActivity) getActivity()).setReloadAnalysisCallBack(this);
         changeTv = (TextView) view.findViewById(R.id.changeTv);
+        tipRoundPie = view.findViewById(R.id.tip_round_pie);
+        tipRoundLine = view.findViewById(R.id.tip_round_line);
+
         initPieChart();
         initLineChart();
         return view;
@@ -180,6 +180,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RecordPieAnalysisActivity.class);
                 startActivity(intent);
+                SPUtils.put(getActivity(), Constant.SP_TIP_ROUND_PIE, false);
             }
         });
 
@@ -188,6 +189,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RecordLineChartActivity.class);
                 startActivity(intent);
+                SPUtils.put(getActivity(), Constant.SP_TIP_ROUND_LINE, false);
             }
         });
 
@@ -250,8 +252,15 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         mainDarkColor = getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainDarkColorID());
 
         backGround.setBackground(new ColorDrawable(mainColor));
+        resetTipRound();
     }
 
+    private void resetTipRound() {
+        boolean showPieTip = (boolean) SPUtils.get(getActivity(), Constant.SP_TIP_ROUND_PIE, true);
+        boolean showLineTip = (boolean) SPUtils.get(getActivity(), Constant.SP_TIP_ROUND_LINE, true);
+        tipRoundPie.setVisibility(showPieTip ? View.VISIBLE : View.GONE);
+        tipRoundLine.setVisibility(showLineTip ? View.VISIBLE : View.GONE);
+    }
 
     private View backGround;
     private int mainColor;
@@ -263,7 +272,10 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
     boolean pieOut = true;
     private double allOutOrInMoney = 0;
-    private TextView changeTv, pieLabelTv,lineLabelTv;
+    private TextView changeTv, pieLabelTv, lineLabelTv;
+
+    private View tipRoundPie, tipRoundLine;
+
     List<Entry> yPieVals1 = new ArrayList<Entry>();
     List<String> xPieVals1 = new ArrayList<String>();
     List<String> xLineVals1 = new ArrayList<String>();

@@ -122,6 +122,8 @@ public class Constant {
 
     public final static String SP_SYNC_ONLY_WIFI = "sync_only_wifi";
     public final static String SP_GESTURE = "gesture";
+    public final static String SP_TIP_ROUND_PIE= "SP_TIP_ROUND_PIE";
+    public final static String SP_TIP_ROUND_LINE= "SP_TIP_ROUND_LINE";
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;
