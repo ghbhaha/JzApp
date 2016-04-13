@@ -63,5 +63,8 @@
     <string name="intent_analysis">收支趋势(当年)</string>
     <string name="in_text">&lt;font color=#dc6268>收&lt;/font>&lt;font color=#e6b7c2> | 支&lt;/font></string>
     <string name="out_text">&lt;font color=#e6b7c2>收 | &lt;/font>&lt;font color=#dc6268>支&lt;/font></string>
+    <string name="user_info">用户信息</string>
+
+
 </resources>
 

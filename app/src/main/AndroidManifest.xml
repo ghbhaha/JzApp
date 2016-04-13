@@ -67,6 +67,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.user.UserActivity"
+            android:label="@string/user_info"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.user.RegisterActivity"
