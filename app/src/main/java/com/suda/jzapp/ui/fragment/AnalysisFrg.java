@@ -68,7 +68,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         mLineChart.setDescription("");
         mLineChart.setDragEnabled(true);// 是否可以拖拽
         mLineChart.setScaleEnabled(false);// 是否可以缩放
-        mLineChart.setTouchEnabled(true);
+        mLineChart.setTouchEnabled(false);
         mLineChart.setDrawGridBackground(false);
         mLineChart.setDrawBorders(false);
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);

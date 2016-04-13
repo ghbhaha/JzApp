@@ -369,6 +369,7 @@ public class AccountManager extends BaseManager {
                         account.setAccountMoney(avAccount.getAccountMoney());
                         account.setAccountRemark(avAccount.getAccountRemark());
                         account.setIsDel(avAccount.isAccountDel());
+                        account.setAccountColor(avAccount.getAccountColor());
                         account.setAccountName(avAccount.getAccountName());
                         account.setSyncStatus(true);
                         accountLocalDao.createNewAccount(account, _context);

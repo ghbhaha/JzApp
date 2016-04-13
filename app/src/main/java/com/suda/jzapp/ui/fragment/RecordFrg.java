@@ -50,18 +50,9 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
                 getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
-        View foot = View.inflate(getActivity(), R.layout.record_foot, null);
+        foot = View.inflate(getActivity(), R.layout.record_foot, null);
 
-
-        if (MyAVUser.getCurrentUser() != null) {
-            DateFormat format1 = new SimpleDateFormat("yyyy年MM月dd日");
-            foot.setVisibility(View.VISIBLE);
-            Date date = MyAVUser.getCurrentUser().getCreatedAt();
-            footTv = ((TextView) foot.findViewById(R.id.foot_tip));
-            footTv.setText(format1.format(date) + "\n您开启了记账旅程");
-        } else {
-            foot.setVisibility(View.GONE);
-        }
+        footTv = ((TextView) foot.findViewById(R.id.foot_tip));
 
 
         recordLv = (ListView) view.findViewById(R.id.record_lv);
@@ -103,7 +94,22 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mAddRecordBt.setColorNormal(mainColor);
         mAddRecordBt.setColorPressed(mainDarkColor);
         backGround.setBackground(new ColorDrawable(mainColor));
+        resetFoot();
+    }
+
+    private void resetFoot(){
         footTv.setTextColor(mainColor);
+        DateFormat format1 = new SimpleDateFormat("yyyy年MM月dd日");
+        if (MyAVUser.getCurrentUser() != null) {
+
+           // foot.setVisibility(View.VISIBLE);
+            Date date = MyAVUser.getCurrentUser().getCreatedAt();
+            footTv.setText(format1.format(date) + "\n您开启了记账旅程");
+        } else {
+           // foot.setVisibility(View.GONE);
+            footTv.setText(format1.format(new Date(System.currentTimeMillis())) + "\n您开启了记账旅程");
+        }
+
     }
 
     @Override
@@ -162,4 +168,5 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     private List<RecordDetailDO> recordDetailDOs;
     private int curPage = 1;
     private boolean isRefresh = true;
+    private View foot;
 }

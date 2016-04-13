@@ -21,6 +21,11 @@ public class UserLocalDao extends BaseLocalDao {
         userDao.queryBuilder().where(UserDao.Properties.UserId.eq(userID)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
+    public void clear(Context context) {
+        UserDao userDao = getDaoSession(context).getUserDao();
+        userDao.deleteAll();
+    }
+
     public void insertUser(User user, Context context) {
         UserDao userDao = getDaoSession(context).getUserDao();
         userDao.insert(user);

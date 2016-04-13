@@ -222,7 +222,7 @@ public class UserManager extends BaseManager {
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);
         recordTypeLocalDao.clearAllRecordType(_context);
-        userLocalDao.delUserByUserId(MyAVUser.getCurrentUserId(), _context);
+        userLocalDao.clear(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
         user = null;
