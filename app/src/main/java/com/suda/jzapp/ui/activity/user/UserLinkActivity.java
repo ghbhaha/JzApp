@@ -62,6 +62,12 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        linkBt.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+    }
+
+    @Override
     protected void onDestroy() {
         userManager.closeIMClient();
         super.onDestroy();

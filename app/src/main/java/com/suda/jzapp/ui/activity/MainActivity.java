@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity {
                         User user = (User) msg.obj;
                         Glide.with(MainActivity.this).
                                 load(user.getHeadImage()).error(R.mipmap.suda)
-                               .into(headImg);
+                                .into(headImg);
                     }
                 }
             });
@@ -148,18 +148,24 @@ public class MainActivity extends BaseActivity {
         mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
-        userManager.getMe(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == Constant.MSG_SUCCESS) {
-                    User user = (User) msg.obj;
-                    Glide.with(MainActivity.this).
-                            load(user.getHeadImage()).error(R.mipmap.suda)
-                            .into(headImg);
+        if (MyAVUser.getCurrentUser() != null) {
+            userManager.getMe(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == Constant.MSG_SUCCESS) {
+                        User user = (User) msg.obj;
+                        Glide.with(MainActivity.this).
+                                load(user.getHeadImage()).error(R.mipmap.suda)
+                                .into(headImg);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Glide.with(MainActivity.this).
+                    load(R.mipmap.ic_launcher)
+                    .into(headImg);
+        }
     }
 
     private void setDrawerLayout() {
@@ -266,8 +272,6 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, UserActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN);
         }
-
-
     }
 
     public void setReloadAccountCallBack(ReloadCallBack reloadAccountCallBack) {
