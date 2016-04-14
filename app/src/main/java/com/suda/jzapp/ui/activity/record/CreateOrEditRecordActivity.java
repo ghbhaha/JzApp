@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -256,6 +257,14 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                         remarkPanel.setVisibility(View.INVISIBLE);
                     }
                 }, 300);
+            }
+        });
+
+        //触摸事件不继续传递
+        remarkPanel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
     }

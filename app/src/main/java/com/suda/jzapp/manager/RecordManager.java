@@ -76,7 +76,7 @@ public class RecordManager extends BaseManager {
         }
 
         //记录备注
-        if (!TextUtils.isEmpty(record.getRemark())) {
+        if (!TextUtils.isEmpty(record.getRemark()) && (!(record.getRecordTypeID() == 27 || record.getRecordTypeID() == 26))) {
             RemarkTip remarkTip = recordLocalDAO.selectRemarkTipByRemark(_context, record.getRemark());
             if (remarkTip == null) {
                 recordLocalDAO.insertNewRemarkTip(_context, record.getRemark(), false);
