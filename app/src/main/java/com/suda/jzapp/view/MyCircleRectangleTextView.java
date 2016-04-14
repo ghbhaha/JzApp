@@ -23,6 +23,9 @@ public class MyCircleRectangleTextView extends TextView {
 
     public MyCircleRectangleTextView(Context context) {
         super(context);
+        mPaint = new Paint();
+        mPaint.setColor(context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+        mPaint.setAntiAlias(true);
     }
 
     public MyCircleRectangleTextView(Context context, AttributeSet attrs) {

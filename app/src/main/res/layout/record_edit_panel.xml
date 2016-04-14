@@ -210,13 +210,13 @@
             android:text="经常使用"
             android:textColor="@color/blue" />
 
-        <android.support.v7.widget.RecyclerView
+        <com.wefika.flowlayout.FlowLayout
             android:id="@+id/remark_tips"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:padding="10dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </com.wefika.flowlayout.FlowLayout>
 
     </LinearLayout>
 

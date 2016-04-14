@@ -76,6 +76,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile "com.wefika:flowlayout:+"
 
     //二维码
     compile 'com.google.zxing:core:3.2.1'
