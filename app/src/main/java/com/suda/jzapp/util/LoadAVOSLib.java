@@ -7,6 +7,7 @@ import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordTypeIndex;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.UserLink;
 
 /**
  * Created by Suda on 2015/9/16.
@@ -19,5 +20,6 @@ public class LoadAVOSLib {
         AVObject.registerSubclass(AVAccount.class);
         AVObject.registerSubclass(MyAVUser.class);
         AVObject.registerSubclass(AVRecordTypeIndex.class);
+        AVObject.registerSubclass(UserLink.class);
     }
 }

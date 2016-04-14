@@ -127,4 +127,6 @@ public class Constant {
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;
+
+    public final static String QR_MARK="JzAPP_";
 }

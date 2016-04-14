@@ -53,6 +53,8 @@ dependencies {
     //leancloud
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
     compile 'cn.leancloud.android:avoscloud-search:v3.+@aar'
+    //avoscloud-push 为推送与实时聊天需要的包
+    compile ('cn.leancloud.android:avoscloud-push:v3.+@aar'){transitive = true}
 
     //GreenDao
     compile 'de.greenrobot:greendao:2.1.0'
@@ -75,6 +77,7 @@ dependencies {
 
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
 
+    //二维码
     compile 'com.google.zxing:core:3.2.1'
-
+    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 }

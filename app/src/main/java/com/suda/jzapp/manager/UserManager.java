@@ -15,8 +15,19 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMConversationQuery;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.Conversation;
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.UserLink;
 import com.suda.jzapp.dao.greendao.User;
 import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
@@ -28,9 +39,14 @@ import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.MsgUtil;
 import com.suda.jzapp.util.SPUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ghbha on 2016/4/6.
@@ -261,10 +277,155 @@ public class UserManager extends BaseManager {
         configLocalDao.createDefaultAccount(_context);
     }
 
+    public void setUserLink(List<String> list, final Handler handler) {
+        UserLink userLink = new UserLink();
+        userLink.setMember(list);
+        userLink.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(AVException e) {
+                getAvEx(e);
+                if (e == null) {
+                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                } else {
+                    sendEmptyMessage(handler, Constant.MSG_ERROR);
+                }
+            }
+        });
+    }
+
+
+    public void sendMsg(final String toUser, final int msgType, final String msgContent, final String extra, final Handler handler) {
+        if (MyAVUser.getCurrentUser() == null) {
+            handler.sendEmptyMessage(Constant.MSG_ERROR);
+            return;
+        }
+        final String conName = MyAVUser.getCurrentUser().getUsername() + "&" + toUser;
+        getConversation(MyAVUser.getCurrentUser().getUsername(), toUser, new CallBack() {
+            @Override
+            public void done(Object o) {
+                if (o == null)
+                    handler.sendEmptyMessage(Constant.MSG_ERROR);
+                else {
+                    if (o instanceof AVIMConversation) {
+                        LogUtils.d("sendMsg1+++++++++++++++");
+                        AVIMTextMessage msg = new AVIMTextMessage();
+                        msg.setText(MsgUtil.getFormatMsg(msgType, msgContent, extra));
+                        ((AVIMConversation) o).sendMessage(msg, new AVIMConversationCallback() {
+                            @Override
+                            public void done(AVIMException e) {
+                                if (e == null)
+                                    handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                                else
+                                    handler.sendEmptyMessage(Constant.MSG_ERROR);
+                            }
+                        });
+                    } else {
+                        LogUtils.d("sendMsg2+++++++++++++++");
+                        ((AVIMClient) o).createConversation(Arrays.asList(toUser), conName, null, new AVIMConversationCreatedCallback() {
+                            @Override
+                            public void done(AVIMConversation avimConversation, AVIMException e) {
+                                if (e == null) {
+                                    conversationMap.put(conName, avimConversation);
+                                    AVIMTextMessage msg = new AVIMTextMessage();
+                                    msg.setText(MsgUtil.getFormatMsg(msgType, msgContent, extra));
+                                    avimConversation.sendMessage(msg, new AVIMConversationCallback() {
+                                        @Override
+                                        public void done(AVIMException e) {
+                                            if (e == null)
+                                                handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                                            else
+                                                handler.sendEmptyMessage(Constant.MSG_ERROR);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private void getConversation(final String fromUser, final String toUser, final CallBack callBack) {
+        openChatClient(new CallBack() {
+            @Override
+            public void done(final Object o) {
+                LogUtils.d("getConversation1+++++++++++++++");
+                final String conName = fromUser + "&" + toUser;
+                if (conversationMap.get(conName) != null) {
+                    callBack.done(conversationMap.get(conName));
+                    return;
+                }
+                LogUtils.d("getConversation2+++++++++++++++");
+                AVIMConversationQuery query = ((AVIMClient) o).getQuery();
+                List<String> users = new ArrayList<String>();
+                users.add(fromUser);
+                users.add(toUser);
+                query.whereContainsAll(Conversation.COLUMN_MEMBERS, users);
+                query.findInBackground(new AVIMConversationQueryCallback() {
+                    @Override
+                    public void done(List<AVIMConversation> list, AVIMException e) {
+                        LogUtils.d("getConversation3+++++++++++++++");
+                        if (e == null) {
+                            if (list.size() > 0) {
+                                callBack.done(list.get(0));
+                                conversationMap.put(conName, list.get(0));
+                            } else
+                                callBack.done(o);
+                        } else
+                            callBack.done(null);
+                    }
+                });
+            }
+        });
+    }
+
+    public void openChatClient(final CallBack callBack) {
+        LogUtils.d("openChatClient1+++++++++++++++");
+        if (MyAVUser.getCurrentUser() == null) {
+            callBack.done(null);
+            return;
+        }
+
+        if (mClient != null) {
+            callBack.done(mClient);
+            return;
+        }
+
+        LogUtils.d("openChatClient2+++++++++++++++");
+        AVIMClient user = AVIMClient.getInstance(MyAVUser.getCurrentUser().getUsername());
+        user.open(new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                LogUtils.d("openChatClient3+++++++++++++++");
+                getAvEx(e);
+                if (e == null) {
+                    mClient = avimClient;
+                    callBack.done(mClient);
+                } else
+                    callBack.done(null);
+            }
+        });
+    }
+
+    public void closeIMClient() {
+        if (mClient != null) {
+            mClient.close(null);
+            mClient = null;
+        }
+    }
+
+    private static AVIMClient mClient;
+    private static Map<String, AVIMConversation> conversationMap = new HashMap<>();
+
     private UserLocalDao userLocalDao = new UserLocalDao();
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     private RecordTypeLocalDao recordTypeLocalDao = new RecordTypeLocalDao();
     private AccountLocalDao accountLocalDao = new AccountLocalDao();
     private ConfigLocalDao configLocalDao = new ConfigLocalDao();
+
+    public interface CallBack {
+        void done(Object o);
+    }
 
 }

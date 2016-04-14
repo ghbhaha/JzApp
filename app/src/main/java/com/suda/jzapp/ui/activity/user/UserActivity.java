@@ -62,7 +62,7 @@ public class UserActivity extends BaseActivity {
                 mTvUserName.setText(user.getUserName());
                 mTvUserCode.setText("您是第" + user.getUserCode() + "位用户");
                 mTvEmail.setText(MyAVUser.getCurrentUser().getEmail());
-                imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(user.getUserId(), imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
+                imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
             }
         });
     }

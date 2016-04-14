@@ -44,7 +44,7 @@
             android:name=".ui.activity.account.MonthReportActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.account.AccountLinkActivity"
+            android:name=".ui.activity.user.UserLinkActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.system.SettingsActivity"
@@ -95,10 +95,12 @@
             android:theme="@style/ThemeDialogStyle" />
         <activity android:name=".ui.activity.user.QrCodeActivity"
             android:theme="@style/AppTheme"
-            android:label="@string/title_activity_qrcode"
-            />
-
-
+            android:label="@string/title_activity_qrcode" />
+        <activity android:name=".ui.activity.system.CaptureActivityAnyOrientation"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <service android:name=".service.SyncService" />
 
         <!-- 友盟 -->
@@ -115,6 +117,14 @@
             android:name="com.umeng.update.net.DownloadingService"
             android:process=":DownloadingService" />
 
+        <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
+        <service android:name="com.avos.avoscloud.PushService"/>
+        <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

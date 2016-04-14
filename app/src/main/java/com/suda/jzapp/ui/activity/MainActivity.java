@@ -1,7 +1,6 @@
 package com.suda.jzapp.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gxz.PagerSlidingTabStrip;
@@ -34,7 +32,7 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.service.SyncService;
-import com.suda.jzapp.ui.activity.account.AccountLinkActivity;
+import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
@@ -53,7 +51,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class MainActivity extends BaseActivity {
@@ -187,7 +184,7 @@ public class MainActivity extends BaseActivity {
         //初始化菜单
         List<OptDO> optDOs = new ArrayList<>();
 
-        optDOs.add(new OptDO(AccountLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
+        optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
         optDOs.add(new OptDO(MonthReportActivity.class, 1, R.drawable.ic_drawer_guide, "月报"));
         optDOs.add(new OptDO(SettingsActivity.class, 2, R.drawable.ic_drawer_settings, "设置"));
         optDOs.add(new OptDO(EditThemeActivity.class, 0, R.drawable.ic_color_lens_black_24dp, "主题切换"));
