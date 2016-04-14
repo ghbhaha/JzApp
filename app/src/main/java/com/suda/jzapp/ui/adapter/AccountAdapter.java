@@ -16,6 +16,7 @@ import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.AccountTransactionActivity;
+import com.suda.jzapp.ui.activity.account.AccountsTransferActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
 import com.suda.jzapp.util.IconTypeUtil;
 
@@ -85,7 +86,17 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT_FLOW);
             }
         });
+        holder.mVAccountTransForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (accounts.size() == 1)
+                    return;
 
+                Intent intent = new Intent(context, AccountsTransferActivity.class);
+                intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
+                ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT_TRANSFORM);
+            }
+        });
     }
 
     @Override
@@ -103,6 +114,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         private ImageView mIgAccountTypeIcon;
         private View mVEditAccount;
         private View mVAccountFlow;
+        private View mVAccountTransForm;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -113,6 +125,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             mTvAccountTypeTitle = (TextView) itemView.findViewById(R.id.account_type_title);
             mIgAccountTypeIcon = (ImageView) itemView.findViewById(R.id.account_type_icon);
             mVAccountFlow = itemView.findViewById(R.id.account_flow);
+            mVAccountTransForm = itemView.findViewById(R.id.transform);
         }
 
     }

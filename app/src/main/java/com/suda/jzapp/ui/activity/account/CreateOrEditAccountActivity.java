@@ -20,6 +20,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -28,6 +29,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeUtil.getAppStyleId(this));
         setContentView(R.layout.activity_create_or_edit_account);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -202,7 +204,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+       // mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         // mSubmitButton.setBackgroundColor(mainColor);
         // mSubmitButton.setColorNormal(mainColor);
         //  mSubmitButton.setColorPressed(mainDarkColor);

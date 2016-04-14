@@ -28,6 +28,7 @@ import com.suda.jzapp.misc.MyMessageHandler;
 import com.suda.jzapp.ui.activity.system.CaptureActivityAnyOrientation;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeUtil.getAppStyleId(this));
         setContentView(R.layout.activity_account_link);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidget();
@@ -139,8 +141,6 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
                             }
                         }
                     });
-
-
                 }
             });
         }

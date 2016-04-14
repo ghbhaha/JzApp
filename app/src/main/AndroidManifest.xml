@@ -58,7 +58,7 @@
             android:theme="@style/AppCompatThemeWithNoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".ui.activity.record.SelectAccountActivity"
+            android:name=".ui.activity.account.SelectAccountActivity"
             android:label="@string/account_select"
             android:theme="@style/Transparent" />
         <activity
@@ -93,14 +93,22 @@
         <activity
             android:name=".ui.activity.account.EditAccountColorActivity"
             android:theme="@style/ThemeDialogStyle" />
-        <activity android:name=".ui.activity.user.QrCodeActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_qrcode" />
-        <activity android:name=".ui.activity.system.CaptureActivityAnyOrientation"
+        <activity
+            android:name=".ui.activity.user.QrCodeActivity"
+            android:label="@string/title_activity_qrcode"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.system.CaptureActivityAnyOrientation"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity android:name=".ui.activity.account.AccountsTransferActivity"
+            android:label="@string/title_activity_accounts_transfer"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
         <service android:name=".service.SyncService" />
 
         <!-- 友盟 -->
@@ -118,13 +126,15 @@
             android:process=":DownloadingService" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
-        <service android:name="com.avos.avoscloud.PushService"/>
+        <service android:name="com.avos.avoscloud.PushService" />
+
         <receiver android:name="com.avos.avoscloud.AVBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
 
     </application>
 

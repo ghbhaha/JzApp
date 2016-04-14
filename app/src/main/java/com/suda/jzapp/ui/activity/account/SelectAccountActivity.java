@@ -1,4 +1,4 @@
-package com.suda.jzapp.ui.activity.record;
+package com.suda.jzapp.ui.activity.account;
 
 import android.content.Intent;
 import android.graphics.Color;

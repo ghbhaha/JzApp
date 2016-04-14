@@ -23,6 +23,7 @@ import com.suda.jzapp.dao.greendao.RemarkTip;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
+import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
@@ -30,6 +31,7 @@ import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -616,11 +618,25 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    /**
+     * 获取本月收支
+     *
+     * @param handler
+     * @param out
+     */
     public void getOutOrInRecordThisMonth(final Handler handler, final boolean out) {
         Calendar calendar = Calendar.getInstance();
         getOutOrInRecordByMonth(handler, out, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
     }
 
+    /**
+     * 获取每个月收支
+     *
+     * @param handler
+     * @param out
+     * @param year
+     * @param month
+     */
     public void getOutOrInRecordByMonth(final Handler handler, final boolean out, final int year, final int month) {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -639,6 +655,12 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    /**
+     * 获取某年收支趋势
+     *
+     * @param year
+     * @param handler
+     */
     public void getYearRecordDetail(final int year, final Handler handler) {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -668,6 +690,11 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    /**
+     * 获取备注提示
+     *
+     * @param handler
+     */
     public void getRemarkTips(final Handler handler) {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -678,9 +705,69 @@ public class RecordManager extends BaseManager {
         });
     }
 
+    /**
+     * 转账
+     *
+     * @param outAccountId
+     * @param inAccountId
+     * @param money
+     * @param handler
+     */
+    public void moneyTransFer(final long outAccountId, final long inAccountId, final double money, final Handler handler) {
+        final AccountDetailDO outAccountDetailDO = accountManager.getAccountByID(outAccountId);
+        final AccountDetailDO inAccountDetailDO = accountManager.getAccountByID(inAccountId);
+
+        accountManager.updateAccountMoney(outAccountId, -money, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                accountManager.updateAccountMoney(inAccountId, money, new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        Record record = new Record();
+                        record.setIsDel(false);
+                        record.setRemark("转出到" + inAccountDetailDO.getAccountName());
+                        record.setRecordId(System.currentTimeMillis());
+                        record.setAccountID(outAccountId);
+                        record.setRecordType(Constant.RecordType.CHANGE.getId());
+                        record.setRecordTypeID(26L);
+                        record.setRecordMoney(TextUtil.gwtFormatNum(-money));
+                        record.setRecordDate(new Date(System.currentTimeMillis()));
+                        createNewRecord(record, new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                Record record = new Record();
+                                record.setIsDel(false);
+                                record.setRemark("从" + outAccountDetailDO.getAccountName() + "转入");
+                                record.setRecordId(System.currentTimeMillis());
+                                record.setAccountID(inAccountId);
+                                record.setRecordType(Constant.RecordType.CHANGE.getId());
+                                record.setRecordTypeID(26L);
+                                record.setRecordMoney(TextUtil.gwtFormatNum(money));
+                                record.setRecordDate(new Date(System.currentTimeMillis()));
+                                createNewRecord(record, new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        if (handler != null)
+                                            handler.sendEmptyMessage(Constant.MSG_SUCCESS);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    }
+
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
     ConfigLocalDao configLocalDao = new ConfigLocalDao();
+    AccountManager accountManager = new AccountManager(_context);
 
     private final static String RECORD_INDEX_UPDATE = "RECORD_INDEX_UPDATE";
 }

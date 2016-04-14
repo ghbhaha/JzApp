@@ -29,6 +29,7 @@ import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.ui.adapter.RemarkTipAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
@@ -339,7 +340,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_ACCOUNT:
-                    newRecord.setAccountID(data.getLongExtra(IntentConstant.ACCOUNT_ID, 0l));
+                    newRecord.setAccountID(data.getLongExtra(IntentConstant.ACCOUNT_ID, 0));
                     mAccountTv.setText(accountManager.getAccountByID(newRecord.getAccountID()).getAccountName());
                     break;
                 case REQUEST_CODE_ADD_NEW_RECORD_TYPE:

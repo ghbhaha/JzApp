@@ -139,6 +139,7 @@ public class UserActivity extends BaseActivity {
                                     return;
                                 mHeadIcon.setImageBitmap(mHeadBitMap);
                                 mHeadIcon.setVisibility(View.VISIBLE);
+                                circleProgressBar.setVisibility(View.GONE);
                             }
                         });
                     }

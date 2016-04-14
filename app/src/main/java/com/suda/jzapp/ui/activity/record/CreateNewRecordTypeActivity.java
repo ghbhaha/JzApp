@@ -19,6 +19,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordTypeIconAdapter;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeUtil.getAppStyleId(this));
         setContentView(R.layout.activity_create_new_record_type);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recordManager = new RecordManager(this);
@@ -42,7 +44,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
         mIvRecordIcon = (ImageView) findViewById(R.id.record_icon);
 
         mAddFab = (FloatingActionButton) findViewById(R.id.fab);
-        mAddFab.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+        //mAddFab.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         mAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

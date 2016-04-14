@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/md_grey_100"
+    tools:context="com.suda.jzapp.ui.activity.account.AccountsTransferActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/out_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/card">
+
+        <TextView
+            android:id="@+id/out_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="转出账户" />
+
+
+        <ImageView
+            android:id="@+id/out_account_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp"
+            android:src="@drawable/icon_account_zhifubao_grey" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@+id/out_account_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/out_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/out_account_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="余额:100" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/out_money"
+            android:text="-" />
+
+        <EditText
+            android:id="@+id/out_money"
+            android:layout_width="wrap_content"
+            android:minWidth="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/in_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/out_layout"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/card">
+
+        <TextView
+            android:id="@+id/in_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="转入账户" />
+
+        <ImageView
+            android:id="@+id/in_account_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp"
+            android:src="@drawable/icon_account_zhifubao_grey" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+
+            android:layout_toRightOf="@+id/in_account_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/in_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/in_account_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="余额:100" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/plus"
+            android:layout_toLeftOf="@+id/in_money"
+            android:text="+" />
+
+
+        <EditText
+            android:id="@+id/in_money"
+            android:layout_width="wrap_content"
+            android:minWidth="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="4dp" />
+
+    </RelativeLayout>
+
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/progressBar"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        android:layout_centerInParent="true"
+        app:mlpb_enable_circle_background="true"
+        app:mlpb_progress_stoke_width="3dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_done_white" />
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
+

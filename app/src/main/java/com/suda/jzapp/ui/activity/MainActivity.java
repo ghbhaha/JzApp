@@ -261,6 +261,9 @@ public class MainActivity extends BaseActivity {
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
             }
+            if (requestCode == REQUEST_ACCOUNT_TRANSFORM) {
+                reloadAccountCallBack.reload(true);
+            }
         }
     }
 
@@ -335,4 +338,5 @@ public class MainActivity extends BaseActivity {
     public final static int REQUEST_EDIT_THEME = 102;
     public final static int REQUEST_LOGIN = 103;
     public final static int REQUEST_ACCOUNT_FLOW = 104;
+    public final static int REQUEST_ACCOUNT_TRANSFORM = 105;
 }
