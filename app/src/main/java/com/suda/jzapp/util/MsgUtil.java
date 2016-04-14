@@ -2,10 +2,7 @@ package com.suda.jzapp.util;
 
 import com.alibaba.fastjson.JSON;
 import com.suda.jzapp.manager.domain.MsgDo;
-import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.MsgConstant;
-
-import org.json.JSONObject;
 
 /**
  * Created by ghbha on 2016/4/13.

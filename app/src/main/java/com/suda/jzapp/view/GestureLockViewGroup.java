@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.suda.jzapp.R;
-import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.MD5Util;
 import com.suda.jzapp.view.GestureLockView.Mode;
 

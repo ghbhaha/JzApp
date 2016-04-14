@@ -9,7 +9,6 @@ import com.suda.jzapp.dao.greendao.RemarkTip;
 import com.suda.jzapp.dao.greendao.RemarkTipDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
-import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.misc.Constant;
 
 import java.util.ArrayList;

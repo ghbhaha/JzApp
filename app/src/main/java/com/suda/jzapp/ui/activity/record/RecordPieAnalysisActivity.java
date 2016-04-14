@@ -15,7 +15,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;

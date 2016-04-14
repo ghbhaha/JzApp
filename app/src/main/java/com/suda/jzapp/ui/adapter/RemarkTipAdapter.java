@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.RemarkTip;
-import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.view.MyCircleRectangleTextView;
 
 import java.util.List;

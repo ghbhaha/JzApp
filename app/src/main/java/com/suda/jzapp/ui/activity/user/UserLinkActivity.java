@@ -16,7 +16,6 @@ import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.UserLink;

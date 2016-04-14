@@ -1,7 +1,6 @@
 package com.suda.jzapp.ui.activity.account;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,7 +20,6 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.util.TextUtil;
 
 import me.drakeet.materialdialog.MaterialDialog;
 

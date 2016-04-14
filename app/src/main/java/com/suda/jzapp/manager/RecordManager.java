@@ -20,7 +20,6 @@ import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.greendao.RemarkTip;
-import com.suda.jzapp.dao.greendao.RemarkTipDao;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
@@ -31,7 +30,6 @@ import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -675,7 +673,7 @@ public class RecordManager extends BaseManager {
             @Override
             public void run() {
                 List<RemarkTip> remarkTips = recordLocalDAO.selectRemarkTips(_context);
-                sendMessage(handler,remarkTips,true);
+                sendMessage(handler, remarkTips, true);
             }
         });
     }

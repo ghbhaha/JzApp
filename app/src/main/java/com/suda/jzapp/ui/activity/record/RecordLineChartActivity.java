@@ -1,9 +1,8 @@
 package com.suda.jzapp.ui.activity.record;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
