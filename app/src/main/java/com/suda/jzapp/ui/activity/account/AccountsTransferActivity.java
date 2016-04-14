@@ -244,7 +244,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(accountDetailDO.getAccountColor())) {
                     mImgOutAccountIcon.setColorFilter(Integer.parseInt(accountDetailDO.getAccountColor()));
                 } else {
-                    mImgInAccountIcon.setColorFilter(0);
+                    mImgOutAccountIcon.setColorFilter(0);
                 }
 
                 mTvoOutAccountName.setText(accountDetailDO.getAccountName());
