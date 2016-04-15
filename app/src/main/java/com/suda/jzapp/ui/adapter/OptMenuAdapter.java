@@ -10,9 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
+import com.suda.jzapp.ui.activity.user.UserLinkActivity;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
@@ -72,9 +76,14 @@ public class OptMenuAdapter extends BaseAdapter {
                 if (optDO.getAct() == null) {
                     context.finish();
                 } else {
+                    if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == MonthReportActivity.class || optDO.getAct() == UserLinkActivity.class)) {
+                        SnackBarUtil.showSnackInfo(v, context, "清先登陆账号哦");
+                        return;
+                    }
+
                     Intent intent = new Intent(context, optDO.getAct());
                     if (optDO.getAct() == EditThemeActivity.class) {
-                        ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_EDIT_THEME);
+                        ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_EDIT_THEME);
                     } else
                         context.startActivity(intent);
                 }

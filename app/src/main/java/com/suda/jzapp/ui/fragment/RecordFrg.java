@@ -97,7 +97,8 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mAddRecordBt.setColorNormal(mainColor);
         mAddRecordBt.setColorPressed(mainDarkColor);
         backGround.setBackground(new ColorDrawable(mainColor));
-
+        nullTipTv.setTextColor(mainColor);
+        footTv.setTextColor(mainColor);
         //resetFoot();
     }
 
@@ -127,7 +128,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
 
         if (!needUpdateData) {
             mRecordAdapter.notifyDataSetChanged();
-            resetFoot();
+            //resetFoot();
             return;
         }
 

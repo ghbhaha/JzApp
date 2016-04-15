@@ -177,6 +177,10 @@ public class RecordLocalDAO extends BaseLocalDao {
     }
 
     public Map<Integer, Double> getYearRecordDetail(Context context, int year, boolean out) {
+        return getYearMonthRecordDetail(context, year, -1, out);
+    }
+
+    public Map<Integer, Double> getYearMonthRecordDetail(Context context, int year, int month, boolean out) {
         Map<Integer, Double> result = new HashMap<>();
         StringBuilder builder = new StringBuilder();
         if (out) {
@@ -189,7 +193,9 @@ public class RecordLocalDAO extends BaseLocalDao {
 
         String sql = "select MONTH,sum(RECORD_MONEY) from RECORD where IS_DEL = 0 and RECORD_TYPE in (" +
                 builder.toString() +
-                ") and YEAR = " + year + " GROUP BY MONTH";
+                ") and YEAR = " + year +
+                (month > -1 ? (" and MONTH =" + month) : "") +
+                " GROUP BY MONTH";
         Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
         while (c.moveToNext()) {
             result.put(c.getInt(0), c.getDouble(1));

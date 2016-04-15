@@ -26,6 +26,7 @@ import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.LineChartDo;
+import com.suda.jzapp.manager.domain.MonthReport;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 
 /**
  * Created by ghbha on 2016/2/28.
@@ -759,6 +761,38 @@ public class RecordManager extends BaseManager {
                         });
                     }
                 });
+            }
+        });
+
+    }
+
+    public void getThisMonthReport(final Handler handler) {
+        ThreadPoolUtil.getThreadPoolService().execute(new TimerTask() {
+            @Override
+            public void run() {
+                Calendar calendar = Calendar.getInstance();
+                Map<Integer, Double> in = recordLocalDAO.getYearMonthRecordDetail(_context, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), false);
+                Map<Integer, Double> out = recordLocalDAO.getYearMonthRecordDetail(_context, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), true);
+
+                List<ChartRecordDo> chartRecordDos = recordLocalDAO.getOutOrInRecordByMonth(_context, true, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
+
+
+                MonthReport monthReport = new MonthReport();
+                monthReport.setBudgetMoney(3000.00);
+                monthReport.setInMoney(0.00);
+                monthReport.setOutMoney(0.00);
+                if (in.get(calendar.get(Calendar.MONTH)) != null) {
+                    monthReport.setInMoney(in.get(calendar.get(Calendar.MONTH)));
+                }
+                if (out.get(calendar.get(Calendar.MONTH)) != null) {
+                    monthReport.setOutMoney(out.get(calendar.get(Calendar.MONTH)));
+                }
+                if (chartRecordDos != null && chartRecordDos.size() > 0) {
+                    monthReport.setOutMaxType(chartRecordDos.get(0).getRecordDesc());
+                    monthReport.setOutMaxMoney(Math.abs(chartRecordDos.get(0).getRecordMoney()));
+                }
+
+                sendMessage(handler, monthReport, true);
             }
         });
 
