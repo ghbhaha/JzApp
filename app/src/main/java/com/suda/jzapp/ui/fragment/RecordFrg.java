@@ -53,15 +53,18 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         foot = View.inflate(getActivity(), R.layout.record_foot, null);
 
         footTv = ((TextView) foot.findViewById(R.id.foot_tip));
-
+        nullTipTv = ((TextView) view.findViewById(R.id.null_tip));
 
         recordLv = (ListView) view.findViewById(R.id.record_lv);
         recordLv.addFooterView(foot);
         recordDetailDOs = new ArrayList<>();
-        mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs);
+        mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs, this);
         recordLv.setAdapter(mRecordAdapter);
         recordLv.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        loadData();
+
+        //resetFoot();
+
+        reload(true);
 
         //recordLv.setEmptyView();
 
@@ -94,19 +97,26 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mAddRecordBt.setColorNormal(mainColor);
         mAddRecordBt.setColorPressed(mainDarkColor);
         backGround.setBackground(new ColorDrawable(mainColor));
-        resetFoot();
+
+        //resetFoot();
     }
 
-    private void resetFoot(){
+    public void resetFoot() {
+        nullTipTv.setTextColor(mainColor);
         footTv.setTextColor(mainColor);
+        if (recordDetailDOs.size() > 0) {
+
+        }
+        nullTipTv.setVisibility(recordDetailDOs.size() > 0 ? View.GONE : View.VISIBLE);
+        footTv.setVisibility(recordDetailDOs.size() == 0 ? View.GONE : View.VISIBLE);
         DateFormat format1 = new SimpleDateFormat("yyyy年MM月dd日");
         if (MyAVUser.getCurrentUser() != null) {
 
-           // foot.setVisibility(View.VISIBLE);
+            // foot.setVisibility(View.VISIBLE);
             Date date = MyAVUser.getCurrentUser().getCreatedAt();
             footTv.setText(format1.format(date) + "\n您开启了记账旅程");
         } else {
-           // foot.setVisibility(View.GONE);
+            // foot.setVisibility(View.GONE);
             footTv.setText(format1.format(new Date(System.currentTimeMillis())) + "\n您开启了记账旅程");
         }
 
@@ -114,8 +124,10 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
 
     @Override
     public void reload(final boolean needUpdateData) {
+
         if (!needUpdateData) {
             mRecordAdapter.notifyDataSetChanged();
+            resetFoot();
             return;
         }
 
@@ -132,6 +144,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
                     recordDetailDOs.clear();
                     recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
                     mRecordAdapter.notifyDataSetChanged();
+                    resetFoot();
                 }
             }
         });
@@ -143,6 +156,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+
                 if (msg.what == Constant.MSG_SUCCESS) {
                     curPage++;
                     if (((List<RecordDetailDO>) msg.obj).size() == 0) {
@@ -169,4 +183,5 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     private int curPage = 1;
     private boolean isRefresh = true;
     private View foot;
+    private TextView nullTipTv;
 }

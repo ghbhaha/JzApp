@@ -19,6 +19,7 @@ import com.suda.jzapp.ui.activity.account.AccountTransactionActivity;
 import com.suda.jzapp.ui.activity.account.AccountsTransferActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 
 import java.util.List;
 
@@ -74,6 +75,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateOrEditAccountActivity.class);
                 intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());
+                intent.putExtra(IntentConstant.ACCOUNT_COUNT, accounts.size());
                 ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_ACCOUNT);
             }
         });
@@ -89,8 +91,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         holder.mVAccountTransForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (accounts.size() == 1)
+                if (accounts.size() == 1) {
+
+                    SnackBarUtil.showSnackInfo(v, context, "当前只有一个账户，无法转账");
+
                     return;
+                }
 
                 Intent intent = new Intent(context, AccountsTransferActivity.class);
                 intent.putExtra(IntentConstant.ACCOUNT_ID, account.getAccountID());

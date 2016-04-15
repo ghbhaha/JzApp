@@ -20,7 +20,8 @@ public class AccountLocalDao extends BaseLocalDao {
     public Account getSuitAccount(Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         return getSingleData(accountDao.queryBuilder().
-                orderDesc(AccountDao.Properties.AccountMoney)
+                where(AccountDao.Properties.IsDel.eq(false))
+                .orderDesc(AccountDao.Properties.AccountMoney)
                 .build()
                 .list());
     }
@@ -94,7 +95,7 @@ public class AccountLocalDao extends BaseLocalDao {
         accountDao.update(account);
     }
 
-    public void updateAccount(Context context,Account account){
+    public void updateAccount(Context context, Account account) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         accountDao.update(account);
     }

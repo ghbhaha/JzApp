@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/md_grey_100"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100">
 
 
     <ImageView
@@ -24,13 +24,21 @@
             android:id="@+id/record_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="64dp"
             android:divider="#00000000"
-            android:dividerHeight="0dp"
-            android:layout_marginBottom="64dp"/>
+            android:dividerHeight="0dp" />
 
 
     </RelativeLayout>
 
+
+    <TextView
+        android:id="@+id/null_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_new_record"
+        android:gravity="center"
+        android:text="现在就踏出第一步吧\n∠( °ω°)／" />
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/add_new_record"

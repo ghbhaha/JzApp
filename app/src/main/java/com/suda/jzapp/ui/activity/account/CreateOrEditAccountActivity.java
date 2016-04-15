@@ -34,6 +34,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAccountID = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID, 0l);
+        accountCount = getIntent().getIntExtra(IntentConstant.ACCOUNT_COUNT, 0);
         accountManager = new AccountManager(this);
 
         initWidget();
@@ -80,6 +81,12 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                             .setPositiveButton("确认", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    if (accountCount == 1) {
+                                        materialDialog.dismiss();
+                                        SnackBarUtil.showSnackInfo(mSubmitButton, CreateOrEditAccountActivity.this, "请至少保留一个账户");
+                                        return;
+                                    }
+
                                     accountManager.deleteAccountByID(mAccountID, new Handler() {
                                         @Override
                                         public void handleMessage(Message msg) {
@@ -204,7 +211,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+        // mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         // mSubmitButton.setBackgroundColor(mainColor);
         // mSubmitButton.setColorNormal(mainColor);
         //  mSubmitButton.setColorPressed(mainDarkColor);
@@ -218,6 +225,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     private long mAccountID = 0;
     private double accountMoney = 0;
     private int accountTypeId = 1;
+    private int accountCount = 0;
     private String accountName = "";
     private String accountRemark = "";
     private AccountManager accountManager;

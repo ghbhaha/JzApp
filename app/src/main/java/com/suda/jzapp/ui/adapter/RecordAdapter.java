@@ -22,6 +22,7 @@ import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
+import com.suda.jzapp.ui.fragment.RecordFrg;
 import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.ThemeUtil;
@@ -43,6 +44,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class RecordAdapter extends BaseAdapter {
 
     private Context mContext;
+    private RecordFrg recordFrg;
     private List<RecordDetailDO> recordDetailDOs;
     private LayoutInflater mInflater;
     private List<View> optViews;
@@ -52,7 +54,7 @@ public class RecordAdapter extends BaseAdapter {
     private AccountManager accountManager;
     private Map<Date, RecordDetailDO> recordDetailDOMap;
 
-    public RecordAdapter(Context context, List<RecordDetailDO> list) {
+    public RecordAdapter(Context context, List<RecordDetailDO> list, RecordFrg recordFrg) {
         recordDetailDOs = list;
         mContext = context;
         mInflater = LayoutInflater.from(context);
@@ -61,7 +63,7 @@ public class RecordAdapter extends BaseAdapter {
         recordManager = new RecordManager(context);
         accountManager = new AccountManager(context);
         recordDetailDOMap = new HashMap<>();
-
+        this.recordFrg = recordFrg;
     }
 
     @Override
@@ -235,6 +237,11 @@ public class RecordAdapter extends BaseAdapter {
                                     }
                                 } else {
                                     recordDetailDOs.remove(position);
+                                }
+
+                                //刷新提示
+                                if (recordDetailDOs.size() == 0) {
+                                    recordFrg.resetFoot();
                                 }
 
                                 notifyDataSetChanged();

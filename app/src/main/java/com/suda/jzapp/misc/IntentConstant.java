@@ -6,6 +6,7 @@ package com.suda.jzapp.misc;
 public class IntentConstant {
 
     public static final String ACCOUNT_ID = "ACCOUNT_ID";
+    public static final String ACCOUNT_COUNT = "ACCOUNT_COUNT";
     public static final String EDIT_TYPE = "EDIT_TYPE";
     public static final String EDIT_ACCOUNT_NAME = "EDIT_ACCOUNT_NAME";
     public static final String EDIT_ACCOUNT_MONEY = "EDIT_ACCOUNT_MONEY";
