@@ -293,6 +293,29 @@ public class UserManager extends BaseManager {
         });
     }
 
+    public void queryUserLinkByUser(String userName, final Handler handler) {
+
+        if (userLink != null)
+            sendMessage(handler, userLink, true);
+
+        AVQuery<UserLink> query = AVObject.getQuery(UserLink.class);
+        query.whereContains(UserLink.MEMBER, userName);
+        query.findInBackground(new FindCallback<UserLink>() {
+            @Override
+            public void done(List<UserLink> list, AVException e) {
+                getAvEx(e);
+                if (e == null) {
+                    if (list != null && list.size() > 0) {
+                        userLink = list.get(0);
+                        sendMessage(handler, userLink, true);
+                    }
+                } else {
+                    sendMessage(handler, null, true);
+                }
+            }
+        });
+
+    }
 
     public void sendMsg(final String toUser, final int msgType, final String msgContent, final String extra, final Handler handler) {
         if (MyAVUser.getCurrentUser() == null) {
@@ -417,6 +440,8 @@ public class UserManager extends BaseManager {
 
     private static AVIMClient mClient;
     private static Map<String, AVIMConversation> conversationMap = new HashMap<>();
+
+    private static UserLink userLink;
 
     private UserLocalDao userLocalDao = new UserLocalDao();
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

@@ -74,14 +74,26 @@ public class QrCodeActivity extends BaseActivity implements MyMessageHandler.Msg
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                User user = (User) msg.obj;
+                final User user = (User) msg.obj;
                 if (user == null)
                     return;
+                userManager.queryUserLinkByUser(user.getUserName(), new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        String code = "";
+                        if (msg.obj == null) {
+                            code = Constant.QR_MARK + user.getUserName();
+                        } else {
+                            code = Constant.QR_MARK_HAVE_LINK + user.getUserName();
+                        }
+                        imageQrCode.setImageBitmap(QRCodeUtil.createQRImage(code, imageQrCode.getLayoutParams().width, imageQrCode.getLayoutParams().width));
+                    }
+                });
                 Glide.with(QrCodeActivity.this).
                         load(user.getHeadImage()).error(R.mipmap.suda)
                         .into(myHead);
                 myName.setText(user.getUserName());
-                imageQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageQrCode.getLayoutParams().width, imageQrCode.getLayoutParams().width));
             }
         });
 

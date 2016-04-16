@@ -132,4 +132,5 @@ public class Constant {
     public final static int MSG_SUCCESS = 1;
 
     public final static String QR_MARK = "JzAPP_";
+    public final static String QR_MARK_HAVE_LINK = "JzAPP#";
 }

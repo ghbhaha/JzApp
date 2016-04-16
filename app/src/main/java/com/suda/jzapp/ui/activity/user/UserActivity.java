@@ -51,7 +51,7 @@ public class UserActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 circleProgressBar.setVisibility(View.GONE);
-                User user = (User) msg.obj;
+                final User user = (User) msg.obj;
                 if (user == null)
                     return;
                 Glide.with(UserActivity.this).
@@ -60,7 +60,21 @@ public class UserActivity extends BaseActivity {
                 mTvUserName.setText(user.getUserName());
                 mTvUserCode.setText("您是第" + user.getUserCode() + "位用户");
                 mTvEmail.setText(MyAVUser.getCurrentUser().getEmail());
-                imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
+                userManager.queryUserLinkByUser(user.getUserName(), new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        String code = "";
+                        if (msg.obj == null) {
+                            code = Constant.QR_MARK + user.getUserName();
+                        } else {
+                            code = Constant.QR_MARK_HAVE_LINK + user.getUserName();
+                        }
+                        imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(code, imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
+                    }
+                });
+
+
             }
         });
     }

@@ -104,6 +104,10 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
         if (TextUtils.isEmpty(code))
             return;
 
+        if (code.contains(Constant.QR_MARK_HAVE_LINK)) {
+            SnackBarUtil.showSnackInfo(linkBt, UserLinkActivity.this, "对方已经关联账户");
+        }
+
         if (code.contains(Constant.QR_MARK)) {
             final String userName = code.replace(Constant.QR_MARK, "");
             userManager.getMe(new Handler() {
@@ -117,30 +121,32 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
                         return;
                     }
 
-                    AVQuery<UserLink> query = AVObject.getQuery(UserLink.class);
-                    List<String> users = new ArrayList<String>();
-                    users.add(userName);
-                    users.add(user.getUserName());
-                    query.whereContainsAll(UserLink.MEMBER, users);
-                    query.findInBackground(new FindCallback<UserLink>() {
+                    userManager.sendMsg(userName, MsgConstant.MSG_TYPE_LINK_REQUEST, userName, user.getHeadImage(), new Handler() {
                         @Override
-                        public void done(List<UserLink> list, AVException e) {
-                            if (e == null) {
-                                if (list.size() > 0) {
-                                    SnackBarUtil.showSnackInfo(linkBt, UserLinkActivity.this, "已经关联");
-                                    return;
-                                }
-                                userManager.sendMsg(userName, MsgConstant.MSG_TYPE_LINK_REQUEST, userName, user.getHeadImage(), new Handler() {
-                                    @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        SnackBarUtil.showSnackInfo(linkBt, UserLinkActivity.this, "请求成功");
-                                        //Toast.makeText(UserLinkActivity.this, "请求成功", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            SnackBarUtil.showSnackInfo(linkBt, UserLinkActivity.this, "请求成功");
+                            //Toast.makeText(UserLinkActivity.this, "请求成功", Toast.LENGTH_LONG).show();
                         }
                     });
+
+//                    AVQuery<UserLink> query = AVObject.getQuery(UserLink.class);
+//                    List<String> users = new ArrayList<String>();
+//                    users.add(userName);
+//                    users.add(user.getUserName());
+//                    query.whereContainsAll(UserLink.MEMBER, users);
+//                    query.findInBackground(new FindCallback<UserLink>() {
+//                        @Override
+//                        public void done(List<UserLink> list, AVException e) {
+//                            if (e == null) {
+//                                if (list.size() > 0) {
+//                                    SnackBarUtil.showSnackInfo(linkBt, UserLinkActivity.this, "已经关联");
+//                                    return;
+//                                }
+//
+//                            }
+//                        }
+//                    });
                 }
             });
         }
