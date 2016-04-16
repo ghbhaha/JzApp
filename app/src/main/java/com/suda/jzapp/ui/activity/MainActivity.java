@@ -212,6 +212,7 @@ public class MainActivity extends BaseActivity {
             }
 
             if (canQuit) {
+                //System.exit(0);
                 this.finish();
             } else {
                 SnackBarUtil.showSnackInfo(mPagerSlidingTabStrip, this, "再按一次退出");

@@ -16,9 +16,17 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.util.AlarmUtil;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -68,14 +76,22 @@ public class SettingsActivity extends BaseActivity {
 
         private Context context;
         private CheckBoxPreference mGestureLockCheck;
-
+        private CheckBoxPreference mRemindCheck;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
             mGestureLockCheck = (CheckBoxPreference) findPreference(GESTURE_LOCK);
+            mRemindCheck = (CheckBoxPreference) findPreference(REMIND_SETTING);
+            mRemindCheck.setOnPreferenceChangeListener(this);
             mGestureLockCheck.setOnPreferenceChangeListener(this);
+
+            long alarmTime = SPUtils.gets(context, Constant.SP_ALARM_TIME, 0l);
+            if (alarmTime > 0) {
+                Date date = new Date(alarmTime);
+                mRemindCheck.setSummaryOn("每天" + format.format(date) + "提醒记账");
+            }
         }
 
         @Override
@@ -93,6 +109,31 @@ public class SettingsActivity extends BaseActivity {
                         SnackBarUtil.showSnackInfo(getView(), context, "请先登录账户");
                     }
                 }
+            } else if (preference == mRemindCheck) {
+                if (mRemindCheck.isChecked()) {
+                    SPUtils.put(context, Constant.SP_ALARM_TIME, 0l);
+                    mRemindCheck.setChecked(false);
+                } else {
+                    final Calendar calendar = Calendar.getInstance();
+                    TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            calendar.set(Calendar.MINUTE, minute);
+                            calendar.set(Calendar.SECOND, 0);
+                            calendar.set(Calendar.MILLISECOND, 0);
+                            SPUtils.put(context, Constant.SP_ALARM_TIME, calendar.getTimeInMillis());
+                            mRemindCheck.setChecked(true);
+                            mRemindCheck.setSummaryOn("每天" + format.format(calendar.getTime()) + "提醒记账");
+
+                            AlarmUtil.createAlarm(context);
+                        }
+                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+
+                    timePickerDialog.setAccentColor(getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+                    timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
+                }
+
             }
             return false;
         }
@@ -106,7 +147,9 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    public static final String GESTURE_LOCK = "gesture_lock";
 
+    public static final String GESTURE_LOCK = "gesture_lock";
+    public static final String REMIND_SETTING = "remind_setting";
+    public static final DateFormat format = new SimpleDateFormat("HH:mm");
     private SettingsFragment mSettingsFragment;
 }

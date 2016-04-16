@@ -11,6 +11,14 @@
             android:summaryOn="@string/sync_setting_on"
             android:title="@string/sync_setting" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="remind_setting"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/remind_setting_off"
+            android:summaryOn="@string/remind_setting_on"
+            android:title="@string/remind_setting" />
+
     </com.suda.jzapp.view.MyPreferenceCategory>
 
     <com.suda.jzapp.view.MyPreferenceCategory android:title="@string/security_settings">

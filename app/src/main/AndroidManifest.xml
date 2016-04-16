@@ -110,7 +110,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service android:name=".service.SyncService" />
-
+        <receiver android:name=".receiver.AlarmReceiver" android:process=":remote"/>
         <!-- 友盟 -->
 
         <activity

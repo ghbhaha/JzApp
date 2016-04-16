@@ -64,6 +64,10 @@ public class SPUtils {
         return get(context, false, key, defaultObject);
     }
 
+    public static <T> T gets(Context context, String key, Object defaultObject) {
+        return (T) get(context, false, key, defaultObject);
+    }
+
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      *

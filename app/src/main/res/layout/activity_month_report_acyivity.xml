@@ -19,38 +19,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.suda.jzapp.view.MyThemeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="本月预算" />
 
-                <com.suda.jzapp.view.MyThemeTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="本月预算" />
-
-                <TextView
-                    android:id="@+id/budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-
-                    android:text="100"
-                    android:textSize="30sp" />
-
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/budget_tip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
                 android:text=" " />
+
 
         </LinearLayout>
 
@@ -58,72 +47,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <com.suda.jzapp.view.MyThemeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="本月消费" />
 
+            <TextView
+                android:id="@+id/out_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
-                <com.suda.jzapp.view.MyThemeTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="本月消费" />
-
-                <TextView
-                    android:id="@+id/out_money_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-
-                    android:text="100"
-                    android:textSize="30sp" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/out_money_tip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
                 android:text="" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <com.suda.jzapp.view.MyThemeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="本月收入" />
 
+            <TextView
+                android:id="@+id/in_money_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300"
 
-                <com.suda.jzapp.view.MyThemeTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="本月收入" />
-
-                <TextView
-                    android:id="@+id/in_money_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-
-                    android:text="300"
-                    android:textSize="30sp" />
-            </LinearLayout>
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/in_money_tip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
                 android:text="" />
 
         </LinearLayout>

@@ -52,6 +52,9 @@
     <string name="sync_setting">同步设置</string>
     <string name="sync_setting_on">仅WIFI下自动同步</string>
     <string name="sync_setting_off">有网络连接自动同步</string>
+    <string name="remind_setting">提醒设置</string>
+    <string name="remind_setting_on">已开启提醒</string>
+    <string name="remind_setting_off">已关闭提醒</string>
     <string name="security_settings">安全设置</string>
     <string name="gesture_settings">手势解锁</string>
     <string name="gesture_setting_on">手势解锁已开启</string>

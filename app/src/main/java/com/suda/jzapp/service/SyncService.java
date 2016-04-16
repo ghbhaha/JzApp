@@ -23,6 +23,7 @@ import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.util.AlarmUtil;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.NetworkUtil;
@@ -44,13 +45,20 @@ public class SyncService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (!canSync())
-            return;
-        LogUtils.e(TAG, "START_SYNC");
-        syncRecord();
-        syncAccount();
-        syncRecordType();
-        recordManager.updateRecordTypeIndex(null, true);
+
+        AlarmUtil.createAlarm(this);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (canSync()) {
+            LogUtils.e(TAG, "START_SYNC");
+            syncRecord();
+            syncAccount();
+            syncRecordType();
+            recordManager.updateRecordTypeIndex(null, true);
+        }
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private void syncRecord() {
@@ -191,6 +199,7 @@ public class SyncService extends Service {
         return MyAVUser.getCurrentUser() != null &&
                 ((boolean) SPUtils.get(this, true, Constant.SP_SYNC_ONLY_WIFI, false) ? NetworkUtil.checkWifi(this) : NetworkUtil.checkNetwork(this));
     }
+
 
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     private RecordTypeLocalDao recordTypeLocalDao = new RecordTypeLocalDao();
