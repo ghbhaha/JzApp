@@ -50,7 +50,7 @@ public class QrCodeActivity extends BaseActivity implements MyMessageHandler.Msg
 
     @Override
     public void show(MsgDo msgDo) {
-        Glide.with(QrCodeActivity.this).
+        Glide.with(QrCodeActivity.this.getApplicationContext()).
                 load(msgDo.getMsgExtra()).error(R.mipmap.suda)
                 .into(otherHead);
         otherName.setText(msgDo.getSendUser());
@@ -77,20 +77,8 @@ public class QrCodeActivity extends BaseActivity implements MyMessageHandler.Msg
                 final User user = (User) msg.obj;
                 if (user == null)
                     return;
-                userManager.queryUserLinkByUser(user.getUserName(), new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        String code = "";
-                        if (msg.obj == null) {
-                            code = Constant.QR_MARK + user.getUserName();
-                        } else {
-                            code = Constant.QR_MARK_HAVE_LINK + user.getUserName();
-                        }
-                        imageQrCode.setImageBitmap(QRCodeUtil.createQRImage(code, imageQrCode.getLayoutParams().width, imageQrCode.getLayoutParams().width));
-                    }
-                });
-                Glide.with(QrCodeActivity.this).
+                imageQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageQrCode.getLayoutParams().width, imageQrCode.getLayoutParams().width));
+                Glide.with(QrCodeActivity.this.getApplicationContext()).
                         load(user.getHeadImage()).error(R.mipmap.suda)
                         .into(myHead);
                 myName.setText(user.getUserName());

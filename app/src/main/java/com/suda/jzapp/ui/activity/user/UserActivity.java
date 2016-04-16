@@ -54,27 +54,13 @@ public class UserActivity extends BaseActivity {
                 final User user = (User) msg.obj;
                 if (user == null)
                     return;
-                Glide.with(UserActivity.this).
+                Glide.with(UserActivity.this.getApplicationContext()).
                         load(user.getHeadImage())
                         .error(R.mipmap.suda).into(mHeadIcon);
                 mTvUserName.setText(user.getUserName());
                 mTvUserCode.setText("您是第" + user.getUserCode() + "位用户");
                 mTvEmail.setText(MyAVUser.getCurrentUser().getEmail());
-                userManager.queryUserLinkByUser(user.getUserName(), new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        String code = "";
-                        if (msg.obj == null) {
-                            code = Constant.QR_MARK + user.getUserName();
-                        } else {
-                            code = Constant.QR_MARK_HAVE_LINK + user.getUserName();
-                        }
-                        imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(code, imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
-                    }
-                });
-
-
+                imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
             }
         });
     }

@@ -86,13 +86,31 @@ public class AVRecord extends AVObject {
         return getBoolean(RECORD_IS_DEL);
     }
 
+    public String getRecordName() {
+        return getString(RECORD_NAME);
+    }
+
+    public void setRecordName(String recordName) {
+        put(RECORD_NAME, recordName);
+    }
+
+    public int getIconID(){
+        return getInt(ICON_ID);
+    }
+
+    public void setIconID(int iconID){
+        put(ICON_ID,iconID);
+    }
+
     public final static String USER = "User";
     public final static String ACCOUNT_ID = "AccountID";
     public final static String RECORD_ID = "RecordID";
+    public final static String RECORD_NAME = "RecordName";
     public final static String RECORD_MONEY = "RecordMoney";
     public final static String RECORD_TYPE_ID = "RecordTypeID";
     public final static String RECORD_TYPE = "RecordType";
     public final static String RECORD_DATE = "RecordDate";
     public final static String REMARK = "RecordRemark";
     public final static String RECORD_IS_DEL = "IsDel";
+    public final static String ICON_ID = "IconID";
 }

@@ -16,6 +16,11 @@ public class UserLocalDao extends BaseLocalDao {
         return getSingleData(userDao.queryBuilder().where(UserDao.Properties.UserId.eq(userID)).list());
     }
 
+    public User getUserByUserName(String userName, Context context) {
+        UserDao userDao = getDaoSession(context).getUserDao();
+        return getSingleData(userDao.queryBuilder().where(UserDao.Properties.UserName.eq(userName)).list());
+    }
+
     public void delUserByUserId(String userID, Context context) {
         UserDao userDao = getDaoSession(context).getUserDao();
         userDao.queryBuilder().where(UserDao.Properties.UserId.eq(userID)).buildDelete().executeDeleteWithoutDetachingEntities();

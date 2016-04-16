@@ -99,6 +99,9 @@ public class AccountRecordAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (recordDetailDO.getRecordID() == -100)
+                    return;
+
                 Intent intent = new Intent(mContext, CreateOrEditRecordActivity.class);
                 Record record = recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID());
                 if (record.getRecordType() == Constant.RecordType.SHOURU.getId() ||

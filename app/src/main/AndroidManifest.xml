@@ -45,6 +45,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.user.UserLinkActivity"
+            android:label="@string/user_link"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.system.SettingsActivity"

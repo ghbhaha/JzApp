@@ -45,7 +45,7 @@ public class GestureLockActivity extends BaseActivity {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_SUCCESS) {
                     User user = (User) msg.obj;
-                    Glide.with(GestureLockActivity.this).
+                    Glide.with(GestureLockActivity.this.getApplicationContext()).
                             load(user.getHeadImage())
                             .placeholder(R.mipmap.suda).into(mHeadImg);
                 }

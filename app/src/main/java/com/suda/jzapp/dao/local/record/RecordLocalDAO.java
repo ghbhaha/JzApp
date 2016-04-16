@@ -27,15 +27,10 @@ public class RecordLocalDAO extends BaseLocalDao {
     public void createNewRecord(Context context, Record record) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(record.getRecordDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
         record.setRecordDate(calendar.getTime());
         record.setYear(calendar.get(Calendar.YEAR));
         record.setMonth(calendar.get(Calendar.MONTH));
         record.setDay(calendar.get(Calendar.DAY_OF_MONTH));
-
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         recordDao.insert(record);
     }

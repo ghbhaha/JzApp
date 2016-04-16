@@ -58,9 +58,19 @@ public class RecordManager extends BaseManager {
      */
     public void createNewRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(record.getRecordDate());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        record.setRecordDate(calendar.getTime());
         record.setIsDel(false);
         if (canSync()) {
             final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+            RecordType recordType = recordTypeDao.getRecordTypeById(_context,avRecord.getRecordTypeId());
+            avRecord.setIconID(recordType.getRecordIcon());
+            avRecord.setRecordName(recordType.getRecordDesc());
             avRecord.setRecordIsDel(false);
             avRecord.saveInBackground(new SaveCallback() {
                 @Override

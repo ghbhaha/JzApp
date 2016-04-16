@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:onClick="link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_white" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <ListView
+        android:id="@+id/link_records"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#00000000"
+        android:dividerHeight="0dp">
+
+
+    </ListView>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="link"
+            android:src="@drawable/ic_add_white"
+            android:visibility="invisible" />
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

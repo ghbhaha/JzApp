@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
                     super.handleMessage(msg);
                     if (msg.what == Constant.MSG_SUCCESS) {
                         User user = (User) msg.obj;
-                        Glide.with(MainActivity.this).
+                        Glide.with(MainActivity.this.getApplicationContext()).
                                 load(user.getHeadImage()).error(R.mipmap.suda)
                                 .into(headImg);
                     }
@@ -155,14 +155,14 @@ public class MainActivity extends BaseActivity {
                     super.handleMessage(msg);
                     if (msg.what == Constant.MSG_SUCCESS) {
                         User user = (User) msg.obj;
-                        Glide.with(MainActivity.this).
+                        Glide.with(MainActivity.this.getApplicationContext()).
                                 load(user.getHeadImage()).error(R.mipmap.suda)
                                 .into(headImg);
                     }
                 }
             });
         } else {
-            Glide.with(MainActivity.this).
+            Glide.with(MainActivity.this.getApplicationContext()).
                     load(R.mipmap.ic_launcher)
                     .into(headImg);
         }

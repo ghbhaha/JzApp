@@ -182,7 +182,7 @@ public class UserManager extends BaseManager {
                             getAvEx(e);
                             if (e == null) {
                                 userLocalDao.clear(_context);
-                                user = null;
+                                userHashMap.clear();
                                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                             } else {
                                 sendEmptyMessage(handler, Constant.MSG_ERROR);
@@ -195,46 +195,7 @@ public class UserManager extends BaseManager {
     }
 
     public void getMe(final Handler handler) {
-        final Message message = new Message();
-        if (user != null) {
-            message.what = Constant.MSG_SUCCESS;
-            message.obj = user;
-            handler.sendMessage(message);
-        } else {
-            if (MyAVUser.getCurrentUser() == null) {
-                handler.sendEmptyMessage(Constant.MSG_ERROR);
-                return;
-            }
-            user = userLocalDao.getUser(MyAVUser.getCurrentUserId(), _context);
-            if (user != null) {
-                message.what = Constant.MSG_SUCCESS;
-                message.obj = user;
-                handler.sendMessage(message);
-                return;
-            }
-
-            AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
-            query.whereEqualTo("objectId", MyAVUser.getCurrentUser().getObjectId());
-            query.findInBackground(new FindCallback<MyAVUser>() {
-                @Override
-                public void done(List<MyAVUser> list, AVException e) {
-                    if (e == null) {
-                        MyAVUser avUser = list.get(0);
-                        user = new User();
-                        user.setUserId(avUser.getObjectId());
-                        user.setHeadImage(getImgUrl(avUser.getHeadImage()));
-                        user.setUserCode(avUser.getUserCode());
-                        user.setUserName(avUser.getUsername());
-                        userLocalDao.insertUser(user, _context);
-                        message.what = Constant.MSG_SUCCESS;
-                        message.obj = user;
-                    } else {
-                        message.what = Constant.MSG_ERROR;
-                    }
-                    handler.sendMessage(message);
-                }
-            });
-        }
+        queryUser(getCurUserName(), handler);
     }
 
     private String getImgUrl(AVFile avFile) {
@@ -243,8 +204,6 @@ public class UserManager extends BaseManager {
         else
             return "";
     }
-
-    private static User user;
 
     public String getCurUserName() {
         if (MyAVUser.getCurrentUser() != null)
@@ -272,7 +231,7 @@ public class UserManager extends BaseManager {
         userLocalDao.clear(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
-        user = null;
+        userHashMap.clear();
         configLocalDao.initRecordType(_context);
         configLocalDao.createDefaultAccount(_context);
     }
@@ -295,8 +254,10 @@ public class UserManager extends BaseManager {
 
     public void queryUserLinkByUser(String userName, final Handler handler) {
 
-        if (userLink != null)
+        if (userLink != null) {
             sendMessage(handler, userLink, true);
+            return;
+        }
 
         AVQuery<UserLink> query = AVObject.getQuery(UserLink.class);
         query.whereContains(UserLink.MEMBER, userName);
@@ -308,6 +269,8 @@ public class UserManager extends BaseManager {
                     if (list != null && list.size() > 0) {
                         userLink = list.get(0);
                         sendMessage(handler, userLink, true);
+                    } else {
+                        sendMessage(handler, null, true);
                     }
                 } else {
                     sendMessage(handler, null, true);
@@ -438,10 +401,59 @@ public class UserManager extends BaseManager {
         }
     }
 
+
+    public void queryUser(final String userName, final Handler handler) {
+        final Message message = new Message();
+        if (userHashMap.get(userName) != null) {
+            message.what = Constant.MSG_SUCCESS;
+            message.obj = userHashMap.get(userName);
+            handler.sendMessage(message);
+        } else {
+            if (MyAVUser.getCurrentUser() == null) {
+                handler.sendEmptyMessage(Constant.MSG_ERROR);
+                return;
+            }
+            User user = userLocalDao.getUserByUserName(userName, _context);
+            if (user != null) {
+                userHashMap.put(userName, user);
+                message.what = Constant.MSG_SUCCESS;
+                message.obj = user;
+                handler.sendMessage(message);
+                return;
+            }
+
+            AVQuery<MyAVUser> query = AVObject.getQuery(MyAVUser.class);
+            query.whereEqualTo("username", userName);
+            query.findInBackground(new FindCallback<MyAVUser>() {
+                @Override
+                public void done(List<MyAVUser> list, AVException e) {
+                    if (e == null) {
+                        MyAVUser avUser = list.get(0);
+                        User user = new User();
+                        user.setUserId(avUser.getObjectId());
+                        user.setHeadImage(getImgUrl(avUser.getHeadImage()));
+                        user.setUserCode(avUser.getUserCode());
+                        user.setUserName(avUser.getUsername());
+                        userLocalDao.insertUser(user, _context);
+                        userHashMap.put(userName, user);
+                        message.what = Constant.MSG_SUCCESS;
+                        message.obj = user;
+                    } else {
+                        message.what = Constant.MSG_ERROR;
+                    }
+                    handler.sendMessage(message);
+                }
+            });
+        }
+
+    }
+
+
     private static AVIMClient mClient;
     private static Map<String, AVIMConversation> conversationMap = new HashMap<>();
+    private static Map<String, User> userHashMap = new HashMap<>();
 
-    private static UserLink userLink;
+    public static UserLink userLink;
 
     private UserLocalDao userLocalDao = new UserLocalDao();
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

@@ -16,6 +16,7 @@ import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
+import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -77,7 +78,11 @@ public class OptMenuAdapter extends BaseAdapter {
                     context.finish();
                 } else {
                     if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == MonthReportActivity.class || optDO.getAct() == UserLinkActivity.class)) {
-                        SnackBarUtil.showSnackInfo(v, context, "清先登陆账号哦");
+                        SnackBarUtil.showSnackInfo(v, context, "请先登陆账号哦");
+                        return;
+                    }
+                    if (!NetworkUtil.checkNetwork(context)) {
+                        SnackBarUtil.showSnackInfo(v, context, "请打开网络");
                         return;
                     }
 
