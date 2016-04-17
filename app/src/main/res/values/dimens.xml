@@ -16,7 +16,7 @@
     <dimen name="open_source_lis_text_size">13sp</dimen>
 
     <dimen name="background_height">150dp</dimen>
-    <dimen name="card_margin_top">13dp</dimen>
+    <dimen name="card_margin_top">10dp</dimen>
     <dimen name="card_margin_buttom">6dp</dimen>
     <dimen name="card_margin_let_right">10dp</dimen>
 

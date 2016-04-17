@@ -38,7 +38,6 @@ import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.ui.activity.user.UserActivity;
-import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.SnackBarUtil;
@@ -59,7 +58,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        UmengUpdateAgent.update(this);
 
         startService(new Intent(this, SyncService.class));
 
@@ -190,12 +188,13 @@ public class MainActivity extends BaseActivity {
         //初始化菜单
         List<OptDO> optDOs = new ArrayList<>();
 
-        optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
+        //optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
         optDOs.add(new OptDO(MonthReportActivity.class, 1, R.drawable.ic_drawer_guide, "月报"));
         optDOs.add(new OptDO(SettingsActivity.class, 2, R.drawable.ic_drawer_settings, "设置"));
-        optDOs.add(new OptDO(EditThemeActivity.class, 0, R.drawable.ic_color_lens_black_24dp, "主题切换"));
-        optDOs.add(new OptDO(AboutActivity.class, 3, R.drawable.ic_drawer_about, "关于"));
-        optDOs.add(new OptDO(null, 4, R.drawable.ic_drawer_exit, "退出"));
+        optDOs.add(new OptDO(EditThemeActivity.class, 3, R.drawable.ic_color_lens_black_24dp, "主题切换"));
+        optDOs.add(new OptDO(null, 4, R.drawable.ic_drawer_check_update, "检查更新"));
+        optDOs.add(new OptDO(AboutActivity.class, 5, R.drawable.ic_drawer_about, "关于"));
+        optDOs.add(new OptDO(null, 6, R.drawable.ic_drawer_exit, "退出"));
         optMenuAdapter = new OptMenuAdapter(optDOs, this);
         mLvOptItems.setAdapter(optMenuAdapter);
 

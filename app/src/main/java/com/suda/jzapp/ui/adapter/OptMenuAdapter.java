@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
@@ -19,6 +20,10 @@ import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
+import com.umeng.update.UpdateStatus;
 
 import java.util.List;
 
@@ -74,7 +79,9 @@ public class OptMenuAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (optDO.getAct() == null) {
+                if (optDO.getId() == 4) {
+                    checkForUpdate();
+                } else if (optDO.getId() == 6) {
                     context.finish();
                 } else {
                     if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == MonthReportActivity.class || optDO.getAct() == UserLinkActivity.class)) {
@@ -95,6 +102,30 @@ public class OptMenuAdapter extends BaseAdapter {
             }
         });
         return convertView;
+    }
+
+    public void checkForUpdate() {
+
+        UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+            @Override
+            public void onUpdateReturned(int i, UpdateResponse updateResponse) {
+                switch (i) {
+                    case UpdateStatus.Yes: // has update
+                        UmengUpdateAgent.showUpdateDialog(context, updateResponse);
+                        break;
+                    case UpdateStatus.No: // has no update
+                        Toast.makeText(context, "没有检测到更新", Toast.LENGTH_SHORT).show();
+                        break;
+                    case UpdateStatus.NoneWifi: // none wifi
+                        Toast.makeText(context, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
+                        break;
+                    case UpdateStatus.Timeout: // time out
+                        Toast.makeText(context, "连接超时", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        UmengUpdateAgent.forceUpdate(context);
     }
 
     public class ViewHolder {

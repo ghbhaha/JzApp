@@ -203,18 +203,24 @@ public class RecordAdapter extends BaseAdapter {
                             @Override
                             public void onClick(View v) {
 
-                                Record record = recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID());
+                                final Record record = recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID());
                                 record.setIsDel(true);
-                                recordManager.updateOldRecord(record, null);
-                                accountManager.updateAccountMoney(record.getAccountID(), -record.getRecordMoney(), new
-                                        Handler() {
-                                            @Override
-                                            public void handleMessage(Message msg) {
-                                                super.handleMessage(msg);
-                                                ((MainActivity) mContext).getReloadAccountCallBack().reload(true);
-                                                ((MainActivity) mContext).getReloadAnalysisCallBack().reload(true);
-                                            }
-                                        });
+                                recordManager.updateOldRecord(record, new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        accountManager.updateAccountMoney(record.getAccountID(), -record.getRecordMoney(), new
+                                                Handler() {
+                                                    @Override
+                                                    public void handleMessage(Message msg) {
+                                                        super.handleMessage(msg);
+                                                        ((MainActivity) mContext).getReloadAccountCallBack().reload(true);
+                                                        ((MainActivity) mContext).getReloadAnalysisCallBack().reload(true);
+                                                    }
+                                                });
+                                    }
+                                });
+
                                 RecordDetailDO todayRecordDetailDO = recordDetailDOMap.get(recordDetailDO.getRecordDate());
                                 if (recordDetailDO.getRecordMoney() < 0) {
                                     todayRecordDetailDO.setTodayAllOutMoney(todayRecordDetailDO.getTodayAllOutMoney() - recordDetailDO.getRecordMoney());

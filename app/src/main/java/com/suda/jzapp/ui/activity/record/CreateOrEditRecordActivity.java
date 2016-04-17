@@ -32,6 +32,7 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.KeyBoardUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
@@ -235,6 +236,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     remarkPanel.setVisibility(View.VISIBLE);
                     YoYo.with(Techniques.SlideInDown).duration(300).playOn(remarkPanel);
                 } else {
+                    KeyBoardUtils.closeKeybord(etRemark,CreateOrEditRecordActivity.this);
                     YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -250,6 +252,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             @Override
             public void onClick(View v) {
                 newRecord.setRemark(etRemark.getText().toString());
+                KeyBoardUtils.closeKeybord(etRemark,CreateOrEditRecordActivity.this);
                 YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
                 new Handler().postDelayed(new Runnable() {
                     @Override
