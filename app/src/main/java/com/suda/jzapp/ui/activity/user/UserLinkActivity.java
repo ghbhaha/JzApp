@@ -200,7 +200,8 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
         query.whereEqualTo(AVRecord.USER, myAVUser);
         query.whereEqualTo(AVRecord.RECORD_TYPE, -1);
         query.whereEqualTo(AVRecord.RECORD_IS_DEL, false);
-        query.orderByDescending(AVRecord.RECORD_ID);
+        query.orderByDescending(AVRecord.RECORD_DATE);
+        query.addDescendingOrder(AVRecord.RECORD_ID);
         //缓存2分钟
        // query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
         //query.setMaxCacheAge(2 * 60 * 1000);

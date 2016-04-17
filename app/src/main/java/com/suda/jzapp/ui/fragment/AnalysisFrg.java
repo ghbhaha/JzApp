@@ -208,7 +208,10 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                 List<ChartRecordDo> list = (List<ChartRecordDo>) msg.obj;
                 allOutOrInMoney = 0;
                 int i = 0;
+                double min = Double.MAX_VALUE;
                 for (ChartRecordDo chartRecordDo : list) {
+                    if (Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())) < min)
+                        min = Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
                     allOutOrInMoney += Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
                     yPieVals1.add(new Entry(Math.abs(new Double(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
                     xPieVals1.add(chartRecordDo.getRecordDesc());
@@ -217,8 +220,10 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                 }
 
                 PieDataSet dataSet = new PieDataSet(yPieVals1, "Election Results");
-                dataSet.setSliceSpace(2f);
-                dataSet.setSelectionShift(4f);
+                if (min / allOutOrInMoney > 0.001) {
+                    dataSet.setSliceSpace(1f);
+                }
+                dataSet.setSelectionShift(2f);
                 dataSet.setColors(colors);
                 PieData data = new PieData(xPieVals1, dataSet);
                 data.setDrawValues(false);

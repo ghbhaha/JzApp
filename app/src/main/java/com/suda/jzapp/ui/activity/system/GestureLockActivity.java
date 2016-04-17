@@ -47,7 +47,7 @@ public class GestureLockActivity extends BaseActivity {
                     User user = (User) msg.obj;
                     Glide.with(GestureLockActivity.this.getApplicationContext()).
                             load(user.getHeadImage())
-                            .placeholder(R.mipmap.suda).into(mHeadImg);
+                            .error(R.mipmap.suda).into(mHeadImg);
                 }
             }
         });

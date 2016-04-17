@@ -149,7 +149,10 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                 //mTypePieChart.setVisibility(list.size() > 0 ? View.VISIBLE : View.GONE);
                 allOutOrInMoney = 0;
                 int i = 0;
+                double min = Double.MAX_VALUE;
                 for (ChartRecordDo chartRecordDo : list) {
+                    if (Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())) < min)
+                        min = Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
                     allOutOrInMoney += Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
                     yVals1.add(new Entry(Math.abs(new Double(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
                     xVals1.add(chartRecordDo.getRecordDesc());
@@ -157,7 +160,9 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                     i++;
                 }
                 PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
-                dataSet.setSliceSpace(1f);
+                if (min / allOutOrInMoney > 0.001) {
+                    dataSet.setSliceSpace(1f);
+                }
                 dataSet.setSelectionShift(2f);
 
                 dataSet.setColors(colors);
