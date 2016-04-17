@@ -34,6 +34,8 @@ public class ExceptionInfoUtil {
             case 216:
                 info = "先验证邮箱才能登陆哦";
                 break;
+            case AVException.EMAIL_NOT_FOUND:
+                info = "该邮箱尚未注册";
             default:
                 break;
         }

@@ -33,6 +33,8 @@
     <string name="introduce_and_help">介绍与帮助</string>
     <string name="title_activity_login">登陆</string>
     <string name="title_activity_register">注册</string>
+    <string name="title_activity_get_password">找回密码</string>
+
     <string name="title_activity_create_new_record_type">创建新记录</string>
     <string name="title_activity_account_transaction">交易流水</string>
     <string name="title_activity_record_pie_analysis">分类统计</string>

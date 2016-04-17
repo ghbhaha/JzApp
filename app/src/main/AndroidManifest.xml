@@ -74,6 +74,9 @@
             android:name=".ui.activity.user.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ui.activity.user.UserGetPassBackActivity"
+            android:label="@string/title_activity_get_password"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.activity.record.CreateNewRecordTypeActivity"
             android:label="@string/title_activity_create_new_record_type"
@@ -104,14 +107,17 @@
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity android:name=".ui.activity.account.AccountsTransferActivity"
+        <activity
+            android:name=".ui.activity.account.AccountsTransferActivity"
             android:label="@string/title_activity_accounts_transfer"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <service android:name=".service.SyncService" />
-        <receiver android:name=".receiver.AlarmReceiver" android:process=":remote"/>
+
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:process=":remote" />
         <!-- 友盟 -->
 
         <activity

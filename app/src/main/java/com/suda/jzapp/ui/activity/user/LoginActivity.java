@@ -110,13 +110,14 @@ public class LoginActivity extends BaseActivity {
         }
 
         hideKeyboard();
-
+        loginBt.setClickable(false);
         isEmail = isNameAddressFormat(user);
         userManager.login(isEmail ? null : user, password, isEmail ? user : null, new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_ERROR) {
+                    loginBt.setClickable(true);
                     SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, msg.obj.toString());
                 } else {
                     if (forgetGesture && user.equals(orgUser)) {
@@ -177,7 +178,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void getPassBack(View view) {
-
+        Intent intent = new Intent(this, UserGetPassBackActivity.class);
+        startActivity(intent);
     }
 
 

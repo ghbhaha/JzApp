@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.util.MD5Util;
+import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.GestureLockView.Mode;
 
 import java.util.ArrayList;
@@ -109,6 +110,8 @@ public class GestureLockViewGroup extends RelativeLayout {
      */
     private boolean isSetting = false;
 
+    private Context mContext;
+
     /**
      * 回调接口
      */
@@ -121,6 +124,8 @@ public class GestureLockViewGroup extends RelativeLayout {
     public GestureLockViewGroup(Context context, AttributeSet attrs,
                                 int defStyle) {
         super(context, attrs, defStyle);
+
+        this.mContext = context;
         /**
          * 获得所有自定义的参数的值
          */
@@ -195,7 +200,7 @@ public class GestureLockViewGroup extends RelativeLayout {
                 //初始化每个GestureLockView
                 mGestureLockViews[i] = new GestureLockView(getContext(),
                         mNoFingerInnerCircleColor, mNoFingerOuterCircleColor,
-                        mFingerOnColor, mFingerUpColor);
+                        mContext.getResources().getColor(ThemeUtil.getTheme(mContext).getMainColorID()), mFingerUpColor);
                 mGestureLockViews[i].setId(i + 1);
                 //设置参数，主要是定位GestureLockView间的位置
                 LayoutParams lockerParams = new LayoutParams(
