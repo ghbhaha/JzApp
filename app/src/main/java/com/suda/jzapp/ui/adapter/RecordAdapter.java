@@ -127,7 +127,8 @@ public class RecordAdapter extends BaseAdapter {
         holder.icon.setVisibility(recordDetailDO.isDayFirstDay() || recordDetailDO.isMonthFirstDay() ? View.INVISIBLE : View.VISIBLE);
         holder.recordDateTv.setVisibility(recordDetailDO.isDayFirstDay() || recordDetailDO.isMonthFirstDay() ? View.VISIBLE : View.INVISIBLE);
 
-        resetOptBt();
+        holder.delV.setVisibility(lastSelOpt == position ? View.VISIBLE : View.INVISIBLE);
+        holder.editV.setVisibility(lastSelOpt == position ? View.VISIBLE : View.INVISIBLE);
 
         if (recordDetailDO.getRecordMoney() < 0) {
             holder.outTv.setText(recordDetailDO.getRecordDesc() + " " +
@@ -177,17 +178,13 @@ public class RecordAdapter extends BaseAdapter {
             holder.icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    resetOptBt();
                     if (lastSelOpt != position) {
-                        optViews.add(finalHolder.delV);
-                        optViews.add(finalHolder.editV);
-                        finalHolder.delV.setVisibility(View.VISIBLE);
-                        finalHolder.editV.setVisibility(View.VISIBLE);
+                        lastSelOpt = position;
+                        notifyDataSetChanged();
                         YoYo.with(Techniques.SlideInUp).duration(200).playOn(finalHolder.delV);
                         YoYo.with(Techniques.SlideInDown).duration(200).playOn(finalHolder.editV);
-                        lastSelOpt = position;
                     } else {
-                        lastSelOpt = -1;
+                        resetOptStatus();
                     }
                 }
             });
@@ -197,9 +194,9 @@ public class RecordAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 final MaterialDialog materialDialog = new MaterialDialog(mContext);
-                materialDialog.setTitle("删除记录？")
+                materialDialog.setTitle(mContext.getResources().getString(R.string.delete_record))
                         .setMessage("")
-                        .setPositiveButton("确认", new View.OnClickListener() {
+                        .setPositiveButton(mContext.getResources().getString(R.string.ok), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
@@ -255,7 +252,7 @@ public class RecordAdapter extends BaseAdapter {
 
                             }
                         })
-                        .setNegativeButton("取消", new View.OnClickListener() {
+                        .setNegativeButton(mContext.getResources().getString(R.string.cancel), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 materialDialog.dismiss();
@@ -269,9 +266,7 @@ public class RecordAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CreateOrEditRecordActivity.class);
                 intent.putExtra(IntentConstant.OLD_RECORD, recordLocalDAO.getRecordById(mContext, recordDetailDO.getRecordID()));
-                resetOptBt();
-                lastSelOpt = -1;
-
+                resetOptStatus();
                 ((MainActivity) mContext).startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
@@ -279,18 +274,16 @@ public class RecordAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastSelOpt = -1;
-                resetOptBt();
+                resetOptStatus();
             }
         });
 
         return convertView;
     }
 
-    private void resetOptBt() {
-        for (View view : optViews) {
-            view.setVisibility(View.INVISIBLE);
-        }
+    public void resetOptStatus() {
+        lastSelOpt = -1;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder {

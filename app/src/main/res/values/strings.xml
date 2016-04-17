@@ -21,11 +21,8 @@
     <string name="account_select">账户选择</string>
     <string name="money_format_2">账户余额：￥%.2f</string>
 
-
     <!-- 记录 -->
     <string name="please_enter_record_type_name">请输入自定义名称</string>
-
-
     <string name="about">关于</string>
     <string name="introduce">账单助手， xxxxxx</string>
     <string name="app_name_with_introduce">账单助手 - 理财的好帮手</string>
@@ -67,6 +64,30 @@
     <string name="in_text">&lt;font color=#dc6268>收&lt;/font>&lt;font color=#e6b7c2> | 支&lt;/font></string>
     <string name="out_text">&lt;font color=#e6b7c2>收 | &lt;/font>&lt;font color=#dc6268>支&lt;/font></string>
     <string name="user_info">用户信息</string>
+
+
+    <string name="not_select_same_account">请不要选择相同账户</string>
+    <string name="select_in_account">请选择转入账户</string>
+    <string name="enter_account_trans_money">请输入转账金额</string>
+    <string name="not_have_enough_money">账户余额不足</string>
+
+    <string name="enter_account_name">请填写账户名称</string>
+
+    <string name="edit_account_name">修改账户名</string>
+    <string name="edit_account_money">修改账户余额</string>
+    <string name="edit_account_remark">修改账户备注</string>
+    <string name="edit_account_type">修改账户类型</string>
+
+    <string name="create_account">创建账户</string>
+    <string name="edit_account">修改账户</string>
+    <string name="delete_account">删除账户?</string>
+
+    <string name="retain_at_least_one_account">请至少保留一个账户</string>
+
+    <string name="ok">确认</string>
+    <string name="cancel">确认</string>
+
+    <string name="delete_record">删除记录?</string>
 
     <string name="title_activity_qrcode">我的二维码</string>
     <string name="title_activity_accounts_transfer">转账</string>

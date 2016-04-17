@@ -42,9 +42,6 @@ public class EditAccountColorActivity extends Activity {
             setResult(RESULT_OK, intent);
             finish();
         }
-
-
-
     }
 
     @Override

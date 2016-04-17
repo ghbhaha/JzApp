@@ -46,6 +46,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mAddRecordBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRecordAdapter.resetOptStatus();
                 Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
                 getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }

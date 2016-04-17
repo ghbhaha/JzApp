@@ -52,20 +52,20 @@ public class EditAccountActivity extends BaseActivity {
 
         switch (mEditType) {
             case PROP_TYPE_ACCOUNT_NAME:
-                getSupportActionBar().setTitle("修改账户名");
+                getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_name));
                 mEtProp.setText(mParam);
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
-                getSupportActionBar().setTitle("修改账户余额");
+                getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_money));
                 mEtProp.setText(String.format(getResources().getString(R.string.record_money_format), mMoney));
                 mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
-                getSupportActionBar().setTitle("修改账户备注");
+                getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_remark));
                 mEtProp.setText(mParam);
                 break;
             case PROP_TYPE_ACCOUNT_TYPE:
-                getSupportActionBar().setTitle("修改账户类型");
+                getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_type));
                 initListView();
                 break;
             default:

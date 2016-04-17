@@ -48,7 +48,9 @@ public class CreateOrEditAccountActivity extends BaseActivity {
         mIgAccountType = (ImageView) findViewById(R.id.account_type_icon);
         mTvAccountMoney = (TextView) findViewById(R.id.account_money);
 
-        getSupportActionBar().setTitle(mAccountID == 0 ? "创建账户" : "修改账户");
+        getSupportActionBar().setTitle(mAccountID == 0 ?
+                getResources().getString(R.string.create_account) :
+                getResources().getString(R.string.edit_account));
 
         if (mAccountID > 0) {
             //获取展示账户
@@ -76,14 +78,15 @@ public class CreateOrEditAccountActivity extends BaseActivity {
             public void onClick(View v) {
                 if (mAccountID > 0) {
                     final MaterialDialog materialDialog = new MaterialDialog(CreateOrEditAccountActivity.this);
-                    materialDialog.setTitle("删除账户？")
+                    materialDialog.setTitle(getResources().getString(R.string.delete_account))
                             .setMessage("")
-                            .setPositiveButton("确认", new View.OnClickListener() {
+                            .setPositiveButton(getResources().getString(R.string.ok), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     if (accountCount == 1) {
                                         materialDialog.dismiss();
-                                        SnackBarUtil.showSnackInfo(mSubmitButton, CreateOrEditAccountActivity.this, "请至少保留一个账户");
+                                        SnackBarUtil.showSnackInfo(mSubmitButton, CreateOrEditAccountActivity.this,
+                                                getResources().getString(R.string.retain_at_least_one_account));
                                         return;
                                     }
 
@@ -99,7 +102,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                                     });
                                 }
                             })
-                            .setNegativeButton("取消", new View.OnClickListener() {
+                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     materialDialog.dismiss();
@@ -107,7 +110,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                             }).show();
                 } else {
                     if (TextUtils.isEmpty(accountName)) {
-                        SnackBarUtil.showSnackInfo(v, CreateOrEditAccountActivity.this, "请填写账户名称");
+                        SnackBarUtil.showSnackInfo(v, CreateOrEditAccountActivity.this, getResources().getString(R.string.enter_account_name));
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,

@@ -116,20 +116,6 @@ public class AccountsTransferActivity extends BaseActivity {
             }
         });
 
-        eEtOutMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editOut = true;
-            }
-        });
-
-        eEtInMoney.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editOut = false;
-            }
-        });
-
         eEtOutMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -151,7 +137,7 @@ public class AccountsTransferActivity extends BaseActivity {
                     double money = Double.parseDouble(tmp);
                     if (money > Double.parseDouble(mTvOutAccountLeftMoney.getText().toString())) {
                         KeyBoardUtils.closeKeybord(eEtOutMoney, AccountsTransferActivity.this);
-                        SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, "账户余额不足");
+                        SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, getResources().getString(R.string.not_have_enough_money));
                         eEtOutMoney.setText(mTvOutAccountLeftMoney.getText());
                     }
                 }
@@ -159,7 +145,7 @@ public class AccountsTransferActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!editOut)
+                if (!eEtOutMoney.isFocused())
                     return;
                 eEtInMoney.setText(eEtOutMoney.getText());
             }
@@ -185,7 +171,7 @@ public class AccountsTransferActivity extends BaseActivity {
                     double money = Double.parseDouble(tmp);
                     if (money > Double.parseDouble(mTvOutAccountLeftMoney.getText().toString())) {
                         KeyBoardUtils.closeKeybord(eEtInMoney, AccountsTransferActivity.this);
-                        SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, "账户余额不足");
+                        SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, getResources().getString(R.string.not_have_enough_money));
                         eEtInMoney.setText(mTvOutAccountLeftMoney.getText());
                     }
                 }
@@ -193,7 +179,7 @@ public class AccountsTransferActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (editOut)
+                if (eEtOutMoney.isFocused())
                     return;
                 eEtOutMoney.setText(eEtInMoney.getText());
             }
@@ -202,16 +188,16 @@ public class AccountsTransferActivity extends BaseActivity {
 
     private void submit() {
         if (inAccountID == 0) {
-            SnackBarUtil.showSnackInfo(floatingActionButton, this, "请选择转入账户");
+            SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.select_in_account));
             return;
         }
 
         if (TextUtils.isEmpty(eEtInMoney.getText())) {
-            SnackBarUtil.showSnackInfo(floatingActionButton, this, "请输入转账金额");
+            SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.enter_account_trans_money));
             return;
         }
         if (Double.parseDouble(eEtInMoney.getText().toString()) == 0) {
-            SnackBarUtil.showSnackInfo(floatingActionButton, this, "请输入转账金额");
+            SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.enter_account_trans_money));
             return;
         }
         circleProgressBar.setVisibility(View.VISIBLE);
@@ -236,7 +222,7 @@ public class AccountsTransferActivity extends BaseActivity {
             AccountDetailDO accountDetailDO = accountManager.getAccountByID(accountId);
             if (selectItem == 0) {
                 if (inAccountID == accountId) {
-                    SnackBarUtil.showSnackInfo(floatingActionButton, this, "请不要选择相同账户");
+                    SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.not_select_same_account));
                     return;
                 }
                 outAccountID = accountId;
@@ -251,7 +237,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 mTvOutAccountLeftMoney.setText(TextUtil.getFormatMoney(accountDetailDO.getAccountMoney()) + "");
             } else {
                 if (outAccountID == accountId) {
-                    SnackBarUtil.showSnackInfo(floatingActionButton, this, "请不要选择相同账户");
+                    SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.not_select_same_account));
                     return;
                 }
                 inAccountID = accountId;
