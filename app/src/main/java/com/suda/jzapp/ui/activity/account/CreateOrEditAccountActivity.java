@@ -114,7 +114,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,
-                            accountRemark, new Handler() {
+                            accountRemark, accountColor,new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     super.handleMessage(msg);
@@ -196,8 +196,8 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                 }
             });
         } else if (requestCode == EditAccountActivity.PROP_TYPE_ACCOUNT_COLOR) {
-            int color = data.getIntExtra("color", 0);
-            mIgAccountType.setColorFilter(color);
+            accountColor = data.getIntExtra("color", 0);
+            mIgAccountType.setColorFilter(accountColor);
 
         }
 
@@ -231,6 +231,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     private int accountCount = 0;
     private String accountName = "";
     private String accountRemark = "";
+    private int accountColor=0;
     private AccountManager accountManager;
 
 }

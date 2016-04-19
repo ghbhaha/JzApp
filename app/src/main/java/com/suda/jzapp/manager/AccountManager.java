@@ -113,7 +113,7 @@ public class AccountManager extends BaseManager {
      * @param accountRemark
      * @param handler
      */
-    public void createNewAccount(String accountName, double accountMoney, int accountTypeID, String accountRemark, final Handler handler) {
+    public void createNewAccount(String accountName, double accountMoney, int accountTypeID, String accountRemark, int accountColor, final Handler handler) {
         final Account account = new Account();
         account.setAccountID(System.currentTimeMillis());
         account.setAccountColor("");
@@ -123,6 +123,7 @@ public class AccountManager extends BaseManager {
         account.setAccountRemark(accountRemark);
         account.setSyncStatus(true);
         account.setIsDel(false);
+        account.setAccountColor(accountColor + "");
         if (canSync()) {
             AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
             avAccount.setAccountIsDel(false);

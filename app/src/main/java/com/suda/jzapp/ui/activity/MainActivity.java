@@ -131,9 +131,7 @@ public class MainActivity extends BaseActivity {
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources()
                         .getDisplayMetrics()));
         // 游标高度
-        mPagerSlidingTabStrip.setIndicatorHeight((int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources()
-                        .getDisplayMetrics()));
+        mPagerSlidingTabStrip.setIndicatorHeight(2);
         // 选中的文字颜色
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
