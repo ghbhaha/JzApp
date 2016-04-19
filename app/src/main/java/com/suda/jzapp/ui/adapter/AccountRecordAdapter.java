@@ -99,6 +99,8 @@ public class AccountRecordAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //关联账户
                 if (recordDetailDO.getRecordID() == -100)
                     return;
 

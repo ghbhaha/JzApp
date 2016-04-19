@@ -2,7 +2,7 @@ package com.suda.jzapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,13 +32,11 @@ import java.util.List;
  */
 public class OptMenuAdapter extends BaseAdapter {
     private Activity context;
-    private LayoutInflater mInflater;
     private List<OptDO> optDOs;
 
     public OptMenuAdapter(List<OptDO> optDOs, Activity context) {
         this.optDOs = optDOs;
         this.context = context;
-        this.mInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -63,12 +61,16 @@ public class OptMenuAdapter extends BaseAdapter {
 
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.opt_item, null);
+            convertView = View.inflate(context, R.layout.opt_item, null);
             holder.icon = (ImageView) convertView.findViewById(R.id.item_icon);
             holder.title = (TextView) convertView.findViewById(R.id.item_title);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            convertView.setBackgroundResource(R.drawable.ripple);
         }
 
         final OptDO optDO = optDOs.get(position);

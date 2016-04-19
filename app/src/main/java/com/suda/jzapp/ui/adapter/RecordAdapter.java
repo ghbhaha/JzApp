@@ -247,7 +247,7 @@ public class RecordAdapter extends BaseAdapter {
                                     recordFrg.resetFoot();
                                 }
 
-                                notifyDataSetChanged();
+                                resetOptStatus();
                                 materialDialog.dismiss();
 
                             }

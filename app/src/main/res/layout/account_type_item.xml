@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="54dp"
     android:minHeight="54dp"
-    android:background="@drawable/ripple"
     android:paddingLeft="@dimen/card_margin_let_right">
 
     <TextView
