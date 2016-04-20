@@ -68,7 +68,7 @@ public class RecordManager extends BaseManager {
         record.setIsDel(false);
         if (canSync()) {
             final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-            RecordType recordType = recordTypeDao.getRecordTypeById(_context,avRecord.getRecordTypeId());
+            RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
             avRecord.setIconID(recordType.getRecordIcon());
             avRecord.setRecordName(recordType.getRecordDesc());
             avRecord.setRecordIsDel(false);
@@ -808,10 +808,39 @@ public class RecordManager extends BaseManager {
 
     }
 
+    public List<RecordDetailDO> getRecordsByRecordTypeIDAndMonth(long recordTypeID, int recordYear, int recordMonth) {
+        List<Record> records = recordLocalDAO.getRecordsByRecordTypeIDAndMonth(_context, recordTypeID, recordYear, recordMonth);
+        List<RecordDetailDO> recordDetailDOs = new ArrayList<>();
+        Map<Long, RecordType> recordTypeMap = new HashMap<>();
+        for (Record record : records) {
+            RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
+            if (recordType == null) {
+                recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                recordTypeMap.put(record.getRecordTypeID(), recordType);
+            }
+            RecordDetailDO recordDetailDO = new RecordDetailDO();
+            recordDetailDO.setRecordDate(record.getRecordDate());
+            recordDetailDO.setRecordID(-100);
+            recordDetailDO.setRecordMoney(record.getRecordMoney());
+            recordDetailDO.setRemark(record.getRemark());
+            recordDetailDO.setIconId(recordType.getRecordIcon());
+            if (recordType.getRecordType() == Constant.RecordType.CHANGE.getId()) {
+                recordDetailDO.setIconId(Constant.RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG);
+            }
+
+            recordDetailDO.setRecordDesc(recordType.getRecordDesc());
+            recordDetailDOs.add(recordDetailDO);
+        }
+        return recordDetailDOs;
+    }
+
+
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
     ConfigLocalDao configLocalDao = new ConfigLocalDao();
     AccountManager accountManager = new AccountManager(_context);
 
     private final static String RECORD_INDEX_UPDATE = "RECORD_INDEX_UPDATE";
+
+
 }

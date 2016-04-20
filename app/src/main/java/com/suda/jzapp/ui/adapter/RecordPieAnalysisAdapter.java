@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
+import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.record.RecordTypeDetailActivity;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
@@ -62,7 +65,19 @@ public class RecordPieAnalysisAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ChartRecordDo chartRecordDo = chartRecordDos.get(position);
+        final ChartRecordDo chartRecordDo = chartRecordDos.get(position);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, RecordTypeDetailActivity.class);
+                intent.putExtra(IntentConstant.RECORD_YEAR, chartRecordDo.getRecordYear());
+                intent.putExtra(IntentConstant.RECORD_MONTH, chartRecordDo.getRecordMonth());
+                intent.putExtra(IntentConstant.RECORD_TYPE_ID, chartRecordDo.getRecordTypeID());
+                intent.putExtra(IntentConstant.RECORD_DESC, chartRecordDo.getRecordDesc());
+                mContext.startActivity(intent);
+            }
+        });
 
         holder.recordIcon.setImageResource(IconTypeUtil.getTypeIcon(chartRecordDo.getIconId()));
         holder.recordDescTv.setText(chartRecordDo.getRecordDesc());

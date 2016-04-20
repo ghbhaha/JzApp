@@ -16,4 +16,9 @@ public class IntentConstant {
     public static final String OLD_RECORD = "OLD_RECORD";
     public static final String SETTING_MODE = "setting_mode";
     public static final String FORGET_GESTURE = "FORGET_GESTURE";
+
+    public static final String RECORD_YEAR = "RECORD_YEAR";
+    public static final String RECORD_MONTH = "RECORD_MONTH";
+    public static final String RECORD_TYPE_ID = "RECORD_TYPE_ID";
+    public static final String RECORD_DESC = "RECORD_DESC";
 }

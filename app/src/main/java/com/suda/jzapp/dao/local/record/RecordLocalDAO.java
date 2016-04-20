@@ -115,6 +115,15 @@ public class RecordLocalDAO extends BaseLocalDao {
         return getSingleData(recordDao.queryBuilder().where(RecordDao.Properties.RecordId.eq(recordId)).list());
     }
 
+    public List<Record> getRecordsByRecordTypeIDAndMonth(Context context, long recordTypeID, int recordYear, int recordMonth) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        return recordDao.queryBuilder().where(RecordDao.Properties.IsDel.eq(false))
+                .where(RecordDao.Properties.RecordTypeID.eq(recordTypeID))
+                .where(RecordDao.Properties.Year.eq(recordYear))
+                .where(RecordDao.Properties.Month.eq(recordMonth))
+                .list();
+    }
+
     public void updateOldRecord(Context context, Record record) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         Calendar calendar = Calendar.getInstance();
@@ -166,6 +175,8 @@ public class RecordLocalDAO extends BaseLocalDao {
             chartRecordDo.setRecordDesc(c.getString(1));
             chartRecordDo.setIconId(c.getInt(2));
             chartRecordDo.setRecordMoney(c.getDouble(3));
+            chartRecordDo.setRecordYear(year);
+            chartRecordDo.setRecordMonth(month);
             list.add(chartRecordDo);
         }
         return list;
@@ -225,5 +236,6 @@ public class RecordLocalDAO extends BaseLocalDao {
                 .orderDesc(RemarkTipDao.Properties.UseTimes)
                 .list();
     }
+
 
 }

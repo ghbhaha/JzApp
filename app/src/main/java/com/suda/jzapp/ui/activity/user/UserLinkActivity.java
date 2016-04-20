@@ -202,9 +202,9 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
         query.whereEqualTo(AVRecord.RECORD_IS_DEL, false);
         query.orderByDescending(AVRecord.RECORD_DATE);
         query.addDescendingOrder(AVRecord.RECORD_ID);
-        //缓存2分钟
-       // query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
-        //query.setMaxCacheAge(2 * 60 * 1000);
+        //缓存10分钟
+        query.setCachePolicy(AVQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        query.setMaxCacheAge(10 * 60 * 1000);
         query.findInBackground(new FindCallback<AVRecord>() {
             @Override
             public void done(List<AVRecord> list, AVException e) {

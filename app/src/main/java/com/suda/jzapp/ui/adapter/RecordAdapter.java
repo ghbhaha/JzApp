@@ -30,7 +30,6 @@ import com.suda.jzapp.view.MyRoundColorView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,6 @@ public class RecordAdapter extends BaseAdapter {
     private RecordFrg recordFrg;
     private List<RecordDetailDO> recordDetailDOs;
     private LayoutInflater mInflater;
-    private List<View> optViews;
     private int lastSelOpt = -1;
     private RecordLocalDAO recordLocalDAO;
     private RecordManager recordManager;
@@ -58,7 +56,6 @@ public class RecordAdapter extends BaseAdapter {
         recordDetailDOs = list;
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        optViews = new ArrayList<>();
         recordLocalDAO = new RecordLocalDAO();
         recordManager = new RecordManager(context);
         accountManager = new AccountManager(context);

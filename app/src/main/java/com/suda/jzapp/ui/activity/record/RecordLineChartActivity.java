@@ -95,7 +95,7 @@ public class RecordLineChartActivity extends BaseActivity {
         List<Entry> yLineVals = new ArrayList<Entry>();
         for (LineChartDo lineChartDo : list) {
             if (type == 0) {
-                yLineVals.add(new Entry(new Double(lineChartDo.getAllOut()).floatValue(), j));
+                yLineVals.add(new Entry(new Double(Math.abs(lineChartDo.getAllOut())).floatValue(), j));
             } else if (type == 1) {
                 yLineVals.add(new Entry(new Double(lineChartDo.getAllIn()).floatValue(), j));
             } else if (type == 2) {

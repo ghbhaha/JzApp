@@ -74,9 +74,10 @@
             android:name=".ui.activity.user.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.activity.user.UserGetPassBackActivity"
+        <activity
+            android:name=".ui.activity.user.UserGetPassBackActivity"
             android:label="@string/title_activity_get_password"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.record.CreateNewRecordTypeActivity"
             android:label="@string/title_activity_create_new_record_type"
@@ -112,6 +113,10 @@
             android:label="@string/title_activity_accounts_transfer"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity android:name=".ui.activity.record.RecordTypeDetailActivity"
+            android:theme="@style/AppTheme"
+            />
 
         <service android:name=".service.SyncService" />
 
