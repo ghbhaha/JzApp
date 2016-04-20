@@ -37,7 +37,7 @@ import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.MyCircleRectangleTextView;
-import com.suda.jzapp.view.drag.DragGridView;
+import com.suda.jzapp.view.draggrid.DragGridView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wefika.flowlayout.FlowLayout;
 

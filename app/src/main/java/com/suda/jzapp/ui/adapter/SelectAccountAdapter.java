@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,10 @@ public class SelectAccountAdapter extends BaseAdapter {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            convertView.setBackgroundResource(R.drawable.ripple);
         }
 
         AccountDetailDO accountDetailDO = accounts.get(position);

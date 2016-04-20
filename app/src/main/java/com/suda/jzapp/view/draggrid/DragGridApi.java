@@ -1,4 +1,4 @@
-package com.suda.jzapp.view.drag;
+package com.suda.jzapp.view.draggrid;
 
 public interface DragGridApi {
 	/**

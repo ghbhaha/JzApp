@@ -83,7 +83,7 @@
     </RelativeLayout>
 
 
-    <com.suda.jzapp.view.drag.DragGridView
+    <com.suda.jzapp.view.draggrid.DragGridView
         android:id="@+id/record_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -96,7 +96,7 @@
         android:numColumns="5"
         android:verticalSpacing="10dp">
 
-    </com.suda.jzapp.view.drag.DragGridView>
+    </com.suda.jzapp.view.draggrid.DragGridView>
 
     <include
         android:id="@+id/panel"

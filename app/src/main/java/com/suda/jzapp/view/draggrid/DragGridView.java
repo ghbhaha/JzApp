@@ -1,4 +1,4 @@
-package com.suda.jzapp.view.drag;
+package com.suda.jzapp.view.draggrid;
 
 import android.app.Activity;
 import android.content.Context;
@@ -635,12 +635,12 @@ public class DragGridView extends GridView {
             case MotionEvent.ACTION_MOVE:
                 y2 = event.getY();
                 //头部回弹效果
-                if (y2 - y1 > 0 && Math.abs(y2 - y1) < 600) {
+                if (y2 - y1 > 0 && Math.abs(y2 - y1) > 10) {
                     smoothScrollTo(0, -(int) ((y2 - y1) / 2));
                     return;
                 }
                 //底部回弹效果
-                if (y2 - y1 < 0 && Math.abs(y2 - y1) < 600) {
+                if (y2 - y1 < 0 && Math.abs(y2 - y1) > 10) {
                     smoothScrollTo(0, -(int) ((y2 - y1) / 2));
                     return;
                 }

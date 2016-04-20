@@ -17,8 +17,8 @@ import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.view.drag.DragGridApi;
-import com.suda.jzapp.view.drag.DragGridView;
+import com.suda.jzapp.view.draggrid.DragGridApi;
+import com.suda.jzapp.view.draggrid.DragGridView;
 
 import java.util.ArrayList;
 import java.util.Collections;

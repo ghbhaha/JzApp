@@ -1,4 +1,4 @@
-package com.suda.jzapp.view;
+package com.suda.jzapp.view.gesturelockview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import com.suda.jzapp.R;
 import com.suda.jzapp.util.MD5Util;
 import com.suda.jzapp.util.ThemeUtil;
-import com.suda.jzapp.view.GestureLockView.Mode;
+import com.suda.jzapp.view.gesturelockview.GestureLockView.Mode;
 
 import java.util.ArrayList;
 import java.util.List;

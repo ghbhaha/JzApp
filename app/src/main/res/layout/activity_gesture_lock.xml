@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.suda.jzapp.ui.activity.system.GestureLockActivity">
 
-    <com.suda.jzapp.view.GestureLockViewGroup
+    <com.suda.jzapp.view.gesturelockview.GestureLockViewGroup
         android:id="@+id/id_gestureLockViewGroup"
         android:layout_width="320dp"
         android:layout_height="match_parent"

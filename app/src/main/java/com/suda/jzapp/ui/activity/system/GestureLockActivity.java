@@ -19,7 +19,7 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.util.SPUtils;
-import com.suda.jzapp.view.GestureLockViewGroup;
+import com.suda.jzapp.view.gesturelockview.GestureLockViewGroup;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

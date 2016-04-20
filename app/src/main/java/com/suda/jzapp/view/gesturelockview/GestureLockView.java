@@ -1,4 +1,4 @@
-package com.suda.jzapp.view;
+package com.suda.jzapp.view.gesturelockview;
 
 import android.content.Context;
 import android.graphics.Canvas;
