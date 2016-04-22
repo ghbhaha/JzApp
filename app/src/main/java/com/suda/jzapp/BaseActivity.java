@@ -1,6 +1,7 @@
 package com.suda.jzapp;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+        }
         super.onResume();
         MobclickAgent.onResume(this);
         mainColor = this.getResources().getColor(ThemeUtil.getTheme(this).getMainColorID());

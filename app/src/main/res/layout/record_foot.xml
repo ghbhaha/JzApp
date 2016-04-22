@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/foot_tip"
-        android:text="xxxx开始记账" />
+        android:text="" />
 
 </LinearLayout>

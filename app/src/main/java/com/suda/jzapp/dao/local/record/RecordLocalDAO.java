@@ -121,6 +121,7 @@ public class RecordLocalDAO extends BaseLocalDao {
                 .where(RecordDao.Properties.RecordTypeID.eq(recordTypeID))
                 .where(RecordDao.Properties.Year.eq(recordYear))
                 .where(RecordDao.Properties.Month.eq(recordMonth))
+                .orderDesc(RecordDao.Properties.RecordDate)
                 .list();
     }
 

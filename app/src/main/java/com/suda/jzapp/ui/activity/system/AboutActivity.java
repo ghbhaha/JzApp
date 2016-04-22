@@ -9,20 +9,12 @@ import com.suda.jzapp.R;
 
 public class AboutActivity extends BaseActivity {
 
-    @Override
-    protected void initWidget() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_abount);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mToolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -31,8 +23,14 @@ public class AboutActivity extends BaseActivity {
                     }
                 }
         );
-
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initWidget();
     }
 
+    @Override
+    protected void initWidget() {
+        findViewById(R.id.background).setBackgroundColor(getColor(this, getMainTheme().getMainColorID()));
+    }
     private Toolbar mToolbar;
 }

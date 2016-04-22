@@ -23,7 +23,7 @@ public class RecordTypeDetailActivity extends BaseActivity {
         recordYear = getIntent().getIntExtra(IntentConstant.RECORD_YEAR, 2016);
         recordTypeID = getIntent().getLongExtra(IntentConstant.RECORD_TYPE_ID, 0);
         recordDesc = getIntent().getStringExtra(IntentConstant.RECORD_DESC);
-        getSupportActionBar().setTitle(recordDesc + "明细");
+        getSupportActionBar().setTitle("'" + recordDesc + "'" + "明细");
         recordManager = new RecordManager(this);
 
         initWidget();

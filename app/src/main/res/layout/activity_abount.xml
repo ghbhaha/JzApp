@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/main_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1f1f1">
@@ -23,26 +22,29 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
+                android:id="@+id/background"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/about_header_height"
                 android:background="#1C1E22"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="86dp"
                     android:layout_height="86dp"
                     android:layout_marginTop="46dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    app:civ_border_color="@color/md_white_1000"
+                    app:civ_border_width="2dp"
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/app_name_with_introduce"
-                    android:layout_marginTop="10dp"
                     android:textColor="@color/md_white_1000"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_version"
@@ -51,14 +53,14 @@
                     android:layout_marginTop="8dp"
                     android:textColor="@color/md_white_1000"
                     android:textSize="14sp"
-                    tools:text="Version 1.2.3"/>
+                    tools:text="Version 1.2.3" />
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -72,21 +74,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:text="@string/introduce_and_help"
-                android:textColor="@color/md_grey_600"/>
+                android:textColor="@color/md_grey_600" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:background="@drawable/card">
+                android:background="@drawable/card"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,7 +96,7 @@
                     android:autoLink="web"
                     android:text="@string/introduce"
                     android:textColor="@color/md_grey_800"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
@@ -102,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="12dp"
-                android:background="@color/md_grey_500"/>
+                android:background="@color/md_grey_500" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,7 +112,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/developers"
-                android:textColor="@color/md_grey_600"/>
+                android:textColor="@color/md_grey_600" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -122,7 +124,7 @@
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size"
                     android:layout_margin="16dp"
-                    android:src="@mipmap/suda"/>
+                    android:src="@mipmap/suda" />
 
                 <TextView
                     android:id="@+id/tv_suda"
@@ -133,16 +135,16 @@
                     android:layout_toRightOf="@id/ig_suda"
                     android:text="Suda"
                     android:textColor="@color/md_grey_800"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_suda"
-                    android:paddingBottom="16dp"
                     android:layout_toRightOf="@id/ig_suda"
+                    android:paddingBottom="16dp"
                     android:text="@string/developer_and_designer"
-                    android:textColor="@color/md_grey_600"/>
+                    android:textColor="@color/md_grey_600" />
 
             </RelativeLayout>
 
@@ -150,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="12dp"
-                android:background="@color/md_grey_500"/>
+                android:background="@color/md_grey_500" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,7 +160,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="12dp"
                 android:text="@string/open_source_lis"
-                android:textColor="@color/md_grey_600"/>
+                android:textColor="@color/md_grey_600" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -168,24 +170,147 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/tv_otto"
+                    android:id="@+id/tv_circleImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="otto - Square"
+                    android:text="CircleImageView"
                     android:textColor="@color/md_grey_800"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_otto"
-                    android:text="https://github.com/square/otto\nApache Software License 2.0"
+                    android:layout_below="@id/tv_circleImageView"
+                    android:text="https://github.com/hdodenhof/CircleImageView\nApache Software License 2.0"
                     android:textColor="@color/md_grey_600"
                     android:textSize="@dimen/open_source_lis_text_size"
-                    tools:ignore="HardcodedText"/>
+                    tools:ignore="HardcodedText" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/card"
+                android:padding="16dp">
 
+                <TextView
+                    android:id="@+id/tv_flowLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FlowLayout"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_flowLayout"
+                    android:text="https://github.com/blazsolar/FlowLayout\nApache Software License 2.0"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="@dimen/open_source_lis_text_size"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/card"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_mpandroidchart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MPAndroidChart"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_mpandroidchart"
+                    android:text="https://github.com/PhilJay/MPAndroidChart\nApache Software License 2.0"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="@dimen/open_source_lis_text_size"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/card"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_materialdatetimepicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MaterialDateTimePicker"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_materialdatetimepicker"
+                    android:text="https://github.com/wdullaer/MaterialDateTimePicker\nApache Software License 2.0"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="@dimen/open_source_lis_text_size"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/card"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_materialdialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MaterialDialog"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_materialdialog"
+                    android:text="https://github.com/drakeet/MaterialDialog\nApache Software License 2.0"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="@dimen/open_source_lis_text_size"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/card"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_material_loading_progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MaterialLoadingProgressBar"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_material_loading_progressBar"
+                    android:text="https://github.com/lsjwzh/MaterialLoadingProgressBar\nApache Software License 2.0"
+                    android:textColor="@color/md_grey_600"
+                    android:textSize="@dimen/open_source_lis_text_size"
+                    tools:ignore="HardcodedText" />
+            </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

@@ -396,6 +396,7 @@ public class UserManager extends BaseManager {
 
     public void closeIMClient() {
         if (mClient != null) {
+            conversationMap.clear();
             mClient.close(null);
             mClient = null;
         }
