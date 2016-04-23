@@ -90,7 +90,7 @@ public class OptMenuAdapter extends BaseAdapter {
                         SnackBarUtil.showSnackInfo(v, context, "请先登陆账号哦");
                         return;
                     }
-                    if (!NetworkUtil.checkNetwork(context)) {
+                    if (!NetworkUtil.checkNetwork(context) && optDO.getAct() == UserLinkActivity.class) {
                         SnackBarUtil.showSnackInfo(v, context, "请打开网络");
                         return;
                     }
