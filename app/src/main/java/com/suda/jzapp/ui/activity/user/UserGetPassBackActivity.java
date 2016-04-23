@@ -15,6 +15,7 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
 import com.suda.jzapp.util.LogUtils;
+import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -41,6 +42,10 @@ public class UserGetPassBackActivity extends BaseActivity {
             @Override
             public void onClick(final View v) {
 
+                if (!NetworkUtil.checkNetwork(UserGetPassBackActivity.this)) {
+                    SnackBarUtil.showSnackInfo(v, UserGetPassBackActivity.this, "请连接网络");
+                    return;
+                }
                 String email = mEtEmail.getText().toString();
                 if (TextUtils.isEmpty(email)) {
                     SnackBarUtil.showSnackInfo(v, UserGetPassBackActivity.this, "邮箱不能为空");

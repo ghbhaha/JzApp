@@ -16,6 +16,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -121,6 +122,10 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void register() {
+        if (!NetworkUtil.checkNetwork(this)) {
+            SnackBarUtil.showSnackInfo(mTilUserID, RegisterActivity.this, "请连接网络");
+            return;
+        }
         String user = mTieUserID.getText().toString();
         String password = mTiePass.getText().toString();
         String password2 = mTiePass2.getText().toString();

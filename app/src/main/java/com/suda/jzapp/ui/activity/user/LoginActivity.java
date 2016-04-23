@@ -19,6 +19,7 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -97,6 +98,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void doLogin() {
+        if (!NetworkUtil.checkNetwork(this)) {
+            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "请连接网络");
+            return;
+        }
+
         boolean isEmail = false;
         final String user = mTitUserId.getText().toString();
         String password = mTitPassWord.getText().toString();

@@ -60,7 +60,7 @@ public class LogUtils {
     public static void getAvEx(AVException avException, Context context) {
         if (avException != null) {
             if (isDebug) {
-                Log.e("AVException@@@", avException.toString());
+                Log.e("AVException@@@", "ExceptionCode:" + avException.getCode() + ",ExceptionDetail:" + avException.toString());
             }
         }
     }
