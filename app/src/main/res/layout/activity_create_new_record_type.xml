@@ -4,8 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/md_grey_100">
 
+    <View
+        android:id="@+id/headView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 
     <LinearLayout
+        android:layout_below="@+id/headView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"

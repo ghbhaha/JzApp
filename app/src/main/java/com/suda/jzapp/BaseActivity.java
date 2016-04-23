@@ -42,6 +42,25 @@ public abstract class BaseActivity extends AppCompatActivity {
         textColor = this.getResources().getColor(ThemeUtil.getTheme(this).getTextColorID());
     }
 
+
+    /**
+     * FloatingActionButton
+     * CoordinatorLayout
+     * 存在边距问题，采取此方案
+     *
+     * @param viewId
+     */
+    protected void setMyContentView2(int viewId) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            setContentView(viewId);
+            headView = findViewById(R.id.headView);
+            headView.getLayoutParams().height = ScreenUtils.getStatusHeight(this) + DensityUtils.dp2px(this, 56);
+        } else {
+            setContentView(viewId);
+        }
+    }
+
     @Deprecated
     protected void setMyContentView(int viewId) {
         setMyContentView(true, viewId);

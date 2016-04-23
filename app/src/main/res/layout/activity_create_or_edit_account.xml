@@ -4,7 +4,13 @@
     android:background="@color/md_grey_100"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/headView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
     <RelativeLayout
+        android:layout_below="@+id/headView"
         android:id="@+id/account_name_lo"
         android:layout_width="match_parent"
         android:layout_height="54dp"
