@@ -35,7 +35,7 @@ public class AccountTransactionActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_transaction);
+        setMyContentView(R.layout.activity_account_transaction);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mCurAccountId = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID, 0);
         recordManager = new RecordManager(this);

@@ -54,7 +54,7 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_account_link);
+        setMyContentView(R.layout.activity_account_link);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);
         myMessageHandler = new MyMessageHandler(this);

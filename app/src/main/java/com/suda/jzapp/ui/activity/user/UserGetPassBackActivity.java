@@ -27,7 +27,7 @@ public class UserGetPassBackActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_user_get_pass_back);
+        setMyContentView(R.layout.activity_user_get_pass_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidget();
     }

@@ -18,7 +18,7 @@ public class MonthReportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_month_report_acyivity);
+        setMyContentView(R.layout.activity_month_report_acyivity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recordManager = new RecordManager(this);
         initWidget();

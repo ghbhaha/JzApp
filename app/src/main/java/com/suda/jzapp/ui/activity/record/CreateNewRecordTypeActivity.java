@@ -30,7 +30,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_create_new_record_type);
+        setMyContentView(R.layout.activity_create_new_record_type);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recordManager = new RecordManager(this);
         mRecordType = getIntent().getIntExtra(IntentConstant.RECORD_TYPE, 0);

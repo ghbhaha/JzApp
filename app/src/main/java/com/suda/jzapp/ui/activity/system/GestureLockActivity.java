@@ -33,7 +33,7 @@ public class GestureLockActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gesture_lock);
+        setMyContentView(R.layout.activity_gesture_lock);
         mGestureLockViewGroup = (GestureLockViewGroup) findViewById(R.id.id_gestureLockViewGroup);
         mForget = (TextView) findViewById(R.id.forget_secret);
         isSetting = getIntent().getBooleanExtra(IntentConstant.SETTING_MODE, false);

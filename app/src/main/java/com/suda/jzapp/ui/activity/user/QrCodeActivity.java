@@ -33,7 +33,7 @@ public class QrCodeActivity extends BaseActivity implements MyMessageHandler.Msg
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
+        setMyContentView(R.layout.activity_qr_code);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);
         initWidget();

@@ -23,6 +23,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
 import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,8 @@ public class EditAccountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_account_prop);
+        setTheme(ThemeUtil.getAppStyleId(this));
+        setMyContentView(R.layout.activity_edit_account_prop);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         accountManager = new AccountManager(this);
         recordManager = new RecordManager(this);

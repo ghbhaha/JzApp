@@ -25,7 +25,7 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_register);
+        setMyContentView(R.layout.activity_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userManager = new UserManager(this);
         initWidget();

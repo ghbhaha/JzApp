@@ -3,14 +3,20 @@ package com.suda.jzapp;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 
 import com.suda.jzapp.manager.domain.ThemeDO;
+import com.suda.jzapp.util.DensityUtils;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.ScreenUtils;
 import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.util.ThemeUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -36,6 +42,37 @@ public abstract class BaseActivity extends AppCompatActivity {
         textColor = this.getResources().getColor(ThemeUtil.getTheme(this).getTextColorID());
     }
 
+    @Deprecated
+    protected void setMyContentView(int viewId) {
+        setMyContentView(true, viewId);
+    }
+
+    protected void setMyContentView(boolean paddingTop, int viewId) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            LinearLayout linearLayout = new LinearLayout(this);
+            linearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            headView = new View(this);
+            headView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.getStatusHeight(this)));
+            linearLayout.addView(headView);
+            View contentView = View.inflate(this, viewId, null);
+            if (paddingTop) {
+                int paddingLeftOrg = contentView.getPaddingLeft();
+                int paddingTopOrg = contentView.getPaddingTop();
+                int paddingRightOrg = contentView.getPaddingRight();
+                int paddingBottomOrg = contentView.getPaddingBottom();
+                contentView.setPadding(paddingLeftOrg, DensityUtils.dp2px(this, 56) + paddingTopOrg, paddingRightOrg, paddingBottomOrg);
+                linearLayout.addView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            } else {
+                linearLayout.addView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            }
+            setContentView(linearLayout);
+        } else {
+            setContentView(viewId);
+        }
+
+    }
 
     @Override
     protected void onPause() {
@@ -57,6 +94,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mainColor));
             StatusBarCompat.compat(this, mainDarkColor);
         }
+        if (headView != null)
+            headView.setBackgroundColor(mainColor);
     }
 
     protected int getColor(Context context, int id) {
@@ -104,4 +143,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int mainDarkColor;
     protected int textColor;
     protected boolean needUpdate = false;
+    protected View headView;
 }

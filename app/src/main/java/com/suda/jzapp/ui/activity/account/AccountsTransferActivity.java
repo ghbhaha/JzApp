@@ -33,7 +33,7 @@ public class AccountsTransferActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_accounts_transfer);
+        setMyContentView(R.layout.activity_accounts_transfer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         accountManager = new AccountManager(this);
         recordManager = new RecordManager(this);

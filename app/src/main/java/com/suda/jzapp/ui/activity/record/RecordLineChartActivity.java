@@ -28,7 +28,7 @@ public class RecordLineChartActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_line_chart);
+        setMyContentView(R.layout.activity_record_line_chart);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recordManager = new RecordManager(this);
         lineChartDos = new ArrayList<>();

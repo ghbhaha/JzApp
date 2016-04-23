@@ -30,7 +30,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(ThemeUtil.getAppStyleId(this));
-        setContentView(R.layout.activity_create_or_edit_account);
+        setMyContentView(R.layout.activity_create_or_edit_account);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAccountID = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID, 0l);

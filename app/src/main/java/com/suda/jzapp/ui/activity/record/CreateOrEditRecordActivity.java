@@ -52,7 +52,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_or_edit_record);
+        setMyContentView(false, R.layout.activity_create_or_edit_record);
         recordManager = new RecordManager(this);
         accountManager = new AccountManager(this);
 
@@ -236,7 +236,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     remarkPanel.setVisibility(View.VISIBLE);
                     YoYo.with(Techniques.SlideInDown).duration(300).playOn(remarkPanel);
                 } else {
-                    KeyBoardUtils.closeKeybord(etRemark,CreateOrEditRecordActivity.this);
+                    KeyBoardUtils.closeKeybord(etRemark, CreateOrEditRecordActivity.this);
                     YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -252,7 +252,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             @Override
             public void onClick(View v) {
                 newRecord.setRemark(etRemark.getText().toString());
-                KeyBoardUtils.closeKeybord(etRemark,CreateOrEditRecordActivity.this);
+                KeyBoardUtils.closeKeybord(etRemark, CreateOrEditRecordActivity.this);
                 YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
                 new Handler().postDelayed(new Runnable() {
                     @Override

@@ -36,7 +36,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_pie_analysis_acticity);
+        setMyContentView(R.layout.activity_record_pie_analysis_acticity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecordManager = new RecordManager(this);
         initWidget();

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 

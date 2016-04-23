@@ -43,7 +43,6 @@ import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
-import com.umeng.update.UmengUpdateAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setMyContentView(false, R.layout.activity_main);
 
         startService(new Intent(this, SyncService.class));
 

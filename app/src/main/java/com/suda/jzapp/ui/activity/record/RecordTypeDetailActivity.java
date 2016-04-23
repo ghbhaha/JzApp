@@ -17,7 +17,7 @@ public class RecordTypeDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_detail);
+        setMyContentView(R.layout.activity_record_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recordMonth = getIntent().getIntExtra(IntentConstant.RECORD_MONTH, 0);
         recordYear = getIntent().getIntExtra(IntentConstant.RECORD_YEAR, 2016);
