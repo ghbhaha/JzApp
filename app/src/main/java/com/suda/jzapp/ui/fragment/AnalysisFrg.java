@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -23,6 +24,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
@@ -265,6 +268,24 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         boolean showLineTip = (boolean) SPUtils.get(getActivity(), Constant.SP_TIP_ROUND_LINE, true);
         tipRoundPie.setVisibility(showPieTip ? View.VISIBLE : View.GONE);
         tipRoundLine.setVisibility(showLineTip ? View.VISIBLE : View.GONE);
+        if (showLineTip) {
+            AnimatorSet mAnimatorSet = new AnimatorSet();
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(tipRoundLine, "alpha", 1, 0);
+            objectAnimator.setRepeatMode(Animation.RESTART);
+            objectAnimator.setRepeatCount(Integer.MAX_VALUE);
+            objectAnimator.setDuration(1000);
+            mAnimatorSet.playTogether(objectAnimator);
+            mAnimatorSet.start();
+        }
+        if (showPieTip) {
+            AnimatorSet mAnimatorSet = new AnimatorSet();
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(tipRoundPie, "alpha", 1, 0);
+            objectAnimator.setRepeatMode(Animation.RESTART);
+            objectAnimator.setRepeatCount(Integer.MAX_VALUE);
+            objectAnimator.setDuration(1000);
+            mAnimatorSet.playTogether(objectAnimator);
+            mAnimatorSet.start();
+        }
     }
 
     private View backGround;
