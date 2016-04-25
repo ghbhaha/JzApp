@@ -96,6 +96,8 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
         linkRecordsLv = (ListView) findViewById(R.id.link_records);
         linkRecordsLv.setVisibility(View.GONE);
 
+        linkBt.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+
         View head = View.inflate(this, R.layout.item_link_head, null);
         myHead = (CircleImageView) head.findViewById(R.id.my_head);
         otherHead = (CircleImageView) head.findViewById(R.id.other_head);

@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.activity.system;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,9 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.AlarmUtil;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
+import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.util.ThemeUtil;
+import com.suda.jzapp.view.MyPreferenceCategory;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -77,6 +80,8 @@ public class SettingsActivity extends BaseActivity {
         private Context context;
         private CheckBoxPreference mGestureLockCheck;
         private CheckBoxPreference mRemindCheck;
+        private CheckBoxPreference mImmersiveCheck;
+        private MyPreferenceCategory mCommonCateGory;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +89,18 @@ public class SettingsActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.preferences);
             mGestureLockCheck = (CheckBoxPreference) findPreference(GESTURE_LOCK);
             mRemindCheck = (CheckBoxPreference) findPreference(REMIND_SETTING);
+            mImmersiveCheck = (CheckBoxPreference) findPreference(IMMERSIVE_STATUS_BAR);
+            mCommonCateGory = (MyPreferenceCategory) findPreference("common_settings");
+
             mRemindCheck.setOnPreferenceChangeListener(this);
             mGestureLockCheck.setOnPreferenceChangeListener(this);
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                mCommonCateGory.removePreference(mImmersiveCheck);
+            } else {
+                mImmersiveCheck.setOnPreferenceChangeListener(this);
+            }
+
 
             long alarmTime = SPUtils.gets(context, Constant.SP_ALARM_TIME, 0l);
             if (alarmTime > 0) {
@@ -113,6 +128,7 @@ public class SettingsActivity extends BaseActivity {
                 if (mRemindCheck.isChecked()) {
                     SPUtils.put(context, Constant.SP_ALARM_TIME, 0l);
                     mRemindCheck.setChecked(false);
+                    AlarmUtil.createAlarmOrCancel(context, false);
                 } else {
                     final Calendar calendar = Calendar.getInstance();
                     TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
@@ -133,7 +149,14 @@ public class SettingsActivity extends BaseActivity {
                     timePickerDialog.setAccentColor(getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
                     timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
                 }
-
+            } else if (preference == mImmersiveCheck) {
+                if (mImmersiveCheck.isChecked()) {
+                    mImmersiveCheck.setChecked(false);
+                    StatusBarCompat.compat((Activity) context, context.getResources().getColor(ThemeUtil.getTheme(context).getMainDarkColorID()));
+                } else {
+                    mImmersiveCheck.setChecked(true);
+                    StatusBarCompat.compat((Activity) context, context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+                }
             }
             return false;
         }
@@ -150,6 +173,7 @@ public class SettingsActivity extends BaseActivity {
 
     public static final String GESTURE_LOCK = "gesture_lock";
     public static final String REMIND_SETTING = "remind_setting";
+    public static final String IMMERSIVE_STATUS_BAR = "immersive_status_bar";
     public static final DateFormat format = new SimpleDateFormat("HH:mm");
     private SettingsFragment mSettingsFragment;
 }

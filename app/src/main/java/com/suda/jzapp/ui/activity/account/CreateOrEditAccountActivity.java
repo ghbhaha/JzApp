@@ -214,7 +214,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+         mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         // mSubmitButton.setBackgroundColor(mainColor);
         // mSubmitButton.setColorNormal(mainColor);
         //  mSubmitButton.setColorPressed(mainDarkColor);

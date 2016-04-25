@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout="@layout/preference_item">
-    <com.suda.jzapp.view.MyPreferenceCategory android:title="@string/common_settings">
+    <com.suda.jzapp.view.MyPreferenceCategory
+        android:key="common_settings"
+        android:title="@string/common_settings">
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -18,6 +20,15 @@
             android:summaryOff="@string/remind_setting_off"
             android:summaryOn="@string/remind_setting_on"
             android:title="@string/remind_setting" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/immersive_status_bar"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/immersive_status_bar_off"
+            android:summaryOn="@string/immersive_status_bar_on"
+            android:title="@string/immersive_status_bar_setting" />
+
 
     </com.suda.jzapp.view.MyPreferenceCategory>
 

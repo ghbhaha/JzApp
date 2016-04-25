@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.suda.jzapp.manager.domain.ThemeDO;
 import com.suda.jzapp.util.DensityUtils;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.ScreenUtils;
 import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.util.ThemeUtil;
@@ -111,7 +112,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         textColor = this.getResources().getColor(ThemeUtil.getTheme(this).getTextColorID());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mainColor));
-            StatusBarCompat.compat(this, mainDarkColor);
+            if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), false))
+                StatusBarCompat.compat(this, mainColor);
+            else
+                StatusBarCompat.compat(this, mainDarkColor);
         }
         if (headView != null)
             headView.setBackgroundColor(mainColor);

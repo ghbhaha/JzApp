@@ -19,6 +19,10 @@ public class AlarmUtil {
 
 
     public static void createAlarm(Context context) {
+        createAlarmOrCancel(context, true);
+    }
+
+    public static void createAlarmOrCancel(Context context, boolean create) {
 
         long alarmTime = SPUtils.gets(context, Constant.SP_ALARM_TIME, 0l);
 
@@ -47,6 +51,10 @@ public class AlarmUtil {
         // 进行闹铃注册
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(sender);
+
+        if (!create)
+            return;
+
         manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
     }
 }

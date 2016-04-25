@@ -44,7 +44,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
         mIvRecordIcon = (ImageView) findViewById(R.id.record_icon);
 
         mAddFab = (FloatingActionButton) findViewById(R.id.fab);
-        //mAddFab.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+        mAddFab.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         mAddFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

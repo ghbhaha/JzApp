@@ -46,7 +46,8 @@ public class SyncService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        AlarmUtil.createAlarm(this);
+        if ((boolean) SPUtils.get(this, true, Constant.SP_ALARM_EVERY_DAY, false))
+            AlarmUtil.createAlarm(this);
     }
 
     @Override
