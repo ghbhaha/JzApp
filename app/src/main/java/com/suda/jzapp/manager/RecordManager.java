@@ -136,6 +136,9 @@ public class RecordManager extends BaseManager {
                 public void done(List<AVRecord> list, AVException e) {
                     if (e == null) {
                         AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+                        RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                        avRecord.setIconID(recordType.getRecordIcon());
+                        avRecord.setRecordName(recordType.getRecordDesc());
                         if (list.size() > 0) {
                             avRecord.setObjectId(list.get(0).getObjectId());
                         }
