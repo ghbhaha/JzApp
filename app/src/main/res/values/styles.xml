@@ -8,7 +8,13 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="AppCompatThemeWithNoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="AppTheme.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="AppCompatThemeWithNoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+    </style>
 
     <style name="Transparent" parent="AppCompatThemeWithNoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>

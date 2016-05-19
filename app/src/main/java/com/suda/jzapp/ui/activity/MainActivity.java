@@ -33,6 +33,7 @@ import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.service.SyncService;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
+import com.suda.jzapp.ui.activity.record.ExportRecordActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
@@ -188,11 +189,12 @@ public class MainActivity extends BaseActivity {
 
         optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
         optDOs.add(new OptDO(MonthReportActivity.class, 1, R.drawable.ic_drawer_guide, "月报"));
-        optDOs.add(new OptDO(SettingsActivity.class, 2, R.drawable.ic_drawer_settings, "设置"));
-        optDOs.add(new OptDO(EditThemeActivity.class, 3, R.drawable.ic_color_lens_black_24dp, "主题切换"));
-        optDOs.add(new OptDO(null, 4, R.drawable.ic_drawer_check_update, "检查更新"));
-        optDOs.add(new OptDO(AboutActivity.class, 5, R.drawable.ic_drawer_about, "关于"));
-        optDOs.add(new OptDO(null, 6, R.drawable.ic_drawer_exit, "退出"));
+        optDOs.add(new OptDO(ExportRecordActivity.class, 2, R.drawable.ic_drawer_export, "数据导出"));
+        optDOs.add(new OptDO(SettingsActivity.class, 3, R.drawable.ic_drawer_settings, "设置"));
+        optDOs.add(new OptDO(EditThemeActivity.class, 4, R.drawable.ic_color_lens_black_24dp, "主题切换"));
+        optDOs.add(new OptDO(null, 5, R.drawable.ic_drawer_check_update, "检查更新"));
+        optDOs.add(new OptDO(AboutActivity.class, 6, R.drawable.ic_drawer_about, "关于"));
+        optDOs.add(new OptDO(null, 7, R.drawable.ic_drawer_exit, "退出"));
         optMenuAdapter = new OptMenuAdapter(optDOs, this);
         mLvOptItems.setAdapter(optMenuAdapter);
 

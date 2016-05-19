@@ -81,9 +81,9 @@ public class OptMenuAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (optDO.getId() == 4) {
+                if (optDO.getId() == 5) {
                     checkForUpdate();
-                } else if (optDO.getId() == 6) {
+                } else if (optDO.getId() == 7) {
                     context.finish();
                 } else {
                     if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == MonthReportActivity.class || optDO.getAct() == UserLinkActivity.class)) {

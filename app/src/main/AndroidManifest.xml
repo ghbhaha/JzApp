@@ -48,6 +48,10 @@
             android:label="@string/user_link"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ui.activity.record.ExportRecordActivity"
+            android:label="@string/export"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.activity.system.SettingsActivity"
             android:label="@string/settings"
             android:theme="@style/AppTheme" />
@@ -113,10 +117,9 @@
             android:label="@string/title_activity_accounts_transfer"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity android:name=".ui.activity.record.RecordTypeDetailActivity"
-            android:theme="@style/AppTheme"
-            />
+        <activity
+            android:name=".ui.activity.record.RecordTypeDetailActivity"
+            android:theme="@style/AppTheme" />
 
         <service android:name=".service.SyncService" />
 

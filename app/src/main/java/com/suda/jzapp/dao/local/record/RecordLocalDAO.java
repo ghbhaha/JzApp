@@ -153,6 +153,19 @@ public class RecordLocalDAO extends BaseLocalDao {
                 .list();
     }
 
+    public List<Record> getRecordByMonth(Context context, long startDate, long endDate) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        return recordDao.queryBuilder()
+                .where(RecordDao.Properties.IsDel.eq(false))
+                .where(RecordDao.Properties.RecordDate.gt(startDate))
+                .where(RecordDao.Properties.RecordDate.lt(endDate))
+                .whereOr(RecordDao.Properties.RecordType.eq(Constant.RecordType.ZUICHU.getId()),
+                        RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_ZHICHU.getId()))
+                .orderDesc(RecordDao.Properties.RecordDate)
+                .orderDesc(RecordDao.Properties.RecordId)
+                .list();
+    }
+
     public List<ChartRecordDo> getOutOrInRecordByMonth(Context context, boolean out, int year, int month) {
         List<ChartRecordDo> list = new ArrayList<>();
         StringBuilder builder = new StringBuilder();

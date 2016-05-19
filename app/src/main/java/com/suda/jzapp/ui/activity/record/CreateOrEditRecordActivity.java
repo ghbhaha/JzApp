@@ -216,6 +216,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                         public void onClick(View v) {
                             etRemark.setText(tip.getRemark());
                             newRecord.setRemark(tip.getRemark());
+                            hideRemarkPanel();
                         }
                     });
                     myCircleRectangleTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -236,14 +237,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     remarkPanel.setVisibility(View.VISIBLE);
                     YoYo.with(Techniques.SlideInDown).duration(300).playOn(remarkPanel);
                 } else {
-                    KeyBoardUtils.closeKeybord(etRemark, CreateOrEditRecordActivity.this);
-                    YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            remarkPanel.setVisibility(View.INVISIBLE);
-                        }
-                    }, 300);
+                    hideRemarkPanel();
                 }
             }
         });
@@ -252,14 +246,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             @Override
             public void onClick(View v) {
                 newRecord.setRemark(etRemark.getText().toString());
-                KeyBoardUtils.closeKeybord(etRemark, CreateOrEditRecordActivity.this);
-                YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        remarkPanel.setVisibility(View.INVISIBLE);
-                    }
-                }, 300);
+                hideRemarkPanel();
             }
         });
 
@@ -270,6 +257,17 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 return true;
             }
         });
+    }
+
+    private void hideRemarkPanel() {
+        KeyBoardUtils.closeKeybord(etRemark, CreateOrEditRecordActivity.this);
+        YoYo.with(Techniques.SlideOutUp).duration(300).playOn(remarkPanel);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                remarkPanel.setVisibility(View.INVISIBLE);
+            }
+        }, 300);
     }
 
 
@@ -474,6 +472,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     ////////////////////////////计算panel////////////////////////////////
     public void onClickPanel(View view) {
+
+        if (recordTypeAdapter.ismShake()) {
+            recordTypeAdapter.setShake(false);
+        }
+
         Button button = (Button) view;
         String tag = button.getText().toString();
         String money = tvMoneyCount.getText().toString();

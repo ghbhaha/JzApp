@@ -46,6 +46,7 @@
     <string name="forget_pass">忘记密码？</string>
 
     <string name="user_link">账号关联</string>
+    <string name="export">数据导出</string>
     <string name="settings">设置</string>
     <string name="common_settings">常规设置</string>
     <string name="sync_setting">同步设置</string>
