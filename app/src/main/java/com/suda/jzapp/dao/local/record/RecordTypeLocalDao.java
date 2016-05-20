@@ -75,6 +75,16 @@ public class RecordTypeLocalDao extends BaseLocalDao {
                 .list());
     }
 
+    public RecordType getRecordTypeByNameAndType(Context context, String name, int recordType) {
+        RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
+        return getSingleData(recordTypeDao.queryBuilder()
+                .where(RecordTypeDao.Properties.IsDel.eq(false))
+                .where(RecordTypeDao.Properties.RecordDesc.eq(name))
+                .where(RecordTypeDao.Properties.RecordType.eq(recordType))
+                .build()
+                .list());
+    }
+
     public void updateRecordOrder(Context context, List<RecordType> list) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         recordTypeDao.queryBuilder().where(RecordTypeDao.Properties.RecordType.eq(list.get(0).getRecordType()))

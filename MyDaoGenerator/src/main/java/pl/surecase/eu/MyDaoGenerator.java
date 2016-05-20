@@ -61,6 +61,7 @@ public class MyDaoGenerator {
 
     private static void addRecordType(Schema schema) {
         Entity record = schema.addEntity("RecordType");
+        record.implementsSerializable();
         record.addIdProperty();
         record.addLongProperty("RecordTypeID");
         record.addStringProperty("RecordDesc");

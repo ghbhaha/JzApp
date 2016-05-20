@@ -31,6 +31,7 @@ import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.manager.domain.MonthReport;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
+import com.suda.jzapp.manager.domain.VoiceDo;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
@@ -933,6 +934,75 @@ public class RecordManager extends BaseManager {
 
 
     }
+
+    public RecordType getRecordTypeByNameAndType(String name, int reocordType) {
+        return recordTypeDao.getRecordTypeByNameAndType(_context, name, reocordType);
+    }
+
+    public void parseVoice(String content, Handler handler) {
+        VoiceDo voiceDo = new VoiceDo();
+        String[] contents = null;
+        int recordType = Constant.RecordType.SHOURU.getId();
+        String recordDetail = "";
+        double money = 0.00f;
+        try {
+
+            String splitZhichuWord = getZhiChuWord(content);
+            String splitShouruWord = getShouRuWord(content);
+
+            if (!TextUtils.isEmpty(splitZhichuWord)) {
+                recordType = Constant.RecordType.ZUICHU.getId();
+                contents = content.split(splitZhichuWord);
+            } else if (!TextUtils.isEmpty(splitShouruWord)) {
+                recordType = Constant.RecordType.SHOURU.getId();
+                contents = content.split(splitShouruWord);
+            } else {
+                voiceDo.setResultCode(Constant.VOICE_PARSE_FAIL);
+                sendMessage(handler, voiceDo);
+                return;
+            }
+
+            recordDetail = contents[0];
+            if (contents[1].contains("十")) {
+                money = 10.00;
+            } else {
+                money = Double.parseDouble(contents[1].replace("元", "").replace("块", "").replace("钱", ""));
+            }
+
+            RecordType recordTypeVoice = getRecordTypeByNameAndType(recordDetail, recordType);
+            if (recordTypeVoice == null) {
+                voiceDo.setResultCode(Constant.VOICE_PARSE_NOT_FOUND_RECORD_TYPE);
+            } else {
+                voiceDo.setResultCode(Constant.VOICE_PARSE_SUCCESS);
+                voiceDo.setRecordTypeDo(recordTypeVoice);
+                voiceDo.setMoney(money);
+            }
+            voiceDo.setSplitStr(recordDetail);
+            sendMessage(handler, voiceDo);
+
+        } catch (Exception e) {
+            voiceDo.setResultCode(Constant.VOICE_PARSE_FAIL);
+            sendMessage(handler, voiceDo);
+        }
+    }
+
+    private String getZhiChuWord(String content) {
+        for (String word :  Constant.ZHI_CHU_WORD) {
+            if (content.contains(word))
+                return word;
+        }
+        return "";
+    }
+
+    private String getShouRuWord(String content) {
+        for (String word : Constant.SHOU_RU_WORD) {
+            if (content.contains(word))
+                return word;
+        }
+        return "";
+    }
+
+
 
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();

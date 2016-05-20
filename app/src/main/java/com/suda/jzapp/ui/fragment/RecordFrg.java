@@ -1,11 +1,15 @@
 package com.suda.jzapp.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +17,30 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
+import com.suda.jzapp.manager.domain.VoiceDo;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.ui.adapter.RecordAdapter;
+import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
+import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.text.DateFormat;
@@ -30,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 /**
  * Created by ghbha on 2016/2/15.
  */
@@ -37,8 +58,29 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
 
         recordManager = new RecordManager(getActivity());
+        mInitListener = new InitListener() {
+            @Override
+            public void onInit(int code) {
+                Log.d(TAG, "SpeechRecognizer init() code = " + code);
+                if (code != ErrorCode.SUCCESS) {
+                }
+            }
+        };
+        mRecognizerDialogListener = new RecognizerDialogListener() {
+            /**
+             * 识别回调错误.
+             */
+            public void onError(SpeechError error) {
+            }
+
+            @Override
+            public void onResult(com.iflytek.cloud.RecognizerResult recognizerResult, boolean b) {
+                parseResult(recognizerResult);
+            }
+        };
 
         View view = inflater.inflate(R.layout.record_frg_layout, container, false);
         backGround = view.findViewById(R.id.background);
@@ -47,10 +89,52 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
             @Override
             public void onClick(View v) {
                 mRecordAdapter.resetOptStatus();
+                if (SPUtils.gets(getActivity(), Constant.SP_FIRST_ADD, true)) {
+                    SPUtils.put(getActivity(), Constant.SP_FIRST_ADD, false);
+                    final MaterialDialog materialDialog = new MaterialDialog(getActivity());
+                    materialDialog.setTitle("提示");
+                    materialDialog.setMessage("长按可以进语音记账，更加快捷哦\n请说出如\"吃饭支出100元\"");
+                    materialDialog.setNegativeButton(getResources().getString(R.string.ok), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            materialDialog.dismiss();
+                        }
+                    });
+                    materialDialog.show();
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
                 getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
             }
         });
+
+        //初始化讯飞
+        mIatDialog = new RecognizerDialog(getActivity(), mInitListener);
+        mIatDialog.setParameter(SpeechConstant.VAD_BOS, "4000");
+        mIatDialog.setParameter(SpeechConstant.VAD_EOS, "1000");
+        mIatDialog.setListener(mRecognizerDialogListener);
+        mAddRecordBt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (NetworkUtil.checkNetwork(getActivity())) {
+                    mIatDialog.show();
+                    mVibrator.vibrate(50); //震动一下
+                } else {
+                    final MaterialDialog materialDialog = new MaterialDialog(getActivity());
+                    materialDialog.setTitle("提示");
+                    materialDialog.setMessage("请连接网络哦");
+                    materialDialog.setNegativeButton(getResources().getString(R.string.ok), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            materialDialog.dismiss();
+                        }
+                    });
+                    materialDialog.show();
+                }
+                return false;
+            }
+        });
+
         foot = View.inflate(getActivity(), R.layout.record_foot, null);
 
         footTv = ((TextView) foot.findViewById(R.id.foot_tip));
@@ -186,4 +270,64 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     private boolean isRefresh = true;
     private View foot;
     private TextView nullTipTv;
+
+    private final String TAG = "SPEECH";
+
+    private Vibrator mVibrator;
+
+    private RecognizerDialog mIatDialog;
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener;
+
+    /**
+     * 听写UI监听器
+     */
+    private RecognizerDialogListener mRecognizerDialogListener;
+
+    private void parseResult(com.iflytek.cloud.RecognizerResult results) {
+        JSONObject jsonObject = JSON.parseObject(results.getResultString());
+        if (2 == jsonObject.getInteger("sn"))
+            return;
+
+        try {
+            JSONArray ws = jsonObject.getJSONArray("ws");
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < ws.size(); i++) {
+                builder.append(ws.getJSONObject(i).getJSONArray("cw").getJSONObject(0).getString("w"));
+            }
+
+            if (TextUtils.isEmpty(builder.toString())) {
+                SnackBarUtil.showSnackInfo(backGround, getActivity(), "小的没听清，请再说一遍");
+                return;
+            }
+            recordManager.parseVoice(builder.toString(), new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    VoiceDo voiceDo = (VoiceDo) msg.obj;
+                    if (voiceDo.getResultCode() == Constant.VOICE_PARSE_FAIL) {
+                        SnackBarUtil.showSnackInfo(backGround, getActivity(), "小的没听清，请再说一遍");
+                    } else if (voiceDo.getResultCode() == Constant.VOICE_PARSE_NOT_FOUND_RECORD_TYPE) {
+                        SnackBarUtil.showSnackInfo(backGround, getActivity(), "小的未找到\"" + voiceDo.getSplitStr() + "\"");
+                    } else {
+                        Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
+                        Record record = new Record();
+                        record.setRecordMoney(voiceDo.getMoney());
+                        record.setRecordType(voiceDo.getRecordTypeDo().getRecordType());
+                        record.setRecordTypeID(voiceDo.getRecordTypeDo().getRecordTypeID());
+                        intent.putExtra(IntentConstant.VOICE_RECORD, record);
+                        intent.putExtra(IntentConstant.VOICE_RECORD_TYPE, voiceDo.getRecordTypeDo());
+                        startActivity(intent);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            SnackBarUtil.showSnackInfo(backGround, getActivity(), "小的没听清，请再说一遍");
+        }
+
+    }
+
 }

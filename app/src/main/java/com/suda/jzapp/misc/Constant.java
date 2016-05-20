@@ -126,10 +126,19 @@ public class Constant {
     public final static String SP_TIP_ROUND_LINE = "SP_TIP_ROUND_LINE";
     public final static String SP_ALARM_EVERY_DAY = "SP_ALARM_EVERY_DAY";
     public final static String SP_ALARM_TIME = "SP_ALARM_TIME";
+    public final static String SP_FIRST_ADD = "SP_FIRST_ADD";
 
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;
+
+
+    public final static String[] ZHI_CHU_WORD = {"支出", "花去", "花了", "花费", "消费"};
+    public final static String[] SHOU_RU_WORD = {"赚了", "收入", "赚取", "挣了"};
+
+    public final static int VOICE_PARSE_FAIL = 0;
+    public final static int VOICE_PARSE_SUCCESS = 1;
+    public final static int VOICE_PARSE_NOT_FOUND_RECORD_TYPE = 2;
 
     public final static String QR_MARK = "JzAPP_";
     public final static String QR_MARK_HAVE_LINK = "JzAPP#";

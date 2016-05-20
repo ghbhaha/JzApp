@@ -21,4 +21,7 @@ public class IntentConstant {
     public static final String RECORD_MONTH = "RECORD_MONTH";
     public static final String RECORD_TYPE_ID = "RECORD_TYPE_ID";
     public static final String RECORD_DESC = "RECORD_DESC";
+
+    public static final String VOICE_RECORD = "VOICE_RECORD";
+    public static final String VOICE_RECORD_TYPE = "VOICE_RECORD_TYPE";
 }

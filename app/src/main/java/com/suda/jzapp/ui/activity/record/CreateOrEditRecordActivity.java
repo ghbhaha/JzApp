@@ -62,14 +62,26 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
         oldRecord = (Record) getIntent().getSerializableExtra(IntentConstant.OLD_RECORD);
 
+        voiceRecord = (Record) getIntent().getSerializableExtra(IntentConstant.VOICE_RECORD);
+
         newRecord = new Record();
 
         if (oldRecord == null) {
+            if (voiceRecord != null) {
+                zhiChu = voiceRecord.getRecordType() == Constant.RecordType.ZUICHU.getId();
+                tvMoneyCount.setText(TextUtil.getFormatMoney(voiceRecord.getRecordMoney()));
+                mCurRecordType = (RecordType) getIntent().getSerializableExtra(IntentConstant.VOICE_RECORD_TYPE);
+                tvTypeTitle.setText(mCurRecordType.getRecordDesc());
+                typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
+            }
+
             setList();
             Account account = accountManager.getSuitAccount();
             newRecord.setAccountID(account.getAccountID());
             mAccountTv.setText(account.getAccountName());
-            setCurRecordType(0);
+            if (voiceRecord == null) {
+                setCurRecordType(0);
+            }
             setRecordDate(Calendar.getInstance().getTime());
         } else {
             mAccountTv.setText(accountManager.getAccountByID(oldRecord.getAccountID()).getAccountName());
@@ -675,6 +687,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private EditText etRemark;
 
     private FlowLayout mRemarkTipsFlow;
+
+    private Record voiceRecord;
 
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
