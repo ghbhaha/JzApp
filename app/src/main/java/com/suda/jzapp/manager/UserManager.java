@@ -452,6 +452,9 @@ public class UserManager extends BaseManager {
 
     }
 
+    public void setUserLink(UserLink userLink) {
+        UserManager.userLink = userLink;
+    }
 
     private static AVIMClient mClient;
     private static Map<String, AVIMConversation> conversationMap = new HashMap<>();

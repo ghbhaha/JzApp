@@ -59,7 +59,6 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-
         recordManager = new RecordManager(getActivity());
         mInitListener = new InitListener() {
             @Override
@@ -256,37 +255,6 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         });
     }
 
-
-    private ListView recordLv;
-    private TextView footTv;
-    private View backGround;
-    private int mainColor;
-    private int mainDarkColor;
-    private FloatingActionButton mAddRecordBt;
-    private RecordManager recordManager;
-    private RecordAdapter mRecordAdapter;
-    private List<RecordDetailDO> recordDetailDOs;
-    private int curPage = 1;
-    private boolean isRefresh = true;
-    private View foot;
-    private TextView nullTipTv;
-
-    private final String TAG = "SPEECH";
-
-    private Vibrator mVibrator;
-
-    private RecognizerDialog mIatDialog;
-
-    /**
-     * 初始化监听器。
-     */
-    private InitListener mInitListener;
-
-    /**
-     * 听写UI监听器
-     */
-    private RecognizerDialogListener mRecognizerDialogListener;
-
     private void parseResult(com.iflytek.cloud.RecognizerResult results) {
         JSONObject jsonObject = JSON.parseObject(results.getResultString());
         if (2 == jsonObject.getInteger("sn"))
@@ -320,14 +288,42 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
                         record.setRecordTypeID(voiceDo.getRecordTypeDo().getRecordTypeID());
                         intent.putExtra(IntentConstant.VOICE_RECORD, record);
                         intent.putExtra(IntentConstant.VOICE_RECORD_TYPE, voiceDo.getRecordTypeDo());
-                        startActivity(intent);
+                        getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
                     }
                 }
             });
         } catch (Exception e) {
             SnackBarUtil.showSnackInfo(backGround, getActivity(), "小的没听清，请再说一遍");
         }
-
     }
+
+    private ListView recordLv;
+    private TextView footTv;
+    private View backGround;
+    private int mainColor;
+    private int mainDarkColor;
+    private FloatingActionButton mAddRecordBt;
+    private RecordManager recordManager;
+    private RecordAdapter mRecordAdapter;
+    private List<RecordDetailDO> recordDetailDOs;
+    private int curPage = 1;
+    private boolean isRefresh = true;
+    private View foot;
+    private TextView nullTipTv;
+
+    private final String TAG = "SPEECH";
+    private Vibrator mVibrator;
+
+    private RecognizerDialog mIatDialog;
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener;
+
+    /**
+     * 听写UI监听器
+     */
+    private RecognizerDialogListener mRecognizerDialogListener;
 
 }

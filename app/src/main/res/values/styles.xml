@@ -6,6 +6,7 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="colorAccent">@color/blue</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:homeAsUpIndicator">@drawable/my_back</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="@style/Base.Widget.AppCompat.DrawerArrowToggle">

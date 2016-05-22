@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity {
         // mPagerSlidingTabStrip.setFadeEnabled(false);
         mPagerSlidingTabStrip.setZoomMax(0);
         mPagerSlidingTabStrip.setTextSize(14);
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(0);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
         // 底部游标颜色
         mPagerSlidingTabStrip.setIndicatorColor(Color.WHITE);
@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity {
             }
 
             if (canQuit) {
-                //System.exit(0);
+                userManager.setUserLink(null);
                 this.finish();
             } else {
                 SnackBarUtil.showSnackInfo(mPagerSlidingTabStrip, this, "再按一次退出");

@@ -40,7 +40,7 @@ android {
 
         debug {
             //debuggable true
-            multiDexEnabled true
+           // multiDexEnabled true
             zipAlignEnabled true
         }
     }
@@ -77,6 +77,5 @@ dependencies {
     //二维码
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
-    compile files('libs/poi-3.6-20091214.jar')
     compile 'com.android.support:multidex:1.0.1'
 }

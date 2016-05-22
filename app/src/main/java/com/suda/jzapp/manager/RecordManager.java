@@ -5,14 +5,22 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.CountCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.LexiconListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechRecognizer;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordTypeIndex;
@@ -38,14 +46,9 @@ import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -791,6 +794,11 @@ public class RecordManager extends BaseManager {
 
     }
 
+    /**
+     * 获取月报
+     *
+     * @param handler
+     */
     public void getThisMonthReport(final Handler handler) {
         ThreadPoolUtil.getThreadPoolService().execute(new TimerTask() {
             @Override
@@ -823,6 +831,14 @@ public class RecordManager extends BaseManager {
 
     }
 
+    /**
+     * 根据类型月份查记录
+     *
+     * @param recordTypeID
+     * @param recordYear
+     * @param recordMonth
+     * @return
+     */
     public List<RecordDetailDO> getRecordsByRecordTypeIDAndMonth(long recordTypeID, int recordYear, int recordMonth) {
         List<Record> records = recordLocalDAO.getRecordsByRecordTypeIDAndMonth(_context, recordTypeID, recordYear, recordMonth);
         List<RecordDetailDO> recordDetailDOs = new ArrayList<>();
@@ -849,17 +865,21 @@ public class RecordManager extends BaseManager {
         return recordDetailDOs;
     }
 
-
+    /**
+     * 导出csv
+     *
+     * @param start
+     * @param end
+     * @param handler
+     */
     public void exportToExcel(long start, long end, Handler handler) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        List<Record> records = recordLocalDAO.getRecordByMonth(_context, start, end);
-        List<ExcelRecord> excelRecords = new ArrayList<>();
         Map<Long, RecordType> recordTypeMap = new HashMap<>();
         Map<Long, AccountDetailDO> accountHashMap = new HashMap<>();
+        List<Record> records = recordLocalDAO.getRecordByMonth(_context, start, end);
+        List<ExcelRecord> excelRecords = new ArrayList<>();
         for (Record record : records) {
             ExcelRecord excelRecord = new ExcelRecord();
-
             RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
             if (recordType == null) {
                 recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
@@ -871,66 +891,129 @@ public class RecordManager extends BaseManager {
                 account = accountManager.getAccountByID(record.getAccountID());
                 accountHashMap.put(record.getAccountID(), account);
             }
-
             excelRecord.setRecordAccount(account.getAccountName());
             excelRecord.setRecordMoney(record.getRecordMoney());
             excelRecord.setRecordDate(record.getRecordDate());
             excelRecord.setRecordName(recordType.getRecordDesc());
             excelRecord.setRemark(record.getRemark());
-
             excelRecords.add(excelRecord);
         }
 
-        // 第一步，创建一个webbook，对应一个Excel文件
-        HSSFWorkbook wb = new HSSFWorkbook();
-        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
-        HSSFSheet sheet = wb.createSheet("消费记录");
-        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
-        HSSFRow row = sheet.createRow((int) 0);
-        // 第四步，创建单元格，并设置值表头 设置表头居中
-        HSSFCellStyle style = wb.createCellStyle();
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
-
-        HSSFCell cell = row.createCell((short) 0);
-        cell.setCellValue("日期");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 1);
-        cell.setCellValue("账户");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 2);
-        cell.setCellValue("记录名");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 3);
-        cell.setCellValue("备注");
-        cell.setCellStyle(style);
-        cell = row.createCell((short) 4);
-        cell.setCellValue("金额");
-        cell.setCellStyle(style);
-        for (int i = 0; i < excelRecords.size(); i++) {
-            row = sheet.createRow((int) i + 1);
-            ExcelRecord excelRecord = (ExcelRecord) excelRecords.get(i);
-            // 第四步，创建单元格，并设置值
-
-            cell = row.createCell((short) 0);
-            cell.setCellValue(simpleDateFormat.format(excelRecord
-                    .getRecordDate()));
-
-            row.createCell((short) 1).setCellValue(excelRecord.getRecordAccount());
-            row.createCell((short) 2).setCellValue(excelRecord.getRecordName());
-            row.createCell((short) 3).setCellValue(excelRecord.getRemark());
-            row.createCell((short) 4).setCellValue(excelRecord.getRecordMoney());
-        }
+        FileWriter fw;
+        BufferedWriter bfw;
+        String fileName = simpleDateFormat.format(new Date(start)) + "_" + simpleDateFormat.format(new Date(end)) + "消费流水.csv";
+        File file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + fileName);
         try {
-            String fileName = simpleDateFormat.format(new Date(start)) + "_" + simpleDateFormat.format(new Date(end)) + "消费流水.xls";
-            File file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + fileName);
-            FileOutputStream fout = new FileOutputStream(file);
-            wb.write(fout);
-            fout.close();
+            fw = new FileWriter(file);
+            bfw = new BufferedWriter(fw);
+            bfw.write(0xFEFF);
+            bfw.write("日期" + ',');
+            bfw.write("账户" + ',');
+            bfw.write("记录名" + ',');
+            bfw.write("备注" + ',');
+            bfw.write("金额");
+            bfw.newLine();
+            for (int i = 0; i < excelRecords.size(); i++) {
+                ExcelRecord excelRecord = excelRecords.get(i);
+                bfw.write(simpleDateFormat.format(excelRecord
+                        .getRecordDate()) + ',');
+                bfw.write(excelRecord.getRecordAccount() + ',');
+                bfw.write(excelRecord.getRecordName() + ',');
+                bfw.write((TextUtils.isEmpty(excelRecord.getRemark()) ? "\t" : excelRecord.getRemark()) + ',');
+                bfw.write(String.valueOf(excelRecord.getRecordMoney()));
+                bfw.newLine();
+            }
+            bfw.flush();
+            bfw.close();
             sendMessage(handler, fileName);
-        } catch (Exception e) {
+        } catch (Exception r) {
             sendEmptyMessage(handler, Constant.MSG_ERROR);
-            e.printStackTrace();
         }
+    }
+
+    public void exportToExcel2(long start, long end, Handler handler) {
+
+
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        List<Record> records = recordLocalDAO.getRecordByMonth(_context, start, end);
+//        List<ExcelRecord> excelRecords = new ArrayList<>();
+//        Map<Long, RecordType> recordTypeMap = new HashMap<>();
+//        Map<Long, AccountDetailDO> accountHashMap = new HashMap<>();
+//        for (Record record : records) {
+//            ExcelRecord excelRecord = new ExcelRecord();
+//
+//            RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
+//            if (recordType == null) {
+//                recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+//                recordTypeMap.put(record.getRecordTypeID(), recordType);
+//            }
+//
+//            AccountDetailDO account = accountHashMap.get(record.getAccountID());
+//            if (account == null) {
+//                account = accountManager.getAccountByID(record.getAccountID());
+//                accountHashMap.put(record.getAccountID(), account);
+//            }
+//
+//            excelRecord.setRecordAccount(account.getAccountName());
+//            excelRecord.setRecordMoney(record.getRecordMoney());
+//            excelRecord.setRecordDate(record.getRecordDate());
+//            excelRecord.setRecordName(recordType.getRecordDesc());
+//            excelRecord.setRemark(record.getRemark());
+//
+//            excelRecords.add(excelRecord);
+//        }
+//
+//        // 第一步，创建一个webbook，对应一个Excel文件
+//        HSSFWorkbook wb = new HSSFWorkbook();
+//        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet
+//        HSSFSheet sheet = wb.createSheet("消费记录");
+//        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
+//        HSSFRow row = sheet.createRow((int) 0);
+//        // 第四步，创建单元格，并设置值表头 设置表头居中
+//        HSSFCellStyle style = wb.createCellStyle();
+//        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+//
+//        HSSFCell cell = row.createCell((short) 0);
+//        cell.setCellValue("日期");
+//        cell.setCellStyle(style);
+//        cell = row.createCell((short) 1);
+//        cell.setCellValue("账户");
+//        cell.setCellStyle(style);
+//        cell = row.createCell((short) 2);
+//        cell.setCellValue("记录名");
+//        cell.setCellStyle(style);
+//        cell = row.createCell((short) 3);
+//        cell.setCellValue("备注");
+//        cell.setCellStyle(style);
+//        cell = row.createCell((short) 4);
+//        cell.setCellValue("金额");
+//        cell.setCellStyle(style);
+//        for (int i = 0; i < excelRecords.size(); i++) {
+//            row = sheet.createRow((int) i + 1);
+//            ExcelRecord excelRecord = (ExcelRecord) excelRecords.get(i);
+//            // 第四步，创建单元格，并设置值
+//
+//            cell = row.createCell((short) 0);
+//            cell.setCellValue(simpleDateFormat.format(excelRecord
+//                    .getRecordDate()));
+//
+//            row.createCell((short) 1).setCellValue(excelRecord.getRecordAccount());
+//            row.createCell((short) 2).setCellValue(excelRecord.getRecordName());
+//            row.createCell((short) 3).setCellValue(excelRecord.getRemark());
+//            row.createCell((short) 4).setCellValue(excelRecord.getRecordMoney());
+//        }
+//        try {
+//            String fileName = simpleDateFormat.format(new Date(start)) + "_" + simpleDateFormat.format(new Date(end)) + "消费流水.xls";
+//            File file = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + fileName);
+//            FileOutputStream fout = new FileOutputStream(file);
+//            wb.write(fout);
+//            fout.close();
+//            sendMessage(handler, fileName);
+//        } catch (Exception e) {
+//            sendEmptyMessage(handler, Constant.MSG_ERROR);
+//            e.printStackTrace();
+//        }
 
 
     }
@@ -939,6 +1022,12 @@ public class RecordManager extends BaseManager {
         return recordTypeDao.getRecordTypeByNameAndType(_context, name, reocordType);
     }
 
+    /**
+     * 解析语音
+     *
+     * @param content
+     * @param handler
+     */
     public void parseVoice(String content, Handler handler) {
         VoiceDo voiceDo = new VoiceDo();
         String[] contents = null;
@@ -986,14 +1075,26 @@ public class RecordManager extends BaseManager {
         }
     }
 
+    /**
+     * 匹配支出分词
+     *
+     * @param content
+     * @return
+     */
     private String getZhiChuWord(String content) {
-        for (String word :  Constant.ZHI_CHU_WORD) {
+        for (String word : Constant.ZHI_CHU_WORD) {
             if (content.contains(word))
                 return word;
         }
         return "";
     }
 
+    /**
+     * 匹配收入分词
+     *
+     * @param content
+     * @return
+     */
     private String getShouRuWord(String content) {
         for (String word : Constant.SHOU_RU_WORD) {
             if (content.contains(word))
@@ -1002,6 +1103,44 @@ public class RecordManager extends BaseManager {
         return "";
     }
 
+    /**
+     * 添加语音词库
+     *
+     * @param wordList
+     */
+    private void pushRecordWords(List<String> wordList) {
+        final String TAG = "pushRecordWords";
+
+        if (wordList == null || wordList.size() == 0)
+            return;
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray userWordArray = new JSONArray();
+        JSONObject userWord = new JSONObject();
+        userWord.put("name", "default");
+        JSONArray words = new JSONArray();
+        for (String word : wordList) {
+            words.add(word);
+        }
+        userWord.put("words", words);
+        userWordArray.add(userWord);
+        jsonObject.put("userword", userWordArray);
+
+        SpeechRecognizer speechRecognizer = SpeechRecognizer.createRecognizer(_context, null);
+        speechRecognizer.setParameter(SpeechConstant.TEXT_ENCODING, "utf-8");
+        // 指定引擎类型
+        speechRecognizer.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        int ret = speechRecognizer.updateLexicon("userword", jsonObject.toString(), new LexiconListener() {
+            @Override
+            public void onLexiconUpdated(String s, SpeechError speechError) {
+                Log.d(TAG, "上传成功！");
+            }
+        });
+        if (ret != ErrorCode.SUCCESS) {
+            Log.d(TAG, "上传用户词表失败：" + ret);
+        }
+
+    }
 
 
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
