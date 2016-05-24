@@ -1,4 +1,4 @@
-project(':MyDaoGenerator') {
+project(':SudaDaoGenerator') {
     apply plugin: 'application'
     apply plugin: 'java'
 

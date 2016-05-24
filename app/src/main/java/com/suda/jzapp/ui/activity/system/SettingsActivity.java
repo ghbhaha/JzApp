@@ -3,7 +3,6 @@ package com.suda.jzapp.ui.activity.system;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,7 +47,7 @@ public class SettingsActivity extends BaseActivity {
 
 
         if (savedInstanceState == null) {
-            mSettingsFragment = new SettingsFragment(this);
+            mSettingsFragment = new SettingsFragment();
             replaceFragment(R.id.settings_container, mSettingsFragment);
         }
     }
@@ -69,15 +68,11 @@ public class SettingsActivity extends BaseActivity {
 
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
-        public SettingsFragment(Context context) {
-            this.context = context;
-        }
 
         public SettingsFragment() {
 
         }
 
-        private Context context;
         private CheckBoxPreference mGestureLockCheck;
         private CheckBoxPreference mRemindCheck;
         private CheckBoxPreference mImmersiveCheck;
@@ -102,7 +97,7 @@ public class SettingsActivity extends BaseActivity {
             }
 
 
-            long alarmTime = SPUtils.gets(context, Constant.SP_ALARM_TIME, 0l);
+            long alarmTime = SPUtils.gets(getActivity(), Constant.SP_ALARM_TIME, 0l);
             if (alarmTime > 0) {
                 Date date = new Date(alarmTime);
                 mRemindCheck.setSummaryOn("每天" + format.format(date) + "提醒记账");
@@ -113,22 +108,22 @@ public class SettingsActivity extends BaseActivity {
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (preference == mGestureLockCheck) {
                 if (mGestureLockCheck.isChecked()) {
-                    SPUtils.put(context, Constant.SP_GESTURE, "");
+                    SPUtils.put(getActivity(), Constant.SP_GESTURE, "");
                     mGestureLockCheck.setChecked(false);
                 } else {
                     if (MyAVUser.getCurrentUser() != null) {
-                        Intent intent = new Intent(context, GestureLockActivity.class);
+                        Intent intent = new Intent(getActivity(), GestureLockActivity.class);
                         intent.putExtra(IntentConstant.SETTING_MODE, true);
                         startActivity(intent);
                     } else {
-                        SnackBarUtil.showSnackInfo(getView(), context, "请先登录账户");
+                        SnackBarUtil.showSnackInfo(getView(), getActivity(), "请先登录账户");
                     }
                 }
             } else if (preference == mRemindCheck) {
                 if (mRemindCheck.isChecked()) {
-                    SPUtils.put(context, Constant.SP_ALARM_TIME, 0l);
+                    SPUtils.put(getActivity(), Constant.SP_ALARM_TIME, 0l);
                     mRemindCheck.setChecked(false);
-                    AlarmUtil.createAlarmOrCancel(context, false);
+                    AlarmUtil.createAlarmOrCancel(getActivity(), false);
                 } else {
                     final Calendar calendar = Calendar.getInstance();
                     TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
@@ -138,24 +133,24 @@ public class SettingsActivity extends BaseActivity {
                             calendar.set(Calendar.MINUTE, minute);
                             calendar.set(Calendar.SECOND, 0);
                             calendar.set(Calendar.MILLISECOND, 0);
-                            SPUtils.put(context, Constant.SP_ALARM_TIME, calendar.getTimeInMillis());
+                            SPUtils.put(getActivity(), Constant.SP_ALARM_TIME, calendar.getTimeInMillis());
                             mRemindCheck.setChecked(true);
                             mRemindCheck.setSummaryOn("每天" + format.format(calendar.getTime()) + "提醒记账");
 
-                            AlarmUtil.createAlarm(context);
+                            AlarmUtil.createAlarm(getActivity());
                         }
                     }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
 
-                    timePickerDialog.setAccentColor(getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+                    timePickerDialog.setAccentColor(getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainColorID()));
                     timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
                 }
             } else if (preference == mImmersiveCheck) {
                 if (mImmersiveCheck.isChecked()) {
                     mImmersiveCheck.setChecked(false);
-                    StatusBarCompat.compat((Activity) context, context.getResources().getColor(ThemeUtil.getTheme(context).getMainDarkColorID()));
+                    StatusBarCompat.compat(getActivity(), getActivity().getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainDarkColorID()));
                 } else {
                     mImmersiveCheck.setChecked(true);
-                    StatusBarCompat.compat((Activity) context, context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
+                    StatusBarCompat.compat( getActivity(), getActivity().getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainColorID()));
                 }
             }
             return false;
@@ -163,7 +158,7 @@ public class SettingsActivity extends BaseActivity {
 
         public void changeGestureCheckStatus() {
             if (mGestureLockCheck != null) {
-                if (!TextUtils.isEmpty((String) SPUtils.get(context, Constant.SP_GESTURE, ""))) {
+                if (!TextUtils.isEmpty((String) SPUtils.get(getActivity(), Constant.SP_GESTURE, ""))) {
                     mGestureLockCheck.setChecked(true);
                 }
             }
