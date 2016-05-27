@@ -98,10 +98,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
             recordTypeDao.update(recordType);
             i++;
         }
-
-        recordTypeDao.insertOrReplaceInTx(list);
         list.add(new RecordType());
-
     }
 
     public int getMaxIndexByRecordType(Context context, int type) {
