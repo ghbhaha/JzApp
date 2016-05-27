@@ -11,7 +11,12 @@ import com.suda.jzapp.misc.Constant.RecordTypeConstant;
  */
 public class IconTypeUtil {
 
-
+    /**
+     * 获取账户类型icon
+     *
+     * @param accountTypeID
+     * @return
+     */
     public static int getAccountIcon(int accountTypeID) {
         switch (accountTypeID) {
             case Constant.AccountTypeConstant.ACCOUNT_TYPE_XIAN_JIN:
@@ -30,7 +35,6 @@ public class IconTypeUtil {
 
         return 0;
     }
-
 
     /**
      * 根据id匹配图标
@@ -144,6 +148,148 @@ public class IconTypeUtil {
                 return icon ? R.drawable.icon_add_20 : Color.parseColor("#BFB2BE");
             case RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG:
                 return icon ? R.drawable.yuegenghuan : Color.parseColor("#CCC259");
+            case RecordTypeConstant.ICON_AD:
+                return icon ? R.drawable.ad : Color.parseColor("#3F745A");
+            case RecordTypeConstant.ICON_AN_JIE:
+                return icon ? R.drawable.anjie : Color.parseColor("#3AAB7C");
+            case RecordTypeConstant.ICON_BAO_BAO:
+                return icon ? R.drawable.baobao : Color.parseColor("#9CC051");
+            case RecordTypeConstant.ICON_BAO_JIAN:
+                return icon ? R.drawable.baojian : Color.parseColor("#0C9D19");
+            case RecordTypeConstant.ICON_BAO_XIAN:
+                return icon ? R.drawable.baoxian : Color.parseColor("#008E56");
+            case RecordTypeConstant.ICON_BAO_XIAO:
+                return icon ? R.drawable.baoxiao : Color.parseColor("#6666AA");
+            case RecordTypeConstant.ICON_CHA_SHUI_KA_FEI:
+                return icon ? R.drawable.chashuikafei : Color.parseColor("#7F5C1E");
+            case RecordTypeConstant.ICON_CHUAN_PIAO:
+                return icon ? R.drawable.chuanpiao : Color.parseColor("#68ABB5");
+            case RecordTypeConstant.ICON_DAO_YOU:
+                return icon ? R.drawable.daoyou : Color.parseColor("#749CA0");
+            case RecordTypeConstant.ICON_DA_PAI:
+                return icon ? R.drawable.dapai : Color.parseColor("#FE663D");
+            case RecordTypeConstant.ICON_DIAN_FEI:
+                return icon ? R.drawable.dianfei : Color.parseColor("#E0A902");
+            case RecordTypeConstant.ICON_DIAN_YING:
+                return icon ? R.drawable.dianying : Color.parseColor("#926550");
+            case RecordTypeConstant.ICON_FANG_DAI:
+                return icon ? R.drawable.fangdai : Color.parseColor("#A587C4");
+            case RecordTypeConstant.ICON_FANG_ZU:
+                return icon ? R.drawable.fangzu : Color.parseColor("#AD234B");
+            case RecordTypeConstant.ICON_FAN_KA:
+                return icon ? R.drawable.fanka : Color.parseColor("#9CD2E6");
+            case RecordTypeConstant.ICON_FEI_JI_PIAO:
+                return icon ? R.drawable.feijipiao : Color.parseColor("#33475F");
+            case RecordTypeConstant.ICON_FU_WU:
+                return icon ? R.drawable.fuwu : Color.parseColor("#D05793");
+            case RecordTypeConstant.ICON_GONG_GONG_QI_CHE:
+                return icon ? R.drawable.gonggongqiche : Color.parseColor("#366FE6");
+            case RecordTypeConstant.ICON_HAI_WAI_DAI_GOU:
+                return icon ? R.drawable.haiwaidaigou : Color.parseColor("#749CCE");
+            case RecordTypeConstant.ICON_HUAN_KUAN:
+                return icon ? R.drawable.huankuan : Color.parseColor("#65DFBB");
+            case RecordTypeConstant.ICON_HUA_ZHAUNG_PIN:
+                return icon ? R.drawable.huazhuangpin : Color.parseColor("#D36AA8");
+            case RecordTypeConstant.ICON_HUO_CHE_PIAO:
+                return icon ? R.drawable.huochepiao : Color.parseColor("#BC4938");
+            case RecordTypeConstant.ICON_HU_WAI_SHE_BEI:
+                return icon ? R.drawable.huwaishebei : Color.parseColor("#A6A4DF");
+            case RecordTypeConstant.ICON_JIU_SHUI:
+                return icon ? R.drawable.jiushui : Color.parseColor("#B42712");
+            case RecordTypeConstant.ICON_JUE_CHU:
+                return icon ? R.drawable.juechu : Color.parseColor("#AE107D");
+            case RecordTypeConstant.ICON_KU_ZI:
+                return icon ? R.drawable.kuzi : Color.parseColor("#5085BC");
+            case RecordTypeConstant.ICON_LI_FA:
+                return icon ? R.drawable.lifa : Color.parseColor("#2672C0");
+            case RecordTypeConstant.ICON_LING_QIAN:
+                return icon ? R.drawable.lingqian : Color.parseColor("#3B5998");
+            case RecordTypeConstant.ICON_LING_SHI:
+                return icon ? R.drawable.lingshi : Color.parseColor("#EF417A");
+            case RecordTypeConstant.ICON_LV_YOU_DU_JIA:
+                return icon ? R.drawable.lvyoudujia : Color.parseColor("#706FAA");
+            case RecordTypeConstant.ICON_MAI_CAI:
+                return icon ? R.drawable.maicai : Color.parseColor("#5DBF92");
+            case RecordTypeConstant.ICON_MA_JIANG:
+                return icon ? R.drawable.majiang : Color.parseColor("#056D4E");
+            case RecordTypeConstant.ICON_MAO_ZI:
+                return icon ? R.drawable.mao : Color.parseColor("#F4D041");
+            case RecordTypeConstant.ICON_NAI_FEN:
+                return icon ? R.drawable.naifen : Color.parseColor("#4978D0");
+            case RecordTypeConstant.ICON_QU_XAIN:
+                return icon ? R.drawable.quxian : Color.parseColor("#A66A79");
+            case RecordTypeConstant.ICON_RI_CHANG_YONG_PIN:
+                return icon ? R.drawable.richangyongpin : Color.parseColor("#09ACE9");
+            case RecordTypeConstant.ICON_SHI_PIN:
+                return icon ? R.drawable.shipin : Color.parseColor("#CDBA7F");
+            case RecordTypeConstant.ICON_SHUI_FEI:
+                return icon ? R.drawable.shuifei : Color.parseColor("#47A7E6");
+            case RecordTypeConstant.ICON_SHU_MA_CAHN_PIN:
+                return icon ? R.drawable.shumachanpin : Color.parseColor("#2CB7BC");
+            case RecordTypeConstant.ICON_SI_JIA_CHE:
+                return icon ? R.drawable.sijiache : Color.parseColor("#B4CA5C");
+            case RecordTypeConstant.ICON_TING_CHE_FEI:
+                return icon ? R.drawable.tingchefei : Color.parseColor("#FE463D");
+            case RecordTypeConstant.ICON_TUI_KUAN:
+                return icon ? R.drawable.tuikuan : Color.parseColor("#BB49C5");
+            case RecordTypeConstant.ICON_WAN_FAN:
+                return icon ? R.drawable.wanfan : Color.parseColor("#CF0C11");
+            case RecordTypeConstant.ICON_WANG_FEI:
+                return icon ? R.drawable.wangfei : Color.parseColor("#CC5151");
+            case RecordTypeConstant.ICON_WANG_GOU:
+                return icon ? R.drawable.wanggou : Color.parseColor("#5C9B8C");
+            case RecordTypeConstant.ICON_WAN_JU:
+                return icon ? R.drawable.wanju : Color.parseColor("#7F401E");
+            case RecordTypeConstant.ICON_WEI_XIU_BAO_XIAO:
+                return icon ? R.drawable.weixiubaoyang : Color.parseColor("#1C7998");
+            case RecordTypeConstant.ICON_WU_YE:
+                return icon ? R.drawable.wuye : Color.parseColor("#826D7B");
+            case RecordTypeConstant.ICON_XIAN_JIN:
+                return icon ? R.drawable.xianjin : Color.parseColor("#BE7676");
+            case RecordTypeConstant.ICON_XIAO_CHI:
+                return icon ? R.drawable.xiaochi : Color.parseColor("#4C6F01");
+            case RecordTypeConstant.ICON_XIAO_JING_JIA_ZHANG:
+                return icon ? R.drawable.xiaojingjiazhang : Color.parseColor("#A2A9CB");
+            case RecordTypeConstant.ICON_XIE_ZI:
+                return icon ? R.drawable.xiezi : Color.parseColor("#9659AE");
+            case RecordTypeConstant.ICON_XIN_YONG_KA_HUAN_KUAN:
+                return icon ? R.drawable.xinyongkahuankuan : Color.parseColor("#A3A3A3");
+            case RecordTypeConstant.ICON_XUE_FEI:
+                return icon ? R.drawable.xuefei : Color.parseColor("#0088B0");
+            case RecordTypeConstant.ICON_XI_ZAO:
+                return icon ? R.drawable.xizao : Color.parseColor("#9EA66A");
+            case RecordTypeConstant.ICON_YAN:
+                return icon ? R.drawable.yan : Color.parseColor("#7A6BD6");
+            case RecordTypeConstant.ICON_YAO_PIN_FEI:
+                return icon ? R.drawable.yaopinfei : Color.parseColor("#D53062");
+            case RecordTypeConstant.ICON_YI_FU:
+                return icon ? R.drawable.yifu : Color.parseColor("#FD557D");
+            case RecordTypeConstant.ICON_YING_HANG_SHOU_XU:
+                return icon ? R.drawable.yinhangshouxufei : Color.parseColor("#93ADB7");
+            case RecordTypeConstant.ICON_YI_WAI_PO_SUN:
+                return icon ? R.drawable.yiwaiposun : Color.parseColor("#F1AD43");
+            case RecordTypeConstant.ICON_YI_WAI_SUO_DE:
+                return icon ? R.drawable.yiwaisuode : Color.parseColor("#FF7F00");
+            case RecordTypeConstant.ICON_YOU_FEI:
+                return icon ? R.drawable.youfei : Color.parseColor("#0E5A3A");
+            case RecordTypeConstant.ICON_YOU_XI:
+                return icon ? R.drawable.youxi : Color.parseColor("#F95318");
+            case RecordTypeConstant.ICON_YUN_DONG_JIAN_SHEN:
+                return icon ? R.drawable.yundongjianshen : Color.parseColor("#DE9EEE");
+            case RecordTypeConstant.ICON_ZAO_CAN:
+                return icon ? R.drawable.zaocan : Color.parseColor("#FCB577");
+            case RecordTypeConstant.ICON_ZA_WU:
+                return icon ? R.drawable.zawu : Color.parseColor("#7C195D");
+            case RecordTypeConstant.ICON_ZHI_FU_BAO:
+                return icon ? R.drawable.zhifubao : Color.parseColor("#2DC0FC");
+            case RecordTypeConstant.ICON_ZHONG_FAN:
+                return icon ? R.drawable.zhongfan : Color.parseColor("#FF6C00");
+            case RecordTypeConstant.ICON_ZHU_SU:
+                return icon ? R.drawable.zhusu : Color.parseColor("#7D6C65");
+            case RecordTypeConstant.ICON_ZUO_JI_FEI:
+                return icon ? R.drawable.zuojifei : Color.parseColor("#EE8359");
+            case RecordTypeConstant.ICON_ZHUAN_ZHANG:
+                return icon ? R.drawable.zhuanzhang : Color.parseColor("#DF476C");
         }
 
         return icon ? R.drawable.icon_shouru_type_qita : Color.parseColor("#3EA6D6");

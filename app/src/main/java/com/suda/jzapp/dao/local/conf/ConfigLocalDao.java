@@ -77,7 +77,7 @@ public class ConfigLocalDao extends BaseLocalDao {
         getDaoSession(context).getRecordTypeDao().insert(
                 new RecordType(null, 25L, "借入", Constant.RecordType.SHOURU.getId(), true, RecordTypeConstant.ICON_TYPE_JIE_RU, 25, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
         getDaoSession(context).getRecordTypeDao().insert(
-                new RecordType(null, 26L, "转账", Constant.RecordType.ZHUANZHANG.getId(), true, 26, 26, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
+                new RecordType(null, 26L, "转账", Constant.RecordType.ZHUANZHANG.getId(), true, RecordTypeConstant.ICON_ZHUAN_ZHANG, 26, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
         getDaoSession(context).getRecordTypeDao().insert(
                 new RecordType(null, 27L, "余额变更", Constant.RecordType.CHANGE.getId(), true, RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG, 27, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
         //  getDaoSession(context).getRecordTypeDao().insert(

@@ -87,9 +87,6 @@ public class RecordTypeLocalDao extends BaseLocalDao {
 
     public void updateRecordOrder(Context context, List<RecordType> list) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
-        recordTypeDao.queryBuilder().where(RecordTypeDao.Properties.RecordType.eq(list.get(0).getRecordType()))
-                .where(RecordTypeDao.Properties.IsDel.eq(false))
-                .buildDelete().executeDeleteWithoutDetachingEntities();
         //去除加号
         list.remove(list.size() - 1);
 
@@ -98,6 +95,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         for (RecordType recordType : list) {
             //recordType.setSyncStatus(false);
             recordType.setIndex(i);
+            recordTypeDao.update(recordType);
             i++;
         }
 

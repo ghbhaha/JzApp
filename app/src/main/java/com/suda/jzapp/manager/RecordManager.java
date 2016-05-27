@@ -634,9 +634,11 @@ public class RecordManager extends BaseManager {
                         AVRecordTypeIndex avRecordTypeIndex = list.get(0);
                         String data = avRecordTypeIndex.getData();
                         List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
-                        recordTypeDao.update2DelSysType(_context);
-                        for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
-                            recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
+                        if (recordTypeIndexDOs.size() > 2) {
+                            recordTypeDao.update2DelSysType(_context);
+                            for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
+                                recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
+                            }
                         }
                     }
                     sendEmptyMessage(handler, Constant.MSG_SUCCESS);

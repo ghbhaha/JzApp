@@ -55,6 +55,10 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
         mIonsGV = (GridView) findViewById(R.id.record_icon_gv);
         mIconsList = new ArrayList<>();
         for (int i = 0; i < Constant.RecordTypeConstant.ICON_TYPE_COUNT; i++) {
+            if (i == Constant.RecordTypeConstant.ICON_TYPE_NONE ||
+                    i == Constant.RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG ||
+                    i == Constant.RecordTypeConstant.ICON_ZHUAN_ZHANG)
+                continue;
             mIconsList.add(i);
         }
 
