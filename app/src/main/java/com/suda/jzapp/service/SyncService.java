@@ -21,6 +21,7 @@ import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
+import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.AlarmUtil;
@@ -58,6 +59,7 @@ public class SyncService extends Service {
             syncAccount();
             syncRecordType();
             recordManager.updateRecordTypeIndex(null, true);
+            accountManager.updateAccountIndex(null, null);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -206,5 +208,6 @@ public class SyncService extends Service {
     private RecordTypeLocalDao recordTypeLocalDao = new RecordTypeLocalDao();
     private AccountLocalDao accountLocalDao = new AccountLocalDao();
     private RecordManager recordManager = new RecordManager(this);
+    private AccountManager accountManager = new AccountManager(this);
     private static final String TAG = "SYNC_SERVICE";
 }

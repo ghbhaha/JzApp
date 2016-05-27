@@ -160,7 +160,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                     i++;
                 }
                 PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
-                if (min / allOutOrInMoney > 0.001) {
+                if (min / allOutOrInMoney > 0.005) {
                     dataSet.setSliceSpace(1f);
                 }
                 dataSet.setSelectionShift(2f);

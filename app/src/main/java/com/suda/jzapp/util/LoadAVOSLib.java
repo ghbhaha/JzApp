@@ -3,6 +3,7 @@ package com.suda.jzapp.util;
 
 import com.avos.avoscloud.AVObject;
 import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccount;
+import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccountIndex;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordTypeIndex;
@@ -18,6 +19,7 @@ public class LoadAVOSLib {
         AVObject.registerSubclass(AVRecordType.class);
         AVObject.registerSubclass(AVRecord.class);
         AVObject.registerSubclass(AVAccount.class);
+        AVObject.registerSubclass(AVAccountIndex.class);
         AVObject.registerSubclass(MyAVUser.class);
         AVObject.registerSubclass(AVRecordTypeIndex.class);
         AVObject.registerSubclass(UserLink.class);

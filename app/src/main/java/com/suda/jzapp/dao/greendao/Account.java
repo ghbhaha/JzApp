@@ -16,6 +16,7 @@ public class Account {
     private Boolean SyncStatus;
     private Boolean isDel;
     private String ObjectID;
+    private Integer Index;
 
     public Account() {
     }
@@ -24,7 +25,7 @@ public class Account {
         this.id = id;
     }
 
-    public Account(Long id, Long AccountID, Integer AccountTypeID, String AccountName, Double AccountMoney, String AccountRemark, String AccountColor, Boolean SyncStatus, Boolean isDel, String ObjectID) {
+    public Account(Long id, Long AccountID, Integer AccountTypeID, String AccountName, Double AccountMoney, String AccountRemark, String AccountColor, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer Index) {
         this.id = id;
         this.AccountID = AccountID;
         this.AccountTypeID = AccountTypeID;
@@ -35,6 +36,7 @@ public class Account {
         this.SyncStatus = SyncStatus;
         this.isDel = isDel;
         this.ObjectID = ObjectID;
+        this.Index = Index;
     }
 
     public Long getId() {
@@ -115,6 +117,14 @@ public class Account {
 
     public void setObjectID(String ObjectID) {
         this.ObjectID = ObjectID;
+    }
+
+    public Integer getIndex() {
+        return Index;
+    }
+
+    public void setIndex(Integer Index) {
+        this.Index = Index;
     }
 
 }

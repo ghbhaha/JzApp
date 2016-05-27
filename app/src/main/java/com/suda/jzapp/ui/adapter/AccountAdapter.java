@@ -2,9 +2,11 @@ package com.suda.jzapp.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,30 +14,37 @@ import android.widget.TextView;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.Account;
+import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.AccountTransactionActivity;
 import com.suda.jzapp.ui.activity.account.AccountsTransferActivity;
 import com.suda.jzapp.ui.activity.account.CreateOrEditAccountActivity;
+import com.suda.jzapp.ui.adapter.helper.ItemTouchHelperAdapter;
+import com.suda.jzapp.ui.adapter.helper.OnStartDragListener;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by ghbha on 2016/2/16.
  */
-public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
+public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
 
     private Context context;
     private List<AccountDetailDO> accounts;
+    private OnStartDragListener mDragStartListener;
+    private AccountManager accountManager;
 
-
-    public AccountAdapter(Context context, List<AccountDetailDO> accounts) {
+    public AccountAdapter(Context context, List<AccountDetailDO> accounts, OnStartDragListener dragStartListener) {
         this.accounts = accounts;
         this.context = context;
+        this.mDragStartListener = dragStartListener;
+        accountManager = new AccountManager(context);
     }
 
     public void refreshData(List<Account> accounts) {
@@ -54,6 +63,18 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
+
+        holder.mIgAccountTypeIcon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    mDragStartListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
+
         final AccountDetailDO account = accounts.get(position);
         holder.mIgAccountTypeIcon.setImageResource(IconTypeUtil.getAccountIcon(account.getAccountTypeID()));
 
@@ -135,4 +156,18 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         }
 
     }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(accounts, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        accountManager.updateAccountIndex(null, accounts);
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+    }
+
 }

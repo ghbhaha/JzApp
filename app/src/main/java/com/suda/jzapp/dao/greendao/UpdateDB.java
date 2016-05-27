@@ -32,5 +32,8 @@ public class UpdateDB {
             UserDao.dropTable(db,true);
             UserDao.createTable(db, false);
         }
+        if (oldVersion < 8) {
+            db.execSQL("ALTER TABLE ACCOUNT ADD INDEX INTEGER");
+        }
     }
 }

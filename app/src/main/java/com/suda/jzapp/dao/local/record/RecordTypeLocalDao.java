@@ -96,7 +96,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         int i = 0;
         //待同步
         for (RecordType recordType : list) {
-            recordType.setSyncStatus(false);
+            //recordType.setSyncStatus(false);
             recordType.setIndex(i);
             i++;
         }

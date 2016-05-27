@@ -33,6 +33,7 @@ public class AccountDao extends AbstractDao<Account, Long> {
         public final static Property SyncStatus = new Property(7, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
         public final static Property IsDel = new Property(8, Boolean.class, "isDel", false, "IS_DEL");
         public final static Property ObjectID = new Property(9, String.class, "ObjectID", false, "OBJECT_ID");
+        public final static Property Index = new Property(10, Integer.class, "Index", false, "INDEX");
     };
 
 
@@ -57,7 +58,8 @@ public class AccountDao extends AbstractDao<Account, Long> {
                 "\"ACCOUNT_COLOR\" TEXT," + // 6: AccountColor
                 "\"SYNC_STATUS\" INTEGER," + // 7: SyncStatus
                 "\"IS_DEL\" INTEGER," + // 8: isDel
-                "\"OBJECT_ID\" TEXT);"); // 9: ObjectID
+                "\"OBJECT_ID\" TEXT," + // 9: ObjectID
+                "\"INDEX\" INTEGER);"); // 10: Index
     }
 
     /** Drops the underlying database table. */
@@ -120,6 +122,11 @@ public class AccountDao extends AbstractDao<Account, Long> {
         if (ObjectID != null) {
             stmt.bindString(10, ObjectID);
         }
+ 
+        Integer Index = entity.getIndex();
+        if (Index != null) {
+            stmt.bindLong(11, Index);
+        }
     }
 
     /** @inheritdoc */
@@ -141,7 +148,8 @@ public class AccountDao extends AbstractDao<Account, Long> {
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // AccountColor
             cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // SyncStatus
             cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // isDel
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // ObjectID
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // ObjectID
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10) // Index
         );
         return entity;
     }
@@ -159,6 +167,7 @@ public class AccountDao extends AbstractDao<Account, Long> {
         entity.setSyncStatus(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
         entity.setIsDel(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
         entity.setObjectID(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setIndex(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
      }
     
     /** @inheritdoc */

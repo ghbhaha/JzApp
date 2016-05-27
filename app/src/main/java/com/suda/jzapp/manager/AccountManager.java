@@ -5,18 +5,23 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccount;
+import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccountIndex;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountType;
+import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.local.account.AccountLocalDao;
+import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
+import com.suda.jzapp.manager.domain.AccountIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
@@ -380,9 +385,102 @@ public class AccountManager extends BaseManager {
                     message.what = Constant.MSG_ERROR;
                     getAvEx(e);
                 }
-                handler.sendMessage(message);
+                initAccountIndex(handler);
             }
         });
+    }
+
+    /**
+     * 初始化账户索引数据
+     *
+     * @param handler
+     */
+    public void initAccountIndex(final Handler handler) {
+        AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
+        query.whereEqualTo(AVAccountIndex.USER, MyAVUser.getCurrentUser());
+        query.findInBackground(new FindCallback<AVAccountIndex>() {
+            @Override
+            public void done(List<AVAccountIndex> list, AVException e) {
+                if (e == null) {
+                    if (list.size() > 0) {
+                        AVAccountIndex avAccountIndex = list.get(0);
+                        String data = avAccountIndex.getData();
+                        List<AccountIndexDO> accountIndexDOs = JSON.parseArray(data, AccountIndexDO.class);
+                        accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
+                    }
+                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                } else {
+                    sendEmptyMessage(handler, Constant.MSG_ERROR);
+                    getAvEx(e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新账户排序
+     *
+     * @param handler
+     * @param list
+     */
+    public void updateAccountIndex(final Handler handler, List<AccountDetailDO> list) {
+
+        if (list != null)
+            accountLocalDao.updateAccountIndex(_context, list);
+
+        if (canSync()) {
+            Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+            if (config != null && "true".equals(config.getValue()) && list == null) {
+                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                return;
+            }
+
+            AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
+            query.whereEqualTo(AVAccountIndex.USER, MyAVUser.getCurrentUser());
+            query.findInBackground(new FindCallback<AVAccountIndex>() {
+                @Override
+                public void done(List<AVAccountIndex> list, AVException e) {
+                    getAvEx(e);
+                    if (e != null) {
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                        Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+                        if (config == null) {
+                            config = new Config();
+                        }
+                        config.setKey(ACCOUNT_INDEX_UPDATE);
+                        config.setValue("false");
+                        configLocalDao.updateConfig(config, _context);
+                    } else {
+                        AVAccountIndex avAccountIndex = null;
+                        if (list.size() > 0) {
+                            avAccountIndex = list.get(0);
+                        } else {
+                            avAccountIndex = new AVAccountIndex();
+                        }
+                        avAccountIndex.setUser(MyAVUser.getCurrentUser());
+                        avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+                        avAccountIndex.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                getAvEx(e);
+                                Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+                                if (config == null) {
+                                    config = new Config();
+                                }
+                                config.setKey(ACCOUNT_INDEX_UPDATE);
+                                if (e == null) {
+                                    config.setValue("true");
+                                } else {
+                                    config.setValue("false");
+                                }
+                                configLocalDao.updateConfig(config, _context);
+                                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
     private final static int EDIT_TYPE_DEL = -1;
@@ -395,4 +493,6 @@ public class AccountManager extends BaseManager {
 
     private AccountLocalDao accountLocalDao = new AccountLocalDao();
     private RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
+    private ConfigLocalDao configLocalDao = new ConfigLocalDao();
+    private final static String ACCOUNT_INDEX_UPDATE = "ACCOUNT_INDEX_UPDATE";
 }

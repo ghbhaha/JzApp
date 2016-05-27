@@ -80,10 +80,10 @@ public class ConfigLocalDao extends BaseLocalDao {
                 new RecordType(null, 26L, "转账", Constant.RecordType.ZHUANZHANG.getId(), true, 26, 26, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
         getDaoSession(context).getRecordTypeDao().insert(
                 new RecordType(null, 27L, "余额变更", Constant.RecordType.CHANGE.getId(), true, RecordTypeConstant.ICON_TYPE_YU_E_BIAN_GENG, 27, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
-      //  getDaoSession(context).getRecordTypeDao().insert(
-      //          new RecordType(null, 28L, "AA", Constant.RecordType.AA_ZHICHU.getId(), true, 29, 28, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
-      //  getDaoSession(context).getRecordTypeDao().insert(
-       //         new RecordType(null, 29L, "AA", Constant.RecordType.AA_SHOURU.getId(), true, 29, 29, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
+        //  getDaoSession(context).getRecordTypeDao().insert(
+        //          new RecordType(null, 28L, "AA", Constant.RecordType.AA_ZHICHU.getId(), true, 29, 28, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
+        //  getDaoSession(context).getRecordTypeDao().insert(
+        //         new RecordType(null, 29L, "AA", Constant.RecordType.AA_SHOURU.getId(), true, 29, 29, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, ""));
 
 
     }
@@ -103,7 +103,7 @@ public class ConfigLocalDao extends BaseLocalDao {
     }
 
     public void createDefaultAccount(Context context) {
-        getDaoSession(context).getAccountDao().insert(new Account(null, System.currentTimeMillis(), 0, "现金", 0.00, "", "", false, false, ""));
+        getDaoSession(context).getAccountDao().insert(new Account(null, System.currentTimeMillis(), 0, "现金", 0.00, "", "", false, false, "", 0));
     }
 
     public Config getConfigByKey(String key, Context context) {
