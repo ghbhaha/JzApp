@@ -367,6 +367,7 @@ public class AccountManager extends BaseManager {
                 if (list.size() > 0)
                     accountLocalDao.clearAllAccount(_context);
                 if (e == null) {
+                    int i = 0;
                     for (AVAccount avAccount : list) {
                         Account account = new Account();
                         account.setObjectID(avAccount.getObjectId());
@@ -378,6 +379,8 @@ public class AccountManager extends BaseManager {
                         account.setAccountColor(avAccount.getAccountColor());
                         account.setAccountName(avAccount.getAccountName());
                         account.setSyncStatus(true);
+                        account.setIndex(i);
+                        i++;
                         accountLocalDao.createNewAccount(account, _context);
                     }
                     message.what = Constant.MSG_SUCCESS;
