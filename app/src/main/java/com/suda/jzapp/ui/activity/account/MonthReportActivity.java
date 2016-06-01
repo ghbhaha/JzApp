@@ -42,12 +42,16 @@ public class MonthReportActivity extends BaseActivity {
 
                 //目前还剩20\n看来得收紧口袋喽
                 String budgetTip = "目前还剩" + (monthReport.getBudgetMoney() + monthReport.getOutMoney());
-                if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() > 0.8) {
+                if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() > 0.8 && Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() < 1) {
                     budgetTip += "\n看来得勒紧裤腰带喽";
                     mTvBudget.setTextColor(Color.RED);
                     mTvBudgetTip.setTextColor(Color.RED);
-                } else {
+                } else if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() <= 0.8) {
                     budgetTip += "\n预算还很充足嘛";
+                } else {
+                    mTvBudget.setTextColor(Color.RED);
+                    mTvBudgetTip.setTextColor(Color.RED);
+                    budgetTip = "本月预算已花完";
                 }
 
                 //其中'吃饭'消费最多，共消费40。\n看来你是一个吃货呀

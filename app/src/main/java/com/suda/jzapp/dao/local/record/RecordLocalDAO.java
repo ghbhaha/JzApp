@@ -146,7 +146,7 @@ public class RecordLocalDAO extends BaseLocalDao {
         return recordDao.queryBuilder()
                 .where(RecordDao.Properties.AccountID.eq(accountID))
                 .where(RecordDao.Properties.IsDel.eq(false))
-                .where(RecordDao.Properties.RecordDate.gt(startDate))
+                .whereOr(RecordDao.Properties.RecordDate.eq(startDate), RecordDao.Properties.RecordDate.gt(startDate))
                 .where(RecordDao.Properties.RecordDate.lt(endDate))
                 .orderDesc(RecordDao.Properties.RecordDate)
                 .orderDesc(RecordDao.Properties.RecordId)
