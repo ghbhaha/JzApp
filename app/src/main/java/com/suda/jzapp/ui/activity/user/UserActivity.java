@@ -15,6 +15,7 @@ import com.avos.avoscloud.AVFile;
 import com.bumptech.glide.Glide;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.suda.jzapp.BaseActivity;
+import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
@@ -44,6 +45,10 @@ public class UserActivity extends BaseActivity {
         mTvUserCode = (TextView) findViewById(R.id.userCode);
         mTvEmail = (TextView) findViewById(R.id.email);
         imageViewQrCode = (ImageView) findViewById(R.id.qr_code_image);
+        if (BuildConfig.USERLINK)
+            findViewById(R.id.user_code_ll).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.user_code_ll).setVisibility(View.GONE);
         circleProgressBar = (CircleProgressBar) findViewById(R.id.progressBar);
         circleProgressBar.setVisibility(View.GONE);
         userManager.getMe(new Handler() {

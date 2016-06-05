@@ -116,6 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:id="@+id/user_code_ll"
             android:clickable="true"
             android:onClick="showQcCode"
             android:orientation="vertical">

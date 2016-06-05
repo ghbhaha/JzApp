@@ -100,6 +100,11 @@ public class ExportRecordActivity extends BaseActivity {
             return;
         }
 
+        if (stopDate.getTime() < startDate.getTime()) {
+            Toast.makeText(ExportRecordActivity.this, "开始时间需要大于结束时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         recordManager.exportToExcel(startDate.getTime(), stopDate.getTime(), new Handler() {
             @Override
             public void handleMessage(Message msg) {

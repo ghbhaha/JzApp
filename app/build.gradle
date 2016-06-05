@@ -18,6 +18,7 @@ android {
         versionCode 2
         versionName "1.01"
         buildConfigField "boolean", "RELEASE", "false"
+        buildConfigField "boolean", "USERLINK", "false"
     }
 
     packagingOptions {

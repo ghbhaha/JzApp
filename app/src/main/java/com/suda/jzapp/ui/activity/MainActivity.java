@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gxz.PagerSlidingTabStrip;
 import com.suda.jzapp.BaseActivity;
+import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
@@ -187,7 +188,8 @@ public class MainActivity extends BaseActivity {
         //初始化菜单
         List<OptDO> optDOs = new ArrayList<>();
 
-        optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
+        if (BuildConfig.USERLINK)
+            optDOs.add(new OptDO(UserLinkActivity.class, 0, R.drawable.ic_drawer_friends, "关联账户"));
         optDOs.add(new OptDO(MonthReportActivity.class, 1, R.drawable.ic_drawer_guide, "月报"));
         optDOs.add(new OptDO(ExportRecordActivity.class, 2, R.drawable.ic_drawer_export, "数据导出"));
         optDOs.add(new OptDO(SettingsActivity.class, 3, R.drawable.ic_drawer_settings, "设置"));
