@@ -14,13 +14,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar"/>
+            <include layout="@layout/toolbar" />
 
             <com.gxz.PagerSlidingTabStrip
                 android:id="@+id/tabs"
-                app:pstsShouldExpand="true"
                 android:layout_width="match_parent"
-                android:layout_height="48dip" />
+                android:layout_height="48dip"
+                app:pstsShouldExpand="true" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
@@ -37,13 +37,14 @@
             android:layout_gravity="start"
             android:background="@android:color/white"
             android:orientation="vertical">
-            <include layout="@layout/left_menu"/>
+
+            <include layout="@layout/left_menu" />
+
             <ListView
+                android:id="@+id/opt_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null"
-                android:id="@+id/opt_items">
-            </ListView>
+                android:divider="@null"></ListView>
         </LinearLayout>
 
 

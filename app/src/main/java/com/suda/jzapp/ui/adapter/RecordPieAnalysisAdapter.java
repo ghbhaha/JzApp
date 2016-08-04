@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.misc.IntentConstant;
-import com.suda.jzapp.ui.activity.record.RecordTypeDetailActivity;
+import com.suda.jzapp.ui.activity.record.NewRecordTypeDetailActivity;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
@@ -27,12 +27,16 @@ public class RecordPieAnalysisAdapter extends BaseAdapter {
     private Context mContext;
     private List<ChartRecordDo> chartRecordDos;
     private LayoutInflater mInflater;
-
+    private boolean mOut = false;
 
     public RecordPieAnalysisAdapter(Context context, List<ChartRecordDo> list) {
         chartRecordDos = list;
         mContext = context;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public void setOut(boolean mOut) {
+        this.mOut = mOut;
     }
 
     @Override
@@ -70,11 +74,12 @@ public class RecordPieAnalysisAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, RecordTypeDetailActivity.class);
+                Intent intent = new Intent(mContext, NewRecordTypeDetailActivity.class);
                 intent.putExtra(IntentConstant.RECORD_YEAR, chartRecordDo.getRecordYear());
                 intent.putExtra(IntentConstant.RECORD_MONTH, chartRecordDo.getRecordMonth());
                 intent.putExtra(IntentConstant.RECORD_TYPE_ID, chartRecordDo.getRecordTypeID());
                 intent.putExtra(IntentConstant.RECORD_DESC, chartRecordDo.getRecordDesc());
+                intent.putExtra(IntentConstant.RECORD_OUT_IN, mOut);
                 mContext.startActivity(intent);
             }
         });

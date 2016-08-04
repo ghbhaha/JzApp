@@ -140,6 +140,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                 super.handleMessage(msg);
                 chartRecordDoList.clear();
                 chartRecordDoList.addAll((List<ChartRecordDo>) msg.obj);
+                recordPieAnalysisAdapter.setOut(pieOut);
                 recordPieAnalysisAdapter.notifyDataSetChanged();
                 mTypePieChart.clear();
                 xVals1.clear();
