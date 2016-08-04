@@ -2,7 +2,6 @@ package com.suda.jzapp.manager;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -353,71 +352,47 @@ public class AccountManager extends BaseManager {
 
     /**
      * 从云端获取全部账户信息初始化数据
-     *
-     * @param handler
      */
-    public void initAccountData(final Handler handler) {
+    public void initAccountData() throws AVException {
         AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
         query.limit(1000);
         query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
-        query.findInBackground(new FindCallback<AVAccount>() {
-            @Override
-            public void done(List<AVAccount> list, AVException e) {
-                Message message = new Message();
-                if (list.size() > 0)
-                    accountLocalDao.clearAllAccount(_context);
-                if (e == null) {
-                    int i = 0;
-                    for (AVAccount avAccount : list) {
-                        Account account = new Account();
-                        account.setObjectID(avAccount.getObjectId());
-                        account.setAccountID(avAccount.getAccountId());
-                        account.setAccountTypeID(avAccount.getAccountTypeId());
-                        account.setAccountMoney(avAccount.getAccountMoney());
-                        account.setAccountRemark(avAccount.getAccountRemark());
-                        account.setIsDel(avAccount.isAccountDel());
-                        account.setAccountColor(avAccount.getAccountColor());
-                        account.setAccountName(avAccount.getAccountName());
-                        account.setSyncStatus(true);
-                        account.setIndex(i);
-                        i++;
-                        accountLocalDao.createNewAccount(account, _context);
-                    }
-                    message.what = Constant.MSG_SUCCESS;
-                } else {
-                    message.what = Constant.MSG_ERROR;
-                    getAvEx(e);
-                }
-                initAccountIndex(handler);
+        List<AVAccount> list = query.find();
+        if (list.size() > 0) {
+            accountLocalDao.clearAllAccount(_context);
+            int i = 0;
+            for (AVAccount avAccount : list) {
+                Account account = new Account();
+                account.setObjectID(avAccount.getObjectId());
+                account.setAccountID(avAccount.getAccountId());
+                account.setAccountTypeID(avAccount.getAccountTypeId());
+                account.setAccountMoney(avAccount.getAccountMoney());
+                account.setAccountRemark(avAccount.getAccountRemark());
+                account.setIsDel(avAccount.isAccountDel());
+                account.setAccountColor(avAccount.getAccountColor());
+                account.setAccountName(avAccount.getAccountName());
+                account.setSyncStatus(true);
+                account.setIndex(i);
+                i++;
+                accountLocalDao.createNewAccount(account, _context);
             }
-        });
+        }
+        initAccountIndex();
     }
 
     /**
      * 初始化账户索引数据
-     *
-     * @param handler
      */
-    public void initAccountIndex(final Handler handler) {
+    public void initAccountIndex() throws AVException {
         AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
         query.whereEqualTo(AVAccountIndex.USER, MyAVUser.getCurrentUser());
-        query.findInBackground(new FindCallback<AVAccountIndex>() {
-            @Override
-            public void done(List<AVAccountIndex> list, AVException e) {
-                if (e == null) {
-                    if (list.size() > 0) {
-                        AVAccountIndex avAccountIndex = list.get(0);
-                        String data = avAccountIndex.getData();
-                        List<AccountIndexDO> accountIndexDOs = JSON.parseArray(data, AccountIndexDO.class);
-                        accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
-                    }
-                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
-                } else {
-                    sendEmptyMessage(handler, Constant.MSG_ERROR);
-                    getAvEx(e);
-                }
-            }
-        });
+        List<AVAccountIndex> list = query.find();
+        if (list.size() > 0) {
+            AVAccountIndex avAccountIndex = list.get(0);
+            String data = avAccountIndex.getData();
+            List<AccountIndexDO> accountIndexDOs = JSON.parseArray(data, AccountIndexDO.class);
+            accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
+        }
     }
 
     /**

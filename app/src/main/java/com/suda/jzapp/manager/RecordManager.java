@@ -13,7 +13,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.CountCallback;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.iflytek.cloud.ErrorCode;
@@ -516,138 +515,96 @@ public class RecordManager extends BaseManager {
 
     /**
      * 初始化从云端加载记录数据
-     *
-     * @param handler
      */
-    public void initRecordData(final Handler handler) {
+    public void initRecordData() throws AVException {
         AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
         query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
-        query.countInBackground(new CountCallback() {
-            @Override
-            public void done(int i, AVException e) {
-                int count = i / PAGE_SIZE + 1;
-                appendRecord(handler, 1, count);
-            }
-        });
+        int count = query.count();
+        int page = count / PAGE_SIZE + 1;
+        appendRecord(1, page);
     }
 
     /**
-     * 分页查询全部数据
+     * 分页查询保存全部数据
      *
-     * @param handler
      * @param pageIndex
      * @param pageCount
      */
-    private void appendRecord(final Handler handler, final int pageIndex, final int pageCount) {
+    private void appendRecord(final int pageIndex, final int pageCount) throws AVException {
         AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
         query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
         query.skip((pageIndex - 1) * PAGE_SIZE);
         query.limit(PAGE_SIZE);
-        query.findInBackground(new FindCallback<AVRecord>() {
-            @Override
-            public void done(List<AVRecord> list, AVException e) {
-                if (e == null) {
-                    for (AVRecord avRecord : list) {
-                        Record record = new Record();
-                        record.setObjectID(avRecord.getObjectId());
-                        record.setAccountID(avRecord.getAccountId());
-                        record.setRecordId(avRecord.getRecordId());
-                        record.setRecordType(avRecord.getRecordType());
-                        record.setRecordTypeID(avRecord.getRecordTypeId());
-                        record.setRecordDate(avRecord.getRecordDate());
-                        record.setIsDel(avRecord.isRecordDel());
-                        record.setRecordMoney(avRecord.getRecordMoney());
-                        record.setRemark(avRecord.getRemark());
-                        record.setSyncStatus(true);
-                        recordLocalDAO.createNewRecord(_context, record);
-                    }
-
-                    if (pageIndex < pageCount) {
-                        appendRecord(handler, pageIndex + 1, pageCount);
-                    } else {
-                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
-                    }
-                } else {
-                    sendEmptyMessage(handler, Constant.MSG_ERROR);
-                }
+        List<AVRecord> list = query.find();
+        if (list.size() > 0) {
+            for (AVRecord avRecord : list) {
+                Record record = new Record();
+                record.setObjectID(avRecord.getObjectId());
+                record.setAccountID(avRecord.getAccountId());
+                record.setRecordId(avRecord.getRecordId());
+                record.setRecordType(avRecord.getRecordType());
+                record.setRecordTypeID(avRecord.getRecordTypeId());
+                record.setRecordDate(avRecord.getRecordDate());
+                record.setIsDel(avRecord.isRecordDel());
+                record.setRecordMoney(avRecord.getRecordMoney());
+                record.setRemark(avRecord.getRemark());
+                record.setSyncStatus(true);
+                recordLocalDAO.createNewRecord(_context, record);
             }
-        });
+        }
+        if (pageIndex < pageCount) {
+            appendRecord(pageIndex + 1, pageCount);
+        }
     }
 
     /**
      * 初始化记录类型数据
-     *
-     * @param handler
      */
-    public void initRecordTypeData(final Handler handler) {
+    public void initRecordTypeData() throws AVException {
         AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
         query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
         query.limit(1000);
-        query.findInBackground(new FindCallback<AVRecordType>() {
-            @Override
-            public void done(List<AVRecordType> list, AVException e) {
-                Message message = new Message();
-                if (e == null) {
-                    if (list.size() > 0) {
-                        recordTypeDao.clearAllRecordType(_context);
-                        configLocalDao.initRecordType(_context);
-                        for (AVRecordType avRecordType : list) {
-                            RecordType recordType = new RecordType();
-                            recordType.setObjectID(avRecordType.getObjectId());
-                            recordType.setRecordTypeID(avRecordType.getRecordTypeId());
-                            recordType.setRecordType(avRecordType.getRecordType());
-                            recordType.setIsDel(avRecordType.isRecordTypeDel());
-                            recordType.setIndex(avRecordType.getIndex());
-                            recordType.setRecordIcon(avRecordType.getRecordRecordIcon());
-                            recordType.setSexProp(Constant.Sex.ALL.getId());
-                            recordType.setSysType(false);
-                            recordType.setOccupation(Constant.Occupation.ALL.getId());
-                            recordType.setSyncStatus(true);
-                            recordType.setRecordDesc(avRecordType.getRecordDesc());
-                            recordTypeDao.createNewRecordType(_context, recordType);
-                        }
-                    }
-                    initRecordTypeIndex(handler);
-                    return;
-                } else {
-                    message.what = Constant.MSG_ERROR;
-                    getAvEx(e);
-                }
-                handler.sendMessage(message);
+        List<AVRecordType> list = query.find();
+        if (list.size() > 0) {
+            recordTypeDao.clearAllRecordType(_context);
+            configLocalDao.initRecordType(_context);
+            for (AVRecordType avRecordType : list) {
+                RecordType recordType = new RecordType();
+                recordType.setObjectID(avRecordType.getObjectId());
+                recordType.setRecordTypeID(avRecordType.getRecordTypeId());
+                recordType.setRecordType(avRecordType.getRecordType());
+                recordType.setIsDel(avRecordType.isRecordTypeDel());
+                recordType.setIndex(avRecordType.getIndex());
+                recordType.setRecordIcon(avRecordType.getRecordRecordIcon());
+                recordType.setSexProp(Constant.Sex.ALL.getId());
+                recordType.setSysType(false);
+                recordType.setOccupation(Constant.Occupation.ALL.getId());
+                recordType.setSyncStatus(true);
+                recordType.setRecordDesc(avRecordType.getRecordDesc());
+                recordTypeDao.createNewRecordType(_context, recordType);
             }
-        });
+        }
+        initRecordTypeIndex();
     }
 
     /**
      * 初始化记录类型索引数据
-     *
-     * @param handler
      */
-    public void initRecordTypeIndex(final Handler handler) {
+    public void initRecordTypeIndex() throws AVException {
         AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
         query.whereEqualTo(AVRecordTypeIndex.USER, MyAVUser.getCurrentUser());
-        query.findInBackground(new FindCallback<AVRecordTypeIndex>() {
-            @Override
-            public void done(List<AVRecordTypeIndex> list, AVException e) {
-                if (e == null) {
-                    if (list.size() > 0) {
-                        AVRecordTypeIndex avRecordTypeIndex = list.get(0);
-                        String data = avRecordTypeIndex.getData();
-                        List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
-                        if (recordTypeIndexDOs.size() > 2) {
-                            recordTypeDao.update2DelSysType(_context);
-                            for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
-                                recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
-                            }
-                        }
-                    }
-                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
-                } else {
-                    sendEmptyMessage(handler, Constant.MSG_ERROR);
-                    getAvEx(e);
+        List<AVRecordTypeIndex> list = query.find();
+        if (list.size() > 0) {
+            AVRecordTypeIndex avRecordTypeIndex = list.get(0);
+            String data = avRecordTypeIndex.getData();
+            List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
+            if (recordTypeIndexDOs.size() > 2) {
+                recordTypeDao.update2DelSysType(_context);
+                for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
+                    recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
                 }
             }
-        });
+        }
     }
 
     /**

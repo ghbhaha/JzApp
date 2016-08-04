@@ -9,9 +9,14 @@ import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
+import com.avos.avoscloud.AVException;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.AccountManager;
@@ -22,6 +27,7 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
+import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +56,9 @@ public class LoginActivity extends BaseActivity {
         mTitPassWord = (TextInputEditText) findViewById(R.id.pass);
         mTilUserId = (TextInputLayout) findViewById(R.id.til_userID);
         mTilPassWord = (TextInputLayout) findViewById(R.id.til_pass);
+        mCircleProgressBar = (CircleProgressBar) findViewById(R.id.progressBar);
+        mCircleProgressBar.setVisibility(View.INVISIBLE);
+        mloginView = findViewById(R.id.login_view);
 
         loginBt = (Button) findViewById(R.id.login_bt);
 
@@ -137,32 +146,28 @@ public class LoginActivity extends BaseActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                mCircleProgressBar.setVisibility(View.VISIBLE);
+                                YoYo.with(Techniques.SlideOutUp).playOn(mloginView);
+                                YoYo.with(Techniques.SlideInUp).playOn(mCircleProgressBar);
                                 SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在同步数据");
-                                accountManager.initAccountData(new Handler() {
+                                mSyncData = true;
+                                mCircleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
+                                ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
                                     @Override
-                                    public void handleMessage(Message msg) {
-                                        super.handleMessage(msg);
-                                        recordManager.initRecordTypeData(new Handler() {
-                                            @Override
-                                            public void handleMessage(Message msg) {
-                                                super.handleMessage(msg);
-                                                recordManager.initRecordData(new Handler() {
-                                                    @Override
-                                                    public void handleMessage(Message msg) {
-                                                        super.handleMessage(msg);
-                                                        new Handler().postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                setResult(RESULT_OK);
-                                                                finish();
-                                                            }
-                                                        }, 600);
-                                                    }
-                                                });
-                                            }
-                                        });
+                                    public void run() {
+                                        try {
+                                            accountManager.initAccountData();
+                                            recordManager.initRecordTypeData();
+                                            recordManager.initRecordData();
+                                            setResult(RESULT_OK);
+                                            finish();
+                                        } catch (AVException e) {
+                                            mSyncData = false;
+                                            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "同步出错");
+                                        }
                                     }
                                 });
+
                             }
                         }, 600);
                     }
@@ -170,6 +175,15 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mSyncData)
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private boolean isNameAddressFormat(String email) {
@@ -197,5 +211,8 @@ public class LoginActivity extends BaseActivity {
     private RecordManager recordManager;
     private boolean forgetGesture = false;
     private String orgUser;
+    private CircleProgressBar mCircleProgressBar;
+    private View mloginView;
+    private boolean mSyncData = false;
 
 }
