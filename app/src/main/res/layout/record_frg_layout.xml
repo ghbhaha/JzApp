@@ -21,6 +21,7 @@
         android:background="@drawable/card">
 
         <ListView
+            android:scrollbars="none"
             android:id="@+id/record_lv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

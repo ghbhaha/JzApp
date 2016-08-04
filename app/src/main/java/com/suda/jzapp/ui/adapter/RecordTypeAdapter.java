@@ -89,7 +89,7 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
             holder.addNewRecordView.setVisibility(View.VISIBLE);
             holder.icon.setVisibility(View.GONE);
 
-            holder.title.setText("添加");
+            holder.title.setText(R.string.edit_record_type);
             holder.icon.setImageResource(R.drawable.ic_add_white);
             AnimatorSet mAnimatorSet = new AnimatorSet();
             ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0);
@@ -130,13 +130,13 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
                 @Override
                 public void onClick(View v) {
                     if (recordTypes.size() == 2) {
-                        SnackBarUtil.showSnackInfo(v, mContext, "请至少保留一个收支类型");
+                        SnackBarUtil.showSnackInfo(v, mContext, mContext.getString(R.string.at_least_save_one_type));
                         return;
                     }
                     final MaterialDialog materialDialog = new MaterialDialog(mContext);
-                    materialDialog.setTitle("删除类型？")
+                    materialDialog.setTitle(mContext.getString(R.string.delete_record_type))
                             .setMessage("")
-                            .setPositiveButton("确认", new View.OnClickListener() {
+                            .setPositiveButton(mContext.getString(R.string.ok), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     recordTypes.remove(position);
@@ -147,7 +147,7 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
                                     recordManager.updateRecordType(recordType, null);
                                 }
                             })
-                            .setNegativeButton("取消", new View.OnClickListener() {
+                            .setNegativeButton(mContext.getString(R.string.cancel), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     materialDialog.dismiss();

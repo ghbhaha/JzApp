@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
@@ -63,6 +60,12 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
             viewPagerAdapter.addFragment(RecordDetailFrg.newInstance(year, month, chartRecordDo.getRecordTypeID()), chartRecordDo.getRecordDesc());
             i++;
         }
+        if (i < 5) {
+            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        } else {
+            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }
+
         mViewPage.setAdapter(viewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPage);
         mViewPage.setCurrentItem(position);

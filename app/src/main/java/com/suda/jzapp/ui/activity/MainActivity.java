@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
         startService(new Intent(this, SyncService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
         }
 
         userManager = new UserManager(this);
@@ -303,9 +303,12 @@ public class MainActivity extends BaseActivity {
         return reloadRecordCallBack;
     }
 
-    protected void getPermission(final String permission) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
+    protected void getPermission(final String... permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, 0);
+                break;
+            }
         }
     }
 
