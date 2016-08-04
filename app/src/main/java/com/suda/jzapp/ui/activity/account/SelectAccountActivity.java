@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,7 +33,7 @@ public class SelectAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_account);
-        accountID = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID,0l);
+        accountID = getIntent().getLongExtra(IntentConstant.ACCOUNT_ID, 0l);
         initWidget();
         accountManager = new AccountManager(this);
         refreshData();
@@ -53,6 +54,7 @@ public class SelectAccountActivity extends BaseActivity {
                 intent.putExtra(IntentConstant.ACCOUNT_ID, selectAccountId);
                 setResult(RESULT_OK, intent);
                 finish();
+                overridePendingTransition(R.anim.down_out, 0);
             }
         });
     }
@@ -66,7 +68,7 @@ public class SelectAccountActivity extends BaseActivity {
                     accounts.clear();
                     accounts.addAll((List<AccountDetailDO>) msg.obj);
                     if (mAccountAdapter == null) {
-                        mAccountAdapter = new SelectAccountAdapter(SelectAccountActivity.this, accounts,accountID);
+                        mAccountAdapter = new SelectAccountAdapter(SelectAccountActivity.this, accounts, accountID);
                         mRyAccount.setAdapter(mAccountAdapter);
                     } else {
                         mAccountAdapter.notifyDataSetChanged();
@@ -86,7 +88,17 @@ public class SelectAccountActivity extends BaseActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         finish();
+        overridePendingTransition(R.anim.down_out, 0);
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            finish();
+            overridePendingTransition(R.anim.down_out, 0);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private SelectAccountAdapter mAccountAdapter;

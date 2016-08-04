@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
         startService(new Intent(this, SyncService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
+            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA);
         }
 
         userManager = new UserManager(this);

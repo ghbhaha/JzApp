@@ -356,6 +356,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         Intent intent = new Intent(this, SelectAccountActivity.class);
         intent.putExtra(IntentConstant.ACCOUNT_ID, newRecord.getAccountID());
         startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
+        overridePendingTransition(R.anim.up_in, 0);
     }
 
 
@@ -399,6 +400,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     }
 
     private void saveAndExit() {
+        saving = true;
         circleProgressBar.setVisibility(View.VISIBLE);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
         newRecord.setRecordMoney(Double.parseDouble(tvMoneyCount.getText().toString())
@@ -549,8 +551,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             opt = Opt.PLUS;
-            if (moneyCount > 99999999.99) {
-                moneyCount = 99999999.00;
+            if (tempCount <= Constant.MAX) {
+                tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+            } else {
+                tvMoneyCount.setText(TextUtil.getFormatMoney(Constant.MAX));
             }
             tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
         } else if ("-".equals(tag)) {
@@ -587,6 +591,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 return;
             }
 
+            if (saving)
+                return;
+
             saveAndExit();
 
         } else if ("=".equals(tag)) {
@@ -605,10 +612,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             } else {
                 moneyCount = moneyCount + Double.parseDouble(money);
             }
-            if (moneyCount > 99999999.99) {
-                moneyCount = 99999999.00;
+            if (tempCount <= Constant.MAX) {
+                tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+            } else {
+                tvMoneyCount.setText(TextUtil.getFormatMoney(Constant.MAX));
             }
-            tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
             opt = Opt.EQUAL;
             moneyCount = 0.00;
             tempCount = Double.parseDouble(money);
@@ -646,11 +654,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 money = money.substring(0, money.length() - 3) + tag + money.substring(money.length() - 3, money.length());
             }
             tempCount = Double.parseDouble(money);
-            if (tempCount > 99999999.99) {
-                tempCount = 99999999.00;
-                money = "99999999.00";
+            if (tempCount <= Constant.MAX) {
+                tvMoneyCount.setText(money);
             }
-            tvMoneyCount.setText(money);
+
         }
 
     }
@@ -690,6 +697,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     private Record voiceRecord;
 
+    private boolean saving = false;
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;
