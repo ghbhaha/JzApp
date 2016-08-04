@@ -40,6 +40,7 @@ import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -88,7 +89,8 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
     private void refreshLineChart() {
         final LineData data = new LineData(xLineVals1);
-        mRecordManager.getYearRecordDetail(2016, new Handler() {
+        Calendar calendar = Calendar.getInstance();
+        mRecordManager.getYearRecordDetail(calendar.get(Calendar.YEAR), new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
