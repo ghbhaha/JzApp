@@ -1,8 +1,9 @@
 package pl.surecase.eu;
 
-import de.greenrobot.daogenerator.DaoGenerator;
-import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Schema;
+
+import org.greenrobot.greendao.generator.DaoGenerator;
+import org.greenrobot.greendao.generator.Entity;
+import org.greenrobot.greendao.generator.Schema;
 
 public class MyDaoGenerator {
 

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 23
@@ -55,17 +56,17 @@ dependencies {
     compile 'com.android.support:cardview-v7:23+'
     compile 'com.android.support:design:23+'
     //leancloud
-    compile 'cn.leancloud.android:avoscloud-sdk:v3.13.10'
-    compile 'cn.leancloud.android:avoscloud-search:v3.13.10@aar'
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
+    compile 'cn.leancloud.android:avoscloud-search:v3.+@aar'
     //avoscloud-push 为推送与实时聊天需要的包
-    compile('cn.leancloud.android:avoscloud-push:v3.13.10@aar') { transitive = true }
+    compile ('cn.leancloud.android:avoscloud-push:v3.+@aar'){transitive = true}
     //GreenDao
-    compile 'de.greenrobot:greendao:2.1.0'
+    compile 'org.greenrobot:greendao:3.0.1'
     //友盟
     compile files('libs/umeng-update-v2.7.0.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
     //三方库
-    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
+    compile 'com.wdullaer:materialdatetimepicker:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.gxz.pagerslidingtabstrip:library:1.3'
     compile 'de.hdodenhof:circleimageview:2.0.0'
