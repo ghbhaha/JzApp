@@ -63,7 +63,6 @@ dependencies {
     //GreenDao
     compile 'org.greenrobot:greendao:3.0.1'
     //友盟
-    compile files('libs/umeng-update-v2.7.0.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
     //三方库
     compile 'com.wdullaer:materialdatetimepicker:2.4.0'
@@ -81,5 +80,4 @@ dependencies {
     //二维码
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
-    compile 'com.android.support:multidex:1.0.1'
 }

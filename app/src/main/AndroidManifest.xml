@@ -120,8 +120,13 @@
             android:label="@string/title_activity_accounts_transfer"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".ui.activity.record.NewRecordTypeDetailActivity"
-            android:theme="@style/AppCompatThemeWithNoActionBar"/>
+        <activity
+            android:name=".ui.activity.record.NewRecordTypeDetailActivity"
+            android:theme="@style/AppCompatThemeWithNoActionBar" />
+
+        <activity
+            android:name=".ui.activity.record.RecordTypeEditActivity"
+            android:theme="@style/AppTheme" />
 
         <service android:name=".service.SyncService" />
 
@@ -130,17 +135,9 @@
             android:process=":remote" />
         <!-- 友盟 -->
 
-        <activity
-            android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="56824759e0f55a8523002909" />
-
-        <service
-            android:name="com.umeng.update.net.DownloadingService"
-            android:process=":DownloadingService" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service android:name="com.avos.avoscloud.PushService" />
