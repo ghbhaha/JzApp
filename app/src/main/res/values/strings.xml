@@ -102,5 +102,7 @@
     <string name="edit_record_type">编辑</string>
     <string name="at_least_save_one_type">请至少保留一个收支类型</string>
     <string name="delete_record_type">删除类型？</string>
+
+    <string name="loading">数据加载中\n。。。</string>
 </resources>
 

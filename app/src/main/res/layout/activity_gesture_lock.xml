@@ -12,17 +12,18 @@
 
     <com.suda.jzapp.view.gesturelockview.GestureLockViewGroup
         android:id="@+id/id_gestureLockViewGroup"
-        android:layout_width="320dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
+        android:paddingTop="30dp"
         app:count="3"
         app:tryTimes="5" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="22dp"
         android:layout_marginTop="10dp"

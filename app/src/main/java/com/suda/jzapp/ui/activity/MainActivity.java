@@ -23,6 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.gxz.PagerSlidingTabStrip;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.BuildConfig;
@@ -61,10 +63,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setMyContentView(false, R.layout.activity_main);
 
+        mLoadingBack = findViewById(R.id.loading_back);
+        mLoadingBack.setBackgroundResource(getMainTheme().getMainColorID());
+
         startService(new Intent(this, SyncService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA);
+            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA);
         }
 
         userManager = new UserManager(this);
@@ -80,6 +85,15 @@ public class MainActivity extends BaseActivity {
         mLvOptItems = (ListView) findViewById(R.id.opt_items);
         mLayoutBackGround = (RelativeLayout) findViewById(R.id.account_background);
         headImg = (CircleImageView) findViewById(R.id.profile_image);
+
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+                YoYo.with(Techniques.FadeOutUp).delay(1500).playOn(mLoadingBack);
+//                mLoadingBack.setVisibility(View.GONE);
+//            }
+//        }, 1500);
 
         String userName = userManager.getCurUserName();
         userNameTv = (TextView) findViewById(R.id.user_tv);
@@ -321,6 +335,7 @@ public class MainActivity extends BaseActivity {
     private RelativeLayout mLayoutBackGround;
     private TextView userNameTv;
     private CircleImageView headImg;
+    private View mLoadingBack;
 
     private boolean openOrClose = false;
     private boolean canQuit = false;
