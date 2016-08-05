@@ -100,6 +100,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (outAccountID > 0)
                     intent.putExtra(IntentConstant.ACCOUNT_ID, outAccountID);
                 startActivityForResult(intent, 0);
+                overridePendingTransition(R.anim.up_in,0);
             }
         });
 
@@ -113,6 +114,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (inAccountID > 0)
                     intent.putExtra(IntentConstant.ACCOUNT_ID, inAccountID);
                 startActivityForResult(intent, 0);
+                overridePendingTransition(R.anim.up_in,0);
             }
         });
 

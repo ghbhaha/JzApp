@@ -112,7 +112,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         textColor = this.getResources().getColor(ThemeUtil.getTheme(this).getTextColorID());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mainColor));
-            if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), false))
+            if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), true))
                 StatusBarCompat.compat(this, mainColor);
             else
                 StatusBarCompat.compat(this, mainDarkColor);

@@ -22,7 +22,7 @@
             android:title="@string/remind_setting" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="@string/immersive_status_bar"
             android:layout="@layout/preference_item"
             android:summaryOff="@string/immersive_status_bar_off"

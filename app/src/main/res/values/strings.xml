@@ -76,7 +76,7 @@
     <string name="not_select_same_account">请不要选择相同账户</string>
     <string name="select_in_account">请选择转入账户</string>
     <string name="enter_account_trans_money">请输入转账金额</string>
-    <string name="not_have_enough_money">账户余额不足</string>
+    <string name="not_have_enough_money">账户只有这么多钱啦</string>
 
     <string name="enter_account_name">请填写账户名称</string>
 
