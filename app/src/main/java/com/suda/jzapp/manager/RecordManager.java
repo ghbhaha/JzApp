@@ -102,7 +102,7 @@ public class RecordManager extends BaseManager {
         }
 
         //记录备注
-        if (!TextUtils.isEmpty(record.getRemark()) && (!(record.getRecordTypeID() == 27 || record.getRecordTypeID() == 26))) {
+        if (!TextUtils.isEmpty(record.getRemark()) && (!(record.getRecordTypeID() == Constant.CHANGE_TYPE || record.getRecordTypeID() == Constant.TRANSFER_TYPE))) {
             RemarkTip remarkTip = recordLocalDAO.selectRemarkTipByRemark(_context, record.getRemark());
             if (remarkTip == null) {
                 recordLocalDAO.insertNewRemarkTip(_context, record.getRemark(), false);
@@ -720,7 +720,7 @@ public class RecordManager extends BaseManager {
                         record.setRecordId(System.currentTimeMillis());
                         record.setAccountID(outAccountId);
                         record.setRecordType(Constant.RecordType.CHANGE.getId());
-                        record.setRecordTypeID(26L);
+                        record.setRecordTypeID(Constant.TRANSFER_TYPE);
                         record.setRecordMoney(TextUtil.gwtFormatNum(-money));
                         record.setRecordDate(new Date(System.currentTimeMillis()));
                         createNewRecord(record, new Handler() {
@@ -733,7 +733,7 @@ public class RecordManager extends BaseManager {
                                 record.setRecordId(System.currentTimeMillis());
                                 record.setAccountID(inAccountId);
                                 record.setRecordType(Constant.RecordType.CHANGE.getId());
-                                record.setRecordTypeID(26L);
+                                record.setRecordTypeID(Constant.TRANSFER_TYPE);
                                 record.setRecordMoney(TextUtil.gwtFormatNum(money));
                                 record.setRecordDate(new Date(System.currentTimeMillis()));
                                 createNewRecord(record, new Handler() {

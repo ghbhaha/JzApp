@@ -176,7 +176,7 @@ public class EditAccountActivity extends BaseActivity {
                             record.setRecordId(System.currentTimeMillis());
                             record.setAccountID(mAccountID);
                             record.setRecordType(Constant.RecordType.CHANGE.getId());
-                            record.setRecordTypeID(27L);
+                            record.setRecordTypeID(Constant.CHANGE_TYPE);
                             record.setRecordMoney(TextUtil.gwtFormatNum(money - mMoney));
                             record.setRecordDate(new Date(System.currentTimeMillis()));
                             recordManager.createNewRecord(record, null);
@@ -215,7 +215,6 @@ public class EditAccountActivity extends BaseActivity {
 
     private void initParam() {
         mEditType = getIntent().getIntExtra(IntentConstant.EDIT_TYPE, -1);
-
         if (mEditType == PROP_TYPE_ACCOUNT_MONEY) {
             mMoney = getIntent().getDoubleExtra(IntentConstant.EDIT_ACCOUNT_MONEY, 0);
         } else if (mEditType == PROP_TYPE_ACCOUNT_NAME) {

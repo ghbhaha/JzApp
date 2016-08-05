@@ -214,4 +214,6 @@ public class Constant {
     public final static String QR_MARK_HAVE_LINK = "JzAPP#";
 
     public final static double MAX = 99999999.99;
+    public final static long TRANSFER_TYPE = 26L;
+    public final static long CHANGE_TYPE = 27L;
 }
