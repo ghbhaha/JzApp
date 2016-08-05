@@ -123,10 +123,13 @@
         <activity
             android:name=".ui.activity.record.NewRecordTypeDetailActivity"
             android:theme="@style/AppCompatThemeWithNoActionBar" />
-
         <activity
             android:name=".ui.activity.record.RecordTypeEditActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.system.UpdateActivity"
+            android:theme="@style/ThemeDialogStyle" />
+
 
         <service android:name=".service.SyncService" />
 

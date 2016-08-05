@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -62,10 +63,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setMyContentView(false, R.layout.activity_main);
-
-        mLoadingBack = findViewById(R.id.loading_back);
-        mLoadingBack.setBackgroundResource(getMainTheme().getMainColorID());
-
         startService(new Intent(this, SyncService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -85,15 +82,25 @@ public class MainActivity extends BaseActivity {
         mLvOptItems = (ListView) findViewById(R.id.opt_items);
         mLayoutBackGround = (RelativeLayout) findViewById(R.id.account_background);
         headImg = (CircleImageView) findViewById(R.id.profile_image);
+        mLoadingBack = findViewById(R.id.loading_back);
+        mLoadingBack.setBackgroundResource(getMainTheme().getMainColorID());
+        mLoadingBack.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (mLoadingBack.getVisibility() == View.VISIBLE)
+                    return true;
+                else
+                    return false;
+            }
+        });
 
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-                YoYo.with(Techniques.FadeOutUp).delay(1500).playOn(mLoadingBack);
-//                mLoadingBack.setVisibility(View.GONE);
-//            }
-//        }, 1500);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.FadeOutUp).playOn(mLoadingBack);
+                mLoadingBack.setVisibility(View.GONE);
+            }
+        }, 1500);
 
         String userName = userManager.getCurUserName();
         userNameTv = (TextView) findViewById(R.id.user_tv);

@@ -24,7 +24,17 @@
     <!-- 记录 -->
     <string name="please_enter_record_type_name">请输入自定义名称</string>
     <string name="about">关于</string>
-    <string name="introduce">账单助手， xxxxxx</string>
+    <string name="introduce">简洁、便捷、3秒语音记账\n
+        ------账单助手是啥------\n
+嗯~没错我就是个记账APP，功能不花哨主打实用，算账本来就是头疼事还整那些花里胡哨的功能干啥呢？所以我们这款记账APP就是安全！简洁！实用！！！\n
+        ------账单助手主要功能------\n
+- 支持多账户记账\n
+- 支持账单数据导出，方便各个场景使用\n
+- 时间轴记账单，以往账单一目了然，轻松阅读\n
+- 3秒语音记账，语音识别系统不用手动更方便、快捷\n
+- 数据同步，换手机，刷系统登录帐号以往账单轻松恢复\n
+- 账单统计功能，支持月度、年度消费分析，各类消费情况清清楚楚
+    </string>
     <string name="app_name_with_introduce">账单助手 - 理财的好帮手</string>
     <string name="developers">开发人员</string>
     <string name="developer_and_designer"><![CDATA[开发者 & 设计]]></string>
@@ -104,5 +114,6 @@
     <string name="delete_record_type">删除类型？</string>
 
     <string name="loading">数据加载中\n。。。</string>
+    <string name="update_info">更新日志</string>
 </resources>
 

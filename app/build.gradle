@@ -36,8 +36,18 @@ android {
         abortOnError false
     }
 
+    signingConfigs {
+        myConfig {
+            storeFile file("suda.jks")
+            storePassword "19940318"
+            keyAlias "suda"
+            keyPassword "19940318"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig  signingConfigs.myConfig//不要忘了要在release的时候加入我么的签名配置信息
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

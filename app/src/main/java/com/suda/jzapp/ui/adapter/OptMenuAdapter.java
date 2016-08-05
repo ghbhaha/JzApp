@@ -3,6 +3,8 @@ package com.suda.jzapp.ui.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,11 +12,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.cloud.avos.pojo.system.AVUpdateCheck;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.domain.OptDO;
+import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
+import com.suda.jzapp.ui.activity.system.UpdateActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
@@ -28,10 +35,12 @@ import java.util.List;
 public class OptMenuAdapter extends BaseAdapter {
     private Activity context;
     private List<OptDO> optDOs;
+    private SystemManager mSystemManager;
 
     public OptMenuAdapter(List<OptDO> optDOs, Activity context) {
         this.optDOs = optDOs;
         this.context = context;
+        mSystemManager = new SystemManager(context);
     }
 
     @Override
@@ -77,7 +86,7 @@ public class OptMenuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (optDO.getId() == 5) {
-                    checkForUpdate();
+                    checkForUpdate(v);
                 } else if (optDO.getId() == 7) {
                     context.finish();
                 } else {
@@ -101,8 +110,24 @@ public class OptMenuAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void checkForUpdate() {
-
+    public void checkForUpdate(final View v) {
+        mSystemManager.getUpdateInfo(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == Constant.MSG_ERROR) {
+                    SnackBarUtil.showSnackInfo(v, context, "检测失败");
+                } else {
+                    AVUpdateCheck check = (AVUpdateCheck) msg.obj;
+                    if (check != null) {
+                        Intent intent = new Intent(context, UpdateActivity.class);
+                        intent.putExtra(IntentConstant.UPDATE_CHECK,check);
+                        context.startActivity(intent);
+                    } else {
+                        SnackBarUtil.showSnackInfo(v, context, "未检测到更新");
+                    }
+                }
+            }
+        });
     }
 
     public class ViewHolder {
