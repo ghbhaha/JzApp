@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
@@ -163,6 +164,9 @@ public class EditAccountActivity extends BaseActivity {
                 //
                 break;
             case PROP_TYPE_ACCOUNT_MONEY:
+                if (TextUtils.isEmpty(param))
+                    param = "0.00";
+
                 final double money = Double.parseDouble(param);
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
                 if (mAccountID > 0 && money - mMoney != 0) {
