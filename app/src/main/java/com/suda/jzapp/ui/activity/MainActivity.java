@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.activity;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -19,6 +20,8 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -97,7 +100,39 @@ public class MainActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.SlideOutUp).playOn(mLoadingBack);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Animator animator = ViewAnimationUtils.createCircularReveal(
+                            mLoadingBack,
+                            mLoadingBack.getWidth() / 2,
+                            mLoadingBack.getHeight() / 2,
+                            mLoadingBack.getWidth(),
+                            0);
+                    animator.setDuration(500);
+                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animator.start();
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mLoadingBack.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                } else
+                    YoYo.with(Techniques.SlideOutUp).playOn(mLoadingBack);
                 loading = false;
             }
         }, 1500);
@@ -141,8 +176,8 @@ public class MainActivity extends BaseActivity {
         // mPagerSlidingTabStrip.setFadeEnabled(false);
         mPagerSlidingTabStrip.setZoomMax(0);
         mPagerSlidingTabStrip.setTextSize(14);
-        mViewPager.setCurrentItem(0);
         mPagerSlidingTabStrip.setViewPager(mViewPager);
+        mViewPager.setCurrentItem(1);
         // 底部游标颜色
         mPagerSlidingTabStrip.setIndicatorColor(Color.WHITE);
         // tab的分割线颜色

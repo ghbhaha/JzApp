@@ -107,21 +107,21 @@ public class RecordTypeAdapter extends BaseAdapter implements DragGridApi {
             holder.icon.setImageResource(IconTypeUtil.getTypeIcon(recordType.getRecordIcon()));
 
             if (mShake) {
-                AnimatorSet mAnimatorSet = new AnimatorSet();
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 3, 0, -3);
-                objectAnimator.setRepeatMode(Animation.REVERSE);
-                objectAnimator.setRepeatCount(Integer.MAX_VALUE);
-                objectAnimator.setDuration(150);
-                mAnimatorSet.playTogether(objectAnimator);
-                mAnimatorSet.start();
-                animatorSets.add(mAnimatorSet);
+//                AnimatorSet mAnimatorSet = new AnimatorSet();
+//                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 3, 0, -3);
+//                objectAnimator.setRepeatMode(Animation.REVERSE);
+//                objectAnimator.setRepeatCount(Integer.MAX_VALUE);
+//                objectAnimator.setDuration(150);
+//                mAnimatorSet.playTogether(objectAnimator);
+//                mAnimatorSet.start();
+//                animatorSets.add(mAnimatorSet);
                 holder.deleteIcon.setVisibility(View.VISIBLE);
             } else {
-                AnimatorSet mAnimatorSet = new AnimatorSet();
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0);
-                objectAnimator.setDuration(0);
-                mAnimatorSet.playTogether(objectAnimator);
-                mAnimatorSet.start();
+//                AnimatorSet mAnimatorSet = new AnimatorSet();
+//                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(convertView, "rotation", 0);
+//                objectAnimator.setDuration(0);
+//                mAnimatorSet.playTogether(objectAnimator);
+//                mAnimatorSet.start();
                 holder.deleteIcon.setVisibility(View.GONE);
             }
 

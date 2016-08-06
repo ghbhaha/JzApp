@@ -84,10 +84,11 @@
                 android:text="@string/introduce_and_help"
                 android:textColor="@color/md_grey_600" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/card"
+                android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
@@ -98,7 +99,15 @@
                     android:textColor="@color/md_grey_800"
                     android:textSize="14sp" />
 
-            </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:text="@string/introduce2"
+                    android:textColor="@color/md_red_300"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

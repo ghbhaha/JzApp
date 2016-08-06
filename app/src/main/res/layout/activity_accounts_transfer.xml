@@ -139,6 +139,8 @@
             android:id="@+id/in_money"
             android:layout_width="wrap_content"
             android:minWidth="80dp"
+            android:editable="false"
+            android:enabled="false"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

@@ -2,7 +2,9 @@ package com.suda.jzapp.ui.activity.system;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
@@ -26,6 +28,7 @@ public class AboutActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidget();
+       // ((TextView) findViewById(R.id.introduce)).setText(Html.fromHtml(getString(R.string.introduce)));
     }
 
     @Override
