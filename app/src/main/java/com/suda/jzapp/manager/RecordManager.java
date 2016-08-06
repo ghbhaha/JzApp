@@ -237,9 +237,29 @@ public class RecordManager extends BaseManager {
     public synchronized void updateRecordTypeIndex(final Handler handler, boolean serviceSync) {
 
         if (canSync()) {
-            Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
+            final Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
             if (config != null && "true".equals(config.getValue()) && serviceSync) {
                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                return;
+            }
+
+            if (config != null && !TextUtils.isEmpty(config.getObjectID())) {
+                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
+                avRecordTypeIndex.setObjectId(config.getObjectID());
+                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+                avRecordTypeIndex.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        getAvEx(e);
+                        if (e == null) {
+                            config.setValue("true");
+                        } else {
+                            config.setValue("false");
+                        }
+                        configLocalDao.updateConfig(config, _context);
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                    }
+                });
                 return;
             }
 
@@ -596,6 +616,12 @@ public class RecordManager extends BaseManager {
         List<AVRecordTypeIndex> list = query.find();
         if (list.size() > 0) {
             AVRecordTypeIndex avRecordTypeIndex = list.get(0);
+            Config config = new Config();
+            config.setObjectID(avRecordTypeIndex.getObjectId());
+            config.setKey(RECORD_INDEX_UPDATE);
+            config.setValue("true");
+            configLocalDao.updateConfig(config, _context);
+
             String data = avRecordTypeIndex.getData();
             List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
             if (recordTypeIndexDOs.size() > 2) {

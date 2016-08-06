@@ -25,6 +25,7 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Key = new Property(1, String.class, "key", false, "KEY");
         public final static Property Value = new Property(2, String.class, "value", false, "VALUE");
+        public final static Property ObjectID = new Property(3, String.class, "ObjectID", false, "OBJECT_ID");
     };
 
 
@@ -42,7 +43,8 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"CONFIG\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"KEY\" TEXT," + // 1: key
-                "\"VALUE\" TEXT);"); // 2: value
+                "\"VALUE\" TEXT," + // 2: value
+                "\"OBJECT_ID\" TEXT);"); // 3: ObjectID
     }
 
     /** Drops the underlying database table. */
@@ -69,6 +71,11 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         if (value != null) {
             stmt.bindString(3, value);
         }
+ 
+        String ObjectID = entity.getObjectID();
+        if (ObjectID != null) {
+            stmt.bindString(4, ObjectID);
+        }
     }
 
     @Override
@@ -89,6 +96,11 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         if (value != null) {
             stmt.bindString(3, value);
         }
+ 
+        String ObjectID = entity.getObjectID();
+        if (ObjectID != null) {
+            stmt.bindString(4, ObjectID);
+        }
     }
 
     @Override
@@ -101,7 +113,8 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         Config entity = new Config( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // key
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // value
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // value
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // ObjectID
         );
         return entity;
     }
@@ -111,6 +124,7 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setKey(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setValue(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setObjectID(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override

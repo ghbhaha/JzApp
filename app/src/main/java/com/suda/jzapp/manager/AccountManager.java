@@ -391,6 +391,11 @@ public class AccountManager extends BaseManager {
             AVAccountIndex avAccountIndex = list.get(0);
             String data = avAccountIndex.getData();
             List<AccountIndexDO> accountIndexDOs = JSON.parseArray(data, AccountIndexDO.class);
+            Config config = new Config();
+            config.setObjectID(avAccountIndex.getObjectId());
+            config.setKey(ACCOUNT_INDEX_UPDATE);
+            config.setValue("true");
+            configLocalDao.updateConfig(config, _context);
             accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
         }
     }
@@ -402,14 +407,33 @@ public class AccountManager extends BaseManager {
      * @param list
      */
     public void updateAccountIndex(final Handler handler, List<AccountDetailDO> list) {
-
-        if (list != null)
+        if (list != null) {
             accountLocalDao.updateAccountIndex(_context, list);
+        }
 
         if (canSync()) {
-            Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+            final Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
             if (config != null && "true".equals(config.getValue()) && list == null) {
                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                return;
+            }
+            if (config != null && !TextUtils.isEmpty(config.getObjectID())) {
+                AVAccountIndex avAccountIndex = new AVAccountIndex();
+                avAccountIndex.setObjectId(config.getObjectID());
+                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+                avAccountIndex.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        getAvEx(e);
+                        if (e == null) {
+                            config.setValue("true");
+                        } else {
+                            config.setValue("false");
+                        }
+                        configLocalDao.updateConfig(config, _context);
+                        sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                    }
+                });
                 return;
             }
 
@@ -435,6 +459,7 @@ public class AccountManager extends BaseManager {
                         } else {
                             avAccountIndex = new AVAccountIndex();
                         }
+                        final String objId = avAccountIndex.getObjectId();
                         avAccountIndex.setUser(MyAVUser.getCurrentUser());
                         avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
                         avAccountIndex.saveInBackground(new SaveCallback() {
@@ -445,6 +470,7 @@ public class AccountManager extends BaseManager {
                                 if (config == null) {
                                     config = new Config();
                                 }
+                                config.setObjectID(objId);
                                 config.setKey(ACCOUNT_INDEX_UPDATE);
                                 if (e == null) {
                                     config.setValue("true");

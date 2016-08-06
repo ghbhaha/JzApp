@@ -37,5 +37,8 @@ public class UpdateDB {
         if (oldVersion < 8) {
             db.execSQL("ALTER TABLE ACCOUNT ADD INDEX INTEGER");
         }
+        if (oldVersion < 9) {
+            db.execSQL("ALTER TABLE CONFIG ADD OBJECT_ID TEXT");
+        }
     }
 }

@@ -119,6 +119,7 @@ public class UserManager extends BaseManager {
                                         user.setUserCode(myAVUser.getUserCode());
                                         userLocalDao.insertUser(user, _context);
                                         message.what = Constant.MSG_SUCCESS;
+                                        configLocalDao.initConfig(_context);
                                     } else {
                                         message.what = Constant.MSG_ERROR;
                                         message.obj = ExceptionInfoUtil.getError(e.getCode());
@@ -228,6 +229,7 @@ public class UserManager extends BaseManager {
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);
         recordTypeLocalDao.clearAllRecordType(_context);
+        configLocalDao.initConfig(_context);
         userLocalDao.clear(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, Constant.SP_FIRST_ADD, true);

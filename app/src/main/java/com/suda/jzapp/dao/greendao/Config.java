@@ -13,6 +13,7 @@ public class Config {
     private Long id;
     private String key;
     private String value;
+    private String ObjectID;
 
     @Generated(hash = 589037648)
     public Config() {
@@ -22,11 +23,12 @@ public class Config {
         this.id = id;
     }
 
-    @Generated(hash = 42005953)
-    public Config(Long id, String key, String value) {
+    @Generated(hash = 1615747358)
+    public Config(Long id, String key, String value, String ObjectID) {
         this.id = id;
         this.key = key;
         this.value = value;
+        this.ObjectID = ObjectID;
     }
 
     public Long getId() {
@@ -51,6 +53,14 @@ public class Config {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getObjectID() {
+        return ObjectID;
+    }
+
+    public void setObjectID(String ObjectID) {
+        this.ObjectID = ObjectID;
     }
 
 }

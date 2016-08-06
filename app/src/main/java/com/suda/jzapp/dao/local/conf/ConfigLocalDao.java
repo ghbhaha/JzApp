@@ -112,6 +112,11 @@ public class ConfigLocalDao extends BaseLocalDao {
 
     }
 
+    public void initConfig( Context context){
+        ConfigDao configDao = getDaoSession(context).getConfigDao();
+        configDao.deleteAll();
+    }
+
     public void updateConfig(Config config, Context context) {
         ConfigDao configDao = getDaoSession(context).getConfigDao();
         if (config.getId() != null) {

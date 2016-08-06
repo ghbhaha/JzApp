@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
         mLoadingBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (mLoadingBack.getVisibility() == View.VISIBLE)
+                if (loading)
                     return true;
                 else
                     return false;
@@ -97,8 +97,8 @@ public class MainActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.FadeOutUp).playOn(mLoadingBack);
-                mLoadingBack.setVisibility(View.GONE);
+                YoYo.with(Techniques.SlideOutUp).playOn(mLoadingBack);
+                loading = false;
             }
         }, 1500);
 
@@ -354,6 +354,7 @@ public class MainActivity extends BaseActivity {
     private ReloadCallBack reloadAnalysisCallBack;
     private OptMenuAdapter optMenuAdapter;
 
+    private boolean loading = true;
 
     public interface ReloadCallBack {
         void reload(boolean needUpdateData);

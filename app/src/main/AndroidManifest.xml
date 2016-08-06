@@ -130,6 +130,8 @@
             android:name=".ui.activity.system.UpdateActivity"
             android:theme="@style/ThemeDialogStyle" />
 
+        <activity
+            android:name="com.avos.sns.SNSWebActivity"/>
 
         <service android:name=".service.SyncService" />
 
