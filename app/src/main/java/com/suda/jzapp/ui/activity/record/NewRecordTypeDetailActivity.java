@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.activity.record;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,9 @@ import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordDetailFrgAdapter;
 import com.suda.jzapp.ui.fragment.RecordDetailFrg;
+import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.SPUtils;
+import com.suda.jzapp.util.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +54,26 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
         }, pieOut, year, month);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshColor();
+    }
+
+    private void refreshColor() {
+        if (mPos == -1)
+            return;
+        int color = IconTypeUtil.getTypeIconOrColor(chartRecordDoList.get(mPos).getIconId(), false);
+        mTabLayout.setBackgroundColor(color);
+        mTabLayout.setTabTextColors(color & 0xFF888888,
+                getColor(NewRecordTypeDetailActivity.this, R.color.white));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
+        if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), true))
+            StatusBarCompat.compat(this, color);
+        else
+            StatusBarCompat.compat(this, color & 0xFF888888);
+    }
+
     private void initTabLayout() {
         int i = 0;
         int position = 0;
@@ -65,6 +89,25 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
         } else {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }
+
+        mViewPage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mPos = position;
+                refreshColor();
+            }
+
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mViewPage.setAdapter(viewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPage);
@@ -100,4 +143,5 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
     private int year = 2016;
     private int month = 1;
     private long recordTypeID = 0;
+    private int mPos = -1;
 }
