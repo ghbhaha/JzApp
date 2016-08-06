@@ -115,5 +115,6 @@
 
     <string name="loading">数据加载中\n。。。</string>
     <string name="update_info">更新日志</string>
+    <string name="download">下载</string>
 </resources>
 

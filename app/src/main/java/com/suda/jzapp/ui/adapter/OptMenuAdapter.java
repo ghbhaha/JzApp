@@ -2,6 +2,7 @@ package com.suda.jzapp.ui.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -17,17 +18,17 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
-import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
-import com.suda.jzapp.ui.activity.system.UpdateActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.util.NetworkUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by ghbha on 2016/2/14.
@@ -117,11 +118,23 @@ public class OptMenuAdapter extends BaseAdapter {
                 if (msg.what == Constant.MSG_ERROR) {
                     SnackBarUtil.showSnackInfo(v, context, "检测失败");
                 } else {
-                    AVUpdateCheck check = (AVUpdateCheck) msg.obj;
+                    final AVUpdateCheck check = (AVUpdateCheck) msg.obj;
                     if (check != null) {
-                        Intent intent = new Intent(context, UpdateActivity.class);
-                        intent.putExtra(IntentConstant.UPDATE_CHECK,check);
-                        context.startActivity(intent);
+                        final MaterialDialog materialDialog = new MaterialDialog(context);
+                        materialDialog.setTitle("升级提示V" + check.getVersion());
+                        materialDialog.setMessage(check.getUpdateInfo());
+                        materialDialog.setNegativeButton(context.getResources().getString(R.string.download), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setData(Uri.parse(check.getLink()));
+                                intent.setAction(Intent.ACTION_VIEW);
+                                context.startActivity(intent);
+                                materialDialog.dismiss();
+                            }
+                        });
+                        materialDialog.setCanceledOnTouchOutside(true);
+                        materialDialog.show();
                     } else {
                         SnackBarUtil.showSnackInfo(v, context, "未检测到更新");
                     }
