@@ -22,7 +22,7 @@ public class ExportRecordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMyContentView2(R.layout.activity_export_record);
+        setMyContentView(R.layout.activity_export_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

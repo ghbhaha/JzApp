@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId "com.suda.jzapp"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 23
-        versionCode 2
-        versionName "1.01"
+        versionCode 3
+        versionName "1.02"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }
@@ -67,7 +67,6 @@ dependencies {
     compile 'com.android.support:design:23+'
     //leancloud
     compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
-    compile 'cn.leancloud.android:avoscloud-search:v3.+@aar'
     //avoscloud-push 为推送与实时聊天需要的包
     compile ('cn.leancloud.android:avoscloud-push:v3.+@aar'){transitive = true}
     //GreenDao
