@@ -199,6 +199,8 @@ public class LoginActivity extends BaseActivity {
                                         } catch (AVException e) {
                                             mSyncData = false;
                                             SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "同步出错");
+                                            userManager.logOut();
+                                            finish();
                                         }
                                     }
                                 });
