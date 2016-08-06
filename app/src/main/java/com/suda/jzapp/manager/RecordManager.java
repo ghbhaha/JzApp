@@ -393,6 +393,11 @@ public class RecordManager extends BaseManager {
         } else {
             recordTypes.addAll(recordTypeDao.getAllZhiChuRecordType(_context));
         }
+        if (recordTypes == null || recordTypes.size() == 0) {
+            recordTypeDao.clearAllRecordType(_context);
+            configLocalDao.initRecordType(_context);
+            return getRecordTypeByType(type);
+        }
         return recordTypes;
 
     }
