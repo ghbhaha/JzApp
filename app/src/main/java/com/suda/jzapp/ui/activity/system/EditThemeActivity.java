@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.util.ThemeUtil;
+import com.suda.jzapp.view.MyRoundColorView;
 
 /**
  * Created by ghbha on 2016/2/14.
@@ -18,6 +19,13 @@ public class EditThemeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.theme_layout);
+        for (int i = 0; i < 9; i++) {
+            ((MyRoundColorView) findViewById(getId("theme" + i))).setMyRoundColor(getResources().getColor(ThemeUtil.map.get(i).getMainColorID()));
+        }
+    }
+
+    public int getId(String paramString) {
+        return getResources().getIdentifier(paramString, "id", getPackageName());
     }
 
 
@@ -29,7 +37,7 @@ public class EditThemeActivity extends Activity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
+    public boolean onTouchEvent(MotionEvent event) {
         finish();
         return true;
     }

@@ -22,7 +22,7 @@ public class ThemeUtil {
         return map.get(SPUtils.get(context, "themeID", 0));
     }
 
-    static Map<Integer, ThemeDO> map = new HashMap<>();
+    public static Map<Integer, ThemeDO> map = new HashMap<>();
 
     static {
         map.put(0, new ThemeDO(0, R.color.activated_blue, R.color.dark_blue, R.color.activated_blue));

@@ -65,7 +65,7 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
             return;
         int color = IconTypeUtil.getTypeIconOrColor(chartRecordDoList.get(mPos).getIconId(), false);
         mTabLayout.setBackgroundColor(color);
-        mTabLayout.setTabTextColors(color & 0xFF888888,
+        mTabLayout.setTabTextColors(color & 0x1f000000,
                 getColor(NewRecordTypeDetailActivity.this, R.color.white));
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), true))
