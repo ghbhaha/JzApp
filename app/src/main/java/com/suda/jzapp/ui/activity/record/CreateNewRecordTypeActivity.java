@@ -90,12 +90,14 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
         });
     }
 
-    private void addNewRecord(View view) {
+    private void addNewRecord(final View view) {
         String recordName = mEtRecordName.getText().toString();
         if (TextUtils.isEmpty(recordName)) {
             SnackBarUtil.showSnackInfo(view, this, getString(R.string.please_enter_record_type_name));
             return;
         }
+        //TODO 限制添加相同名字的类型
+        recordName = recordName.trim();
 
         RecordType recordType = new RecordType();
         recordType.setRecordType(mRecordType);
@@ -107,8 +109,12 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                setResult(RESULT_OK);
-                finish();
+                if (msg.what == Constant.MSG_ERROR) {
+                    SnackBarUtil.showSnackInfo(view, CreateNewRecordTypeActivity.this, getString(R.string.please_not_enter_same_record_type_name));
+                } else {
+                    setResult(RESULT_OK);
+                    finish();
+                }
             }
         });
     }

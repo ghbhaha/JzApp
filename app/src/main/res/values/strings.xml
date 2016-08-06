@@ -23,6 +23,7 @@
 
     <!-- 记录 -->
     <string name="please_enter_record_type_name">请输入自定义名称</string>
+    <string name="please_not_enter_same_record_type_name">请不要键入相同的记录名称</string>
     <string name="about">关于</string>
     <string name="introduce">简洁、便捷、语音记账\n
         ------账单助手是啥------\n
@@ -104,7 +105,7 @@
     <string name="retain_at_least_one_account">请至少保留一个账户</string>
 
     <string name="ok">确认</string>
-    <string name="cancel">确认</string>
+    <string name="cancel">取消</string>
 
     <string name="delete_record">删除记录?</string>
 

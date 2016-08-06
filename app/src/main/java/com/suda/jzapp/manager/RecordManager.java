@@ -192,9 +192,13 @@ public class RecordManager extends BaseManager {
      */
     public void createNewRecordType(final RecordType recordType, final Handler handler) {
 
+        if (recordTypeDao.haveCreate(_context, recordType.getRecordDesc(), recordType.getRecordType())) {
+            handler.sendEmptyMessage(Constant.MSG_ERROR);
+            return;
+        }
+
         //设置索引
         recordType.setIndex(recordTypeDao.getMaxIndexByRecordType(_context, recordType.getRecordType()));
-
         recordType.setSexProp(Constant.Sex.ALL.getId());
         recordType.setOccupation(Constant.Occupation.ALL.getId());
         recordType.setSysType(false);

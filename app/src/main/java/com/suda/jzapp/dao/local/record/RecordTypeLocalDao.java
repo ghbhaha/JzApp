@@ -18,6 +18,14 @@ import java.util.List;
 public class RecordTypeLocalDao extends BaseLocalDao {
 
 
+    public boolean haveCreate(Context context, String recordDesc, int recordType) {
+        RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
+        return getSingleData(recordTypeDao.queryBuilder().
+                where(RecordTypeDao.Properties.IsDel.eq(false))
+                .where(RecordTypeDao.Properties.RecordDesc.eq(recordDesc))
+                .where(RecordTypeDao.Properties.RecordType.eq(recordType)).list()) != null;
+    }
+
     public void createNewRecordType(Context context, RecordType recordType) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         recordTypeDao.insert(recordType);
