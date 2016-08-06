@@ -27,6 +27,7 @@
                 android:layout_marginLeft="22dp"
                 android:src="@mipmap/suda"
                 app:civ_border_width="2dp"
+                android:onClick="login"
                 app:civ_border_color="@color/md_white_1000"/>
 
             <TextView

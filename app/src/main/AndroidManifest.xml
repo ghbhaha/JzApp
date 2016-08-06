@@ -143,6 +143,9 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="56824759e0f55a8523002909" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
         <!-- 实时通信模块、推送（若使用该功能，需添加以下声明）START -->
         <service android:name="com.avos.avoscloud.PushService" />

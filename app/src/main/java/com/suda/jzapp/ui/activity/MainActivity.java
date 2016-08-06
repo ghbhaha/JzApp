@@ -192,14 +192,14 @@ public class MainActivity extends BaseActivity {
         // 选中的文字颜色
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
-        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID())& 0x3f000000);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainDarkColorID()));
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID())& 0x3f000000);
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
         if (MyAVUser.getCurrentUser() != null) {

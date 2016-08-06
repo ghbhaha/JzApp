@@ -32,11 +32,12 @@
         <!-- 侧滑菜单内容 -->
         <LinearLayout
             android:id="@+id/drawer_view"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="start"
             android:background="@android:color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_widthPercent="65%">
 
             <include layout="@layout/left_menu" />
 
@@ -44,7 +45,7 @@
                 android:id="@+id/opt_items"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null"></ListView>
+                android:divider="@null"/>
         </LinearLayout>
 
 

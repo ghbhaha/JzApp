@@ -65,7 +65,7 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
             return;
         int color = IconTypeUtil.getTypeIconOrColor(chartRecordDoList.get(mPos).getIconId(), false);
         mTabLayout.setBackgroundColor(color);
-        mTabLayout.setTabTextColors(color & 0x1f000000,
+        mTabLayout.setTabTextColors(color & 0x3f000000,
                 getColor(NewRecordTypeDetailActivity.this, R.color.white));
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         if ((boolean) SPUtils.get(this, true, getResources().getString(R.string.immersive_status_bar), true))
@@ -79,7 +79,7 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
         int position = 0;
         for (ChartRecordDo chartRecordDo : chartRecordDoList) {
             if (recordTypeID == chartRecordDo.getRecordTypeID()) {
-                position = i;
+                mPos = position = i;
             }
             viewPagerAdapter.addFragment(RecordDetailFrg.newInstance(year, month, chartRecordDo.getRecordTypeID()), chartRecordDo.getRecordDesc());
             i++;
@@ -112,6 +112,7 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
         mViewPage.setAdapter(viewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPage);
         mViewPage.setCurrentItem(position);
+        refreshColor();
     }
 
     @Override

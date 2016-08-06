@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/md_grey_100"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -19,7 +19,6 @@
             android:id="@+id/type_line_chart"
             android:layout_width="match_parent"
             android:layout_height="180dp" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,8 +57,7 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
-
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,32 +74,32 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="月份" />
+            android:text="月份"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
-            android:text="收入" />
+            android:text="收入"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:gravity="center"
-            android:text="支出" />
+            android:text="支出"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:gravity="center"
-            android:text="结余" />
+            android:text="结余"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 

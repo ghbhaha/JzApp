@@ -49,13 +49,13 @@ public class RecordPieAnalysisActivity extends BaseActivity {
         chartRecordDoList = new ArrayList<>();
         recordPieAnalysisAdapter = new RecordPieAnalysisAdapter(this, chartRecordDoList);
         View head = View.inflate(this, R.layout.item_pie_record, null);
+        head.setClickable(false);
         mTypePieChart = (PieChart) head.findViewById(R.id.type_pie_chart);
         changeTv = (TextView) head.findViewById(R.id.changeTv);
         dateTv = (TextView) head.findViewById(R.id.date_tv);
         initPieChart();
         mRecordLv.addHeaderView(head);
         mRecordLv.setAdapter(recordPieAnalysisAdapter);
-
     }
 
     private void initPieChart() {
