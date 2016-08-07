@@ -28,6 +28,7 @@ import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.greendao.RemarkTip;
+import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
@@ -578,6 +579,8 @@ public class RecordManager extends BaseManager {
                 record.setRecordMoney(avRecord.getRecordMoney());
                 record.setRemark(avRecord.getRemark());
                 record.setSyncStatus(true);
+                //record.setUpdatedAt(avRecord.getUpdatedAt());
+                //record.setCreatedAt(avRecord.getCreatedAt());
                 recordLocalDAO.createNewRecord(_context, record);
             }
         }
@@ -610,6 +613,8 @@ public class RecordManager extends BaseManager {
                 recordType.setOccupation(Constant.Occupation.ALL.getId());
                 recordType.setSyncStatus(true);
                 recordType.setRecordDesc(avRecordType.getRecordDesc());
+                //recordType.setCreatedAt(avRecordType.getCreatedAt());
+                //recordType.setUpdatedAt(avRecordType.getUpdatedAt());
                 recordTypeDao.createNewRecordType(_context, recordType);
             }
         }
@@ -803,9 +808,11 @@ public class RecordManager extends BaseManager {
 
                 List<ChartRecordDo> chartRecordDos = recordLocalDAO.getOutOrInRecordByMonth(_context, true, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH));
 
-
                 MonthReport monthReport = new MonthReport();
-                monthReport.setBudgetMoney(3000.00);
+
+                monthReport.setAllMoney(accountLocalDao.getAllMoney(_context));
+
+                monthReport.setBudgetMoney(accountLocalDao.getBudget(_context));
                 monthReport.setInMoney(0.00);
                 monthReport.setOutMoney(0.00);
                 if (in.get(calendar.get(Calendar.MONTH)) != null) {
@@ -1140,6 +1147,7 @@ public class RecordManager extends BaseManager {
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
     ConfigLocalDao configLocalDao = new ConfigLocalDao();
+    AccountLocalDao accountLocalDao = new AccountLocalDao();
     AccountManager accountManager = new AccountManager(_context);
 
     private final static String RECORD_INDEX_UPDATE = "RECORD_INDEX_UPDATE";

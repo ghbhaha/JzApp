@@ -8,7 +8,7 @@ import org.greenrobot.greendao.generator.Schema;
 public class MyDaoGenerator {
 
     public static void main(String args[]) throws Exception {
-        Schema schema = new Schema(9, "com.suda.jzapp.dao.greendao");
+        Schema schema = new Schema(10, "com.suda.jzapp.dao.greendao");
         addAccount(schema);
         addRecord(schema);
         addAccountType(schema);
@@ -16,6 +16,7 @@ public class MyDaoGenerator {
         addUser(schema);
         addConfig(schema);
         addRemarkTip(schema);
+        addBudget(schema);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -33,6 +34,8 @@ public class MyDaoGenerator {
         account.addBooleanProperty("isDel");
         account.addStringProperty("ObjectID");
         account.addIntProperty("Index");
+        account.addDateProperty("createdAt");
+        account.addDateProperty("updatedAt");
     }
 
     private static void addRecord(Schema schema) {
@@ -52,6 +55,8 @@ public class MyDaoGenerator {
         record.addIntProperty("year");
         record.addIntProperty("month");
         record.addIntProperty("day");
+        record.addDateProperty("createdAt");
+        record.addDateProperty("updatedAt");
     }
 
     private static void addAccountType(Schema schema) {
@@ -77,6 +82,8 @@ public class MyDaoGenerator {
         record.addBooleanProperty("SyncStatus");
         record.addBooleanProperty("isDel");
         record.addStringProperty("ObjectID");
+        record.addDateProperty("createdAt");
+        record.addDateProperty("updatedAt");
     }
 
 
@@ -104,6 +111,14 @@ public class MyDaoGenerator {
         remark.addStringProperty("remark");
         remark.addBooleanProperty("SyncStatus");
         remark.addBooleanProperty("isDel");
+    }
+
+    private static void addBudget(Schema schema) {
+        Entity budget = schema.addEntity("Budget");
+        budget.addIdProperty().autoincrement();
+        budget.addDoubleProperty("budgetMoney");
+        budget.addDateProperty("createdAt");
+        budget.addDateProperty("updatedAt");
     }
 
 }

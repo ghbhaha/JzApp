@@ -194,6 +194,7 @@ public class Constant {
     public final static String SP_GESTURE = "gesture";
     public final static String SP_TIP_ROUND_PIE = "SP_TIP_ROUND_PIE";
     public final static String SP_TIP_ROUND_LINE = "SP_TIP_ROUND_LINE";
+    public final static String SP_TIP_ROUND_EDIT_BUDGET = "SP_TIP_ROUND_EDIT_BUDGET";
     public final static String SP_ALARM_EVERY_DAY = "SP_ALARM_EVERY_DAY";
     public final static String SP_ALARM_TIME = "SP_ALARM_TIME";
     public final static String SP_FIRST_ADD = "SP_FIRST_ADD";

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_grey_100"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ui.activity.account.MonthReportActivity">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,20 +17,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/report_card_left_right_margin"
+            android:layout_marginRight="@dimen/report_card_left_right_margin"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="@dimen/report_card_padding">
+
+            <com.suda.jzapp.view.MyThemeTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总资产" />
+
+            <TextView
+                android:id="@+id/all_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/report_card_left_right_margin"
+            android:layout_marginRight="@dimen/report_card_left_right_margin"
+            android:layout_marginTop="@dimen/report_card_top_margin"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="@dimen/report_card_padding">
 
             <com.suda.jzapp.view.MyThemeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本月预算" />
 
-            <TextView
-                android:id="@+id/budget"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="100"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+                <com.suda.jzapp.view.MyRoundColorView
+                    android:id="@+id/tip_edit_budget"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/pie_label"
+                    app:myRoundColor="@color/theme_red" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/budget_tip"
@@ -46,8 +90,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/report_card_left_right_margin"
+            android:layout_marginRight="@dimen/report_card_left_right_margin"
+            android:layout_marginTop="@dimen/report_card_top_margin"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="@dimen/report_card_padding">
 
 
             <com.suda.jzapp.view.MyThemeTextView
@@ -74,8 +122,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:layout_marginLeft="@dimen/report_card_left_right_margin"
+            android:layout_marginRight="@dimen/report_card_left_right_margin"
+            android:layout_marginTop="@dimen/report_card_top_margin"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="@dimen/report_card_padding">
 
 
             <com.suda.jzapp.view.MyThemeTextView

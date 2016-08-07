@@ -22,6 +22,8 @@ public class RecordType implements java.io.Serializable {
     private Boolean SyncStatus;
     private Boolean isDel;
     private String ObjectID;
+    private java.util.Date createdAt;
+    private java.util.Date updatedAt;
 
     @Generated(hash = 1378675032)
     public RecordType() {
@@ -31,7 +33,6 @@ public class RecordType implements java.io.Serializable {
         this.id = id;
     }
 
-    @Generated(hash = 1759456484)
     public RecordType(Long id, Long RecordTypeID, String RecordDesc, Integer RecordType, Boolean SysType, Integer RecordIcon, Integer Index, Integer SexProp, Integer Occupation, Boolean SyncStatus, Boolean isDel, String ObjectID) {
         this.id = id;
         this.RecordTypeID = RecordTypeID;
@@ -45,6 +46,24 @@ public class RecordType implements java.io.Serializable {
         this.SyncStatus = SyncStatus;
         this.isDel = isDel;
         this.ObjectID = ObjectID;
+    }
+
+    @Generated(hash = 1028182860)
+    public RecordType(Long id, Long RecordTypeID, String RecordDesc, Integer RecordType, Boolean SysType, Integer RecordIcon, Integer Index, Integer SexProp, Integer Occupation, Boolean SyncStatus, Boolean isDel, String ObjectID, java.util.Date createdAt, java.util.Date updatedAt) {
+        this.id = id;
+        this.RecordTypeID = RecordTypeID;
+        this.RecordDesc = RecordDesc;
+        this.RecordType = RecordType;
+        this.SysType = SysType;
+        this.RecordIcon = RecordIcon;
+        this.Index = Index;
+        this.SexProp = SexProp;
+        this.Occupation = Occupation;
+        this.SyncStatus = SyncStatus;
+        this.isDel = isDel;
+        this.ObjectID = ObjectID;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -141,6 +160,22 @@ public class RecordType implements java.io.Serializable {
 
     public void setObjectID(String ObjectID) {
         this.ObjectID = ObjectID;
+    }
+
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

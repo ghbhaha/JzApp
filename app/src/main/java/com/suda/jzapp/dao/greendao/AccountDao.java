@@ -33,6 +33,8 @@ public class AccountDao extends AbstractDao<Account, Long> {
         public final static Property IsDel = new Property(8, Boolean.class, "isDel", false, "IS_DEL");
         public final static Property ObjectID = new Property(9, String.class, "ObjectID", false, "OBJECT_ID");
         public final static Property Index = new Property(10, Integer.class, "Index", false, "INDEX");
+        public final static Property CreatedAt = new Property(11, java.util.Date.class, "createdAt", false, "CREATED_AT");
+        public final static Property UpdatedAt = new Property(12, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
     };
 
 
@@ -58,7 +60,9 @@ public class AccountDao extends AbstractDao<Account, Long> {
                 "\"SYNC_STATUS\" INTEGER," + // 7: SyncStatus
                 "\"IS_DEL\" INTEGER," + // 8: isDel
                 "\"OBJECT_ID\" TEXT," + // 9: ObjectID
-                "\"INDEX\" INTEGER);"); // 10: Index
+                "\"INDEX\" INTEGER," + // 10: Index
+                "\"CREATED_AT\" INTEGER," + // 11: createdAt
+                "\"UPDATED_AT\" INTEGER);"); // 12: updatedAt
     }
 
     /** Drops the underlying database table. */
@@ -125,6 +129,16 @@ public class AccountDao extends AbstractDao<Account, Long> {
         if (Index != null) {
             stmt.bindLong(11, Index);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(12, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(13, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -185,6 +199,16 @@ public class AccountDao extends AbstractDao<Account, Long> {
         if (Index != null) {
             stmt.bindLong(11, Index);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(12, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(13, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -205,7 +229,9 @@ public class AccountDao extends AbstractDao<Account, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0, // SyncStatus
             cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // isDel
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // ObjectID
-            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10) // Index
+            cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10), // Index
+            cursor.isNull(offset + 11) ? null : new java.util.Date(cursor.getLong(offset + 11)), // createdAt
+            cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)) // updatedAt
         );
         return entity;
     }
@@ -223,6 +249,8 @@ public class AccountDao extends AbstractDao<Account, Long> {
         entity.setIsDel(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
         entity.setObjectID(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setIndex(cursor.isNull(offset + 10) ? null : cursor.getInt(offset + 10));
+        entity.setCreatedAt(cursor.isNull(offset + 11) ? null : new java.util.Date(cursor.getLong(offset + 11)));
+        entity.setUpdatedAt(cursor.isNull(offset + 12) ? null : new java.util.Date(cursor.getLong(offset + 12)));
      }
     
     @Override

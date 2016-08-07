@@ -7,6 +7,7 @@ public class MonthReport {
     private double inMoney;
     private double outMoney;
     private double budgetMoney;
+    private double allMoney;
 
     private String outMaxType;
     private double outMaxMoney;
@@ -61,5 +62,13 @@ public class MonthReport {
 
     public void setOutMaxMoney(double outMaxMoney) {
         this.outMaxMoney = outMaxMoney;
+    }
+
+    public double getAllMoney() {
+        return allMoney;
+    }
+
+    public void setAllMoney(double allMoney) {
+        this.allMoney = allMoney;
     }
 }

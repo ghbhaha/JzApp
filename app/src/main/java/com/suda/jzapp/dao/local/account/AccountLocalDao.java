@@ -8,18 +8,55 @@ import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountDao;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.AccountTypeDao;
+import com.suda.jzapp.dao.greendao.Budget;
+import com.suda.jzapp.dao.greendao.BudgetDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.AccountIndexDO;
 import com.suda.jzapp.util.TextUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ghbha on 2016/2/15.
  */
 public class AccountLocalDao extends BaseLocalDao {
+
+    public double getBudget(Context context) {
+        BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
+        return getSingleData(budgetDao.queryBuilder().list()).getBudgetMoney();
+    }
+
+    public void updateBudget(Context context,double money) {
+        BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
+        Budget budget = getSingleData(budgetDao.queryBuilder().list());
+        if (budget!=null){
+            budget.setBudgetMoney(money);
+            budgetDao.update(budget);
+        }
+    }
+
+    public void initBudget(Context context){
+        BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
+        budgetDao.deleteAll();
+        Budget budget = new Budget();
+        budget.setBudgetMoney(3000.00);
+        Date date = new Date();
+        budget.setUpdatedAt(date);
+        budget.setCreatedAt(date);
+        budgetDao.insert(budget);
+    }
+
+    public double getAllMoney(Context context) {
+        List<Account> accounts = getAllAccount(context);
+        double money = 0;
+        for (Account account : accounts) {
+            money += account.getAccountMoney();
+        }
+        return money;
+    }
 
     public Account getSuitAccount(Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();

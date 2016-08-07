@@ -1,6 +1,5 @@
 package com.suda.jzapp.dao.greendao;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import org.greenrobot.greendao.database.Database;
@@ -31,7 +30,7 @@ public class UpdateDB {
             RemarkTipDao.createTable(db, false);
         }
         if (oldVersion < 7) {
-            UserDao.dropTable(db,true);
+            UserDao.dropTable(db, true);
             UserDao.createTable(db, false);
         }
         if (oldVersion < 8) {
@@ -39,6 +38,17 @@ public class UpdateDB {
         }
         if (oldVersion < 9) {
             db.execSQL("ALTER TABLE CONFIG ADD OBJECT_ID TEXT");
+        }
+        if (oldVersion < 10) {
+            db.execSQL("ALTER TABLE ACCOUNT ADD CREATED_AT INTEGER");
+            db.execSQL("ALTER TABLE ACCOUNT ADD UPDATED_AT INTEGER");
+            db.execSQL("ALTER TABLE RECORD ADD CREATED_AT INTEGER");
+            db.execSQL("ALTER TABLE RECORD ADD UPDATED_AT INTEGER");
+            db.execSQL("ALTER TABLE RECORD_TYPE ADD CREATED_AT INTEGER");
+            db.execSQL("ALTER TABLE RECORD_TYPE ADD UPDATED_AT INTEGER");
+            BudgetDao.createTable(db, false);
+            long current = System.currentTimeMillis();
+            db.execSQL("INSERT INTO BUDGET (BUDGET_MONEY,CREATED_AT,UPDATED_AT) VALUE (3000," + current + "," + current + ")");
         }
     }
 }

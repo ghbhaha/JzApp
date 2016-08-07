@@ -21,6 +21,8 @@ public class Account {
     private Boolean isDel;
     private String ObjectID;
     private Integer Index;
+    private java.util.Date createdAt;
+    private java.util.Date updatedAt;
 
     @Generated(hash = 882125521)
     public Account() {
@@ -30,7 +32,6 @@ public class Account {
         this.id = id;
     }
 
-    @Generated(hash = 339509559)
     public Account(Long id, Long AccountID, Integer AccountTypeID, String AccountName, Double AccountMoney, String AccountRemark, String AccountColor, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer Index) {
         this.id = id;
         this.AccountID = AccountID;
@@ -43,6 +44,23 @@ public class Account {
         this.isDel = isDel;
         this.ObjectID = ObjectID;
         this.Index = Index;
+    }
+
+    @Generated(hash = 112388405)
+    public Account(Long id, Long AccountID, Integer AccountTypeID, String AccountName, Double AccountMoney, String AccountRemark, String AccountColor, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer Index, java.util.Date createdAt, java.util.Date updatedAt) {
+        this.id = id;
+        this.AccountID = AccountID;
+        this.AccountTypeID = AccountTypeID;
+        this.AccountName = AccountName;
+        this.AccountMoney = AccountMoney;
+        this.AccountRemark = AccountRemark;
+        this.AccountColor = AccountColor;
+        this.SyncStatus = SyncStatus;
+        this.isDel = isDel;
+        this.ObjectID = ObjectID;
+        this.Index = Index;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -131,6 +149,22 @@ public class Account {
 
     public void setIndex(Integer Index) {
         this.Index = Index;
+    }
+
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

@@ -34,4 +34,8 @@
     <dimen name="pie_chart_text1_size">14sp</dimen>
     <dimen name="pie_chart_text2_size">20sp</dimen>
 
+    <dimen name="report_card_top_margin">10dp</dimen>
+    <dimen name="report_card_left_right_margin">10dp</dimen>
+    <dimen name="report_card_padding">10dp</dimen>
+
 </resources>

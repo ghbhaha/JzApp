@@ -24,6 +24,8 @@ public class Record implements java.io.Serializable {
     private Integer year;
     private Integer month;
     private Integer day;
+    private java.util.Date createdAt;
+    private java.util.Date updatedAt;
 
     @Generated(hash = 477726293)
     public Record() {
@@ -33,8 +35,8 @@ public class Record implements java.io.Serializable {
         this.id = id;
     }
 
-    @Generated(hash = 728084580)
-    public Record(Long id, Long RecordId, Double RecordMoney, Long RecordTypeID, Integer RecordType, Long AccountID, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer year, Integer month, Integer day) {
+    @Generated(hash = 1385350968)
+    public Record(Long id, Long RecordId, Double RecordMoney, Long RecordTypeID, Integer RecordType, Long AccountID, java.util.Date RecordDate, String Remark, Boolean SyncStatus, Boolean isDel, String ObjectID, Integer year, Integer month, Integer day, java.util.Date createdAt, java.util.Date updatedAt) {
         this.id = id;
         this.RecordId = RecordId;
         this.RecordMoney = RecordMoney;
@@ -49,6 +51,8 @@ public class Record implements java.io.Serializable {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -161,6 +165,22 @@ public class Record implements java.io.Serializable {
 
     public void setDay(Integer day) {
         this.day = day;
+    }
+
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

@@ -373,6 +373,8 @@ public class AccountManager extends BaseManager {
                 account.setAccountName(avAccount.getAccountName());
                 account.setSyncStatus(true);
                 account.setIndex(i);
+                //account.setCreatedAt(avAccount.getCreatedAt());
+                //account.setUpdatedAt(avAccount.getUpdatedAt());
                 i++;
                 accountLocalDao.createNewAccount(account, _context);
             }
@@ -485,6 +487,11 @@ public class AccountManager extends BaseManager {
                 }
             });
         }
+    }
+
+    public void updateBudget(double money) {
+        AccountLocalDao accountLocalDao = new AccountLocalDao();
+        accountLocalDao.updateBudget(_context, money);
     }
 
     private final static int EDIT_TYPE_DEL = -1;

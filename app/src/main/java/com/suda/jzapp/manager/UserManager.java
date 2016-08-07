@@ -231,10 +231,12 @@ public class UserManager extends BaseManager {
         recordTypeLocalDao.clearAllRecordType(_context);
         configLocalDao.initConfig(_context);
         userLocalDao.clear(_context);
+        accountLocalDao.initBudget(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, Constant.SP_FIRST_ADD, true);
         SPUtils.put(_context, Constant.SP_TIP_ROUND_PIE, true);
         SPUtils.put(_context, Constant.SP_TIP_ROUND_LINE, true);
+        SPUtils.put(_context, Constant.SP_TIP_ROUND_EDIT_BUDGET, true);
         SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
         userHashMap.clear();
         configLocalDao.initRecordType(_context);

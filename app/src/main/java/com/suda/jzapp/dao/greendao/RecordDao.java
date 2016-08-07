@@ -36,6 +36,8 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Year = new Property(11, Integer.class, "year", false, "YEAR");
         public final static Property Month = new Property(12, Integer.class, "month", false, "MONTH");
         public final static Property Day = new Property(13, Integer.class, "day", false, "DAY");
+        public final static Property CreatedAt = new Property(14, java.util.Date.class, "createdAt", false, "CREATED_AT");
+        public final static Property UpdatedAt = new Property(15, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
     };
 
 
@@ -64,7 +66,9 @@ public class RecordDao extends AbstractDao<Record, Long> {
                 "\"OBJECT_ID\" TEXT," + // 10: ObjectID
                 "\"YEAR\" INTEGER," + // 11: year
                 "\"MONTH\" INTEGER," + // 12: month
-                "\"DAY\" INTEGER);"); // 13: day
+                "\"DAY\" INTEGER," + // 13: day
+                "\"CREATED_AT\" INTEGER," + // 14: createdAt
+                "\"UPDATED_AT\" INTEGER);"); // 15: updatedAt
     }
 
     /** Drops the underlying database table. */
@@ -146,6 +150,16 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (day != null) {
             stmt.bindLong(14, day);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(15, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(16, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -221,6 +235,16 @@ public class RecordDao extends AbstractDao<Record, Long> {
         if (day != null) {
             stmt.bindLong(14, day);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(15, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(16, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -244,7 +268,9 @@ public class RecordDao extends AbstractDao<Record, Long> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // ObjectID
             cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11), // year
             cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12), // month
-            cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13) // day
+            cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13), // day
+            cursor.isNull(offset + 14) ? null : new java.util.Date(cursor.getLong(offset + 14)), // createdAt
+            cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)) // updatedAt
         );
         return entity;
     }
@@ -265,6 +291,8 @@ public class RecordDao extends AbstractDao<Record, Long> {
         entity.setYear(cursor.isNull(offset + 11) ? null : cursor.getInt(offset + 11));
         entity.setMonth(cursor.isNull(offset + 12) ? null : cursor.getInt(offset + 12));
         entity.setDay(cursor.isNull(offset + 13) ? null : cursor.getInt(offset + 13));
+        entity.setCreatedAt(cursor.isNull(offset + 14) ? null : new java.util.Date(cursor.getLong(offset + 14)));
+        entity.setUpdatedAt(cursor.isNull(offset + 15) ? null : new java.util.Date(cursor.getLong(offset + 15)));
      }
     
     @Override
