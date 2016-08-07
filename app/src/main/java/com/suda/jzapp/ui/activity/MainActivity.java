@@ -101,36 +101,40 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Animator animator = ViewAnimationUtils.createCircularReveal(
-                            mLoadingBack,
-                            mLoadingBack.getWidth() / 2,
-                            mLoadingBack.getHeight() / 2,
-                            mLoadingBack.getWidth(),
-                            0);
-                    animator.setDuration(500);
-                    animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                    animator.start();
-                    animator.addListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
+                    try {
+                        Animator animator = ViewAnimationUtils.createCircularReveal(
+                                mLoadingBack,
+                                mLoadingBack.getWidth() / 2,
+                                mLoadingBack.getHeight() / 2,
+                                mLoadingBack.getWidth(),
+                                0);
+                        animator.setDuration(500);
+                        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                        animator.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mLoadingBack.setVisibility(View.GONE);
-                        }
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mLoadingBack.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
 
-                        }
-                    });
+                            }
+                        });
+                        animator.start();
+                    }catch (Exception e){
+
+                    }
                 } else
                     YoYo.with(Techniques.SlideOutUp).playOn(mLoadingBack);
                 loading = false;
