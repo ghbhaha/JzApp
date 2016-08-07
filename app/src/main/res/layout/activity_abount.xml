@@ -156,46 +156,46 @@
 
             </RelativeLayout>
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1px"-->
-                <!--android:layout_marginBottom="12dp"-->
-                <!--android:layout_marginTop="12dp"-->
-                <!--android:background="@color/md_grey_500" />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/md_grey_500" />
 
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/card">-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card">
 
-                <!--<ImageView-->
-                    <!--android:id="@+id/ig_icon"-->
-                    <!--android:layout_width="@dimen/avatar_size"-->
-                    <!--android:layout_height="@dimen/avatar_size"-->
-                    <!--android:layout_margin="16dp"-->
-                    <!--android:src="@mipmap/suda" />-->
+                <ImageView
+                    android:id="@+id/ig_icon"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:layout_margin="16dp"
+                    android:src="@mipmap/avatar_middle" />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_icon"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignTop="@id/ig_icon"-->
-                    <!--android:layout_toEndOf="@id/ig_icon"-->
-                    <!--android:layout_toRightOf="@id/ig_icon"-->
-                    <!--android:text="(●—●)"-->
-                    <!--android:textColor="@color/md_grey_800"-->
-                    <!--tools:ignore="HardcodedText" />-->
+                <TextView
+                    android:id="@+id/tv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ig_icon"
+                    android:layout_toEndOf="@id/ig_icon"
+                    android:layout_toRightOf="@id/ig_icon"
+                    android:text="ToddThink"
+                    android:textColor="@color/md_grey_800"
+                    tools:ignore="HardcodedText" />
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@id/tv_icon"-->
-                    <!--android:layout_toRightOf="@id/ig_icon"-->
-                    <!--android:paddingBottom="16dp"-->
-                    <!--android:text="@string/developer_icon"-->
-                    <!--android:textColor="@color/md_grey_600" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_icon"
+                    android:layout_toRightOf="@id/ig_icon"
+                    android:paddingBottom="16dp"
+                    android:text="@string/developer_icon"
+                    android:textColor="@color/md_grey_600" />
 
-            <!--</RelativeLayout>-->
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

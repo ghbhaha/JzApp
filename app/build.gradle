@@ -16,8 +16,8 @@ android {
         applicationId "com.suda.jzapp"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.04"
+        versionCode 8
+        versionName "1.07"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }
@@ -62,6 +62,7 @@ android {
     productFlavors {
         kuan {}
         c360 {}
+        tencent {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }

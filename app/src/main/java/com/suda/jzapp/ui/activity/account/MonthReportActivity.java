@@ -115,7 +115,7 @@ public class MonthReportActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 MonthReport monthReport = (MonthReport) msg.obj;
-                mTvAllMoney.setText(MoneyUtil.getFormatMoney(monthReport.getAllMoney()));
+                mTvAllMoney.setText(MoneyUtil.getFormatMoney(TextUtil.gwtFormatNum(monthReport.getAllMoney())));
                 //目前还剩20\n看来得收紧口袋喽
                 String budgetTip = "目前还剩" + (MoneyUtil.getFormatMoney(monthReport.getBudgetMoney() + monthReport.getOutMoney()));
                 if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() > 0.8 && Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() < 1) {
