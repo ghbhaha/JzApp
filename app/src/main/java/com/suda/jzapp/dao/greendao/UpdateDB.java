@@ -48,7 +48,7 @@ public class UpdateDB {
             db.execSQL("ALTER TABLE RECORD_TYPE ADD UPDATED_AT INTEGER");
             BudgetDao.createTable(db, false);
             long current = System.currentTimeMillis();
-            db.execSQL("INSERT INTO BUDGET (BUDGET_MONEY,CREATED_AT,UPDATED_AT) VALUE (3000," + current + "," + current + ")");
+            db.execSQL("INSERT INTO BUDGET (BUDGET_MONEY,CREATED_AT,UPDATED_AT) VALUES (3000," + current + "," + current + ")");
         }
     }
 }

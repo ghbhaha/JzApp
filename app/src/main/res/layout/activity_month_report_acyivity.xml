@@ -82,6 +82,7 @@
                 android:id="@+id/budget_tip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_light"
                 android:text=" " />
 
 
@@ -116,6 +117,7 @@
                 android:id="@+id/out_money_tip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/gray_light"
                 android:text="" />
         </LinearLayout>
 
@@ -149,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:textColor="@color/gray_light"
                 android:text="" />
 
         </LinearLayout>

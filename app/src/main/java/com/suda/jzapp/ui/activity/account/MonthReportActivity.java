@@ -124,10 +124,12 @@ public class MonthReportActivity extends BaseActivity {
                     mTvBudgetTip.setTextColor(Color.RED);
                 } else if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() <= 0.8) {
                     budgetTip += "\n预算还很充足嘛";
+                    mTvBudget.setTextColor(Color.BLACK);
+                    mTvBudgetTip.setTextColor(getResources().getColor(R.color.gray_light));
                 } else {
                     mTvBudget.setTextColor(Color.RED);
                     mTvBudgetTip.setTextColor(Color.RED);
-                    budgetTip = "本月预算已花完";
+                    budgetTip = "本月已超出预算";
                 }
                 //其中'吃饭'消费最多，共消费40。\n看来你是一个吃货呀
                 String outMoneyTip = "";

@@ -66,7 +66,7 @@ public class UserManager extends BaseManager {
      */
     public void register(String userName, String password, String email, final Handler handler) {
         final MyAVUser user = new MyAVUser();
-        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), R.mipmap.suda);
+        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), R.mipmap.ic_launcher);
         AVFile avFile = new AVFile(MyAVUser.HEAD_IMAGE, ImageUtil.Bitmap2Bytes(bitmap));
         user.setHeadImage(avFile);
         user.setUsername(userName);
