@@ -134,7 +134,7 @@ public class RegisterActivity extends BaseActivity {
             mTilUserID.setError("请输入用户名");
             return;
         }
-        if (user.length() < 5) {
+        if (user.length() < 3) {
             mTilUserID.setError("用户名太短了哦~");
             return;
         }

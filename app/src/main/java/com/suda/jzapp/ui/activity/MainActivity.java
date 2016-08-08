@@ -35,6 +35,7 @@ import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
@@ -69,9 +70,9 @@ public class MainActivity extends BaseActivity {
         startService(new Intent(this, SyncService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA);
+            getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
         }
-
+        //new SystemManager(this).getCurrency();
         userManager = new UserManager(this);
         initWidget();
     }

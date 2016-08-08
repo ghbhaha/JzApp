@@ -62,7 +62,7 @@ public class AccountLocalDao extends BaseLocalDao {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         return getSingleData(accountDao.queryBuilder().
                 where(AccountDao.Properties.IsDel.eq(false))
-                .orderDesc(AccountDao.Properties.AccountMoney)
+                .orderAsc(AccountDao.Properties.Index)
                 .build()
                 .list());
     }

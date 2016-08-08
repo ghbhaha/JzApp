@@ -50,5 +50,12 @@ public class UpdateDB {
             long current = System.currentTimeMillis();
             db.execSQL("INSERT INTO BUDGET (BUDGET_MONEY,CREATED_AT,UPDATED_AT) VALUES (3000," + current + "," + current + ")");
         }
+        if (oldVersion < 11) {
+            db.execSQL("ALTER TABLE CONFIG ADD CREATED_AT INTEGER");
+            db.execSQL("ALTER TABLE CONFIG ADD UPDATED_AT INTEGER");
+        }
+        if (oldVersion < 12) {
+            CurrencyDao.createTable(db,false);
+        }
     }
 }

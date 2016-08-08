@@ -60,6 +60,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/in_tv"
             android:layout_marginRight="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="" />
 
 
@@ -86,11 +88,13 @@
 
         <TextView
             android:id="@+id/out_remark_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/out_tv"
             android:layout_marginLeft="5dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text=""
             android:textSize="10sp" />
 

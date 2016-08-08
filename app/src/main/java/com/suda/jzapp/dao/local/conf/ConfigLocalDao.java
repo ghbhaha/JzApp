@@ -6,6 +6,8 @@ import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.AccountType;
 import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.ConfigDao;
+import com.suda.jzapp.dao.greendao.Currency;
+import com.suda.jzapp.dao.greendao.CurrencyDao;
 import com.suda.jzapp.dao.greendao.RecordType;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.misc.Constant;
@@ -112,7 +114,7 @@ public class ConfigLocalDao extends BaseLocalDao {
 
     }
 
-    public void initConfig( Context context){
+    public void initConfig(Context context) {
         ConfigDao configDao = getDaoSession(context).getConfigDao();
         configDao.deleteAll();
     }
@@ -125,4 +127,19 @@ public class ConfigLocalDao extends BaseLocalDao {
             configDao.insert(config);
         }
     }
+
+    public void updateCurrency(Currency currency, Context context) {
+        CurrencyDao currencyDao = getDaoSession(context).getCurrencyDao();
+        Currency oldcCurrency = getSingleData(currencyDao.queryBuilder()
+                .where(CurrencyDao.Properties.FromCurrency.eq(currency.getFromCurrency()))
+                .where(CurrencyDao.Properties.ToCurrency.eq(currency.getToCurrency())).list());
+        if (oldcCurrency == null) {
+            currencyDao.insert(currency);
+        } else {
+            oldcCurrency.setCurrency(currency.getCurrency());
+            currencyDao.update(oldcCurrency);
+        }
+    }
+
+
 }

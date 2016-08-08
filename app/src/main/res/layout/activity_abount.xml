@@ -182,7 +182,7 @@
                     android:layout_alignTop="@id/ig_icon"
                     android:layout_toEndOf="@id/ig_icon"
                     android:layout_toRightOf="@id/ig_icon"
-                    android:text="ToddThink"
+                    android:text="fairyex"
                     android:textColor="@color/md_grey_800"
                     tools:ignore="HardcodedText" />
 

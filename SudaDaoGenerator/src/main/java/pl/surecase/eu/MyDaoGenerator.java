@@ -8,7 +8,7 @@ import org.greenrobot.greendao.generator.Schema;
 public class MyDaoGenerator {
 
     public static void main(String args[]) throws Exception {
-        Schema schema = new Schema(10, "com.suda.jzapp.dao.greendao");
+        Schema schema = new Schema(12, "com.suda.jzapp.dao.greendao");
         addAccount(schema);
         addRecord(schema);
         addAccountType(schema);
@@ -17,6 +17,7 @@ public class MyDaoGenerator {
         addConfig(schema);
         addRemarkTip(schema);
         addBudget(schema);
+        addCurrency(schema);
 
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
@@ -97,11 +98,13 @@ public class MyDaoGenerator {
     }
 
     private static void addConfig(Schema schema) {
-        Entity user = schema.addEntity("Config");
-        user.addIdProperty().autoincrement();
-        user.addStringProperty("key");
-        user.addStringProperty("value");
-        user.addStringProperty("ObjectID");
+        Entity config = schema.addEntity("Config");
+        config.addIdProperty().autoincrement();
+        config.addStringProperty("key");
+        config.addStringProperty("value");
+        config.addStringProperty("ObjectID");
+        config.addDateProperty("createdAt");
+        config.addDateProperty("updatedAt");
     }
 
     private static void addRemarkTip(Schema schema) {
@@ -119,6 +122,15 @@ public class MyDaoGenerator {
         budget.addDoubleProperty("budgetMoney");
         budget.addDateProperty("createdAt");
         budget.addDateProperty("updatedAt");
+    }
+
+    private static void addCurrency(Schema schema) {
+        Entity budget = schema.addEntity("Currency");
+        budget.addIdProperty().autoincrement();
+        budget.addStringProperty("fromCurrency");
+        budget.addStringProperty("toCurrency");
+        budget.addDoubleProperty("currency");
+        budget.addDateProperty("lastUpdate");
     }
 
 }

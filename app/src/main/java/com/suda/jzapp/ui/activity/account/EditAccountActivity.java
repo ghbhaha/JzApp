@@ -61,7 +61,7 @@ public class EditAccountActivity extends BaseActivity {
             case PROP_TYPE_ACCOUNT_MONEY:
                 getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_money));
                 mEtProp.setText(String.format(getResources().getString(R.string.record_money_format), mMoney));
-                mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER |InputType.TYPE_NUMBER_FLAG_SIGNED| InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
                 getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_remark));

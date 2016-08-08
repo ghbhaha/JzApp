@@ -14,6 +14,8 @@ public class Config {
     private String key;
     private String value;
     private String ObjectID;
+    private java.util.Date createdAt;
+    private java.util.Date updatedAt;
 
     @Generated(hash = 589037648)
     public Config() {
@@ -23,12 +25,14 @@ public class Config {
         this.id = id;
     }
 
-    @Generated(hash = 1615747358)
-    public Config(Long id, String key, String value, String ObjectID) {
+    @Generated(hash = 1087611119)
+    public Config(Long id, String key, String value, String ObjectID, java.util.Date createdAt, java.util.Date updatedAt) {
         this.id = id;
         this.key = key;
         this.value = value;
         this.ObjectID = ObjectID;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -61,6 +65,22 @@ public class Config {
 
     public void setObjectID(String ObjectID) {
         this.ObjectID = ObjectID;
+    }
+
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public java.util.Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(java.util.Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

@@ -26,6 +26,8 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         public final static Property Key = new Property(1, String.class, "key", false, "KEY");
         public final static Property Value = new Property(2, String.class, "value", false, "VALUE");
         public final static Property ObjectID = new Property(3, String.class, "ObjectID", false, "OBJECT_ID");
+        public final static Property CreatedAt = new Property(4, java.util.Date.class, "createdAt", false, "CREATED_AT");
+        public final static Property UpdatedAt = new Property(5, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
     };
 
 
@@ -44,7 +46,9 @@ public class ConfigDao extends AbstractDao<Config, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"KEY\" TEXT," + // 1: key
                 "\"VALUE\" TEXT," + // 2: value
-                "\"OBJECT_ID\" TEXT);"); // 3: ObjectID
+                "\"OBJECT_ID\" TEXT," + // 3: ObjectID
+                "\"CREATED_AT\" INTEGER," + // 4: createdAt
+                "\"UPDATED_AT\" INTEGER);"); // 5: updatedAt
     }
 
     /** Drops the underlying database table. */
@@ -76,6 +80,16 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         if (ObjectID != null) {
             stmt.bindString(4, ObjectID);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(5, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(6, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -101,6 +115,16 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         if (ObjectID != null) {
             stmt.bindString(4, ObjectID);
         }
+ 
+        java.util.Date createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindLong(5, createdAt.getTime());
+        }
+ 
+        java.util.Date updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindLong(6, updatedAt.getTime());
+        }
     }
 
     @Override
@@ -114,7 +138,9 @@ public class ConfigDao extends AbstractDao<Config, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // key
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // value
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // ObjectID
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // ObjectID
+            cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)), // createdAt
+            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // updatedAt
         );
         return entity;
     }
@@ -125,6 +151,8 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         entity.setKey(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setValue(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setObjectID(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setCreatedAt(cursor.isNull(offset + 4) ? null : new java.util.Date(cursor.getLong(offset + 4)));
+        entity.setUpdatedAt(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
      }
     
     @Override

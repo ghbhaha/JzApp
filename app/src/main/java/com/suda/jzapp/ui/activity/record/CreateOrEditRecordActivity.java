@@ -211,6 +211,16 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         ((TextView) findViewById(R.id.remark_tips2)).setTextColor(getResources().getColor(getMainTheme().getMainColorID()));
         findViewById(R.id.line3).setBackgroundColor(getResources().getColor(getMainTheme().getMainColorID()));
         initRemarkPanel();
+
+        tvMoneyCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showPanel)
+                    return;
+                YoYo.with(Techniques.SlideInUp).duration(500).playOn(panel);
+                showPanel = true;
+            }
+        });
     }
 
     private void initRemarkPanel() {
@@ -497,6 +507,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         Character s1 = money.charAt(money.length() - 1);
         Character s2 = money.charAt(money.length() - 2);
         if ("C".equals(tag)) {
+            doNum = 0;
             opt = Opt.CLEAR;
             tvMoneyCount.setText("0.00");
             moneyCount = 0.00;
@@ -504,6 +515,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             isDO = false;
         } else if ("del".equals(tag)) {
             opt = Opt.DEL;
+            if (doNum > 0)
+                doNum--;
+
             if (!"0".equals(s1.toString())) {
                 StringBuilder stringBuilder = new StringBuilder(money);
                 stringBuilder.replace(money.length() - 1, money.length(), 0 + "");
@@ -527,9 +541,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 tempCount = Double.parseDouble(money);
                 tvMoneyCount.setText(tmp + ".00");
             }
-
+            isDO = false;
 
         } else if ("+".equals(tag)) {
+            doNum = 0;
             isDO = false;
             if (tempCount == 0 && Double.parseDouble(money) > 0) {
                 opt = Opt.PLUS;
@@ -558,6 +573,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
             tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
         } else if ("-".equals(tag)) {
+            doNum = 0;
             isDO = false;
             if (tempCount == 0 && Double.parseDouble(money) > 0) {
                 opt = Opt.MINUS;
@@ -584,6 +600,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
         } else if ("OK".equals(tag)) {
             isDO = false;
+            doNum = 0;
             opt = Opt.OK;
             tempCount = 0;
             if (Double.parseDouble(money) <= 0) {
@@ -598,6 +615,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
         } else if ("=".equals(tag)) {
             isDO = false;
+            doNum = 0;
             if (opt == Opt.EQUAL)
                 return;
             if (tempCount == 0) {
@@ -632,17 +650,14 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             if (isDO) {
-
-                if (!"0".equals(s1.toString())) {
-                    tempCount = Double.parseDouble(money);
+                if (doNum == 2)
                     return;
-                } else {
-                    if ("0".equals(s2.toString())) {
-                        money = money.substring(0, money.length() - 2) + tag + "0";
-                    } else {
-                        money = money.substring(0, money.length() - 1) + tag;
-                    }
-                }
+
+                doNum++;
+                money = money.substring(0, money.length() - (3 - doNum)) + tag;
+                if (doNum == 1)
+                    money = money + "0";
+
                 tvMoneyCount.setText(money);
                 tempCount = Double.parseDouble(money);
                 return;
@@ -681,6 +696,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private RecordType mCurRecordType, mOldRecordType;
     private double moneyCount = 0.00;
     private double tempCount = 0.00;
+    private int doNum = 0;
+
     private Opt opt = Opt.NULL;
     private boolean isDO = false;
     private boolean showPanel = true;

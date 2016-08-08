@@ -91,7 +91,7 @@ public class OptMenuAdapter extends BaseAdapter {
                 } else if (optDO.getId() == 7) {
                     context.finish();
                 } else {
-                    if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == MonthReportActivity.class || optDO.getAct() == UserLinkActivity.class)) {
+                    if (MyAVUser.getCurrentUser() == null && (optDO.getAct() == UserLinkActivity.class)) {
                         SnackBarUtil.showSnackInfo(v, context, "请先登陆账号哦");
                         return;
                     }

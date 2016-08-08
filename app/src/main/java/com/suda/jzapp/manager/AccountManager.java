@@ -26,6 +26,7 @@ import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -128,9 +129,20 @@ public class AccountManager extends BaseManager {
         account.setSyncStatus(true);
         account.setIsDel(false);
         account.setAccountColor(accountColor + "");
+
+        Date now = new Date(System.currentTimeMillis());
+        if (Constant.newSyncSwitch){
+            account.setCreatedAt(now);
+            account.setUpdatedAt(now);
+        }
+
         if (canSync()) {
             AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
             avAccount.setAccountIsDel(false);
+            if (Constant.newSyncSwitch){
+                avAccount.put(AVAccount.UPDATED_AT, now);
+                avAccount.put(AVAccount.CREATED_AT, now);
+            }
             avAccount.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
@@ -208,6 +220,8 @@ public class AccountManager extends BaseManager {
      */
     public void updateAccountMoney(final long accountID, final double money, final Handler handler) {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
+        if (account == null)
+            return;
         editAccount(EDIT_TYPE_ACCOUNT_MONEY, accountID, null, 0, account.getAccountMoney() + money, null, new Callback() {
             @Override
             public void doSth(boolean isSync, String objId) {
@@ -264,11 +278,20 @@ public class AccountManager extends BaseManager {
      */
     private void editAccount(final int editType, final long accountID, final String remark, final int typeID, final double money, final String accountName,
                              final Callback callback, final Handler handler) {
+
+        final Date now = new Date(System.currentTimeMillis());
+
         if (canSync()) {
             Account account = accountLocalDao.getAccountByID(accountID, _context);
+            if (Constant.newSyncSwitch){
+                account.setUpdatedAt(now);
+            }
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
                 avAccount.setAccountIsDel(false);
+                if (Constant.newSyncSwitch){
+                    avAccount.put(AVObject.UPDATED_AT, now);
+                }
                 if (editType == EDIT_TYPE_DEL) {
                     avAccount.setAccountIsDel(true);
                 } else if (editType == EDIT_TYPE_ACCOUNT_TYPE) {
@@ -310,6 +333,9 @@ public class AccountManager extends BaseManager {
                         } else {
                             Account account = accountLocalDao.getAccountByID(accountID, _context);
                             avAccount = DataConvertUtil.convertAccount2AVAccount(account);
+                        }
+                        if (Constant.newSyncSwitch){
+                            avAccount.put(AVObject.UPDATED_AT, now);
                         }
                         if (editType == EDIT_TYPE_DEL) {
                             avAccount.setAccountIsDel(true);
@@ -373,8 +399,10 @@ public class AccountManager extends BaseManager {
                 account.setAccountName(avAccount.getAccountName());
                 account.setSyncStatus(true);
                 account.setIndex(i);
-                //account.setCreatedAt(avAccount.getCreatedAt());
-                //account.setUpdatedAt(avAccount.getUpdatedAt());
+                if (Constant.newSyncSwitch){
+                    account.setCreatedAt(avAccount.getCreatedAt());
+                    account.setUpdatedAt(avAccount.getUpdatedAt());
+                }
                 i++;
                 accountLocalDao.createNewAccount(account, _context);
             }
@@ -397,6 +425,10 @@ public class AccountManager extends BaseManager {
             config.setObjectID(avAccountIndex.getObjectId());
             config.setKey(ACCOUNT_INDEX_UPDATE);
             config.setValue("true");
+            if (Constant.newSyncSwitch){
+                config.setUpdatedAt(avAccountIndex.getUpdatedAt());
+                config.setCreatedAt(avAccountIndex.getCreatedAt());
+            }
             configLocalDao.updateConfig(config, _context);
             accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
         }
@@ -412,7 +444,7 @@ public class AccountManager extends BaseManager {
         if (list != null) {
             accountLocalDao.updateAccountIndex(_context, list);
         }
-
+        final Date now = new Date(System.currentTimeMillis());
         if (canSync()) {
             final Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
             if (config != null && "true".equals(config.getValue()) && list == null) {
@@ -422,6 +454,10 @@ public class AccountManager extends BaseManager {
             if (config != null && !TextUtils.isEmpty(config.getObjectID())) {
                 AVAccountIndex avAccountIndex = new AVAccountIndex();
                 avAccountIndex.setObjectId(config.getObjectID());
+                if (Constant.newSyncSwitch){
+                    avAccountIndex.put(AVObject.UPDATED_AT,now);
+                    config.setUpdatedAt(now);
+                }
                 avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
                 avAccountIndex.saveInBackground(new SaveCallback() {
                     @Override
@@ -451,6 +487,10 @@ public class AccountManager extends BaseManager {
                         if (config == null) {
                             config = new Config();
                         }
+                        if (Constant.newSyncSwitch){
+                            config.setUpdatedAt(now);
+                            config.setCreatedAt(now);
+                        }
                         config.setKey(ACCOUNT_INDEX_UPDATE);
                         config.setValue("false");
                         configLocalDao.updateConfig(config, _context);
@@ -460,6 +500,9 @@ public class AccountManager extends BaseManager {
                             avAccountIndex = list.get(0);
                         } else {
                             avAccountIndex = new AVAccountIndex();
+                        }
+                        if (Constant.newSyncSwitch){
+                            avAccountIndex.put(AVObject.UPDATED_AT,now);
                         }
                         final String objId = avAccountIndex.getObjectId();
                         avAccountIndex.setUser(MyAVUser.getCurrentUser());
