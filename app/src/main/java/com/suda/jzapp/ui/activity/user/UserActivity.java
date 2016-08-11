@@ -23,6 +23,7 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.QRCodeUtil;
+import com.suda.jzapp.util.SnackBarUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -124,6 +125,10 @@ public class UserActivity extends BaseActivity {
 
     public void updateIcon(Intent data) {
         Bundle extras = data.getExtras();
+        if (extras == null) {
+            SnackBarUtil.showSnackInfo(mHeadIcon, this, "获取图片失败");
+            return;
+        }
         final Bitmap mHeadBitMap = extras.getParcelable("data");
         circleProgressBar.setVisibility(View.VISIBLE);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);

@@ -35,7 +35,6 @@ import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
-import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
@@ -50,6 +49,7 @@ import com.suda.jzapp.ui.activity.user.UserActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
+import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -72,6 +72,7 @@ public class MainActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
         }
+
         //new SystemManager(this).getCurrency();
         userManager = new UserManager(this);
         initWidget();
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                         animator.start();
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 } else
@@ -197,14 +198,14 @@ public class MainActivity extends BaseActivity {
         // 选中的文字颜色
         mPagerSlidingTabStrip.setSelectedTextColor(Color.WHITE);
         // 正常文字颜色
-        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID())& 0x3f000000);
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID()) & 0x3f000000);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID())& 0x3f000000);
+        mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID()) & 0x3f000000);
         mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
         if (MyAVUser.getCurrentUser() != null) {
@@ -222,7 +223,7 @@ public class MainActivity extends BaseActivity {
             });
         } else {
             Glide.with(MainActivity.this.getApplicationContext()).
-                    load(R.mipmap.ic_launcher)
+                    load(LauncherIconUtil.getLauncherIcon(this))
                     .into(headImg);
         }
     }

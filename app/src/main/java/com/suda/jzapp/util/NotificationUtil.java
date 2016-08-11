@@ -18,7 +18,7 @@ public class NotificationUtil {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = new Notification.Builder(context)
                 //.setLargeIcon(context.getResources().getN)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(LauncherIconUtil.getLauncherIcon(context))
                 .setContentTitle("记账提醒")
                 .setContentText(message)
                 .build();
@@ -29,6 +29,6 @@ public class NotificationUtil {
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         PendingIntent contextIntent = PendingIntent.getActivity(context, 0, intent, 0);
         notification.contentIntent = contextIntent;
-        notificationManager.notify(R.mipmap.ic_launcher, notification);
+        notificationManager.notify(LauncherIconUtil.getLauncherIcon(context), notification);
     }
 }

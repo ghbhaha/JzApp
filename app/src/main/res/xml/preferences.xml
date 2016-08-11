@@ -29,6 +29,13 @@
             android:summaryOn="@string/immersive_status_bar_on"
             android:title="@string/immersive_status_bar_setting" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_icon"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/icon_type2"
+            android:summaryOn="@string/icon_type1"
+            android:title="@string/icon_type" />
 
     </com.suda.jzapp.view.MyPreferenceCategory>
 

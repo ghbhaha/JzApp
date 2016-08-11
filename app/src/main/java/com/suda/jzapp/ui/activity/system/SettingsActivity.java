@@ -1,7 +1,6 @@
 package com.suda.jzapp.ui.activity.system;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +16,7 @@ import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.AlarmUtil;
+import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.StatusBarCompat;
@@ -76,6 +76,7 @@ public class SettingsActivity extends BaseActivity {
         private CheckBoxPreference mGestureLockCheck;
         private CheckBoxPreference mRemindCheck;
         private CheckBoxPreference mImmersiveCheck;
+        private CheckBoxPreference mIconCheck;
         private MyPreferenceCategory mCommonCateGory;
 
         @Override
@@ -85,10 +86,12 @@ public class SettingsActivity extends BaseActivity {
             mGestureLockCheck = (CheckBoxPreference) findPreference(GESTURE_LOCK);
             mRemindCheck = (CheckBoxPreference) findPreference(REMIND_SETTING);
             mImmersiveCheck = (CheckBoxPreference) findPreference(IMMERSIVE_STATUS_BAR);
+            mIconCheck = (CheckBoxPreference) findPreference(ICON_TYPE);
             mCommonCateGory = (MyPreferenceCategory) findPreference("common_settings");
 
             mRemindCheck.setOnPreferenceChangeListener(this);
             mGestureLockCheck.setOnPreferenceChangeListener(this);
+            mIconCheck.setOnPreferenceChangeListener(this);
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
                 mCommonCateGory.removePreference(mImmersiveCheck);
@@ -150,8 +153,17 @@ public class SettingsActivity extends BaseActivity {
                     StatusBarCompat.compat(getActivity(), getActivity().getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainDarkColorID()));
                 } else {
                     mImmersiveCheck.setChecked(true);
-                    StatusBarCompat.compat( getActivity(), getActivity().getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainColorID()));
+                    StatusBarCompat.compat(getActivity(), getActivity().getResources().getColor(ThemeUtil.getTheme(getActivity()).getMainColorID()));
                 }
+            } else if (preference == mIconCheck) {
+                if (mIconCheck.isChecked()) {
+                    mIconCheck.setChecked(false);
+                    LauncherIconUtil.changeLauncherIcon(getActivity(), 2);
+                } else {
+                    mIconCheck.setChecked(true);
+                    LauncherIconUtil.changeLauncherIcon(getActivity(), 1);
+                }
+                SnackBarUtil.showSnackInfo(getView(), getActivity(), "桌面图标需要退出后等一会才能生效哦~");
             }
             return false;
         }
@@ -166,6 +178,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
+    public static final String ICON_TYPE = "key_icon";
     public static final String GESTURE_LOCK = "gesture_lock";
     public static final String REMIND_SETTING = "remind_setting";
     public static final String IMMERSIVE_STATUS_BAR = "immersive_status_bar";

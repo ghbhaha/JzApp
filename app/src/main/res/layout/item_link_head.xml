@@ -19,7 +19,7 @@
             android:id="@+id/my_head"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/icon2" />
 
         <TextView
             android:id="@+id/my_name"
@@ -48,7 +48,7 @@
             android:id="@+id/other_head"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/icon2" />
 
         <TextView
             android:id="@+id/other_name"

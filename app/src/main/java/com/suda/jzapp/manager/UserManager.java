@@ -38,6 +38,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.util.ExceptionInfoUtil;
 import com.suda.jzapp.util.ImageUtil;
+import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.MsgUtil;
 import com.suda.jzapp.util.SPUtils;
@@ -66,7 +67,7 @@ public class UserManager extends BaseManager {
      */
     public void register(String userName, String password, String email, final Handler handler) {
         final MyAVUser user = new MyAVUser();
-        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), LauncherIconUtil.getLauncherIcon(_context));
         AVFile avFile = new AVFile(MyAVUser.HEAD_IMAGE, ImageUtil.Bitmap2Bytes(bitmap));
         user.setHeadImage(avFile);
         user.setUsername(userName);

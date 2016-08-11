@@ -18,6 +18,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
+import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.view.gesturelockview.GestureLockViewGroup;
 

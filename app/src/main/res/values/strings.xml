@@ -40,7 +40,8 @@
     <string name="app_name_with_introduce">账单助手 - 理财的好帮手</string>
     <string name="developers">开发人员</string>
     <string name="developer_and_designer"><![CDATA[开发者 & 设计]]></string>
-    <string name="developer_icon"><![CDATA[图标设计]]></string>
+    <string name="developer_icon1"><![CDATA[图标1设计]]></string>
+    <string name="developer_icon2"><![CDATA[图标2设计]]></string>
     <string name="developer">开发者</string>
     <string name="open_source_lis">开源协议</string>
     <string name="introduce_and_help">介绍与帮助</string>
@@ -78,6 +79,11 @@
     <string name="gesture_setting_off">手势解锁已关闭</string>
     <string name="inMoney">本月收入\n%.2f</string>
     <string name="outMoney">本月支出\n%.2f</string>
+
+    <string name="key_icon">key_icon</string>
+    <string name="icon_type">启动图标</string>
+    <string name="icon_type1">图标1</string>
+    <string name="icon_type2">图标2</string>
 
     <string name="type_analysis">分类统计(当月)</string>
     <string name="intent_analysis">收支趋势(当年)</string>

@@ -8,6 +8,9 @@ import android.widget.TextView;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.util.AppUtil;
+import com.suda.jzapp.util.LauncherIconUtil;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AboutActivity extends BaseActivity {
 
@@ -35,6 +38,7 @@ public class AboutActivity extends BaseActivity {
     protected void initWidget() {
         ((TextView) findViewById(R.id.tv_version)).setText("Version " + AppUtil.getAppInfo(this).versionName);
         findViewById(R.id.background).setBackgroundColor(getColor(this, getMainTheme().getMainColorID()));
+        ((CircleImageView)findViewById(R.id.appIcon)).setImageResource(LauncherIconUtil.getLauncherIcon(this));
     }
 
     private Toolbar mToolbar;

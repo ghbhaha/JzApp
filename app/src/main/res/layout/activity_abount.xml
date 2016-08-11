@@ -30,10 +30,11 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/appIcon"
                     android:layout_width="86dp"
                     android:layout_height="86dp"
                     android:layout_marginTop="46dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@mipmap/icon2"
                     app:civ_border_color="@color/md_white_1000"
                     app:civ_border_width="2dp" />
 
@@ -122,80 +123,114 @@
                 android:text="@string/developers"
                 android:textColor="@color/md_grey_600" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/card">
-
-                <ImageView
-                    android:id="@+id/ig_suda"
-                    android:layout_width="@dimen/avatar_size"
-                    android:layout_height="@dimen/avatar_size"
-                    android:layout_margin="16dp"
-                    android:src="@mipmap/suda" />
-
-                <TextView
-                    android:id="@+id/tv_suda"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/ig_suda"
-                    android:layout_toEndOf="@id/ig_suda"
-                    android:layout_toRightOf="@id/ig_suda"
-                    android:text="Suda"
-                    android:textColor="@color/md_grey_800"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_suda"
-                    android:layout_toRightOf="@id/ig_suda"
-                    android:paddingBottom="16dp"
-                    android:text="@string/developer_and_designer"
-                    android:textColor="@color/md_grey_600" />
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/md_grey_500" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/card">
+                android:background="@drawable/card"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/ig_icon"
-                    android:layout_width="@dimen/avatar_size"
-                    android:layout_height="@dimen/avatar_size"
-                    android:layout_margin="16dp"
-                    android:src="@mipmap/avatar_middle" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tv_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/ig_icon"
-                    android:layout_toEndOf="@id/ig_icon"
-                    android:layout_toRightOf="@id/ig_icon"
-                    android:text="fairyex"
-                    android:textColor="@color/md_grey_800"
-                    tools:ignore="HardcodedText" />
+                    <ImageView
+                        android:id="@+id/ig_suda"
+                        android:layout_width="@dimen/avatar_size"
+                        android:layout_height="@dimen/avatar_size"
+                        android:layout_margin="16dp"
+                        android:src="@mipmap/suda" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_icon"
-                    android:layout_toRightOf="@id/ig_icon"
-                    android:paddingBottom="16dp"
-                    android:text="@string/developer_icon"
-                    android:textColor="@color/md_grey_600" />
+                    <TextView
+                        android:id="@+id/tv_suda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ig_suda"
+                        android:layout_toEndOf="@id/ig_suda"
+                        android:layout_toRightOf="@id/ig_suda"
+                        android:text="Suda"
+                        android:textColor="@color/md_grey_800"
+                        tools:ignore="HardcodedText" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_suda"
+                        android:layout_toRightOf="@id/ig_suda"
+                        android:paddingBottom="16dp"
+                        android:text="@string/developer_and_designer"
+                        android:textColor="@color/md_grey_600" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ToddThink_ig_icon"
+                        android:layout_width="@dimen/avatar_size"
+                        android:layout_height="@dimen/avatar_size"
+                        android:layout_margin="16dp"
+                        android:src="@mipmap/toddthink" />
+
+                    <TextView
+                        android:id="@+id/ToddThink_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ToddThink_ig_icon"
+                        android:layout_toEndOf="@id/ToddThink_ig_icon"
+                        android:layout_toRightOf="@id/ToddThink_ig_icon"
+                        android:text="ToddThink"
+                        android:textColor="@color/md_grey_800"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ToddThink_icon"
+                        android:layout_toRightOf="@id/ToddThink_ig_icon"
+                        android:paddingBottom="16dp"
+                        android:text="@string/developer_icon1"
+                        android:textColor="@color/md_grey_600" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ig_icon"
+                        android:layout_width="@dimen/avatar_size"
+                        android:layout_height="@dimen/avatar_size"
+                        android:layout_margin="16dp"
+                        android:src="@mipmap/avatar_middle" />
+
+                    <TextView
+                        android:id="@+id/tv_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ig_icon"
+                        android:layout_toEndOf="@id/ig_icon"
+                        android:layout_toRightOf="@id/ig_icon"
+                        android:text="fairyex"
+                        android:textColor="@color/md_grey_800"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_icon"
+                        android:layout_toRightOf="@id/ig_icon"
+                        android:paddingBottom="16dp"
+                        android:text="@string/developer_icon2"
+                        android:textColor="@color/md_grey_600" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
