@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.domain.LineChartDo;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
@@ -72,9 +72,9 @@ public class RecordLineAnalysisAdapter extends BaseAdapter {
         holder.outTv.setTextColor(lineChartDo.getAllOut() == 0 ? colorGrey : themeColor);
 
         holder.monthTv.setText(lineChartDo.getMonth() + "月");
-        holder.inTv.setText(TextUtil.getFormatMoney(lineChartDo.getAllIn()) + "");
-        holder.outTv.setText(TextUtil.getFormatMoney(lineChartDo.getAllOut()) + "");
-        holder.leftTv.setText(TextUtil.getFormatMoney(lineChartDo.getAllLeft()) + "");
+        holder.inTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllIn()));
+        holder.outTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllOut()));
+        holder.leftTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllLeft()));
 
         return convertView;
     }

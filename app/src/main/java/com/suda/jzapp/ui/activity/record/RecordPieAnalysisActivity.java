@@ -22,7 +22,7 @@ import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.ui.adapter.RecordPieAnalysisAdapter;
 import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.IconTypeUtil;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -91,7 +91,9 @@ public class RecordPieAnalysisActivity extends BaseActivity {
 
             @Override
             public void onNothingSelected() {
-                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + TextUtil.getFormatMoney(allOutOrInMoney));
+                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") +
+                        MoneyUtil.getFormatMoney(RecordPieAnalysisActivity.this
+                                , allOutOrInMoney));
             }
         });
 
@@ -152,10 +154,10 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                 int i = 0;
                 double min = Double.MAX_VALUE;
                 for (ChartRecordDo chartRecordDo : list) {
-                    if (Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())) < min)
-                        min = Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
-                    allOutOrInMoney += Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
-                    yVals1.add(new Entry(Math.abs(new Double(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
+                    if (Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney())) < min)
+                        min = Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney()));
+                    allOutOrInMoney += Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney()));
+                    yVals1.add(new Entry(Math.abs(new Double(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
                     xVals1.add(chartRecordDo.getRecordDesc());
                     colors.add(IconTypeUtil.getTypeIconOrColor(chartRecordDo.getIconId(), false));
                     i++;
@@ -176,7 +178,8 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                     mTypePieChart.setCenterTextColor(Color.RED);
                 } else {
                     mTypePieChart.setCenterTextColor(mainColor);
-                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + TextUtil.getFormatMoney(allOutOrInMoney));
+                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n")
+                            + MoneyUtil.getFormatMoney(RecordPieAnalysisActivity.this, allOutOrInMoney));
                 }
 
                 mTypePieChart.animateXY(500, 500);  //设置动画

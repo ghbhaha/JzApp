@@ -13,7 +13,7 @@ import com.suda.jzapp.dao.greendao.BudgetDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.AccountIndexDO;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,16 +29,16 @@ public class AccountLocalDao extends BaseLocalDao {
         return getSingleData(budgetDao.queryBuilder().list()).getBudgetMoney();
     }
 
-    public void updateBudget(Context context,double money) {
+    public void updateBudget(Context context, double money) {
         BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
         Budget budget = getSingleData(budgetDao.queryBuilder().list());
-        if (budget!=null){
+        if (budget != null) {
             budget.setBudgetMoney(money);
             budgetDao.update(budget);
         }
     }
 
-    public void initBudget(Context context){
+    public void initBudget(Context context) {
         BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
         budgetDao.deleteAll();
         Budget budget = new Budget();
@@ -160,8 +160,7 @@ public class AccountLocalDao extends BaseLocalDao {
 
     public void createNewAccount(Account account, Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
-
-        account.setAccountMoney(Double.parseDouble(TextUtil.getFormatMoney((account.getAccountMoney()))));
+        account.setAccountMoney(MoneyUtil.getFormatNum((account.getAccountMoney())));
         accountDao.insert(account);
     }
 

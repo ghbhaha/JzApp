@@ -33,8 +33,8 @@ import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.MyCircleRectangleTextView;
 import com.suda.jzapp.view.draggrid.DragGridView;
@@ -69,7 +69,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         if (oldRecord == null) {
             if (voiceRecord != null) {
                 zhiChu = voiceRecord.getRecordType() == Constant.RecordType.ZUICHU.getId();
-                tvMoneyCount.setText(TextUtil.getFormatMoney(voiceRecord.getRecordMoney()));
+                tvMoneyCount.setText(MoneyUtil.getFormatMoney(this,voiceRecord.getRecordMoney()));
                 mCurRecordType = (RecordType) getIntent().getSerializableExtra(IntentConstant.VOICE_RECORD_TYPE);
                 tvTypeTitle.setText(mCurRecordType.getRecordDesc());
                 typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
@@ -567,11 +567,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
             opt = Opt.PLUS;
             if (tempCount <= Constant.MAX) {
-                tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
             } else {
-                tvMoneyCount.setText(TextUtil.getFormatMoney(Constant.MAX));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));
             }
-            tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
         } else if ("-".equals(tag)) {
             doNum = 0;
             isDO = false;
@@ -597,7 +597,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             opt = Opt.MINUS;
-            tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
         } else if ("OK".equals(tag)) {
             isDO = false;
             doNum = 0;
@@ -631,9 +631,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 moneyCount = moneyCount + Double.parseDouble(money);
             }
             if (tempCount <= Constant.MAX) {
-                tvMoneyCount.setText(TextUtil.getFormatMoney(moneyCount));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
             } else {
-                tvMoneyCount.setText(TextUtil.getFormatMoney(Constant.MAX));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));
             }
             opt = Opt.EQUAL;
             moneyCount = 0.00;

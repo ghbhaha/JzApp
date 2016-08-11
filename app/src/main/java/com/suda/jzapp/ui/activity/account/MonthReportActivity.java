@@ -23,7 +23,6 @@ import com.suda.jzapp.manager.domain.MonthReport;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.SPUtils;
-import com.suda.jzapp.util.TextUtil;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -118,7 +117,7 @@ public class MonthReportActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 MonthReport monthReport = (MonthReport) msg.obj;
-                mTvAllMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, TextUtil.gwtFormatNum(monthReport.getAllMoney())));
+                mTvAllMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getAllMoney()));
                 //目前还剩20\n看来得收紧口袋喽
                 String budgetTip = "目前还剩" + (MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getBudgetMoney() + monthReport.getOutMoney()));
                 if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() > 0.8 && Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() < 1) {
@@ -136,10 +135,10 @@ public class MonthReportActivity extends BaseActivity {
                 }
                 //其中'吃饭'消费最多，共消费40。\n看来你是一个吃货呀
                 String outMoneyTip = "平均每天消费" + MoneyUtil.getFormatMoney(MonthReportActivity.this,
-                        TextUtil.gwtFormatNum(Math.abs(monthReport.getOutMoney()) / getDayOfMonth()));
+                         Math.abs(monthReport.getOutMoney() / getDayOfMonth()));
                 if (!TextUtils.isEmpty(monthReport.getOutMaxType())) {
                     outMoneyTip += "\n其中'" + monthReport.getOutMaxType() + "'消费最多，共消费"
-                            + MoneyUtil.getFormatMoney(MonthReportActivity.this, TextUtil.gwtFormatNum(monthReport.getOutMaxMoney()));
+                            + MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getOutMaxMoney());
                 }
                 //加油，骚年
                 String inMoneyTip = "";
@@ -148,9 +147,9 @@ public class MonthReportActivity extends BaseActivity {
                 } else {
                     inMoneyTip = "很不错嘛，继续加油";
                 }
-                mTvBudget.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, TextUtil.gwtFormatNum(monthReport.getBudgetMoney())));
-                mTvInMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, TextUtil.gwtFormatNum(monthReport.getInMoney())));
-                mTvOutMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, TextUtil.gwtFormatNum(Math.abs(monthReport.getOutMoney()))));
+                mTvBudget.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getBudgetMoney()));
+                mTvInMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getInMoney()));
+                mTvOutMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, Math.abs(monthReport.getOutMoney())));
                 mTvBudgetTip.setText(budgetTip);
                 mTvInMoneyTip.setText(inMoneyTip);
                 mTvOutMoneyTip.setText(outMoneyTip);

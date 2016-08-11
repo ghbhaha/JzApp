@@ -23,7 +23,7 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.AccountTypeAdapter;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
@@ -181,7 +181,7 @@ public class EditAccountActivity extends BaseActivity {
                             record.setAccountID(mAccountID);
                             record.setRecordType(Constant.RecordType.CHANGE.getId());
                             record.setRecordTypeID(Constant.CHANGE_TYPE);
-                            record.setRecordMoney(TextUtil.gwtFormatNum(money - mMoney));
+                            record.setRecordMoney(MoneyUtil.getFormatNum(money - mMoney));
                             record.setRecordDate(new Date(System.currentTimeMillis()));
                             recordManager.createNewRecord(record, null);
                             setResult(RESULT_OK, intent);

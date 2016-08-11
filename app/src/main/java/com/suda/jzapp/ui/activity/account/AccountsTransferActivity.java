@@ -23,8 +23,8 @@ import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.SnackBarUtil;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 public class AccountsTransferActivity extends BaseActivity {
@@ -84,7 +84,7 @@ public class AccountsTransferActivity extends BaseActivity {
         }
 
         mTvoOutAccountName.setText(accountDetailDO.getAccountName());
-        mTvOutAccountLeftMoney.setText(TextUtil.getFormatMoney(accountDetailDO.getAccountMoney()) + "");
+        mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
 
         mImgInAccountIcon.setImageResource(0);
         mTvInAccountName.setText("");
@@ -100,7 +100,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (outAccountID > 0)
                     intent.putExtra(IntentConstant.ACCOUNT_ID, outAccountID);
                 startActivityForResult(intent, 0);
-                overridePendingTransition(R.anim.up_in,0);
+                overridePendingTransition(R.anim.up_in, 0);
             }
         });
 
@@ -114,7 +114,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (inAccountID > 0)
                     intent.putExtra(IntentConstant.ACCOUNT_ID, inAccountID);
                 startActivityForResult(intent, 0);
-                overridePendingTransition(R.anim.up_in,0);
+                overridePendingTransition(R.anim.up_in, 0);
             }
         });
 
@@ -204,7 +204,7 @@ public class AccountsTransferActivity extends BaseActivity {
         }
         circleProgressBar.setVisibility(View.VISIBLE);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
-        recordManager.moneyTransFer(outAccountID, inAccountID, TextUtil.gwtFormatNum(Double.parseDouble(eEtInMoney.getText().toString())), new Handler() {
+        recordManager.moneyTransFer(outAccountID, inAccountID, MoneyUtil.getFormatNum(Double.parseDouble(eEtInMoney.getText().toString())), new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -236,7 +236,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 }
 
                 mTvoOutAccountName.setText(accountDetailDO.getAccountName());
-                mTvOutAccountLeftMoney.setText(TextUtil.getFormatMoney(accountDetailDO.getAccountMoney()) + "");
+                mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
             } else {
                 if (outAccountID == accountId) {
                     SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.not_select_same_account));
@@ -254,7 +254,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 }
 
                 mTvInAccountName.setText(accountDetailDO.getAccountName());
-                mTvInAccountLeftMoney.setText(TextUtil.getFormatMoney(accountDetailDO.getAccountMoney()) + "");
+                mTvInAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
             }
         }
 

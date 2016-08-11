@@ -43,7 +43,7 @@ import com.suda.jzapp.manager.domain.VoiceDo;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.io.BufferedWriter;
@@ -807,7 +807,7 @@ public class RecordManager extends BaseManager {
                         record.setAccountID(outAccountId);
                         record.setRecordType(Constant.RecordType.CHANGE.getId());
                         record.setRecordTypeID(Constant.TRANSFER_TYPE);
-                        record.setRecordMoney(TextUtil.gwtFormatNum(-money));
+                        record.setRecordMoney(MoneyUtil.getFormatNum(-money));
                         record.setRecordDate(new Date(System.currentTimeMillis()));
                         createNewRecord(record, new Handler() {
                             @Override
@@ -820,7 +820,7 @@ public class RecordManager extends BaseManager {
                                 record.setAccountID(inAccountId);
                                 record.setRecordType(Constant.RecordType.CHANGE.getId());
                                 record.setRecordTypeID(Constant.TRANSFER_TYPE);
-                                record.setRecordMoney(TextUtil.gwtFormatNum(money));
+                                record.setRecordMoney(MoneyUtil.getFormatNum(money));
                                 record.setRecordDate(new Date(System.currentTimeMillis()));
                                 createNewRecord(record, new Handler() {
                                     @Override

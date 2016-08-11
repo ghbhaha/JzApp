@@ -14,7 +14,7 @@ import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.record.NewRecordTypeDetailActivity;
 import com.suda.jzapp.util.IconTypeUtil;
-import com.suda.jzapp.util.TextUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.List;
@@ -86,8 +86,8 @@ public class RecordPieAnalysisAdapter extends BaseAdapter {
 
         holder.recordIcon.setImageResource(IconTypeUtil.getTypeIcon(chartRecordDo.getIconId()));
         holder.recordDescTv.setText(chartRecordDo.getRecordDesc());
-        holder.recordPerCentTv.setText(TextUtil.getFormatMoney(chartRecordDo.getPer()) + "%");
-        holder.recordMoneyTv.setText(TextUtil.getFormatMoney(chartRecordDo.getRecordMoney()) + "");
+        holder.recordPerCentTv.setText(MoneyUtil.getFormatNumStr(mContext, chartRecordDo.getPer()) + "%");
+        holder.recordMoneyTv.setText(MoneyUtil.getFormatMoney(mContext, chartRecordDo.getRecordMoney()));
         holder.recordMoneyTv.setTextColor(mContext.getResources().getColor(ThemeUtil.getTheme(mContext).getMainColorID()));
         return convertView;
     }

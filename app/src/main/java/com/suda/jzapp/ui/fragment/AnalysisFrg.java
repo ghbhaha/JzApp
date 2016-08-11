@@ -35,8 +35,8 @@ import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.RecordLineChartActivity;
 import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.util.IconTypeUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.SPUtils;
-import com.suda.jzapp.util.TextUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
@@ -162,7 +162,8 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
             @Override
             public void onNothingSelected() {
-                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + TextUtil.getFormatMoney(allOutOrInMoney));
+                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoney(getActivity(),
+                        allOutOrInMoney));
             }
         });
 
@@ -215,10 +216,10 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                 int i = 0;
                 double min = Double.MAX_VALUE;
                 for (ChartRecordDo chartRecordDo : list) {
-                    if (Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())) < min)
-                        min = Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
-                    allOutOrInMoney += Math.abs(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney()));
-                    yPieVals1.add(new Entry(Math.abs(new Double(TextUtil.gwtFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
+                    if (Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney())) < min)
+                        min = Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney()));
+                    allOutOrInMoney += Math.abs(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney()));
+                    yPieVals1.add(new Entry(Math.abs(new Double(MoneyUtil.getFormatNum(chartRecordDo.getRecordMoney())).floatValue()), i));
                     xPieVals1.add(chartRecordDo.getRecordDesc());
                     colors.add(IconTypeUtil.getTypeIconOrColor(chartRecordDo.getIconId(), false));
                     i++;
@@ -239,7 +240,8 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                     mTypePieChart.setCenterTextColor(Color.RED);
                 } else {
                     mTypePieChart.setCenterTextColor(mainColor);
-                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + TextUtil.getFormatMoney(allOutOrInMoney));
+                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoney(getActivity()
+                            , allOutOrInMoney));
                 }
 
                 mTypePieChart.animateXY(500, 500);  //设置动画
