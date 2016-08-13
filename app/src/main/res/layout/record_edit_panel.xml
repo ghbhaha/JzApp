@@ -21,7 +21,8 @@
                 android:onClick="onClickPanel"
                 android:text="1"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -30,7 +31,8 @@
                 android:onClick="onClickPanel"
                 android:text="2"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -39,7 +41,8 @@
                 android:onClick="onClickPanel"
                 android:text="3"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -48,7 +51,8 @@
                 android:onClick="onClickPanel"
                 android:text="del"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow>
@@ -60,7 +64,8 @@
                 android:onClick="onClickPanel"
                 android:text="4"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -69,7 +74,8 @@
                 android:onClick="onClickPanel"
                 android:text="5"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -78,7 +84,8 @@
                 android:onClick="onClickPanel"
                 android:text="6"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -87,7 +94,8 @@
                 android:onClick="onClickPanel"
                 android:text="+"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow>
@@ -99,7 +107,8 @@
                 android:onClick="onClickPanel"
                 android:text="7"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -108,7 +117,8 @@
                 android:onClick="onClickPanel"
                 android:text="8"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -117,7 +127,8 @@
                 android:onClick="onClickPanel"
                 android:text="9"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -126,7 +137,8 @@
                 android:onClick="onClickPanel"
                 android:text="-"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
         </TableRow>
 
         <TableRow>
@@ -138,7 +150,8 @@
                 android:onClick="onClickPanel"
                 android:text="C"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -147,7 +160,8 @@
                 android:onClick="onClickPanel"
                 android:text="0"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:layout_height="@dimen/button_height"
@@ -156,7 +170,8 @@
                 android:onClick="onClickPanel"
                 android:text="."
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/ok"
@@ -165,6 +180,7 @@
                 android:background="#00000000"
                 android:onClick="onClickPanel"
                 android:text="OK"
+                android:textStyle="bold"
                 android:textColor="@color/md_white_1000"
                 android:textSize="@dimen/panel_text_size" />
         </TableRow>
@@ -188,8 +204,8 @@
                 android:id="@+id/edit_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_toLeftOf="@+id/remark_save" />
 
             <Button
@@ -203,10 +219,10 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/remark_tips2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:id="@+id/remark_tips2"
             android:text="经常使用"
             android:textColor="@color/blue" />
 

@@ -537,7 +537,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             if (!"0".equals(money.substring(0, money.length() - 3))) {
                 long tmp = Long.parseLong(money.substring(0, money.length() - 3));
                 tmp = tmp / 10;
-                moneyCount = tmp;
+                //moneyCount = tmp;
                 tempCount = Double.parseDouble(money);
                 tvMoneyCount.setText(tmp + ".00");
             }
@@ -566,7 +566,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             opt = Opt.PLUS;
-            if (tempCount <= Constant.MAX) {
+            if (moneyCount <= Constant.MAX) {
                 tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
             } else {
                 tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));
@@ -630,7 +630,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             } else {
                 moneyCount = moneyCount + Double.parseDouble(money);
             }
-            if (tempCount <= Constant.MAX) {
+            if (moneyCount <= Constant.MAX) {
                 tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
             } else {
                 tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));

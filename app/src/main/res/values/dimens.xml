@@ -20,7 +20,7 @@
     <dimen name="card_margin_buttom">6dp</dimen>
     <dimen name="card_margin_let_right">10dp</dimen>
 
-    <dimen name="panel_text_size">18sp</dimen>
+    <dimen name="panel_text_size">20sp</dimen>
     <dimen name="button_height">60dp</dimen>
 
     <dimen name="record_type_size">40dp</dimen>
