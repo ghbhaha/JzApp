@@ -117,9 +117,9 @@ public class MonthReportActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 MonthReport monthReport = (MonthReport) msg.obj;
-                mTvAllMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getAllMoney()));
+                mTvAllMoney.setText(MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getAllMoney()));
                 //目前还剩20\n看来得收紧口袋喽
-                String budgetTip = "目前还剩" + (MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getBudgetMoney() + monthReport.getOutMoney()));
+                String budgetTip = "目前还剩" + (MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getBudgetMoney() + monthReport.getOutMoney()));
                 if (Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() > 0.8 && Math.abs(monthReport.getOutMoney()) / monthReport.getBudgetMoney() < 1) {
                     budgetTip += "\n看来得勒紧裤腰带喽";
                     mTvBudget.setTextColor(Color.RED);
@@ -134,11 +134,11 @@ public class MonthReportActivity extends BaseActivity {
                     budgetTip = "本月已超出预算";
                 }
                 //其中'吃饭'消费最多，共消费40。\n看来你是一个吃货呀
-                String outMoneyTip = "平均每天消费" + MoneyUtil.getFormatMoney(MonthReportActivity.this,
+                String outMoneyTip = "平均每天消费" + MoneyUtil.getFormatMoneyStr(MonthReportActivity.this,
                          Math.abs(monthReport.getOutMoney() / getDayOfMonth()));
                 if (!TextUtils.isEmpty(monthReport.getOutMaxType())) {
                     outMoneyTip += "\n其中'" + monthReport.getOutMaxType() + "'消费最多，共消费"
-                            + MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getOutMaxMoney());
+                            + MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getOutMaxMoney());
                 }
                 //加油，骚年
                 String inMoneyTip = "";
@@ -147,9 +147,9 @@ public class MonthReportActivity extends BaseActivity {
                 } else {
                     inMoneyTip = "很不错嘛，继续加油";
                 }
-                mTvBudget.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getBudgetMoney()));
-                mTvInMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, monthReport.getInMoney()));
-                mTvOutMoney.setText(MoneyUtil.getFormatMoney(MonthReportActivity.this, Math.abs(monthReport.getOutMoney())));
+                mTvBudget.setText(MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getBudgetMoney()));
+                mTvInMoney.setText(MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getInMoney()));
+                mTvOutMoney.setText(MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, Math.abs(monthReport.getOutMoney())));
                 mTvBudgetTip.setText(budgetTip);
                 mTvInMoneyTip.setText(inMoneyTip);
                 mTvOutMoneyTip.setText(outMoneyTip);
@@ -173,7 +173,7 @@ public class MonthReportActivity extends BaseActivity {
 
     public static int getDayOfMonth() {
         Calendar aCalendar = Calendar.getInstance(Locale.CHINA);
-        int day = aCalendar.getActualMaximum(Calendar.DATE);
+        int day = aCalendar.get(Calendar.DATE);
         return day;
     }
 

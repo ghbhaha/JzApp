@@ -87,7 +87,7 @@ public class RecordPieAnalysisAdapter extends BaseAdapter {
         holder.recordIcon.setImageResource(IconTypeUtil.getTypeIcon(chartRecordDo.getIconId()));
         holder.recordDescTv.setText(chartRecordDo.getRecordDesc());
         holder.recordPerCentTv.setText(MoneyUtil.getFormatNumStr(mContext, chartRecordDo.getPer()) + "%");
-        holder.recordMoneyTv.setText(MoneyUtil.getFormatMoney(mContext, chartRecordDo.getRecordMoney()));
+        holder.recordMoneyTv.setText(MoneyUtil.getFormatMoneyStr(mContext, chartRecordDo.getRecordMoney()));
         holder.recordMoneyTv.setTextColor(mContext.getResources().getColor(ThemeUtil.getTheme(mContext).getMainColorID()));
         return convertView;
     }

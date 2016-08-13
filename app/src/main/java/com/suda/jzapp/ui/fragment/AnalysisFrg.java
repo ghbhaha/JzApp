@@ -162,7 +162,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
             @Override
             public void onNothingSelected() {
-                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoney(getActivity(),
+                mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoneyStr(getActivity(),
                         allOutOrInMoney));
             }
         });
@@ -240,7 +240,7 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                     mTypePieChart.setCenterTextColor(Color.RED);
                 } else {
                     mTypePieChart.setCenterTextColor(mainColor);
-                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoney(getActivity()
+                    mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoneyStr(getActivity()
                             , allOutOrInMoney));
                 }
 

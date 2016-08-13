@@ -37,6 +37,7 @@ import com.suda.jzapp.manager.domain.ChartRecordDo;
 import com.suda.jzapp.manager.domain.ExcelRecord;
 import com.suda.jzapp.manager.domain.LineChartDo;
 import com.suda.jzapp.manager.domain.MonthReport;
+import com.suda.jzapp.manager.domain.MyDate;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.manager.domain.VoiceDo;
@@ -81,7 +82,7 @@ public class RecordManager extends BaseManager {
         calendar.set(Calendar.MILLISECOND, 0);
         record.setRecordDate(calendar.getTime());
         Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch){
+        if (Constant.newSyncSwitch) {
             record.setCreatedAt(now);
             record.setUpdatedAt(now);
         }
@@ -92,7 +93,7 @@ public class RecordManager extends BaseManager {
             avRecord.setIconID(recordType.getRecordIcon());
             avRecord.setRecordName(recordType.getRecordDesc());
             avRecord.setRecordIsDel(false);
-            if (Constant.newSyncSwitch){
+            if (Constant.newSyncSwitch) {
                 avRecord.put(AVObject.CREATED_AT, now);
                 avRecord.put(AVObject.UPDATED_AT, now);
             }
@@ -133,14 +134,14 @@ public class RecordManager extends BaseManager {
     public void updateOldRecord(final Record record, final Handler handler) {
         //1网络创建不成功 SyncStatus 置0
         final Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch){
+        if (Constant.newSyncSwitch) {
             record.setUpdatedAt(now);
         }
         if (canSync()) {
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-                if (Constant.newSyncSwitch){
-                    avRecord.put(AVObject.UPDATED_AT,now);
+                if (Constant.newSyncSwitch) {
+                    avRecord.put(AVObject.UPDATED_AT, now);
                 }
                 avRecord.saveInBackground(new SaveCallback() {
                     @Override
@@ -170,8 +171,8 @@ public class RecordManager extends BaseManager {
                         RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
                         avRecord.setIconID(recordType.getRecordIcon());
                         avRecord.setRecordName(recordType.getRecordDesc());
-                        if (Constant.newSyncSwitch){
-                            avRecord.put(AVObject.UPDATED_AT,now);
+                        if (Constant.newSyncSwitch) {
+                            avRecord.put(AVObject.UPDATED_AT, now);
                         }
                         if (list.size() > 0) {
                             avRecord.setObjectId(list.get(0).getObjectId());
@@ -213,7 +214,7 @@ public class RecordManager extends BaseManager {
     public void createNewRecordType(final RecordType recordType, final Handler handler) {
 
         Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch){
+        if (Constant.newSyncSwitch) {
             recordType.setCreatedAt(now);
             recordType.setUpdatedAt(now);
         }
@@ -231,9 +232,9 @@ public class RecordManager extends BaseManager {
         //1网络创建不成功 SyncStatus 置0
         if (canSync()) {
             final AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-            if (Constant.newSyncSwitch){
-                avRecordType.put(AVObject.CREATED_AT,now);
-                avRecordType.put(AVObject.UPDATED_AT,now);
+            if (Constant.newSyncSwitch) {
+                avRecordType.put(AVObject.CREATED_AT, now);
+                avRecordType.put(AVObject.UPDATED_AT, now);
             }
             avRecordType.setRecordTypeIsDel(false);
             avRecordType.saveInBackground(new SaveCallback() {
@@ -352,7 +353,7 @@ public class RecordManager extends BaseManager {
      */
     public void updateRecordType(final RecordType recordType, final Handler handler) {
         final Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch){
+        if (Constant.newSyncSwitch) {
             recordType.setUpdatedAt(now);
         }
         //1网络修改不成功 SyncStatus 置0
@@ -367,8 +368,8 @@ public class RecordManager extends BaseManager {
                 //自定义类型
                 if (!TextUtils.isEmpty(recordType.getObjectID())) {
                     AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-                    if (Constant.newSyncSwitch){
-                        avRecordType.put(AVObject.UPDATED_AT,now);
+                    if (Constant.newSyncSwitch) {
+                        avRecordType.put(AVObject.UPDATED_AT, now);
                     }
                     avRecordType.saveInBackground(new SaveCallback() {
                         @Override
@@ -393,8 +394,8 @@ public class RecordManager extends BaseManager {
                             if (list.size() > 0) {
                                 avRecordType.setObjectId(list.get(0).getObjectId());
                             }
-                            if (Constant.newSyncSwitch){
-                                avRecordType.put(AVObject.UPDATED_AT,now);
+                            if (Constant.newSyncSwitch) {
+                                avRecordType.put(AVObject.UPDATED_AT, now);
                             }
                             avRecordType.saveInBackground(new SaveCallback() {
                                 @Override
@@ -477,7 +478,7 @@ public class RecordManager extends BaseManager {
             @Override
             public void run() {
                 LogUtils.d("@@@" + pageIndex);
-                List<Date> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
+                List<MyDate> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
 
                 if (dates.size() == 0) {
@@ -486,18 +487,26 @@ public class RecordManager extends BaseManager {
                 }
                 RecordDetailDO recordDetailDOMonthFirst = new RecordDetailDO();
                 recordDetailDOMonthFirst.setIsFirstDay(true);
-                recordDetailDOMonthFirst.setRecordDate(dates.get(0));
+                MyDate myDate = dates.get(0);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, myDate.getYear());
+                calendar.set(Calendar.MONTH, myDate.getMonth());
+                calendar.set(Calendar.DAY_OF_MONTH, myDate.getDay());
+                recordDetailDOMonthFirst.setRecordDate(calendar.getTime());
                 recordDetailDos.add(recordDetailDOMonthFirst);
                 double todayAllInMoney, todayAllOutMoney = 0;
                 Map<Long, RecordType> recordTypeMap = new HashMap<>();
-                for (Date date : dates) {
+                for (MyDate date : dates) {
                     todayAllInMoney = 0;
                     todayAllOutMoney = 0;
                     RecordDetailDO RecordDetailDayFirst = new RecordDetailDO();
                     RecordDetailDayFirst.setIsDayFirstDay(true);
-                    RecordDetailDayFirst.setRecordDate(date);
+                    calendar.set(Calendar.YEAR, date.getYear());
+                    calendar.set(Calendar.MONTH, date.getMonth());
+                    calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
+                    RecordDetailDayFirst.setRecordDate(calendar.getTime());
                     recordDetailDos.add(RecordDetailDayFirst);
-                    List<Record> records = recordLocalDAO.getRecordByDate(_context, date);
+                    List<Record> records = recordLocalDAO.getRecordByMyDate(_context, date);
                     for (Record record : records) {
                         RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
                         if (recordType == null) {
@@ -617,7 +626,7 @@ public class RecordManager extends BaseManager {
                 record.setRecordMoney(avRecord.getRecordMoney());
                 record.setRemark(avRecord.getRemark());
                 record.setSyncStatus(true);
-                if (Constant.newSyncSwitch){
+                if (Constant.newSyncSwitch) {
                     record.setUpdatedAt(avRecord.getUpdatedAt());
                     record.setCreatedAt(avRecord.getCreatedAt());
                 }
@@ -653,7 +662,7 @@ public class RecordManager extends BaseManager {
                 recordType.setOccupation(Constant.Occupation.ALL.getId());
                 recordType.setSyncStatus(true);
                 recordType.setRecordDesc(avRecordType.getRecordDesc());
-                if (Constant.newSyncSwitch){
+                if (Constant.newSyncSwitch) {
                     recordType.setCreatedAt(avRecordType.getCreatedAt());
                     recordType.setUpdatedAt(avRecordType.getUpdatedAt());
                 }
@@ -676,7 +685,7 @@ public class RecordManager extends BaseManager {
             config.setObjectID(avRecordTypeIndex.getObjectId());
             config.setKey(RECORD_INDEX_UPDATE);
             config.setValue("true");
-            if (Constant.newSyncSwitch){
+            if (Constant.newSyncSwitch) {
                 config.setUpdatedAt(avRecordTypeIndex.getUpdatedAt());
                 config.setCreatedAt(avRecordTypeIndex.getCreatedAt());
             }

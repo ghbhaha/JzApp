@@ -16,8 +16,8 @@ android {
         applicationId "com.suda.jzapp"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.09"
+        versionCode 11
+        versionName "1.10"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }
@@ -25,10 +25,6 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     lintOptions{
@@ -47,7 +43,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig  signingConfigs.myConfig//不要忘了要在release的时候加入我么的签名配置信息
+            signingConfig  signingConfigs.myConfig
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -61,8 +57,8 @@ android {
 
     productFlavors {
         kuan {}
-        c360 {}
-        tencent {}
+//        c360 {}
+//        tencent {}
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }

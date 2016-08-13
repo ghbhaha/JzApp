@@ -92,7 +92,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
             @Override
             public void onNothingSelected() {
                 mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") +
-                        MoneyUtil.getFormatMoney(RecordPieAnalysisActivity.this
+                        MoneyUtil.getFormatMoneyStr(RecordPieAnalysisActivity.this
                                 , allOutOrInMoney));
             }
         });
@@ -179,7 +179,7 @@ public class RecordPieAnalysisActivity extends BaseActivity {
                 } else {
                     mTypePieChart.setCenterTextColor(mainColor);
                     mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n")
-                            + MoneyUtil.getFormatMoney(RecordPieAnalysisActivity.this, allOutOrInMoney));
+                            + MoneyUtil.getFormatMoneyStr(RecordPieAnalysisActivity.this, allOutOrInMoney));
                 }
 
                 mTypePieChart.animateXY(500, 500);  //设置动画

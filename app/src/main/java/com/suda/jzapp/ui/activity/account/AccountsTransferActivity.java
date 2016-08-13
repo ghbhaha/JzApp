@@ -84,7 +84,7 @@ public class AccountsTransferActivity extends BaseActivity {
         }
 
         mTvoOutAccountName.setText(accountDetailDO.getAccountName());
-        mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
+        mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoneyStr(this, accountDetailDO.getAccountMoney()));
 
         mImgInAccountIcon.setImageResource(0);
         mTvInAccountName.setText("");
@@ -236,7 +236,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 }
 
                 mTvoOutAccountName.setText(accountDetailDO.getAccountName());
-                mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
+                mTvOutAccountLeftMoney.setText(MoneyUtil.getFormatMoneyStr(this, accountDetailDO.getAccountMoney()));
             } else {
                 if (outAccountID == accountId) {
                     SnackBarUtil.showSnackInfo(floatingActionButton, this, getResources().getString(R.string.not_select_same_account));
@@ -254,7 +254,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 }
 
                 mTvInAccountName.setText(accountDetailDO.getAccountName());
-                mTvInAccountLeftMoney.setText(MoneyUtil.getFormatMoney(this, accountDetailDO.getAccountMoney()));
+                mTvInAccountLeftMoney.setText(MoneyUtil.getFormatMoneyStr(this, accountDetailDO.getAccountMoney()));
             }
         }
 

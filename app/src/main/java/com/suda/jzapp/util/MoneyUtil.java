@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  */
 public class MoneyUtil {
 
-    public static String getFormatMoney(Context context, double money) {
+    public static String getFormatMoneyStr(Context context, double money) {
         return "" + getFormatNumStr(context, money);
     }
 

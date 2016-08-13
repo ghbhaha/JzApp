@@ -69,7 +69,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         if (oldRecord == null) {
             if (voiceRecord != null) {
                 zhiChu = voiceRecord.getRecordType() == Constant.RecordType.ZUICHU.getId();
-                tvMoneyCount.setText(MoneyUtil.getFormatMoney(this,voiceRecord.getRecordMoney()));
+                tvMoneyCount.setText(MoneyUtil.getFormatMoneyStr(this,voiceRecord.getRecordMoney()));
                 mCurRecordType = (RecordType) getIntent().getSerializableExtra(IntentConstant.VOICE_RECORD_TYPE);
                 tvTypeTitle.setText(mCurRecordType.getRecordDesc());
                 typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));

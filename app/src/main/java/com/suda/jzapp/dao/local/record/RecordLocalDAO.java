@@ -9,6 +9,7 @@ import com.suda.jzapp.dao.greendao.RemarkTip;
 import com.suda.jzapp.dao.greendao.RemarkTipDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
+import com.suda.jzapp.manager.domain.MyDate;
 import com.suda.jzapp.misc.Constant;
 
 import java.util.ArrayList;
@@ -59,13 +60,13 @@ public class RecordLocalDAO extends BaseLocalDao {
     }
 
 
-    public List<Date> getRecordDate(Context context, int pageIndex) {
+    public List<MyDate> getRecordDate(Context context, int pageIndex) {
         if (pageIndex == 0)
             pageIndex = 1;
         pageIndex--;
 
 
-        List<Date> list = new ArrayList<>();
+        List<MyDate> list = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
         builder.append(Constant.RecordType.SHOURU.getId()).append(",");
         builder.append(Constant.RecordType.ZUICHU.getId()).append(",");
@@ -87,22 +88,46 @@ public class RecordLocalDAO extends BaseLocalDao {
             c1.close();
         }
 
-        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and YEAR ="
+        String sql2 = "select YEAR,MONTH,DAY from RECORD where IS_DEL = 0 and YEAR ="
                 + year + " and MONTH =" + month
                 + " and RECORD_TYPE in (" + builder.toString() +
-                ") GROUP BY RECORD_DATE ORDER BY RECORD_DATE DESC";
-        Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
-        while (c.moveToNext()) {
-            list.add(new Date(c.getLong(0)));
+                ") GROUP BY MONTH,DAY ORDER BY MONTH DESC,DAY DESC";
+
+        Cursor c2 = getDaoSession(context).getDatabase().rawQuery(sql2, null);
+        while (c2.moveToNext()) {
+            list.add(new MyDate(c2.getInt(0), c2.getInt(1), c2.getInt(2)));
         }
-        c.close();
+        c2.close();
+
+//        String sql = "select RECORD_DATE from RECORD where IS_DEL = 0 and YEAR ="
+//                + year + " and MONTH =" + month
+//                + " and RECORD_TYPE in (" + builder.toString() +
+//                ") GROUP BY RECORD_DATE ORDER BY RECORD_DATE DESC";
+//        Cursor c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+//        while (c.moveToNext()) {
+//            list.add(new Date(c.getLong(0)));
+//        }
+//        c.close();
         return list;
     }
 
-    public List<Record> getRecordByDate(Context context, Date date) {
+//    public List<Record> getRecordByDate(Context context, Date date) {
+//        RecordDao recordDao = getDaoSession(context).getRecordDao();
+//        return recordDao.queryBuilder().where(RecordDao.Properties.IsDel.eq(false))
+//                .where(RecordDao.Properties.RecordDate.eq(date))
+//                .whereOr(RecordDao.Properties.RecordType.eq(Constant.RecordType.SHOURU.getId()),
+//                        RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_SHOURU.getId()),
+//                        RecordDao.Properties.RecordType.eq(Constant.RecordType.ZUICHU.getId()),
+//                        RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_ZHICHU.getId()))
+//                .orderDesc(RecordDao.Properties.Id).list();
+//    }
+
+    public List<Record> getRecordByMyDate(Context context, MyDate date) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         return recordDao.queryBuilder().where(RecordDao.Properties.IsDel.eq(false))
-                .where(RecordDao.Properties.RecordDate.eq(date))
+                .where(RecordDao.Properties.Year.eq(date.getYear()))
+                .where(RecordDao.Properties.Month.eq(date.getMonth()))
+                .where(RecordDao.Properties.Day.eq(date.getDay()))
                 .whereOr(RecordDao.Properties.RecordType.eq(Constant.RecordType.SHOURU.getId()),
                         RecordDao.Properties.RecordType.eq(Constant.RecordType.AA_SHOURU.getId()),
                         RecordDao.Properties.RecordType.eq(Constant.RecordType.ZUICHU.getId()),

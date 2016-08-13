@@ -72,9 +72,9 @@ public class RecordLineAnalysisAdapter extends BaseAdapter {
         holder.outTv.setTextColor(lineChartDo.getAllOut() == 0 ? colorGrey : themeColor);
 
         holder.monthTv.setText(lineChartDo.getMonth() + "月");
-        holder.inTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllIn()));
-        holder.outTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllOut()));
-        holder.leftTv.setText(MoneyUtil.getFormatMoney(mContext, lineChartDo.getAllLeft()));
+        holder.inTv.setText(MoneyUtil.getFormatMoneyStr(mContext, lineChartDo.getAllIn()));
+        holder.outTv.setText(MoneyUtil.getFormatMoneyStr(mContext, lineChartDo.getAllOut()));
+        holder.leftTv.setText(MoneyUtil.getFormatMoneyStr(mContext, lineChartDo.getAllLeft()));
 
         return convertView;
     }
