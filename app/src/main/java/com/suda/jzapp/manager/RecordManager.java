@@ -499,13 +499,13 @@ public class RecordManager extends BaseManager {
                 for (MyDate date : dates) {
                     todayAllInMoney = 0;
                     todayAllOutMoney = 0;
-                    RecordDetailDO RecordDetailDayFirst = new RecordDetailDO();
-                    RecordDetailDayFirst.setIsDayFirstDay(true);
+                    RecordDetailDO recordDetailDayFirst = new RecordDetailDO();
+                    recordDetailDayFirst.setIsDayFirstDay(true);
                     calendar.set(Calendar.YEAR, date.getYear());
                     calendar.set(Calendar.MONTH, date.getMonth());
                     calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
-                    RecordDetailDayFirst.setRecordDate(calendar.getTime());
-                    recordDetailDos.add(RecordDetailDayFirst);
+                    recordDetailDayFirst.setRecordDate(calendar.getTime());
+                    recordDetailDos.add(recordDetailDayFirst);
                     List<Record> records = recordLocalDAO.getRecordByMyDate(_context, date);
                     for (Record record : records) {
                         RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
@@ -514,7 +514,7 @@ public class RecordManager extends BaseManager {
                             recordTypeMap.put(record.getRecordTypeID(), recordType);
                         }
                         RecordDetailDO recordDetailDO = new RecordDetailDO();
-                        recordDetailDO.setRecordDate(record.getRecordDate());
+                        recordDetailDO.setRecordDate(calendar.getTime());
                         recordDetailDO.setRecordID(record.getRecordId());
                         recordDetailDO.setRecordMoney(record.getRecordMoney());
                         recordDetailDO.setRemark(record.getRemark());
@@ -527,8 +527,8 @@ public class RecordManager extends BaseManager {
 
                         recordDetailDos.add(recordDetailDO);
                     }
-                    RecordDetailDayFirst.setTodayAllInMoney(todayAllInMoney);
-                    RecordDetailDayFirst.setTodayAllOutMoney(todayAllOutMoney);
+                    recordDetailDayFirst.setTodayAllInMoney(todayAllInMoney);
+                    recordDetailDayFirst.setTodayAllOutMoney(todayAllOutMoney);
                 }
                 sendMessage(handler, recordDetailDos, true);
             }

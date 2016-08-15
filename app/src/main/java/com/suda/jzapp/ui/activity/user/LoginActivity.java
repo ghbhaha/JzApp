@@ -14,13 +14,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.LogInCallback;
-import com.avos.sns.SNS;
-import com.avos.sns.SNSBase;
-import com.avos.sns.SNSCallback;
-import com.avos.sns.SNSException;
-import com.avos.sns.SNSType;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
@@ -114,31 +107,31 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void thirdLogin(){
-        try {
-            SNS.setupPlatform(SNSType.AVOSCloudSNSQQ, "https://leancloud.cn/1.1/sns/goto/4zex7dav3eo08wk5");
-        } catch (AVException e) {
-            e.printStackTrace();
-        }
-        SNS.loginWithCallback(this, SNSType.AVOSCloudSNSQQ, new SNSCallback() {
-            @Override
-            public void done(SNSBase base, SNSException e) {
-                if (e==null) {
-                    SNS.loginWithAuthData(base.userInfo(), new LogInCallback<AVUser>() {
-                        @Override
-                        public void done(final AVUser user, AVException e) {
-
-                        }
-                    });
-                }
-            }
-        });
+    private void thirdLogin() {
+//        try {
+//            SNS.setupPlatform(SNSType.AVOSCloudSNSQQ, "https://leancloud.cn/1.1/sns/goto/4zex7dav3eo08wk5");
+//        } catch (AVException e) {
+//            e.printStackTrace();
+//        }
+//        SNS.loginWithCallback(this, SNSType.AVOSCloudSNSQQ, new SNSCallback() {
+//            @Override
+//            public void done(SNSBase base, SNSException e) {
+//                if (e==null) {
+//                    SNS.loginWithAuthData(base.userInfo(), new LogInCallback<AVUser>() {
+//                        @Override
+//                        public void done(final AVUser user, AVException e) {
+//
+//                        }
+//                    });
+//                }
+//            }
+//        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        SNS.onActivityResult(requestCode, resultCode, data, SNSType.AVOSCloudSNSQQ);
+        //SNS.onActivityResult(requestCode, resultCode, data, SNSType.AVOSCloudSNSQQ);
     }
 
     private void doLogin() {
