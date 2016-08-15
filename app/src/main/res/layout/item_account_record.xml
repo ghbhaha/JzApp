@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@drawable/card"
-            android:orientation="horizontal">
+            android:minHeight="48dp">
 
             <ImageView
                 android:id="@+id/record_icon"
@@ -36,18 +36,18 @@
                 android:layout_marginLeft="8dp"
                 android:src="@drawable/icon_zhichu_type_canyin" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/record_icon"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:layout_toLeftOf="@+id/record_money"
+                android:layout_toRightOf="@+id/record_icon">
 
                 <TextView
                     android:id="@+id/record_desc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="餐饮"
                     android:textColor="@color/blue"
@@ -55,17 +55,16 @@
 
                 <TextView
                     android:id="@+id/record_remark"
-                    android:layout_width="80dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/record_desc"
                     android:layout_marginLeft="2dp"
                     android:text="午饭"
-                    android:ellipsize="end"
-                    android:singleLine="true"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:visibility="gone" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/record_money"

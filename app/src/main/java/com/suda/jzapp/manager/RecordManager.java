@@ -518,8 +518,8 @@ public class RecordManager extends BaseManager {
                         recordDetailDO.setRecordID(record.getRecordId());
                         recordDetailDO.setRecordMoney(record.getRecordMoney());
                         recordDetailDO.setRemark(record.getRemark());
-                        recordDetailDO.setIconId(recordType.getRecordIcon());
-                        recordDetailDO.setRecordDesc(recordType.getRecordDesc());
+                        recordDetailDO.setIconId(recordType == null ? 0 : recordType.getRecordIcon());
+                        recordDetailDO.setRecordDesc(recordType == null ? "" : recordType.getRecordDesc());
                         if (recordDetailDO.getRecordMoney() > 0)
                             todayAllInMoney += recordDetailDO.getRecordMoney();
                         else
