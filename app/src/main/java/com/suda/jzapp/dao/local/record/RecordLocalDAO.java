@@ -276,5 +276,31 @@ public class RecordLocalDAO extends BaseLocalDao {
                 .list();
     }
 
+    public int getRecordDayCount(Context context) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(Constant.RecordType.AA_ZHICHU.getId()).append(",");
+        builder.append(Constant.RecordType.ZUICHU.getId()).append(",");
+        builder.append(Constant.RecordType.SHOURU.getId()).append(",");
+        builder.append(Constant.RecordType.AA_SHOURU.getId());
+
+        String sql = "select YEAR,MONTH,DAY from RECORD where IS_DEL = 0 "
+                + " and RECORD_TYPE in (" + builder.toString() +
+                ") GROUP BY YEAR,MONTH,DAY";
+
+        int count = 0;
+        Cursor c = null;
+        try {
+            c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+            count = c.getCount();
+        } catch (Exception t) {
+
+        } finally {
+            if (c != null)
+                c.close();
+        }
+
+        return count;
+    }
+
 
 }

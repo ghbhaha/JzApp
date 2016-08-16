@@ -77,10 +77,13 @@ public class RecordTypeLocalDao extends BaseLocalDao {
 
     public RecordType getRecordTypeById(Context context, long id) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
-        return getSingleData(recordTypeDao.queryBuilder()
+        RecordType recordType = getSingleData(recordTypeDao.queryBuilder()
                 .where(RecordTypeDao.Properties.RecordTypeID.eq(id))
                 .build()
                 .list());
+        if (recordType == null)
+            recordType = new RecordType(null, 0L, "一般", Constant.RecordType.ZUICHU.getId(), true, Constant.RecordTypeConstant.ICON_TYPE_YI_BAN, 0, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, "");
+        return recordType;
     }
 
     public RecordType getRecordTypeByNameAndType(Context context, String name, int recordType) {

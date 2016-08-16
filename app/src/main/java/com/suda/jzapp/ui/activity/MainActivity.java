@@ -35,6 +35,7 @@ import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
@@ -75,6 +76,7 @@ public class MainActivity extends BaseActivity {
 
         //new SystemManager(this).getCurrency();
         userManager = new UserManager(this);
+        recordManager = new RecordManager(this);
         initWidget();
     }
 
@@ -146,7 +148,7 @@ public class MainActivity extends BaseActivity {
         String userName = userManager.getCurUserName();
         userNameTv = (TextView) findViewById(R.id.user_tv);
         userNameTv.setText(TextUtils.isEmpty(userName) ?
-                "登陆/注册" : userName);
+                "登陆/注册" : (userName + recordManager.getRecordDayCount()));
         if (!TextUtils.isEmpty(userName)) {
             userManager.getMe(new Handler() {
                 @Override
@@ -306,6 +308,8 @@ public class MainActivity extends BaseActivity {
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
+                userNameTv.setText(TextUtils.isEmpty(userManager.getCurUserName()) ?
+                        "登陆/注册" : (userManager.getCurUserName() + recordManager.getRecordDayCount()));
             }
             if (requestCode == REQUEST_EDIT_THEME) {
                 reloadRecordCallBack.reload(false);
@@ -318,7 +322,7 @@ public class MainActivity extends BaseActivity {
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
                 userNameTv.setText(TextUtils.isEmpty(userManager.getCurUserName()) ?
-                        "登陆/注册" : userManager.getCurUserName());
+                        "登陆/注册" : (userManager.getCurUserName() + new RecordManager(MainActivity.this).getRecordDayCount()));
             }
             if (requestCode == REQUEST_ACCOUNT_FLOW) {
                 reloadRecordCallBack.reload(true);
@@ -389,6 +393,7 @@ public class MainActivity extends BaseActivity {
     private boolean canQuit = false;
 
     private UserManager userManager;
+    private RecordManager recordManager;
 
     private ReloadCallBack reloadAccountCallBack;
     private ReloadCallBack reloadRecordCallBack;

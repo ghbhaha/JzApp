@@ -907,7 +907,7 @@ public class RecordManager extends BaseManager {
             }
             RecordDetailDO recordDetailDO = new RecordDetailDO();
             recordDetailDO.setRecordDate(record.getRecordDate());
-            recordDetailDO.setRecordID(-100);
+            recordDetailDO.setRecordID(record.getRecordId());
             recordDetailDO.setRecordMoney(record.getRecordMoney());
             recordDetailDO.setRemark(record.getRemark());
             recordDetailDO.setIconId(recordType.getRecordIcon());
@@ -1196,6 +1196,11 @@ public class RecordManager extends BaseManager {
             Log.d(TAG, "上传用户词表失败：" + ret);
         }
 
+    }
+
+    public String getRecordDayCount() {
+        int count = recordLocalDAO.getRecordDayCount(_context);
+        return count == 0 ? "" : ",您已坚持记账" + count + "天";
     }
 
 
