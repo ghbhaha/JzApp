@@ -22,7 +22,7 @@
             android:name=".ui.activity.system.GestureLockActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
@@ -176,6 +176,16 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".service.MyWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="WIDGET_BROADCAST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mywidget" />
+        </receiver>
 
     </application>
 

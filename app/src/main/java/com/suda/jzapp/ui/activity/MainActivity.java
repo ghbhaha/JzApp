@@ -39,6 +39,7 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.service.MyWidgetProvider;
 import com.suda.jzapp.service.SyncService;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.record.ExportRecordActivity;
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity {
             getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
         }
 
+        updateWidget();
         //new SystemManager(this).getCurrency();
         userManager = new UserManager(this);
         recordManager = new RecordManager(this);
@@ -305,6 +307,7 @@ public class MainActivity extends BaseActivity {
                 reloadAccountCallBack.reload(true);
             }
             if (requestCode == REQUEST_RECORD) {
+                updateWidget();
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
@@ -318,6 +321,7 @@ public class MainActivity extends BaseActivity {
                 reloadAnalysisCallBack.reload(false);
             }
             if (requestCode == REQUEST_LOGIN) {
+                updateWidget();
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
@@ -325,6 +329,7 @@ public class MainActivity extends BaseActivity {
                         "登陆/注册" : (userManager.getCurUserName() + new RecordManager(MainActivity.this).getRecordDayCount()));
             }
             if (requestCode == REQUEST_ACCOUNT_FLOW) {
+                updateWidget();
                 reloadRecordCallBack.reload(true);
                 reloadAccountCallBack.reload(true);
                 reloadAnalysisCallBack.reload(true);
@@ -343,6 +348,12 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent(this, UserActivity.class);
             startActivityForResult(intent, REQUEST_LOGIN);
         }
+    }
+
+    private void updateWidget() {
+        Intent intent = new Intent();
+        intent.setAction(MyWidgetProvider.WIDGET_BROADCAST);
+        sendBroadcast(intent);
     }
 
     public void setReloadAccountCallBack(ReloadCallBack reloadAccountCallBack) {
@@ -405,7 +416,6 @@ public class MainActivity extends BaseActivity {
     public interface ReloadCallBack {
         void reload(boolean needUpdateData);
     }
-
 
     public final static int REQUEST_ACCOUNT = 100;
     public final static int REQUEST_RECORD = 101;
