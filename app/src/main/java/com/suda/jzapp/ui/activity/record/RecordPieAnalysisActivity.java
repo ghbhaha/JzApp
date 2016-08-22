@@ -19,6 +19,7 @@ import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.ChartRecordDo;
+import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.adapter.RecordPieAnalysisAdapter;
 import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.IconTypeUtil;
@@ -39,6 +40,9 @@ public class RecordPieAnalysisActivity extends BaseActivity {
         setMyContentView(R.layout.activity_record_pie_analysis_acticity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecordManager = new RecordManager(this);
+
+        pieOut = getIntent().getBooleanExtra(IntentConstant.RECORD_OUT_IN, true);
+
         initWidget();
     }
 

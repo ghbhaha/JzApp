@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="10dp"
     android:background="@drawable/card"
     android:orientation="vertical">
 
@@ -12,13 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_centerVertical="true"
             android:layout_weight="2"
             android:background="@color/blue"
-            android:gravity="left"
             android:orientation="vertical">
 
             <TextView
@@ -28,9 +26,20 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:text="您已坚持记账1天"
-                android:textColor="@color/white_1000" />
+                android:textColor="@color/white_1000"
+                android:textSize="15sp" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/add_new_record"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_add_white" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +58,8 @@
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
                 android:text="月支出：66.00"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/money_in"
@@ -59,7 +69,8 @@
                 android:layout_weight="1"
                 android:paddingLeft="10dp"
                 android:text="月收入：66.00"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

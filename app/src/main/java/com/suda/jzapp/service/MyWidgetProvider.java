@@ -1,5 +1,6 @@
 package com.suda.jzapp.service;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -12,6 +13,9 @@ import android.widget.RemoteViews;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.MonthReport;
+import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
+import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.util.MoneyUtil;
 
 /**
@@ -24,7 +28,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
-        // TODO Auto-generated method stub
         super.onDeleted(context, appWidgetIds);
     }
 
@@ -32,6 +35,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
+        Intent intent = new Intent();
+        intent.setAction(MyWidgetProvider.WIDGET_BROADCAST);
+        context.sendBroadcast(intent);
     }
 
 
@@ -39,6 +45,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        Intent intent = new Intent();
+        intent.setAction(MyWidgetProvider.WIDGET_BROADCAST);
+        context.sendBroadcast(intent);
     }
 
     @Override
@@ -54,7 +63,21 @@ public class MyWidgetProvider extends AppWidgetProvider {
                     rv.setTextViewText(R.id.money_out, "月支出:" + MoneyUtil.getFormatMoneyStr(context, Math.abs(monthReport.getOutMoney())));
                     rv.setTextViewText(R.id.money_in, "月收入:" + MoneyUtil.getFormatMoneyStr(context, monthReport.getInMoney()));
 
-                    //将该界面显示到插件中
+                    Intent intent = new Intent(context, CreateOrEditRecordActivity.class);
+                    PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
+                    rv.setOnClickPendingIntent(R.id.add_new_record, pending);
+
+                    Intent intent2 = new Intent(context, RecordPieAnalysisActivity.class);
+                    intent2.putExtra(IntentConstant.RECORD_OUT_IN, true);
+                    PendingIntent pending2 = PendingIntent.getActivity(context, 0, intent2, 0);
+                    rv.setOnClickPendingIntent(R.id.money_out, pending2);
+
+                    Intent intent3 = new Intent(context, RecordPieAnalysisActivity.class);
+                    intent3.putExtra(IntentConstant.RECORD_OUT_IN, false);
+                    PendingIntent pending3 = PendingIntent.getActivity(context, 0, intent3, 0);
+                    rv.setOnClickPendingIntent(R.id.money_in, pending3);
+
+
                     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                     ComponentName componentName = new ComponentName(context, MyWidgetProvider.class);
                     appWidgetManager.updateAppWidget(componentName, rv);
