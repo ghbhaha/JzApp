@@ -24,6 +24,24 @@ import java.util.Map;
  */
 public class RecordLocalDAO extends BaseLocalDao {
 
+    public double getAccountMoneyByRecord(Context context, long accountID) {
+        String sql = "SELECT SUM(RECORD_MONEY) FROM RECORD WHERE IS_DEL = 0 "
+                + " AND ACCOUNT_ID = '" + accountID + "'";
+        double count = 0;
+        Cursor c = null;
+        try {
+            c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+            if (c.moveToFirst()) {
+                count = c.getDouble(0);
+            }
+        } catch (Exception t) {
+            t.printStackTrace();
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return count;
+    }
 
     public void createNewRecord(Context context, Record record) {
         Calendar calendar = Calendar.getInstance();

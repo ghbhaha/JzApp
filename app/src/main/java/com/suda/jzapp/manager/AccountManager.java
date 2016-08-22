@@ -131,7 +131,7 @@ public class AccountManager extends BaseManager {
         account.setAccountColor(accountColor + "");
 
         Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch){
+        if (Constant.newSyncSwitch) {
             account.setCreatedAt(now);
             account.setUpdatedAt(now);
         }
@@ -139,7 +139,7 @@ public class AccountManager extends BaseManager {
         if (canSync()) {
             AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
             avAccount.setAccountIsDel(false);
-            if (Constant.newSyncSwitch){
+            if (Constant.newSyncSwitch) {
                 avAccount.put(AVAccount.UPDATED_AT, now);
                 avAccount.put(AVAccount.CREATED_AT, now);
             }
@@ -283,13 +283,13 @@ public class AccountManager extends BaseManager {
 
         if (canSync()) {
             Account account = accountLocalDao.getAccountByID(accountID, _context);
-            if (Constant.newSyncSwitch){
+            if (Constant.newSyncSwitch) {
                 account.setUpdatedAt(now);
             }
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
                 avAccount.setAccountIsDel(false);
-                if (Constant.newSyncSwitch){
+                if (Constant.newSyncSwitch) {
                     avAccount.put(AVObject.UPDATED_AT, now);
                 }
                 if (editType == EDIT_TYPE_DEL) {
@@ -334,7 +334,7 @@ public class AccountManager extends BaseManager {
                             Account account = accountLocalDao.getAccountByID(accountID, _context);
                             avAccount = DataConvertUtil.convertAccount2AVAccount(account);
                         }
-                        if (Constant.newSyncSwitch){
+                        if (Constant.newSyncSwitch) {
                             avAccount.put(AVObject.UPDATED_AT, now);
                         }
                         if (editType == EDIT_TYPE_DEL) {
@@ -392,14 +392,14 @@ public class AccountManager extends BaseManager {
                 account.setObjectID(avAccount.getObjectId());
                 account.setAccountID(avAccount.getAccountId());
                 account.setAccountTypeID(avAccount.getAccountTypeId());
-                account.setAccountMoney(avAccount.getAccountMoney());
+                account.setAccountMoney(recordLocalDAO.getAccountMoneyByRecord(_context, avAccount.getAccountId()));
                 account.setAccountRemark(avAccount.getAccountRemark());
                 account.setIsDel(avAccount.isAccountDel());
                 account.setAccountColor(avAccount.getAccountColor());
                 account.setAccountName(avAccount.getAccountName());
                 account.setSyncStatus(true);
                 account.setIndex(i);
-                if (Constant.newSyncSwitch){
+                if (Constant.newSyncSwitch) {
                     account.setCreatedAt(avAccount.getCreatedAt());
                     account.setUpdatedAt(avAccount.getUpdatedAt());
                 }
@@ -425,7 +425,7 @@ public class AccountManager extends BaseManager {
             config.setObjectID(avAccountIndex.getObjectId());
             config.setKey(ACCOUNT_INDEX_UPDATE);
             config.setValue("true");
-            if (Constant.newSyncSwitch){
+            if (Constant.newSyncSwitch) {
                 config.setUpdatedAt(avAccountIndex.getUpdatedAt());
                 config.setCreatedAt(avAccountIndex.getCreatedAt());
             }
@@ -454,8 +454,8 @@ public class AccountManager extends BaseManager {
             if (config != null && !TextUtils.isEmpty(config.getObjectID())) {
                 AVAccountIndex avAccountIndex = new AVAccountIndex();
                 avAccountIndex.setObjectId(config.getObjectID());
-                if (Constant.newSyncSwitch){
-                    avAccountIndex.put(AVObject.UPDATED_AT,now);
+                if (Constant.newSyncSwitch) {
+                    avAccountIndex.put(AVObject.UPDATED_AT, now);
                     config.setUpdatedAt(now);
                 }
                 avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
@@ -487,7 +487,7 @@ public class AccountManager extends BaseManager {
                         if (config == null) {
                             config = new Config();
                         }
-                        if (Constant.newSyncSwitch){
+                        if (Constant.newSyncSwitch) {
                             config.setUpdatedAt(now);
                             config.setCreatedAt(now);
                         }
@@ -501,8 +501,8 @@ public class AccountManager extends BaseManager {
                         } else {
                             avAccountIndex = new AVAccountIndex();
                         }
-                        if (Constant.newSyncSwitch){
-                            avAccountIndex.put(AVObject.UPDATED_AT,now);
+                        if (Constant.newSyncSwitch) {
+                            avAccountIndex.put(AVObject.UPDATED_AT, now);
                         }
                         final String objId = avAccountIndex.getObjectId();
                         avAccountIndex.setUser(MyAVUser.getCurrentUser());

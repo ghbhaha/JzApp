@@ -184,9 +184,9 @@ public class LoginActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         try {
-                                            accountManager.initAccountData();
                                             recordManager.initRecordTypeData();
                                             recordManager.initRecordData();
+                                            accountManager.initAccountData();
                                             setResult(RESULT_OK);
                                             finish();
                                         } catch (AVException e) {
