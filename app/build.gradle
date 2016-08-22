@@ -16,8 +16,8 @@ android {
         applicationId "com.suda.jzapp"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 14
-        versionName "1.111"
+        versionCode 15
+        versionName "1.12"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }

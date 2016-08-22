@@ -14,6 +14,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.MonthReport;
 import com.suda.jzapp.misc.IntentConstant;
+import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.util.MoneyUtil;
@@ -77,6 +78,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
                     PendingIntent pending3 = PendingIntent.getActivity(context, 0, intent3, 0);
                     rv.setOnClickPendingIntent(R.id.money_in, pending3);
 
+                    Intent intent4 = new Intent(context, MainActivity.class);
+                    PendingIntent pending4 = PendingIntent.getActivity(context, 0, intent4, 0);
+                    rv.setOnClickPendingIntent(R.id.record_date_count, pending4);
 
                     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                     ComponentName componentName = new ComponentName(context, MyWidgetProvider.class);
