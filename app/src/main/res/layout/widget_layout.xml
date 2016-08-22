@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="70dp"
     android:layout_gravity="center_horizontal"
-    android:background="@drawable/card"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,7 +15,7 @@
             android:layout_height="0dp"
             android:layout_centerVertical="true"
             android:layout_weight="2"
-            android:background="@color/blue"
+            android:background="@drawable/widget_card_top"
             android:orientation="vertical">
 
             <TextView
@@ -27,12 +26,12 @@
                 android:paddingLeft="10dp"
                 android:text="您已坚持记账1天"
                 android:textColor="@color/white_1000"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/add_new_record"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
@@ -47,6 +46,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_weight="3"
+            android:background="@drawable/widget_card_bottom"
             android:gravity="center_vertical|left"
             android:orientation="horizontal">
 

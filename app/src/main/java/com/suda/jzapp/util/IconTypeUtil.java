@@ -253,7 +253,7 @@ public class IconTypeUtil {
             case RecordTypeConstant.ICON_XIE_ZI:
                 return icon ? R.drawable.xiezi : Color.parseColor("#9659AE");
             case RecordTypeConstant.ICON_XIN_YONG_KA_HUAN_KUAN:
-                return icon ? R.drawable.xinyongkahuankuan : Color.parseColor("#A3A3A3");
+                return icon ? R.drawable.xinyongkahuankuan : Color.parseColor("#E83C00");
             case RecordTypeConstant.ICON_XUE_FEI:
                 return icon ? R.drawable.xuefei : Color.parseColor("#0088B0");
             case RecordTypeConstant.ICON_XI_ZAO:
