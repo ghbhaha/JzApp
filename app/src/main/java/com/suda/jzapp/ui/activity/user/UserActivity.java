@@ -19,6 +19,7 @@ import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
+import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ImageUtil;
@@ -36,6 +37,7 @@ public class UserActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(0);
         userManager = new UserManager(this);
+        recordManager = new RecordManager(this);
         initWidget();
     }
 
@@ -46,6 +48,7 @@ public class UserActivity extends BaseActivity {
         mTvUserCode = (TextView) findViewById(R.id.userCode);
         mTvEmail = (TextView) findViewById(R.id.email);
         imageViewQrCode = (ImageView) findViewById(R.id.qr_code_image);
+        mTvRecordDate = (TextView) findViewById(R.id.record_date_count);
         if (BuildConfig.USERLINK)
             findViewById(R.id.user_code_ll).setVisibility(View.VISIBLE);
         else
@@ -65,6 +68,7 @@ public class UserActivity extends BaseActivity {
                         .error(R.mipmap.suda).into(mHeadIcon);
                 mTvUserName.setText(user.getUserName());
                 mTvUserCode.setText("您是第" + user.getUserCode() + "位用户");
+                mTvRecordDate.setText(recordManager.getWidgetRecordDayCount());
                 mTvEmail.setText(MyAVUser.getCurrentUser().getEmail());
                 imageViewQrCode.setImageBitmap(QRCodeUtil.createQRImage(Constant.QR_MARK + user.getUserName(), imageViewQrCode.getLayoutParams().width, imageViewQrCode.getLayoutParams().width));
             }
@@ -161,9 +165,10 @@ public class UserActivity extends BaseActivity {
     private static final int REQUEST_SELECT_IMAGE = 1;
     private static final int REQUEST_CROP_IMAGE = 2;
 
+    private RecordManager recordManager;
     private UserManager userManager;
     private CircleImageView mHeadIcon;
-    private TextView mTvUserName, mTvUserCode, mTvEmail;
+    private TextView mTvUserName, mTvUserCode, mTvEmail, mTvRecordDate;
     private ImageView imageViewQrCode;
     private CircleProgressBar circleProgressBar;
 

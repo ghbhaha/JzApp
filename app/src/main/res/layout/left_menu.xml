@@ -13,9 +13,9 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/account_background"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:id="@+id/account_background"
             android:background="@color/theme_blue">
 
 
@@ -23,26 +23,25 @@
                 android:id="@+id/profile_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="54dp"
                 android:layout_marginLeft="22dp"
-                android:src="@mipmap/suda"
-                app:civ_border_width="2dp"
+                android:layout_marginTop="54dp"
                 android:onClick="login"
-                app:civ_border_color="@color/md_white_1000"/>
+                android:src="@mipmap/suda"
+                app:civ_border_color="@color/md_white_1000"
+                app:civ_border_width="2dp" />
 
             <TextView
+                android:id="@+id/user_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
-                android:gravity="center"
-                android:textSize="@dimen/drawer_text_size"
-                android:id="@+id/user_tv"
-                android:textColor="@color/md_white_1000"
-                android:text="登陆/注册"
+                android:gravity="left"
                 android:onClick="login"
-                />
+                android:text="登陆/注册"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/drawer_text_size" />
 
         </RelativeLayout>
 

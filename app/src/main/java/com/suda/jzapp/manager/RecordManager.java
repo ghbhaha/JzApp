@@ -1105,9 +1105,11 @@ public class RecordManager extends BaseManager {
     }
 
     public String getRecordDayCount() {
-        int count = recordLocalDAO.getRecordDayCount(_context);
-        return count == 0 ? "" : ",您已坚持记账" + count + "天";
+//        int count = recordLocalDAO.getRecordDayCount(_context);
+//        return count == 0 ? "" : ",您已坚持记账" + count + "天";
+        return "";
     }
+
 
     public String getWidgetRecordDayCount() {
         int count = recordLocalDAO.getRecordDayCount(_context);
