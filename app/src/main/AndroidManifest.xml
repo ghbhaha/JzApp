@@ -129,12 +129,12 @@
             android:name=".ui.activity.user.QrCodeActivity"
             android:label="@string/title_activity_qrcode"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.activity.system.CaptureActivityAnyOrientation"
-            android:screenOrientation="fullSensor"
-            android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!--<activity-->
+            <!--android:name=".ui.activity.system.CaptureActivityAnyOrientation"-->
+            <!--android:screenOrientation="fullSensor"-->
+            <!--android:stateNotNeeded="true"-->
+            <!--android:theme="@style/zxing_CaptureTheme"-->
+            <!--android:windowSoftInputMode="stateAlwaysHidden" />-->
         <activity
             android:name=".ui.activity.account.AccountsTransferActivity"
             android:label="@string/title_activity_accounts_transfer"
