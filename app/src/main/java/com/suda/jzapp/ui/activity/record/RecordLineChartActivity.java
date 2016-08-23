@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -58,6 +59,7 @@ public class RecordLineChartActivity extends BaseActivity {
         mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mLineChart.getXAxis().setDrawGridLines(false);
         mLineChart.getAxisRight().setEnabled(false);
+        mLineChart.getLegend().setForm(Legend.LegendForm.LINE);
         for (int j = 0; j < 12; j++) {
             xLineVals1.add(j + 1 + "月");
         }

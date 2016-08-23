@@ -41,9 +41,9 @@
                     android:text="@string/type_analysis" />
 
                 <com.suda.jzapp.view.MyRoundColorView
+                    android:id="@+id/tip_round_pie"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
-                    android:id="@+id/tip_round_pie"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/pie_label"
@@ -75,7 +75,8 @@
             android:layout_marginRight="@dimen/card_margin_let_right"
             android:layout_weight="1"
             android:background="@drawable/card"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -91,9 +92,9 @@
                     android:text="@string/intent_analysis" />
 
                 <com.suda.jzapp.view.MyRoundColorView
+                    android:id="@+id/tip_round_line"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
-                    android:id="@+id/tip_round_line"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/line_label"
