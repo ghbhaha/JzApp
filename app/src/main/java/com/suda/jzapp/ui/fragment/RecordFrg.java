@@ -189,6 +189,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     public void resetFoot() {
         nullTipTv.setTextColor(mainColor);
         footTv.setTextColor(mainColor);
+        footTv.setOnClickListener(null);
         if (recordDetailDOs.size() > 0) {
 
         }

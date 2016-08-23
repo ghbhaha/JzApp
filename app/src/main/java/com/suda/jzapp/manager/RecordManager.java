@@ -488,11 +488,7 @@ public class RecordManager extends BaseManager {
                 RecordDetailDO recordDetailDOMonthFirst = new RecordDetailDO();
                 recordDetailDOMonthFirst.setIsFirstDay(true);
                 MyDate myDate = dates.get(0);
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, myDate.getYear());
-                calendar.set(Calendar.MONTH, myDate.getMonth());
-                calendar.set(Calendar.DAY_OF_MONTH, myDate.getDay());
-                recordDetailDOMonthFirst.setRecordDate(calendar.getTime());
+                recordDetailDOMonthFirst.setRecordDate(myDate.getDate());
                 recordDetailDos.add(recordDetailDOMonthFirst);
                 double todayAllInMoney, todayAllOutMoney = 0;
                 Map<Long, RecordType> recordTypeMap = new HashMap<>();
@@ -501,10 +497,7 @@ public class RecordManager extends BaseManager {
                     todayAllOutMoney = 0;
                     RecordDetailDO recordDetailDayFirst = new RecordDetailDO();
                     recordDetailDayFirst.setIsDayFirstDay(true);
-                    calendar.set(Calendar.YEAR, date.getYear());
-                    calendar.set(Calendar.MONTH, date.getMonth());
-                    calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
-                    recordDetailDayFirst.setRecordDate(calendar.getTime());
+                    recordDetailDayFirst.setRecordDate(date.getDate());
                     recordDetailDos.add(recordDetailDayFirst);
                     List<Record> records = recordLocalDAO.getRecordByMyDate(_context, date);
                     for (Record record : records) {
@@ -514,7 +507,7 @@ public class RecordManager extends BaseManager {
                             recordTypeMap.put(record.getRecordTypeID(), recordType);
                         }
                         RecordDetailDO recordDetailDO = new RecordDetailDO();
-                        recordDetailDO.setRecordDate(calendar.getTime());
+                        recordDetailDO.setRecordDate(date.getDate());
                         recordDetailDO.setRecordID(record.getRecordId());
                         recordDetailDO.setRecordMoney(record.getRecordMoney());
                         recordDetailDO.setRemark(record.getRemark());

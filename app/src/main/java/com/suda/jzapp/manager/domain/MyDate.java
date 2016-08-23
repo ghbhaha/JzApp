@@ -1,5 +1,8 @@
 package com.suda.jzapp.manager.domain;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by suda on 2016/8/13.
  */
@@ -36,5 +39,17 @@ public class MyDate {
 
     public void setDay(int day) {
         this.day = day;
+    }
+
+    public Date getDate() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        //Log.d("@@@@@getDate", c.getTimeInMillis() + "");
+        return c.getTime();
     }
 }

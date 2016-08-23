@@ -120,6 +120,7 @@ public class NewRecordTypeDetailActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setTitleTextAppearance(this,R.style.MenuTextStyle);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

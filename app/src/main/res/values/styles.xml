@@ -18,6 +18,10 @@
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
     </style>
 
+    <style name="MenuTextStyle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="Transparent" parent="AppCompatThemeWithNoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>

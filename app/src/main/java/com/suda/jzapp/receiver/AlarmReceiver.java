@@ -20,7 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         LogUtils.e("ALARM", format.format(Calendar.getInstance().getTime()));
-        NotificationUtil.showRemindNotification(context, "记得记账哦");
+        NotificationUtil.showRemindNotification(context, "小主，记得记账哦");
         AlarmUtil.createAlarm(context);
     }
 }

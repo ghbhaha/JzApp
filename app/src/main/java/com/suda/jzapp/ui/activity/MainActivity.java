@@ -171,6 +171,7 @@ public class MainActivity extends BaseActivity {
         // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setTitleTextAppearance(this,R.style.MenuTextStyle);
         setSupportActionBar(mToolbar);
 
         //设置抽屉
