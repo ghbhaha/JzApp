@@ -131,6 +131,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_FOR_REGISTER) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
         //SNS.onActivityResult(requestCode, resultCode, data, SNSType.AVOSCloudSNSQQ);
     }
 
@@ -224,7 +230,7 @@ public class LoginActivity extends BaseActivity {
 
     public void register(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_FOR_REGISTER);
     }
 
     public void getPassBack(View view) {
@@ -244,5 +250,6 @@ public class LoginActivity extends BaseActivity {
     private CircleProgressBar mCircleProgressBar;
     private View mloginView;
     private boolean mSyncData = false;
+    private final static int REQUEST_FOR_REGISTER = 1;
 
 }
