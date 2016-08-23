@@ -1,5 +1,6 @@
 package com.suda.jzapp.ui.activity.account;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +54,17 @@ public class EditAccountActivity extends BaseActivity {
         mLvAccountType = (ListView) findViewById(R.id.account_type);
 
         findViewById(mEditType == PROP_TYPE_ACCOUNT_TYPE ? R.id.account_other_param : R.id.account_type_param).setVisibility(View.GONE);
+
+        if (mEditType!=PROP_TYPE_ACCOUNT_TYPE){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager inputManager =
+                            (InputMethodManager) mEtProp.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.showSoftInput(mEtProp, 0);
+                }
+            }, 200);
+        }
 
         switch (mEditType) {
             case PROP_TYPE_ACCOUNT_NAME:

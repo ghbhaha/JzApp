@@ -64,6 +64,8 @@ public class RecordLineAnalysisAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        convertView.setOnClickListener(null);
+
         LineChartDo lineChartDo = chartRecordDos.get(chartRecordDos.size() - position - 1);
 
         int colorGrey = mContext.getResources().getColor(R.color.gray_white);

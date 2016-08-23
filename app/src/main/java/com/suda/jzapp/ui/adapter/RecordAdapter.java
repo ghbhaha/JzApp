@@ -178,8 +178,8 @@ public class RecordAdapter extends BaseAdapter {
                     if (lastSelOpt != position) {
                         lastSelOpt = position;
                         notifyDataSetChanged();
-                        YoYo.with(Techniques.SlideInUp).duration(200).playOn(finalHolder.delV);
-                        YoYo.with(Techniques.SlideInDown).duration(200).playOn(finalHolder.editV);
+                        YoYo.with(Techniques.BounceInRight).duration(200).playOn(finalHolder.delV);
+                        YoYo.with(Techniques.BounceInLeft).duration(200).playOn(finalHolder.editV);
                     } else {
                         resetOptStatus();
                     }

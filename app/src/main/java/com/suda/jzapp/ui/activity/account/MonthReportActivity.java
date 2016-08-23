@@ -1,5 +1,6 @@
 package com.suda.jzapp.ui.activity.account;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -66,6 +68,17 @@ public class MonthReportActivity extends BaseActivity {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 editText.setText(mTvBudget.getText().toString());
+                editText.setFocusable(true);
+                editText.requestFocus();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputManager =
+                                (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.showSoftInput(editText, 0);
+                    }
+                }, 200);
 
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override

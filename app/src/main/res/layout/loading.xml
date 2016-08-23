@@ -3,18 +3,26 @@
     android:id="@+id/loading_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/blue"
+    android:gravity="center"
     android:orientation="vertical">
 
 
-    <TextView
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Wave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/loading"
-        android:textColor="@color/white"
-        android:textSize="20dp" />
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:text="@string/loading"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="20dp" />-->
 
 
 </LinearLayout>

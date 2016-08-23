@@ -133,6 +133,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 if (needUpdate) {
                     setResult(RESULT_OK);
                 }
+                hideKeyboard();
                 finish();
                 return true;
             default:

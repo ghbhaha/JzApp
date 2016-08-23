@@ -180,9 +180,9 @@
                 android:background="#00000000"
                 android:onClick="onClickPanel"
                 android:text="OK"
-                android:textStyle="bold"
                 android:textColor="@color/md_white_1000"
-                android:textSize="@dimen/panel_text_size" />
+                android:textSize="@dimen/panel_text_size"
+                android:textStyle="bold" />
         </TableRow>
     </TableLayout>
 
@@ -246,14 +246,14 @@
     <RelativeLayout
         android:id="@+id/opt_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_below="@+id/line1"
         android:background="@color/md_white_1000">
 
         <Button
             android:id="@+id/account"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:background="#00000000"
             android:ellipsize="end"
             android:onClick="selectAccount"
@@ -270,8 +270,8 @@
 
         <Button
             android:id="@+id/date"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@+id/account"
             android:background="#00000000"
             android:text="02-18" />
@@ -279,7 +279,7 @@
         <Button
             android:id="@+id/remark_bt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="#00000000"
             android:text="备注" />

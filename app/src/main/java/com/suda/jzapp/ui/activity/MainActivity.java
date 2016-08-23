@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity {
                     YoYo.with(Techniques.SlideOutUp).playOn(mLoadingBack);
                 loading = false;
             }
-        }, 1500);
+        }, 2000);
 
         String userName = userManager.getCurUserName();
         userNameTv = (TextView) findViewById(R.id.user_tv);
