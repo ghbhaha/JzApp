@@ -246,13 +246,13 @@
     <RelativeLayout
         android:id="@+id/opt_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="44dp"
         android:layout_below="@+id/line1"
         android:background="@color/md_white_1000">
 
         <Button
             android:id="@+id/account"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:background="#00000000"
             android:ellipsize="end"
@@ -270,7 +270,7 @@
 
         <Button
             android:id="@+id/date"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/account"
             android:background="#00000000"
@@ -278,7 +278,7 @@
 
         <Button
             android:id="@+id/remark_bt"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="#00000000"
