@@ -95,7 +95,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((AccountViewHolder) holder).mIgAccountTypeIcon.setColorFilter(0);
             }
 
-            ((AccountViewHolder) holder).mTvAccountName.setText(account.getAccountName());
+            String accountName = account.getAccountName();
+            if (!TextUtils.isEmpty(account.getAccountRemark())) {
+                accountName += "（" + account.getAccountRemark() + "）";
+            }
+            ((AccountViewHolder) holder).mTvAccountName.setText(accountName);
             ((AccountViewHolder) holder).mTvAccountMoney.setText(String.format(context.getResources().getString(R.string.money_format), account.getAccountMoney()));
 
             ((AccountViewHolder) holder).mTvAccountTypeTitle.setText(account.getAccountDesc());
