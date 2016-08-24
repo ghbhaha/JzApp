@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_marginLeft="@dimen/card_margin_let_right"
+    android:layout_marginRight="@dimen/card_margin_let_right"
+    android:layout_marginTop="@dimen/card_margin_top"
+    android:background="@drawable/card">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="总资产"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/all_money"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="100"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+</RelativeLayout>

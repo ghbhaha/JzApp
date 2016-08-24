@@ -42,6 +42,8 @@ import com.suda.jzapp.util.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -63,6 +65,11 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         changeTv = (TextView) view.findViewById(R.id.changeTv);
         tipRoundPie = view.findViewById(R.id.tip_round_pie);
         tipRoundLine = view.findViewById(R.id.tip_round_line);
+
+        top1Tv = (TextView) view.findViewById(R.id.top1);
+        top2Tv = (TextView) view.findViewById(R.id.top2);
+        top3Tv = (TextView) view.findViewById(R.id.top3);
+        topTipTv = (TextView) view.findViewById(R.id.topTip);
 
         initPieChart();
         initLineChart();
@@ -244,11 +251,53 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
                     mTypePieChart.setCenterText((pieOut ? "总支出\n" : "总收入\n") + MoneyUtil.getFormatMoneyStr(getActivity()
                             , allOutOrInMoney));
                 }
-
+                refreshTop3(list);
                 mTypePieChart.animateXY(500, 500);  //设置动画
 
             }
         }, pieOut);
+    }
+
+    private void refreshTop3(List<ChartRecordDo> chartRecordDos) {
+        Collections.sort(chartRecordDos, new Comparator<ChartRecordDo>() {
+            @Override
+            public int compare(ChartRecordDo chartRecordDo, ChartRecordDo t1) {
+
+                double money1 = Math.abs((chartRecordDo.getRecordMoney()));
+                double money2 = Math.abs((t1.getRecordMoney()));
+                if (money1 < money2)
+                    return 1;
+                else if (money1 > money2)
+                    return -1;
+                else
+                    return 0;
+            }
+        });
+        int i = 0;
+        top1Tv.setText("");
+        top2Tv.setText("");
+        top3Tv.setText("");
+        topTipTv.setText("Top3(暂无)");
+        for (ChartRecordDo chartRecordDo : chartRecordDos) {
+            topTipTv.setText("Top3");
+            if (i == 3)
+                break;
+            switch (i) {
+                case 0:
+                    top1Tv.setText(chartRecordDo.getRecordDesc() + "\n"
+                            + MoneyUtil.getFormatMoneyStr(getActivity(), Math.abs(chartRecordDo.getRecordMoney())));
+                    break;
+                case 1:
+                    top2Tv.setText(chartRecordDo.getRecordDesc() + "\n"
+                            + MoneyUtil.getFormatMoneyStr(getActivity(), Math.abs(chartRecordDo.getRecordMoney())));
+                    break;
+                case 2:
+                    top3Tv.setText(chartRecordDo.getRecordDesc() + "\n"
+                            + MoneyUtil.getFormatMoneyStr(getActivity(), Math.abs(chartRecordDo.getRecordMoney())));
+                    break;
+            }
+            i++;
+        }
     }
 
     @Override
@@ -304,6 +353,8 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
     boolean pieOut = true;
     private double allOutOrInMoney = 0;
     private TextView changeTv, pieLabelTv, lineLabelTv;
+
+    private TextView top1Tv, top2Tv, top3Tv, topTipTv;
 
     private View tipRoundPie, tipRoundLine;
 
