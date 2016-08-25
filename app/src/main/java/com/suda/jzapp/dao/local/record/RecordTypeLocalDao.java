@@ -82,7 +82,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
                 .build()
                 .list());
         if (recordType == null)
-            recordType = new RecordType(null, 0L, "一般", Constant.RecordType.ZUICHU.getId(), true, Constant.RecordTypeConstant.ICON_TYPE_YI_BAN, 0, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, "");
+            recordType = new RecordType(0L, 0L, "一般", Constant.RecordType.ZUICHU.getId(), true, Constant.RecordTypeConstant.ICON_TYPE_YI_BAN, 0, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, "");
         return recordType;
     }
 

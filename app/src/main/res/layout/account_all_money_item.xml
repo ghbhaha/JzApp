@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
-        android:text="总资产"
+        android:text="@string/all_money"
         android:textSize="20sp" />
 
     <TextView

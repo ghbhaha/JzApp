@@ -26,7 +26,7 @@
             <com.suda.jzapp.view.MyThemeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="总资产" />
+                android:text="@string/all_money" />
 
             <TextView
                 android:id="@+id/all_money"
