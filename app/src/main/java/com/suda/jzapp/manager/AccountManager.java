@@ -255,7 +255,7 @@ public class AccountManager extends BaseManager {
      * @param handler
      */
     public void updateAccountColor(final long accountID, final String color, final Handler handler) {
-        editAccount(EDIT_TYPE_ACCOUNT_REMARK, accountID, color, 0, 0, null, new Callback() {
+        editAccount(EDIT_TYPE_ACCOUNT_COLOR, accountID, color, 0, 0, null, new Callback() {
             @Override
             public void doSth(boolean isSync, String objId) {
                 accountLocalDao.updateAccountColor(accountID, color, isSync, objId, _context);
