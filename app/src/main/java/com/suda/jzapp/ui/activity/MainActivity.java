@@ -40,7 +40,7 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.service.MyWidgetProvider;
-import com.suda.jzapp.service.SyncService;
+import com.suda.jzapp.service.BackupService;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.record.ExportRecordActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setMyContentView(false, R.layout.activity_main);
-        startService(new Intent(this, SyncService.class));
+        startService(new Intent(this, BackupService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
