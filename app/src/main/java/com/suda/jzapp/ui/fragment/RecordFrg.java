@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -145,6 +146,27 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mRecordAdapter = new RecordAdapter(getActivity(), recordDetailDOs, this);
         recordLv.setAdapter(mRecordAdapter);
         recordLv.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mForceSyncSrl = (SwipeRefreshLayout) view.findViewById(R.id.force_sync);
+        mForceSyncSrl.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        mForceSyncSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                recordManager.forceSync(new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        mForceSyncSrl.setRefreshing(false);
+                        if (msg.what == Constant.MSG_SUCCESS) {
+                            ((MainActivity) getActivity()).refreshAll();
+                            SnackBarUtil.showSnackInfo(backGround, getActivity(), "同步完成");
+                        } else {
+                            SnackBarUtil.showSnackInfo(backGround, getActivity(), "同步失败，请检查网络");
+                        }
+                    }
+                });
+            }
+        });
 
         //resetFoot();
 
@@ -311,6 +333,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     private boolean isRefresh = true;
     private View foot;
     private TextView nullTipTv;
+    private SwipeRefreshLayout mForceSyncSrl;
 
     private final String TAG = "SPEECH";
     private Vibrator mVibrator;

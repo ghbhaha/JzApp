@@ -3,7 +3,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '24.0.2'
 
     sourceSets {
         main {
@@ -15,9 +15,9 @@ android {
     defaultConfig {
         applicationId "com.suda.jzapp"
         minSdkVersion 17
-        targetSdkVersion 23
-        versionCode 15
-        versionName "1.12"
+        targetSdkVersion 24
+        versionCode 16
+        versionName "1.13"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }

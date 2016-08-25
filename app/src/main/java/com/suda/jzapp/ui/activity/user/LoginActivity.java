@@ -25,10 +25,12 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -195,6 +197,7 @@ public class LoginActivity extends BaseActivity {
                                             accountManager.initAccountData();
                                             setResult(RESULT_OK);
                                             finish();
+                                            SPUtils.put(LoginActivity.this, false, Constant.SP_LAST_SYNC_AT, Calendar.getInstance().getTimeInMillis());
                                         } catch (AVException e) {
                                             mSyncData = false;
                                             SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "同步出错");

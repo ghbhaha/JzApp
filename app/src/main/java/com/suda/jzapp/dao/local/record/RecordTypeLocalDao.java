@@ -17,6 +17,17 @@ import java.util.List;
  */
 public class RecordTypeLocalDao extends BaseLocalDao {
 
+    public void createOrUpdateRecordType(Context context, RecordType recordType) {
+        RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
+        RecordType recordTypeOld = getSingleData(recordTypeDao.queryBuilder().whereOr(RecordTypeDao.Properties.RecordTypeID.eq(recordType.getRecordTypeID())
+                , RecordTypeDao.Properties.ObjectID.eq(recordType.getObjectID())).build().list());
+        if (recordTypeOld != null) {
+            recordType.setId(recordTypeOld.getId());
+            updateRecordType(context,recordType);
+        } else {
+            createNewRecordType(context,recordType);
+        }
+    }
 
     public boolean haveCreate(Context context, String recordDesc, int recordType) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();

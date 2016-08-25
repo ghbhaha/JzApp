@@ -24,6 +24,19 @@ import java.util.List;
  */
 public class AccountLocalDao extends BaseLocalDao {
 
+
+    public void createOrUpdateAccount(Context context, Account account) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        Account accountOld = getSingleData(accountDao.queryBuilder().whereOr(AccountDao.Properties.AccountID.eq(account.getAccountID())
+                , AccountDao.Properties.ObjectID.eq(account.getObjectID())).build().list());
+        if (accountOld != null) {
+            account.setId(accountOld.getId());
+            updateAccount(context, account);
+        } else {
+            createNewAccount(account, context);
+        }
+    }
+
     public double getBudget(Context context) {
         BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
         return getSingleData(budgetDao.queryBuilder().list()).getBudgetMoney();

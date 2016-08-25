@@ -24,6 +24,18 @@ import java.util.Map;
  */
 public class RecordLocalDAO extends BaseLocalDao {
 
+    public void createOrUpdateRecord(Context context, Record record) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        Record recordOld = getSingleData(recordDao.queryBuilder().whereOr(RecordDao.Properties.RecordId.eq(record.getRecordId())
+                , RecordDao.Properties.ObjectID.eq(record.getObjectID())).build().list());
+        if (recordOld != null) {
+            record.setId(recordOld.getId());
+            updateOldRecord(context, record);
+        } else {
+            createNewRecord(context, record);
+        }
+    }
+
     public double getAccountMoneyByRecord(Context context, long accountID) {
         String sql = "SELECT SUM(RECORD_MONEY) FROM RECORD WHERE IS_DEL = 0 "
                 + " AND ACCOUNT_ID = '" + accountID + "'";

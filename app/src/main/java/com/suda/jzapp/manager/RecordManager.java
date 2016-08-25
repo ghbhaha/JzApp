@@ -20,10 +20,12 @@ import com.iflytek.cloud.LexiconListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
+import com.suda.jzapp.dao.cloud.avos.pojo.account.AVAccount;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecord;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordType;
 import com.suda.jzapp.dao.cloud.avos.pojo.record.AVRecordTypeIndex;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.dao.greendao.Account;
 import com.suda.jzapp.dao.greendao.Config;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.dao.greendao.RecordType;
@@ -45,6 +47,7 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.MoneyUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.io.BufferedWriter;
@@ -477,7 +480,7 @@ public class RecordManager extends BaseManager {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {
-                LogUtils.d("@@@" + pageIndex);
+                //LogUtils.d("@@@" + pageIndex);
                 List<MyDate> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
 
@@ -1114,6 +1117,101 @@ public class RecordManager extends BaseManager {
     public String getWidgetRecordDayCount() {
         int count = recordLocalDAO.getRecordDayCount(_context);
         return count == 0 ? "" : "您已坚持记账" + count + "天";
+    }
+
+
+    public void forceSync(final Handler handler) {
+        if (!canSync()) {
+            sendEmptyMessage(handler, Constant.MSG_ERROR);
+            return;
+        }
+
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                long lastSync = (long) SPUtils.get(_context, false, Constant.SP_LAST_SYNC_AT, 0l);
+                SPUtils.put(_context, false, Constant.SP_LAST_SYNC_AT, Calendar.getInstance().getTimeInMillis());
+                Date lastSyncDate = new Date(lastSync);
+                boolean updateRecordTypeIndex = false;
+                boolean updateAccountIndex = false;
+
+                try {
+                    //更新RecordType
+                    AVQuery<AVRecordType> avRecordTypeAVQuery = AVQuery.getQuery(AVRecordType.class);
+                    avRecordTypeAVQuery.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                    avRecordTypeAVQuery.whereGreaterThan(AVRecordType.UPDATED_AT, lastSyncDate);
+                    List<AVRecordType> avRecordTypes = avRecordTypeAVQuery.find();
+                    for (AVRecordType avRecordType : avRecordTypes) {
+                        RecordType recordType = new RecordType();
+                        recordType.setObjectID(avRecordType.getObjectId());
+                        recordType.setRecordTypeID(avRecordType.getRecordTypeId());
+                        recordType.setRecordType(avRecordType.getRecordType());
+                        recordType.setIsDel(avRecordType.isRecordTypeDel());
+                        recordType.setIndex(avRecordType.getIndex());
+                        recordType.setRecordIcon(avRecordType.getRecordRecordIcon());
+                        recordType.setSexProp(Constant.Sex.ALL.getId());
+                        recordType.setSysType(false);
+                        recordType.setOccupation(Constant.Occupation.ALL.getId());
+                        recordType.setSyncStatus(true);
+                        recordType.setRecordDesc(avRecordType.getRecordDesc());
+                        recordTypeDao.createOrUpdateRecordType(_context, recordType);
+                        updateRecordTypeIndex = true;
+                    }
+
+                    //更新record
+                    AVQuery<AVRecord> avRecordAVQuery = AVQuery.getQuery(AVRecord.class);
+                    avRecordAVQuery.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+                    avRecordAVQuery.whereGreaterThan(AVRecord.UPDATED_AT, lastSyncDate);
+                    List<AVRecord> avRecords = avRecordAVQuery.find();
+                    for (AVRecord avRecord : avRecords) {
+                        Record record = new Record();
+                        record.setObjectID(avRecord.getObjectId());
+                        record.setAccountID(avRecord.getAccountId());
+                        record.setRecordId(avRecord.getRecordId());
+                        record.setRecordType(avRecord.getRecordType());
+                        record.setRecordTypeID(avRecord.getRecordTypeId());
+                        record.setRecordDate(avRecord.getRecordDate());
+                        record.setIsDel(avRecord.isRecordDel());
+                        record.setRecordMoney(avRecord.getRecordMoney());
+                        record.setRemark(avRecord.getRemark());
+                        record.setSyncStatus(true);
+                        recordLocalDAO.createOrUpdateRecord(_context, record);
+                    }
+
+                    //更新Account
+                    AVQuery<AVAccount> accountAVQuery = AVQuery.getQuery(AVAccount.class);
+                    accountAVQuery.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
+                    accountAVQuery.whereGreaterThan(AVAccount.UPDATED_AT, lastSyncDate);
+                    List<AVAccount> avAccounts = accountAVQuery.find();
+                    for (AVAccount avAccount : avAccounts) {
+                        Account account = new Account();
+                        account.setObjectID(avAccount.getObjectId());
+                        account.setAccountID(avAccount.getAccountId());
+                        account.setAccountTypeID(avAccount.getAccountTypeId());
+                        account.setAccountMoney(recordLocalDAO.getAccountMoneyByRecord(_context, avAccount.getAccountId()));
+                        account.setAccountRemark(avAccount.getAccountRemark());
+                        account.setIsDel(avAccount.isAccountDel());
+                        account.setAccountColor(avAccount.getAccountColor());
+                        account.setAccountName(avAccount.getAccountName());
+                        account.setSyncStatus(true);
+                        accountLocalDao.createOrUpdateAccount(_context, account);
+                        updateAccountIndex = true;
+                    }
+
+                    //更新排序
+                    if (updateRecordTypeIndex)
+                        initRecordTypeIndex();
+                    if (updateAccountIndex)
+                        accountManager.initAccountIndex();
+
+                    sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                } catch (AVException a) {
+                    SPUtils.put(_context, false, Constant.SP_LAST_SYNC_AT, lastSync);
+                    sendEmptyMessage(handler, Constant.MSG_ERROR);
+                    LogUtils.getAvEx(a, _context);
+                }
+            }
+        });
     }
 
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();

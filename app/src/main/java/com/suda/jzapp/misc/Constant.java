@@ -198,6 +198,7 @@ public class Constant {
     public final static String SP_ALARM_EVERY_DAY = "SP_ALARM_EVERY_DAY";
     public final static String SP_ALARM_TIME = "SP_ALARM_TIME";
     public final static String SP_FIRST_ADD = "SP_FIRST_ADD";
+    public final static String SP_LAST_SYNC_AT = "SP_LAST_SYNC_AT";
 
 
     public final static int MSG_ERROR = 0;

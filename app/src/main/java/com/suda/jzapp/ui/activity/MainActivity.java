@@ -341,6 +341,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void refreshAll(){
+        updateWidget();
+        reloadRecordCallBack.reload(true);
+        reloadAccountCallBack.reload(true);
+        reloadAnalysisCallBack.reload(true);
+    }
+
     public void login(View view) {
         if (MyAVUser.getCurrentUser() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
