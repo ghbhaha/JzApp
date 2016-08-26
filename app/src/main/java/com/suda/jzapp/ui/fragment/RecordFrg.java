@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.avos.avoscloud.AVAnalytics;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
@@ -205,7 +206,14 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         backGround.setBackground(new ColorDrawable(mainColor));
         nullTipTv.setTextColor(mainColor);
         footTv.setTextColor(mainColor);
+        AVAnalytics.onFragmentStart("RecordFrg");
         //resetFoot();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AVAnalytics.onFragmentEnd("RecordFrg");
     }
 
     public void resetFoot() {

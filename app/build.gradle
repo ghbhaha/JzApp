@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId "com.suda.jzapp"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 24
-        versionCode 16
-        versionName "1.13"
+        versionCode 17
+        versionName "1.14"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }

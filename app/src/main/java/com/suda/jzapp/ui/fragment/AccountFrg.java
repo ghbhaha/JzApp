@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
 import com.suda.jzapp.manager.AccountManager;
@@ -99,7 +100,13 @@ public class AccountFrg extends Fragment implements MainActivity.ReloadCallBack,
         backGround.setBackground(new ColorDrawable(mainColor));
         mAddNewAccountButton.setColorNormal(mainColor);
         mAddNewAccountButton.setColorPressed(mainDarkColor);
+        AVAnalytics.onFragmentStart("AccountFrg");
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        AVAnalytics.onFragmentEnd("AccountFrg");
     }
 
     @Override

@@ -93,11 +93,12 @@ public class SettingsActivity extends BaseActivity {
             mGestureLockCheck.setOnPreferenceChangeListener(this);
             mIconCheck.setOnPreferenceChangeListener(this);
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                mCommonCateGory.removePreference(mImmersiveCheck);
-            } else {
-                mImmersiveCheck.setOnPreferenceChangeListener(this);
-            }
+            mCommonCateGory.removePreference(mImmersiveCheck);
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+//                mCommonCateGory.removePreference(mImmersiveCheck);
+//            } else {
+//                mImmersiveCheck.setOnPreferenceChangeListener(this);
+//            }
 
 
             long alarmTime = SPUtils.gets(getActivity(), Constant.SP_ALARM_TIME, 0l);

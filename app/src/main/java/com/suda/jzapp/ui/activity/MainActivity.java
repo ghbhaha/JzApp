@@ -4,11 +4,15 @@ import android.Manifest;
 import android.animation.Animator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -21,9 +25,12 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,8 +46,8 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
-import com.suda.jzapp.service.MyWidgetProvider;
 import com.suda.jzapp.service.BackupService;
+import com.suda.jzapp.service.MyWidgetProvider;
 import com.suda.jzapp.ui.activity.account.MonthReportActivity;
 import com.suda.jzapp.ui.activity.record.ExportRecordActivity;
 import com.suda.jzapp.ui.activity.system.AboutActivity;
@@ -51,7 +58,9 @@ import com.suda.jzapp.ui.activity.user.UserActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.ui.adapter.MyFragmentPagerAdapter;
 import com.suda.jzapp.ui.adapter.OptMenuAdapter;
+import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.LauncherIconUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -61,6 +70,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 
 public class MainActivity extends BaseActivity {
@@ -68,7 +78,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setMyContentView(false, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         startService(new Intent(this, BackupService.class));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -89,7 +102,7 @@ public class MainActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         mLvOptItems = (ListView) findViewById(R.id.opt_items);
-        mLayoutBackGround = (RelativeLayout) findViewById(R.id.account_background);
+        mLayoutBackGround = findViewById(R.id.account_background);
         headImg = (CircleImageView) findViewById(R.id.profile_image);
         mLoadingBack = findViewById(R.id.loading_back);
         mLoadingBack.setBackgroundResource(getMainTheme().getMainColorID());
@@ -166,12 +179,58 @@ public class MainActivity extends BaseActivity {
             });
         }
 
-        mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
+        if ((int)SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) == 0) {
+            mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
+        } else {
+            Bitmap bitmap = ImageUtil.getBitmapByImgName(Constant.NAV_IMG);
+            if (bitmap != null) {
+                BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);
+                mLayoutBackGround.setBackground(bd);
+            } else
+                mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
+        }
+
+        mLayoutBackGround.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ArrayAdapter<String> arrayAdapter
+                        = new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_list_item_1);
+                arrayAdapter.add("默认");
+                arrayAdapter.add("自定义");
+
+                ListView listView = new ListView(MainActivity.this);
+                listView.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                listView.setDividerHeight(1);
+                listView.setAdapter(arrayAdapter);
+
+                final MaterialDialog alert = new MaterialDialog(MainActivity.this).setContentView(listView);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (position == 0) {
+                            mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(MainActivity.this).getMainColorID());
+                            SPUtils.put(MainActivity.this, Constant.SP_NAV_IMG_TYPE, 0);
+                        } else {
+                            Intent it = new Intent(Intent.ACTION_PICK, null);
+                            it.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                            startActivityForResult(it, REQUEST_SELECT_IMAGE);
+                        }
+                        alert.dismiss();
+                    }
+                });
+                alert.setCanceledOnTouchOutside(true);
+                alert.show();
+            }
+        });
 
         // 标题的文字需在setSupportActionBar之前，不然会无效
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitleTextAppearance(this,R.style.MenuTextStyle);
+        mToolbar.setTitleTextAppearance(this, R.style.MenuTextStyle);
         setSupportActionBar(mToolbar);
 
         //设置抽屉
@@ -211,7 +270,9 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID()) & 0x3f000000);
-        mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
+        if ((int)(SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) )== 0) {
+            mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
+        }
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
         if (MyAVUser.getCurrentUser() != null) {
             userManager.getMe(new Handler() {
@@ -338,10 +399,33 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_ACCOUNT_TRANSFORM) {
                 reloadAccountCallBack.reload(true);
             }
+            if (requestCode == REQUEST_CROP_IMAGE) {
+                final Bitmap mHeadBitMap = data.getExtras().getParcelable("data");
+                BitmapDrawable d = new BitmapDrawable(getResources(), mHeadBitMap);
+                ImageUtil.saveBitmap(Constant.NAV_IMG, mHeadBitMap);
+                SPUtils.put(MainActivity.this, Constant.SP_NAV_IMG_TYPE, 1);
+                mLayoutBackGround.setBackground(d);
+            }
+            if (requestCode == REQUEST_SELECT_IMAGE) {
+                if (data.getData() != null)
+                    cropPhoto(data.getData());
+            }
         }
     }
 
-    public void refreshAll(){
+    public void cropPhoto(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 8);
+        intent.putExtra("aspectY", 5);
+        intent.putExtra("outputX", 400);
+        intent.putExtra("outputY", 250);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, REQUEST_CROP_IMAGE);
+    }
+
+    public void refreshAll() {
         updateWidget();
         reloadRecordCallBack.reload(true);
         reloadAccountCallBack.reload(true);
@@ -403,7 +487,7 @@ public class MainActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView mLvOptItems;
-    private RelativeLayout mLayoutBackGround;
+    private View mLayoutBackGround;
     private TextView userNameTv;
     private CircleImageView headImg;
     private View mLoadingBack;
@@ -431,4 +515,8 @@ public class MainActivity extends BaseActivity {
     public final static int REQUEST_LOGIN = 103;
     public final static int REQUEST_ACCOUNT_FLOW = 104;
     public final static int REQUEST_ACCOUNT_TRANSFORM = 105;
+    public final static int REQUEST_SELECT_IMAGE = 106;
+    public final static int REQUEST_CROP_IMAGE = 107;
+
+
 }

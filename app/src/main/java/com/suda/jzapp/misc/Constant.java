@@ -199,6 +199,7 @@ public class Constant {
     public final static String SP_ALARM_TIME = "SP_ALARM_TIME";
     public final static String SP_FIRST_ADD = "SP_FIRST_ADD";
     public final static String SP_LAST_SYNC_AT = "SP_LAST_SYNC_AT";
+    public final static String SP_NAV_IMG_TYPE = "SP_NAV_IMG_TYPE";
 
 
     public final static int MSG_ERROR = 0;
@@ -220,4 +221,6 @@ public class Constant {
     public final static long CHANGE_TYPE = 27L;
 
     public final static boolean newSyncSwitch = false;
+
+    public final static String NAV_IMG= "NAV_IMG.png" ;
 }

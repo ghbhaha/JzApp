@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
+import com.avos.avoscloud.AVAnalytics;
 import com.suda.jzapp.manager.domain.ThemeDO;
 import com.suda.jzapp.util.DensityUtils;
 import com.suda.jzapp.util.IconTypeUtil;
@@ -98,6 +99,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+        AVAnalytics.onPause(this);
     }
 
     @Override
@@ -107,6 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         super.onResume();
         MobclickAgent.onResume(this);
+        AVAnalytics.onResume(this);
         mainColor = this.getResources().getColor(ThemeUtil.getTheme(this).getMainColorID());
         mainDarkColor = this.getResources().getColor(ThemeUtil.getTheme(this).getMainDarkColorID());
         textColor = this.getResources().getColor(ThemeUtil.getTheme(this).getTextColorID());
