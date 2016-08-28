@@ -1,5 +1,7 @@
 package com.suda.jzapp.ui.activity.system;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -61,6 +64,11 @@ public class AboutActivity extends BaseActivity {
             intent.setData(Uri.parse("http://d.alipay.com"));
             startActivity(intent);
         }
+
+        ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        cmb.setText("510146422@qq.com");
+        Toast.makeText(this, "支付宝账号已复制至剪切板，感谢支持", Toast.LENGTH_LONG).show();
+
         SPUtils.put(this, Constant.SP_TIP_DONATE, false);
         resetTipRound();
     }
