@@ -1,8 +1,8 @@
 package com.suda.jzapp.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,8 +14,8 @@ import java.io.IOException;
  * Created by ghbha on 2016/4/6.
  */
 public class ImageUtil {
-    public static void saveBitmap(String imgName, Bitmap bm) {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/com.suda.jzapp";
+    public static void saveBitmap(Context context, String imgName, Bitmap bm) {
+        String path = context.getApplicationContext().getFilesDir().getAbsolutePath();
         File fp = new File(path);
         if (!fp.exists())
             fp.mkdir();
@@ -36,8 +36,8 @@ public class ImageUtil {
         }
     }
 
-    public static Bitmap getBitmapByImgName(String imgName) {
-        String path = Environment.getExternalStorageDirectory().getPath() + "/com.suda.jzapp";
+    public static Bitmap getBitmapByImgName(Context context, String imgName) {
+        String path = context.getApplicationContext().getFilesDir().getAbsolutePath();
         File f = new File(path, imgName);
         if (f.exists())
             return BitmapFactory.decodeFile(f.getAbsolutePath());

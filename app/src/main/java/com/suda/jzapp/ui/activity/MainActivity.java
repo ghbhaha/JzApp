@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
         if ((int) SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) == 0) {
             mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         } else {
-            Bitmap bitmap = ImageUtil.getBitmapByImgName(Constant.NAV_IMG);
+            Bitmap bitmap = ImageUtil.getBitmapByImgName(this, Constant.NAV_IMG);
             if (bitmap != null) {
                 BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);
                 mLayoutBackGround.setBackground(bd);
@@ -327,7 +327,6 @@ public class MainActivity extends BaseActivity {
         optDOs.add(new OptDO(null, 7, R.drawable.ic_drawer_exit, "退出"));
         optMenuAdapter = new OptMenuAdapter(optDOs, this);
         mLvOptItems.setAdapter(optMenuAdapter);
-
     }
 
 
@@ -402,7 +401,7 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_CROP_IMAGE) {
                 final Bitmap mHeadBitMap = data.getExtras().getParcelable("data");
                 BitmapDrawable d = new BitmapDrawable(getResources(), mHeadBitMap);
-                ImageUtil.saveBitmap(Constant.NAV_IMG, mHeadBitMap);
+                ImageUtil.saveBitmap(this, Constant.NAV_IMG, mHeadBitMap);
                 SPUtils.put(MainActivity.this, Constant.SP_NAV_IMG_TYPE, 1);
                 mLayoutBackGround.setBackground(d);
             }
