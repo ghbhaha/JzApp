@@ -195,12 +195,12 @@ public class Constant {
     public final static String SP_TIP_ROUND_PIE = "SP_TIP_ROUND_PIE";
     public final static String SP_TIP_ROUND_LINE = "SP_TIP_ROUND_LINE";
     public final static String SP_TIP_ROUND_EDIT_BUDGET = "SP_TIP_ROUND_EDIT_BUDGET";
+    public final static String SP_TIP_DONATE = "SP_TIP_DONATE";
     public final static String SP_ALARM_EVERY_DAY = "SP_ALARM_EVERY_DAY";
     public final static String SP_ALARM_TIME = "SP_ALARM_TIME";
     public final static String SP_FIRST_ADD = "SP_FIRST_ADD";
     public final static String SP_LAST_SYNC_AT = "SP_LAST_SYNC_AT";
     public final static String SP_NAV_IMG_TYPE = "SP_NAV_IMG_TYPE";
-
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;

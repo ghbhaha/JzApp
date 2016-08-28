@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity {
             });
         }
 
-        if ((int)SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) == 0) {
+        if ((int) SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) == 0) {
             mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         } else {
             Bitmap bitmap = ImageUtil.getBitmapByImgName(Constant.NAV_IMG);
@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mPagerSlidingTabStrip.setTextColor(getColor(this, getMainTheme().getMainColorID()) & 0x3f000000);
-        if ((int)(SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0) )== 0) {
+        if ((int) (SPUtils.get(this, Constant.SP_NAV_IMG_TYPE, 0)) == 0) {
             mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
         }
         mPagerSlidingTabStrip.setBackgroundColor(getColor(this, ThemeUtil.getTheme(this).getMainColorID()));
@@ -410,6 +410,8 @@ public class MainActivity extends BaseActivity {
                 if (data.getData() != null)
                     cropPhoto(data.getData());
             }
+            if (requestCode == REQUEST_ABOUT)
+                optMenuAdapter.notifyDataSetChanged();
         }
     }
 
@@ -517,6 +519,7 @@ public class MainActivity extends BaseActivity {
     public final static int REQUEST_ACCOUNT_TRANSFORM = 105;
     public final static int REQUEST_SELECT_IMAGE = 106;
     public final static int REQUEST_CROP_IMAGE = 107;
+    public final static int REQUEST_ABOUT = 108;
 
 
 }

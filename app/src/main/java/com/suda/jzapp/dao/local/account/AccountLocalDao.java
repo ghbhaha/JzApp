@@ -39,6 +39,9 @@ public class AccountLocalDao extends BaseLocalDao {
 
     public double getBudget(Context context) {
         BudgetDao budgetDao = getDaoSession(context).getBudgetDao();
+        if (getSingleData(budgetDao.queryBuilder().list()) == null) {
+            initBudget(context);
+        }
         return getSingleData(budgetDao.queryBuilder().list()).getBudgetMoney();
     }
 

@@ -131,7 +131,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:onClick="donate">
 
                     <ImageView
                         android:id="@+id/ig_suda"
@@ -147,9 +148,19 @@
                         android:layout_alignTop="@id/ig_suda"
                         android:layout_toEndOf="@id/ig_suda"
                         android:layout_toRightOf="@id/ig_suda"
-                        android:text="Suda"
+                        android:text="Suda（点击捐赠）"
                         android:textColor="@color/md_grey_800"
                         tools:ignore="HardcodedText" />
+
+                    <com.suda.jzapp.view.MyRoundColorView
+                        android:id="@+id/tip_donate"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/tv_suda"
+                        app:myRoundColor="@color/theme_red" />
 
                     <TextView
                         android:layout_width="wrap_content"

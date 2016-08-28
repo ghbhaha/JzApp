@@ -8,10 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.system.AVUpdateCheck;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
@@ -19,10 +22,11 @@ import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.ui.activity.MainActivity;
-import com.suda.jzapp.ui.activity.account.MonthReportActivity;
+import com.suda.jzapp.ui.activity.system.AboutActivity;
 import com.suda.jzapp.ui.activity.system.EditThemeActivity;
 import com.suda.jzapp.ui.activity.user.UserLinkActivity;
 import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 
@@ -69,6 +73,7 @@ public class OptMenuAdapter extends BaseAdapter {
             convertView = View.inflate(context, R.layout.opt_item, null);
             holder.icon = (ImageView) convertView.findViewById(R.id.item_icon);
             holder.title = (TextView) convertView.findViewById(R.id.item_title);
+            holder.tip = convertView.findViewById(R.id.tip);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -79,6 +84,23 @@ public class OptMenuAdapter extends BaseAdapter {
         }
 
         final OptDO optDO = optDOs.get(position);
+
+
+        boolean showEditBudgetTip = (boolean) SPUtils.get(context, Constant.SP_TIP_DONATE, true);
+        if (optDO.getAct() == AboutActivity.class && showEditBudgetTip) {
+            holder.tip.setVisibility(View.VISIBLE);
+            if (showEditBudgetTip) {
+                AnimatorSet mAnimatorSet = new AnimatorSet();
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(holder.tip, "alpha", 1, 0);
+                objectAnimator.setRepeatMode(Animation.RESTART);
+                objectAnimator.setRepeatCount(Integer.MAX_VALUE);
+                objectAnimator.setDuration(1000);
+                mAnimatorSet.playTogether(objectAnimator);
+                mAnimatorSet.start();
+            }
+        } else {
+            holder.tip.setVisibility(View.GONE);
+        }
 
         holder.icon.setImageResource(optDO.getIcon());
         holder.icon.setColorFilter(context.getResources().getColor(ThemeUtil.getTheme(context).getMainColorID()));
@@ -101,9 +123,11 @@ public class OptMenuAdapter extends BaseAdapter {
                     }
 
                     Intent intent = new Intent(context, optDO.getAct());
-                    if (optDO.getAct() == EditThemeActivity.class) {
-                        ((MainActivity) context).startActivityForResult(intent, MainActivity.REQUEST_EDIT_THEME);
-                    } else
+                    if (optDO.getAct() == EditThemeActivity.class)
+                        context.startActivityForResult(intent, MainActivity.REQUEST_EDIT_THEME);
+                    if (optDO.getAct() == AboutActivity.class)
+                        context.startActivityForResult(intent, MainActivity.REQUEST_ABOUT);
+                    else
                         context.startActivity(intent);
                 }
             }
@@ -146,5 +170,6 @@ public class OptMenuAdapter extends BaseAdapter {
     public class ViewHolder {
         public TextView title;
         public ImageView icon;
+        public View tip;
     }
 }
