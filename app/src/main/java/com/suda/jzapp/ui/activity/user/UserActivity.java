@@ -2,6 +2,7 @@ package com.suda.jzapp.ui.activity.user;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVFile;
 import com.bumptech.glide.Glide;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.soundcloud.android.crop.Crop;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
@@ -25,6 +27,8 @@ import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ImageUtil;
 import com.suda.jzapp.util.QRCodeUtil;
 import com.suda.jzapp.util.SnackBarUtil;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -81,7 +85,7 @@ public class UserActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CROP_IMAGE:
-                    updateIcon(data);
+                    updateIcon();
                     break;
                 case REQUEST_SELECT_IMAGE:
                     if (data.getData() != null)
@@ -116,24 +120,17 @@ public class UserActivity extends BaseActivity {
     }
 
     public void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, REQUEST_CROP_IMAGE);
+        Crop.of(uri, Uri.fromFile(ImageUtil.getPathByImageName(this, HEAD))).asSquare().withAspect(150, 150)
+                .start(this, REQUEST_CROP_IMAGE);
     }
 
-    public void updateIcon(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras == null) {
+    public void updateIcon() {
+        final File file = ImageUtil.getPathByImageName(this, HEAD);
+        if (!file.exists()) {
             SnackBarUtil.showSnackInfo(mHeadIcon, this, "获取图片失败");
             return;
         }
-        final Bitmap mHeadBitMap = extras.getParcelable("data");
+        final Bitmap mHeadBitMap = BitmapFactory.decodeFile(file.getAbsolutePath());
         circleProgressBar.setVisibility(View.VISIBLE);
         circleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
         mHeadIcon.setVisibility(View.INVISIBLE);
@@ -148,6 +145,7 @@ public class UserActivity extends BaseActivity {
                             @Override
                             public void handleMessage(Message msg) {
                                 super.handleMessage(msg);
+                                file.delete();
                                 User user = (User) msg.obj;
                                 if (user == null)
                                     return;
@@ -171,5 +169,6 @@ public class UserActivity extends BaseActivity {
     private TextView mTvUserName, mTvUserCode, mTvEmail, mTvRecordDate;
     private ImageView imageViewQrCode;
     private CircleProgressBar circleProgressBar;
+    private static final String HEAD = "head";
 
 }

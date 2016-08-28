@@ -14,6 +14,15 @@ import java.io.IOException;
  * Created by ghbha on 2016/4/6.
  */
 public class ImageUtil {
+
+    public static File getPathByImageName(Context context, String imgName) {
+        String path = context.getApplicationContext().getFilesDir().getAbsolutePath();
+        File fp = new File(path);
+        if (!fp.exists())
+            fp.mkdir();
+        return new File(path, imgName);
+    }
+
     public static void saveBitmap(Context context, String imgName, Bitmap bm) {
         String path = context.getApplicationContext().getFilesDir().getAbsolutePath();
         File fp = new File(path);

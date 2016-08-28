@@ -93,6 +93,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile 'com.wefika:flowlayout:+'
     compile 'com.github.ybq:Android-SpinKit:1.0.5'
+    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     //二维码
 //    compile 'com.google.zxing:core:3.2.1'
 //    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'

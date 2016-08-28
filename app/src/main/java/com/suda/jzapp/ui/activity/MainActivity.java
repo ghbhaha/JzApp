@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.gxz.PagerSlidingTabStrip;
+import com.soundcloud.android.crop.Crop;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.BuildConfig;
 import com.suda.jzapp.R;
@@ -398,16 +399,17 @@ public class MainActivity extends BaseActivity {
             if (requestCode == REQUEST_ACCOUNT_TRANSFORM) {
                 reloadAccountCallBack.reload(true);
             }
-            if (requestCode == REQUEST_CROP_IMAGE) {
-                final Bitmap mHeadBitMap = data.getExtras().getParcelable("data");
-                BitmapDrawable d = new BitmapDrawable(getResources(), mHeadBitMap);
-                ImageUtil.saveBitmap(this, Constant.NAV_IMG, mHeadBitMap);
-                SPUtils.put(MainActivity.this, Constant.SP_NAV_IMG_TYPE, 1);
-                mLayoutBackGround.setBackground(d);
-            }
             if (requestCode == REQUEST_SELECT_IMAGE) {
                 if (data.getData() != null)
                     cropPhoto(data.getData());
+            }
+            if (requestCode == REQUEST_CROP_IMAGE) {
+                Bitmap bitmap = ImageUtil.getBitmapByImgName(this, Constant.NAV_IMG);
+                if (bitmap != null) {
+                    BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);
+                    mLayoutBackGround.setBackground(bd);
+                } else
+                    mLayoutBackGround.setBackgroundResource(ThemeUtil.getTheme(this).getMainColorID());
             }
             if (requestCode == REQUEST_ABOUT)
                 optMenuAdapter.notifyDataSetChanged();
@@ -415,15 +417,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 8);
-        intent.putExtra("aspectY", 5);
-        intent.putExtra("outputX", 400);
-        intent.putExtra("outputY", 250);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, REQUEST_CROP_IMAGE);
+        Crop.of(uri, Uri.fromFile(ImageUtil.getPathByImageName(this, Constant.NAV_IMG))).asSquare().withAspect(400, 250)
+                .start(this, REQUEST_CROP_IMAGE);
     }
 
     public void refreshAll() {
