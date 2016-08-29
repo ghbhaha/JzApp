@@ -94,6 +94,7 @@ public class EditAccountActivity extends BaseActivity {
         mBtProp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBtProp.setClickable(false);
                 saveProp(mEtProp.getText().toString());
             }
         });

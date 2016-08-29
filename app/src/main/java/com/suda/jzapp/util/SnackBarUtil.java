@@ -9,6 +9,8 @@ import android.view.View;
  */
 public class SnackBarUtil {
     public static void showSnackInfo(View parentView, Context context, String msg) {
+        if (context == null)
+            return;
         Snackbar snackbar = Snackbar.make(parentView, msg, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null);
         Snackbar.SnackbarLayout ve = (Snackbar.SnackbarLayout) snackbar.getView();

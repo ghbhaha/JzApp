@@ -68,6 +68,7 @@ public class AccountsTransferActivity extends BaseActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                floatingActionButton.setClickable(false);
                 submit();
             }
         });

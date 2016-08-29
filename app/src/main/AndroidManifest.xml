@@ -150,7 +150,7 @@
             android:name=".ui.activity.system.UpdateActivity"
             android:theme="@style/ThemeDialogStyle" />
 
-        <activity android:name="com.avos.sns.SNSWebActivity" />
+        <!--<activity android:name="com.avos.sns.SNSWebActivity" />-->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <service android:name=".service.BackupService" />
 

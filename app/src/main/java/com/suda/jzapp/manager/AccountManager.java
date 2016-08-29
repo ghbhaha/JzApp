@@ -50,6 +50,8 @@ public class AccountManager extends BaseManager {
      */
     public AccountDetailDO getAccountByID(final long accountID) {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
+        if (account == null)
+            return null;
         AccountType accountType = accountLocalDao.getAccountTypeByID(account.getAccountTypeID(), _context);
         AccountDetailDO accountDetailDO = DataConvertUtil.getAccountDetailDO(account, accountType);
         return accountDetailDO;

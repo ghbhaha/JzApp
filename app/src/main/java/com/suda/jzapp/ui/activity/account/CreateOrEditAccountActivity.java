@@ -76,6 +76,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mSubmitButton.setClickable(false);
                 if (mAccountID > 0) {
                     final MaterialDialog materialDialog = new MaterialDialog(CreateOrEditAccountActivity.this);
                     materialDialog.setTitle(getResources().getString(R.string.delete_account))

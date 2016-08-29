@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 public class MoneyUtil {
 
     public static String getFormatMoneyStr(Context context, double money) {
+        if (context == null)
+            return "";
         return "" + getFormatNumStr(context, money);
     }
 

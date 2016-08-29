@@ -404,6 +404,7 @@ public class MainActivity extends BaseActivity {
                     cropPhoto(data.getData());
             }
             if (requestCode == REQUEST_CROP_IMAGE) {
+                SPUtils.put(MainActivity.this, Constant.SP_NAV_IMG_TYPE, 1);
                 Bitmap bitmap = ImageUtil.getBitmapByImgName(this, Constant.NAV_IMG);
                 if (bitmap != null) {
                     BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);

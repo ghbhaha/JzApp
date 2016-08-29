@@ -943,7 +943,10 @@ public class RecordManager extends BaseManager {
                 account = accountManager.getAccountByID(record.getAccountID());
                 accountHashMap.put(record.getAccountID(), account);
             }
-            excelRecord.setRecordAccount(account.getAccountName());
+            if (account == null)
+                excelRecord.setRecordAccount("--");
+            else
+                excelRecord.setRecordAccount(account.getAccountName());
             excelRecord.setRecordMoney(record.getRecordMoney());
             excelRecord.setRecordDate(record.getRecordDate());
             excelRecord.setRecordName(recordType.getRecordDesc());
