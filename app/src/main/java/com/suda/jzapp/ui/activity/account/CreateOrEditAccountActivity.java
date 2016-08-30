@@ -69,6 +69,21 @@ public class CreateOrEditAccountActivity extends BaseActivity {
             accountMoney = account.getAccountMoney();
             mTvAccountMoney.setText(String.format(getResources().getString(R.string.money_format), accountMoney));
 
+        } else {
+            accountManager.getAccountTypeByID(accountTypeId, new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    if (msg.what == Constant.MSG_ERROR)
+                        return;
+
+                    AccountType accountType = (AccountType) msg.obj;
+
+                    mTvAccountTypeDesc.setText(accountType.getAccountDesc());
+                    mIgAccountType.setImageResource(IconTypeUtil.getAccountIcon(accountType.getAccountIcon()));
+
+                }
+            });
         }
 
         mSubmitButton = (FloatingActionButton) findViewById(R.id.submit);
@@ -115,7 +130,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
                         return;
                     }
                     accountManager.createNewAccount(accountName, accountMoney, accountTypeId,
-                            accountRemark, accountColor,new Handler() {
+                            accountRemark, accountColor, new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     super.handleMessage(msg);
@@ -215,7 +230,7 @@ public class CreateOrEditAccountActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-         mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
+        mSubmitButton.setBackgroundTintList(getResources().getColorStateList(getMainTheme().getMainColorID()));
         // mSubmitButton.setBackgroundColor(mainColor);
         // mSubmitButton.setColorNormal(mainColor);
         //  mSubmitButton.setColorPressed(mainDarkColor);
@@ -228,11 +243,11 @@ public class CreateOrEditAccountActivity extends BaseActivity {
 
     private long mAccountID = 0;
     private double accountMoney = 0;
-    private int accountTypeId = 1;
+    private int accountTypeId = 3;
     private int accountCount = 0;
     private String accountName = "";
     private String accountRemark = "";
-    private int accountColor=0;
+    private int accountColor = 0;
     private AccountManager accountManager;
 
 }
