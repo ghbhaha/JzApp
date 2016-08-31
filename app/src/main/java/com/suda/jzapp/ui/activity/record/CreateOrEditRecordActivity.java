@@ -1,11 +1,13 @@
 package com.suda.jzapp.ui.activity.record;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +57,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         setMyContentView(false, R.layout.activity_create_or_edit_record);
         recordManager = new RecordManager(this);
         accountManager = new AccountManager(this);
-
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         initWidget();
 
         recordTypes = new ArrayList<>();
@@ -69,7 +71,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         if (oldRecord == null) {
             if (voiceRecord != null) {
                 zhiChu = voiceRecord.getRecordType() == Constant.RecordType.ZUICHU.getId();
-                tvMoneyCount.setText(MoneyUtil.getFormatMoneyStr(this,voiceRecord.getRecordMoney()));
+                tvMoneyCount.setText(MoneyUtil.getFormatMoneyStr(this, voiceRecord.getRecordMoney()));
                 mCurRecordType = (RecordType) getIntent().getSerializableExtra(IntentConstant.VOICE_RECORD_TYPE);
                 tvTypeTitle.setText(mCurRecordType.getRecordDesc());
                 typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
@@ -496,7 +498,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     ////////////////////////////计算panel////////////////////////////////
     public void onClickPanel(View view) {
-
+        mVibrator.vibrate(10); //震动一下
         if (recordTypeAdapter.ismShake()) {
             recordTypeAdapter.setShake(false);
         }
@@ -567,11 +569,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
             opt = Opt.PLUS;
             if (moneyCount <= Constant.MAX) {
-                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, moneyCount));
             } else {
-                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, Constant.MAX));
             }
-            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
+            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, moneyCount));
         } else if ("-".equals(tag)) {
             doNum = 0;
             isDO = false;
@@ -597,7 +599,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             opt = Opt.MINUS;
-            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
+            tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, moneyCount));
         } else if ("OK".equals(tag)) {
             isDO = false;
             doNum = 0;
@@ -631,9 +633,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 moneyCount = moneyCount + Double.parseDouble(money);
             }
             if (moneyCount <= Constant.MAX) {
-                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,moneyCount));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, moneyCount));
             } else {
-                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this,Constant.MAX));
+                tvMoneyCount.setText(MoneyUtil.getFormatNumStr(this, Constant.MAX));
             }
             opt = Opt.EQUAL;
             moneyCount = 0.00;
@@ -715,6 +717,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private Record voiceRecord;
 
     private boolean saving = false;
+
+    private Vibrator mVibrator;
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;
