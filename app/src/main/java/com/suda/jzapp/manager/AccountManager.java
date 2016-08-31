@@ -37,8 +37,18 @@ public class AccountManager extends BaseManager {
         super(context);
     }
 
-    public Account getSuitAccount() {
-        return accountLocalDao.getSuitAccount(_context);
+    /**
+     * 根据类型匹配合适的账户
+     *
+     * @param recordTypeId
+     * @return
+     */
+    public Account getSuitAccount(long recordTypeId) {
+        long accountId = recordLocalDAO.getMoreUseAccountByRecord(_context, recordTypeId);
+        if (accountId > 0) {
+            return accountLocalDao.getAccountByID(accountId, _context);
+        } else
+            return accountLocalDao.getSuitAccount(_context);
     }
 
 

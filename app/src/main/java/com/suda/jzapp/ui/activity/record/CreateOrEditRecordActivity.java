@@ -76,9 +76,6 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             }
 
             setList();
-            Account account = accountManager.getSuitAccount();
-            newRecord.setAccountID(account.getAccountID());
-            mAccountTv.setText(account.getAccountName());
             if (voiceRecord == null) {
                 setCurRecordType(0);
             }
@@ -303,6 +300,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         } else {
             mCurRecordType = recordType;
         }
+        Account account = accountManager.getSuitAccount(mCurRecordType.getRecordTypeID());
+        newRecord.setAccountID(account.getAccountID());
+        mAccountTv.setText(account.getAccountName());
         if (recordTypes != null) {
             tvTypeTitle.setText(mCurRecordType.getRecordDesc());
             typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));

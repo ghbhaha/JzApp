@@ -24,6 +24,31 @@ import java.util.Map;
  */
 public class RecordLocalDAO extends BaseLocalDao {
 
+    /**
+     * 根据某个消费类型查询频率最高的账户
+     *
+     * @param context
+     * @return
+     */
+    public long getMoreUseAccountByRecord(Context context, long recordTypeId) {
+        String sql = "SELECT ACCOUNT_ID FROM RECORD WHERE RECORD_TYPE_ID = " + recordTypeId
+                + " GROUP BY ACCOUNT_ID ORDER BY COUNT(ACCOUNT_ID) DESC LIMIT 0,1";
+        Cursor c = null;
+        long accountId = 0;
+        try {
+            c = getDaoSession(context).getDatabase().rawQuery(sql, null);
+            if (c.moveToFirst()) {
+                accountId = c.getLong(0);
+            }
+        } catch (Exception t) {
+            t.printStackTrace();
+        } finally {
+            if (c != null)
+                c.close();
+        }
+        return accountId;
+    }
+
     public void createOrUpdateRecord(Context context, Record record) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         Record recordOld = getSingleData(recordDao.queryBuilder().whereOr(RecordDao.Properties.RecordId.eq(record.getRecordId())
