@@ -71,10 +71,14 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         top2Tv = (TextView) view.findViewById(R.id.top2);
         top3Tv = (TextView) view.findViewById(R.id.top3);
         topTipTv = (TextView) view.findViewById(R.id.topTip);
+        return view;
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
         initPieChart();
         initLineChart();
-        return view;
     }
 
     private void initLineChart() {

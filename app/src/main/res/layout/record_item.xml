@@ -49,6 +49,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:gravity="right"
             android:text=""
             android:textSize="@dimen/record_in_out_text_size" />
 
@@ -62,6 +63,7 @@
             android:layout_marginRight="5dp"
             android:ellipsize="end"
             android:singleLine="true"
+            android:textSize="10sp"
             android:text="" />
 
 
@@ -94,6 +96,7 @@
             android:layout_below="@+id/out_tv"
             android:layout_marginLeft="5dp"
             android:ellipsize="end"
+            android:gravity="left"
             android:singleLine="true"
             android:text=""
             android:textSize="10sp" />
