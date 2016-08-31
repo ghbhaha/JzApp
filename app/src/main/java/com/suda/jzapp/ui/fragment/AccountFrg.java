@@ -46,8 +46,13 @@ public class AccountFrg extends Fragment implements MainActivity.ReloadCallBack,
         View view = inflater.inflate(R.layout.account_frg_layout, container, false);
         initWidget(view);
         ((MainActivity) getActivity()).setReloadAccountCallBack(this);
-        refreshData(true);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshData(true);
     }
 
     private void initWidget(View view) {
