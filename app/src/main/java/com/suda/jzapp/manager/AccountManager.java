@@ -46,7 +46,11 @@ public class AccountManager extends BaseManager {
     public Account getSuitAccount(long recordTypeId) {
         long accountId = recordLocalDAO.getMoreUseAccountByRecord(_context, recordTypeId);
         if (accountId > 0) {
-            return accountLocalDao.getAccountByID(accountId, _context);
+            Account account = accountLocalDao.getAccountByID(accountId, _context);
+            if (account != null && account.getIsDel() == false)
+                return account;
+            else
+                return accountLocalDao.getSuitAccount(_context);
         } else
             return accountLocalDao.getSuitAccount(_context);
     }

@@ -32,7 +32,7 @@ public class RecordLocalDAO extends BaseLocalDao {
      */
     public long getMoreUseAccountByRecord(Context context, long recordTypeId) {
         String sql = "SELECT ACCOUNT_ID FROM RECORD WHERE RECORD_TYPE_ID = " + recordTypeId
-                + " GROUP BY ACCOUNT_ID ORDER BY COUNT(ACCOUNT_ID) DESC LIMIT 0,1";
+                + " AND IS_DEL=0 GROUP BY ACCOUNT_ID ORDER BY COUNT(ACCOUNT_ID) DESC LIMIT 0,1";
         Cursor c = null;
         long accountId = 0;
         try {
