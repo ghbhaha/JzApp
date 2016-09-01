@@ -220,7 +220,5 @@ public class Constant {
     public final static long TRANSFER_TYPE = 26L;
     public final static long CHANGE_TYPE = 27L;
 
-    public final static boolean newSyncSwitch = false;
-
     public final static String NAV_IMG= "NAV_IMG.png" ;
 }

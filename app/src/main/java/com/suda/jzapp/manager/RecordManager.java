@@ -327,10 +327,6 @@ public class RecordManager extends BaseManager {
      * @param handler
      */
     public void updateRecordType(final RecordType recordType, final Handler handler) {
-        final Date now = new Date(System.currentTimeMillis());
-        if (Constant.newSyncSwitch) {
-            recordType.setUpdatedAt(now);
-        }
         //1网络修改不成功 SyncStatus 置0
         if (canSync()) {
             if (recordType.getSysType()) {
@@ -343,9 +339,6 @@ public class RecordManager extends BaseManager {
                 //自定义类型
                 if (!TextUtils.isEmpty(recordType.getObjectID())) {
                     AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-                    if (Constant.newSyncSwitch) {
-                        avRecordType.put(AVObject.UPDATED_AT, now);
-                    }
                     avRecordType.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(AVException e) {
@@ -368,9 +361,6 @@ public class RecordManager extends BaseManager {
                             AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
                             if (list.size() > 0) {
                                 avRecordType.setObjectId(list.get(0).getObjectId());
-                            }
-                            if (Constant.newSyncSwitch) {
-                                avRecordType.put(AVObject.UPDATED_AT, now);
                             }
                             avRecordType.saveInBackground(new SaveCallback() {
                                 @Override
