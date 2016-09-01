@@ -26,7 +26,6 @@ import com.suda.jzapp.util.DataConvertUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -285,9 +284,13 @@ public class AccountManager extends BaseManager {
                              final Callback callback, final Handler handler) {
         if (canSync()) {
             Account account = accountLocalDao.getAccountByID(accountID, _context);
+            if (account.getIsDel()) {
+                sendEmptyMessage(handler, Constant.MSG_SUCCESS);
+                return;
+            }
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
-                avAccount.setAccountIsDel(false);
+                avAccount.setAccountIsDel(account.getIsDel());
                 if (editType == EDIT_TYPE_DEL) {
                     avAccount.setAccountIsDel(true);
                 } else if (editType == EDIT_TYPE_ACCOUNT_TYPE) {

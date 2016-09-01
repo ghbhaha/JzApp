@@ -302,9 +302,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         } else {
             mCurRecordType = recordType;
         }
-        Account account = accountManager.getSuitAccount(mCurRecordType.getRecordTypeID());
-        newRecord.setAccountID(account.getAccountID());
-        mAccountTv.setText(account.getAccountName());
+        if (recordType == null) {
+            Account account = accountManager.getSuitAccount(mCurRecordType.getRecordTypeID());
+            newRecord.setAccountID(account.getAccountID());
+            mAccountTv.setText(account.getAccountName());
+        }
         if (recordTypes != null) {
             tvTypeTitle.setText(mCurRecordType.getRecordDesc());
             typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
