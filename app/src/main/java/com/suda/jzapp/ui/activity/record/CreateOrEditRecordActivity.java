@@ -77,7 +77,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 typeIcon.setImageResource(IconTypeUtil.getTypeIcon(mCurRecordType.getRecordIcon()));
             }
 
-            setList();
+            resetRecordTypeList();
             if (voiceRecord == null) {
                 setCurRecordType(0);
             }
@@ -98,7 +98,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             tvMoneyCount.setText(String.format(getResources().getString(R.string.record_money_format), Math.abs(oldRecord.getRecordMoney())));
             zhiChu = oldRecord.getRecordType() < 0;
             etRemark.setText(oldRecord.getRemark());
-            setList();
+            resetRecordTypeList();
         }
 
         recordTypeAdapter = new RecordTypeAdapter(this, recordTypes, mRecordDr);
@@ -311,7 +311,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         }
     }
 
-    private void setList() {
+    private void resetRecordTypeList() {
+        recordTypes.clear();
         int type = zhiChu ? Constant.RecordType.ZUICHU.getId() : Constant.RecordType.SHOURU.getId();
         recordTypes.addAll(recordManager.getRecordTypeByType(type));
         RecordType recordType = new RecordType();
@@ -333,7 +334,6 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     }
 
     private void setBtColor() {
-
         if (zhiChu) {
             btZhiChu.setTextColor(mainDarkColor);
             btShouRu.setTextColor(Color.BLACK);
@@ -341,19 +341,14 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
             btZhiChu.setTextColor(Color.BLACK);
             btShouRu.setTextColor(mainDarkColor);
         }
-
-
     }
 
     public void switchZhiChuOrShouRu(View view) {
         zhiChu = !zhiChu;
         setBtColor();
         YoYo.with(Techniques.SlideOutLeft).duration(200).playOn(mRecordDr);
-        recordTypes.clear();
-
-        setList();
+        resetRecordTypeList();
         YoYo.with(Techniques.SlideInRight).delay(200).duration(200).playOn(mRecordDr);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -361,7 +356,6 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 setCurRecordType(0);
             }
         }, 200);
-
     }
 
     public void selectAccount(View view) {
@@ -370,7 +364,6 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         startActivityForResult(intent, REQUEST_CODE_ACCOUNT);
         overridePendingTransition(R.anim.up_in, 0);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -382,13 +375,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     mAccountTv.setText(accountManager.getAccountByID(newRecord.getAccountID()).getAccountName());
                     break;
                 case REQUEST_CODE_ADD_NEW_RECORD_TYPE:
-                    recordTypes.clear();
-                    setList();
+                    resetRecordTypeList();
                     recordTypeAdapter.notifyDataSetChanged();
             }
         }
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

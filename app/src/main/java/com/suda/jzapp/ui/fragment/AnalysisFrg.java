@@ -71,14 +71,15 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         top2Tv = (TextView) view.findViewById(R.id.top2);
         top3Tv = (TextView) view.findViewById(R.id.top3);
         topTipTv = (TextView) view.findViewById(R.id.topTip);
+        initPieChart();
+        initLineChart();
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        initPieChart();
-        initLineChart();
+        reload(true);
     }
 
     private void initLineChart() {
@@ -96,8 +97,6 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
         for (int j = 0; j < 12; j++) {
             xLineVals1.add(j + 1 + "月");
         }
-
-        refreshLineChart();
     }
 
     private void refreshLineChart() {
@@ -180,8 +179,6 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
             }
         });
 
-
-        refreshPie();
         changeTv.setText(Html.fromHtml(pieOut ? getString(R.string.out_text) : getString(R.string.in_text)));
         changeTv.setOnClickListener(new View.OnClickListener() {
             @Override

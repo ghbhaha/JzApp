@@ -25,7 +25,6 @@ import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
-import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.UserLink;
 import com.suda.jzapp.dao.greendao.User;
@@ -224,14 +223,15 @@ public class UserManager extends BaseManager {
     /**
      * 用户登出
      */
-    public void logOut(boolean clearAvUser) {
-        if (clearAvUser)
+    public void logOut(boolean clearUser) {
+        if (clearUser) {
+            userLocalDao.clear(_context);
             MyAVUser.getCurrentUser().logOut();
+        }
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);
         recordTypeLocalDao.clearAllRecordType(_context);
         configLocalDao.initConfig(_context);
-        userLocalDao.clear(_context);
         accountLocalDao.initBudget(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
         SPUtils.put(_context, Constant.SP_FIRST_ADD, true);

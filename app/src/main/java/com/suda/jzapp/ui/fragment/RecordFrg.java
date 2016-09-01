@@ -153,7 +153,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mForceSyncSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                recordManager.forceSync(new Handler() {
+                recordManager.forceRestore(new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);

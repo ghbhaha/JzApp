@@ -137,7 +137,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                 }
                 hideKeyboard();
-                finish();
+                if (canBack)
+                    finish();
                 return true;
             default:
                 break;
@@ -170,5 +171,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int mainDarkColor;
     protected int textColor;
     protected boolean needUpdate = false;
+    protected boolean canBack = true;
     protected View headView;
 }

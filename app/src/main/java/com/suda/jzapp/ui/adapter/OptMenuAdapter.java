@@ -125,7 +125,7 @@ public class OptMenuAdapter extends BaseAdapter {
                     Intent intent = new Intent(context, optDO.getAct());
                     if (optDO.getAct() == EditThemeActivity.class)
                         context.startActivityForResult(intent, MainActivity.REQUEST_EDIT_THEME);
-                    if (optDO.getAct() == AboutActivity.class)
+                    else if (optDO.getAct() == AboutActivity.class)
                         context.startActivityForResult(intent, MainActivity.REQUEST_ABOUT);
                     else
                         context.startActivity(intent);

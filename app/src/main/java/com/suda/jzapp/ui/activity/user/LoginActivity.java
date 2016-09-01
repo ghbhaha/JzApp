@@ -175,9 +175,7 @@ public class LoginActivity extends BaseActivity {
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        if (forgetGesture) {
-                            userManager.logOut(false);
-                        }
+                        userManager.logOut(false);
                         SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "登录成功");
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -185,8 +183,9 @@ public class LoginActivity extends BaseActivity {
                                 mCircleProgressBar.setVisibility(View.VISIBLE);
                                 YoYo.with(Techniques.SlideOutUp).playOn(mloginView);
                                 YoYo.with(Techniques.SlideInUp).playOn(mCircleProgressBar);
-                                SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在同步数据");
+                                SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "正在恢复数据");
                                 mSyncData = true;
+                                canBack = false;
                                 mCircleProgressBar.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light);
                                 ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
                                     @Override
@@ -200,7 +199,8 @@ public class LoginActivity extends BaseActivity {
                                             SPUtils.put(LoginActivity.this, false, Constant.SP_LAST_SYNC_AT, Calendar.getInstance().getTimeInMillis());
                                         } catch (AVException e) {
                                             mSyncData = false;
-                                            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "同步出错");
+                                            canBack = true;
+                                            SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "恢复出错");
                                             userManager.logOut();
                                             finish();
                                         }

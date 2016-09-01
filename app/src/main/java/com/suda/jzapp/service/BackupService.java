@@ -87,10 +87,6 @@ public class BackupService extends Service {
                                 avRecord.setObjectId(objId);
                                 record.setObjectID(objId);
                             }
-                            if (Constant.newSyncSwitch){
-                                avRecord.put(AVObject.CREATED_AT, record.getCreatedAt());
-                                avRecord.put(AVObject.UPDATED_AT, record.getUpdatedAt());
-                            }
                             avRecord.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(AVException e) {
@@ -105,9 +101,6 @@ public class BackupService extends Service {
             } else {
                 AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
                 avRecord.setObjectId(record.getObjectID());
-                if (Constant.newSyncSwitch){
-                    avRecord.put(AVObject.UPDATED_AT, record.getUpdatedAt());
-                }
                 avRecord.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
@@ -125,9 +118,6 @@ public class BackupService extends Service {
             LogUtils.e(TAG, "START_SYNC_ACCOUNT" + account.getAccountID());
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
-                if (Constant.newSyncSwitch){
-                    avAccount.put(AVObject.UPDATED_AT,account.getUpdatedAt());
-                }
                 avAccount.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
@@ -151,10 +141,6 @@ public class BackupService extends Service {
                                 avAccount.setObjectId(objId);
                                 account.setObjectID(objId);
                             }
-                            if (Constant.newSyncSwitch){
-                                avAccount.put(AVObject.CREATED_AT,account.getCreatedAt());
-                                avAccount.put(AVObject.UPDATED_AT,account.getUpdatedAt());
-                            }
                             avAccount.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(AVException e) {
@@ -175,9 +161,6 @@ public class BackupService extends Service {
             LogUtils.e(TAG, "START_SYNC_RECORD_TYPE" + recordType.getRecordTypeID());
             if (!TextUtils.isEmpty(recordType.getObjectID())) {
                 AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-                if (Constant.newSyncSwitch){
-                    avRecordType.put(AVObject.UPDATED_AT,recordType.getUpdatedAt());
-                }
                 avRecordType.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(AVException e) {
@@ -200,10 +183,6 @@ public class BackupService extends Service {
                             if (!TextUtils.isEmpty(objId)) {
                                 avRecordType.setObjectId(objId);
                                 recordType.setObjectID(objId);
-                            }
-                            if (Constant.newSyncSwitch){
-                                avRecordType.put(AVObject.CREATED_AT,recordType.getCreatedAt());
-                                avRecordType.put(AVObject.UPDATED_AT,recordType.getUpdatedAt());
                             }
                             avRecordType.saveInBackground(new SaveCallback() {
                                 @Override
