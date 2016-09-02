@@ -137,6 +137,8 @@ public class RecordAdapter extends BaseAdapter {
             holder.inTv.setText(recordDetailDO.getRecordDesc() + " " +
                     String.format(mContext.getResources().getString(R.string.record_money_format), Math.abs(recordDetailDO.getRecordMoney())));
             holder.inRemarkTv.setText(recordDetailDO.getRemark());
+        } else {
+            holder.inRemarkTv.setText("");
         }
 
         if (recordDetailDO.isMonthFirstDay()) {

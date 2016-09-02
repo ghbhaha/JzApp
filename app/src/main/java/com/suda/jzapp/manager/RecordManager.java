@@ -442,56 +442,65 @@ public class RecordManager extends BaseManager {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {
-                //LogUtils.d("@@@" + pageIndex);
-                List<MyDate> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
+                int pageIndexTmp = pageIndex * 2 - 1;
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
-
-                if (dates.size() == 0) {
-                    sendMessage(handler, recordDetailDos, true);
-                    return;
-                }
-                RecordDetailDO recordDetailDOMonthFirst = new RecordDetailDO();
-                recordDetailDOMonthFirst.setIsFirstDay(true);
-                MyDate myDate = dates.get(0);
-                recordDetailDOMonthFirst.setRecordDate(myDate.getDate());
-                recordDetailDos.add(recordDetailDOMonthFirst);
-                double todayAllInMoney, todayAllOutMoney = 0;
-                Map<Long, RecordType> recordTypeMap = new HashMap<>();
-                for (MyDate date : dates) {
-                    todayAllInMoney = 0;
-                    todayAllOutMoney = 0;
-                    RecordDetailDO recordDetailDayFirst = new RecordDetailDO();
-                    recordDetailDayFirst.setIsDayFirstDay(true);
-                    recordDetailDayFirst.setRecordDate(date.getDate());
-                    recordDetailDos.add(recordDetailDayFirst);
-                    List<Record> records = recordLocalDAO.getRecordByMyDate(_context, date);
-                    for (Record record : records) {
-                        RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
-                        if (recordType == null) {
-                            recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
-                            recordTypeMap.put(record.getRecordTypeID(), recordType);
-                        }
-                        RecordDetailDO recordDetailDO = new RecordDetailDO();
-                        recordDetailDO.setRecordDate(date.getDate());
-                        recordDetailDO.setRecordID(record.getRecordId());
-                        recordDetailDO.setRecordMoney(record.getRecordMoney());
-                        recordDetailDO.setRemark(record.getRemark());
-                        recordDetailDO.setIconId(recordType == null ? 0 : recordType.getRecordIcon());
-                        recordDetailDO.setRecordDesc(recordType == null ? "" : recordType.getRecordDesc());
-                        if (recordDetailDO.getRecordMoney() > 0)
-                            todayAllInMoney += recordDetailDO.getRecordMoney();
-                        else
-                            todayAllOutMoney += recordDetailDO.getRecordMoney();
-
-                        recordDetailDos.add(recordDetailDO);
-                    }
-                    recordDetailDayFirst.setTodayAllInMoney(todayAllInMoney);
-                    recordDetailDayFirst.setTodayAllOutMoney(todayAllOutMoney);
-                }
+                appendRecords(recordDetailDos, getRecordByPageIndex(pageIndexTmp));
+                appendRecords(recordDetailDos, getRecordByPageIndex(pageIndexTmp + 1));
                 sendMessage(handler, recordDetailDos, true);
             }
         });
+    }
 
+    private void appendRecords(List<RecordDetailDO> recordDetailDos, List<RecordDetailDO> append) {
+        if (append != null && append.size() > 0)
+            recordDetailDos.addAll(append);
+    }
+
+    private List<RecordDetailDO> getRecordByPageIndex(int pageIndex) {
+        List<MyDate> dates = recordLocalDAO.getRecordDate(_context, pageIndex);
+        List<RecordDetailDO> recordDetailDos = new ArrayList<>();
+        if (dates.size() == 0) {
+            return null;
+        }
+        RecordDetailDO recordDetailDOMonthFirst = new RecordDetailDO();
+        recordDetailDOMonthFirst.setIsFirstDay(true);
+        MyDate myDate = dates.get(0);
+        recordDetailDOMonthFirst.setRecordDate(myDate.getDate());
+        recordDetailDos.add(recordDetailDOMonthFirst);
+        double todayAllInMoney, todayAllOutMoney = 0;
+        Map<Long, RecordType> recordTypeMap = new HashMap<>();
+        for (MyDate date : dates) {
+            todayAllInMoney = 0;
+            todayAllOutMoney = 0;
+            RecordDetailDO recordDetailDayFirst = new RecordDetailDO();
+            recordDetailDayFirst.setIsDayFirstDay(true);
+            recordDetailDayFirst.setRecordDate(date.getDate());
+            recordDetailDos.add(recordDetailDayFirst);
+            List<Record> records = recordLocalDAO.getRecordByMyDate(_context, date);
+            for (Record record : records) {
+                RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
+                if (recordType == null) {
+                    recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                    recordTypeMap.put(record.getRecordTypeID(), recordType);
+                }
+                RecordDetailDO recordDetailDO = new RecordDetailDO();
+                recordDetailDO.setRecordDate(date.getDate());
+                recordDetailDO.setRecordID(record.getRecordId());
+                recordDetailDO.setRecordMoney(record.getRecordMoney());
+                recordDetailDO.setRemark(record.getRemark());
+                recordDetailDO.setIconId(recordType == null ? 0 : recordType.getRecordIcon());
+                recordDetailDO.setRecordDesc(recordType == null ? "" : recordType.getRecordDesc());
+                if (recordDetailDO.getRecordMoney() > 0)
+                    todayAllInMoney += recordDetailDO.getRecordMoney();
+                else
+                    todayAllOutMoney += recordDetailDO.getRecordMoney();
+
+                recordDetailDos.add(recordDetailDO);
+            }
+            recordDetailDayFirst.setTodayAllInMoney(todayAllInMoney);
+            recordDetailDayFirst.setTodayAllOutMoney(todayAllOutMoney);
+        }
+        return recordDetailDos;
     }
 
     /**

@@ -412,6 +412,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 * (mCurRecordType.getRecordType() / Math.abs(mCurRecordType.getRecordType())));
         newRecord.setRecordTypeID(mCurRecordType.getRecordTypeID());
         newRecord.setRecordType(mCurRecordType.getRecordType());
+        if (newRecord.getAccountID() == null) {
+            SnackBarUtil.showSnackInfo(panel, this, "请重新选择账户");
+            return;
+        }
         if (oldRecord == null) {
             newRecord.setRecordId(System.currentTimeMillis());
             recordManager.createNewRecord(newRecord, new Handler() {
