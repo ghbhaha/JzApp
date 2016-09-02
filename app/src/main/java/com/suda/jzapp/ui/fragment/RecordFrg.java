@@ -33,6 +33,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.Record;
 import com.suda.jzapp.manager.RecordManager;
+import com.suda.jzapp.manager.SyncManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
 import com.suda.jzapp.manager.domain.VoiceDo;
 import com.suda.jzapp.misc.Constant;
@@ -62,6 +63,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         recordManager = new RecordManager(getActivity());
+        syncManager = new SyncManager(getActivity());
         mInitListener = new InitListener() {
             @Override
             public void onInit(int code) {
@@ -153,7 +155,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mForceSyncSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                recordManager.forceRestore(new Handler() {
+                syncManager.forceSync(new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);
@@ -336,6 +338,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
     private int mainDarkColor;
     private FloatingActionButton mAddRecordBt;
     private RecordManager recordManager;
+    private SyncManager syncManager;
     private RecordAdapter mRecordAdapter;
     private List<RecordDetailDO> recordDetailDOs;
     private int curPage = 1;
