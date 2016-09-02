@@ -356,6 +356,4 @@ public class RecordLocalDAO extends BaseLocalDao {
 
         return count;
     }
-
-
 }

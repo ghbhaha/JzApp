@@ -525,7 +525,6 @@ public class DragGridView extends GridView {
         return animSetXY;
     }
 
-
     /**
      * item的交换动画效果
      *

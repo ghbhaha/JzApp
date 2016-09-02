@@ -23,6 +23,7 @@
 
     <!-- 记录 -->
     <string name="please_enter_record_type_name">请输入自定义名称</string>
+    <string name="record_type_name_too_long">类别名称不能超过4个字哦</string>
     <string name="please_not_enter_same_record_type_name">请不要键入相同的记录名称</string>
     <string name="about">关于</string>
     <string name="introduce">简洁、便捷、语音记账\n

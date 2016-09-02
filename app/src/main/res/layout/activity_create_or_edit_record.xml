@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/panel_back"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/panel_back">
 
 
     <LinearLayout
         android:id="@+id/record_type_ll"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center"
         android:background="@color/md_white_1000"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
@@ -42,8 +41,9 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:background="@color/md_white_1000"
-        android:layout_below="@+id/record_type_ll">
+        android:layout_below="@+id/record_type_ll"
+        android:background="@color/md_white_1000">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -78,8 +78,6 @@
             android:layout_marginRight="10dp"
             android:text="0.00"
             android:textSize="30sp" />
-
-
     </RelativeLayout>
 
 
@@ -108,13 +106,13 @@
 
     <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
         android:id="@+id/progressBar"
-        app:mlpb_show_arrow="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
         app:mlpb_arrow_height="5dp"
         app:mlpb_arrow_width="10dp"
-        android:layout_centerInParent="true"
         app:mlpb_enable_circle_background="true"
         app:mlpb_progress_stoke_width="3dp"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        app:mlpb_show_arrow="true" />
 
 </RelativeLayout>

@@ -96,6 +96,10 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
             SnackBarUtil.showSnackInfo(view, this, getString(R.string.please_enter_record_type_name));
             return;
         }
+        if (recordName.length() > 4) {
+            SnackBarUtil.showSnackInfo(view, this, getString(R.string.record_type_name_too_long));
+            return;
+        }
         //TODO 限制添加相同名字的类型
         recordName = recordName.trim();
 

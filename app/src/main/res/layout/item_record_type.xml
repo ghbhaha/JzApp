@@ -6,18 +6,16 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
 
         <com.suda.jzapp.view.MyRoundColorView
             android:id="@+id/add_new_record"
             android:layout_width="@dimen/record_type_size"
             android:layout_height="@dimen/record_type_size"
-            android:visibility="gone"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             app:myRoundImage="@drawable/ic_add_white" />
 
 
