@@ -55,14 +55,12 @@ public class SyncManager extends BaseManager {
      */
     public void forceBackup(Date date) throws AVException {
         Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
+        AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
+        avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+        avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
         if (config != null && !config.getBooleanValue()) {
             if (!TextUtils.isEmpty(config.getObjectID())) {
-                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
                 avRecordTypeIndex.setObjectId(config.getObjectID());
-                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
-                avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-                avRecordTypeIndex.save();
-                config.setBooleanValue(true);
             } else {
                 AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
                 query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
@@ -71,27 +69,23 @@ public class SyncManager extends BaseManager {
                 if (list.size() > 0) {
                     objId = list.get(0).getObjectId();
                 }
-                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
-                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
                 if (!TextUtils.isEmpty(objId)) {
                     avRecordTypeIndex.setObjectId(config.getObjectID());
                     config.setObjectID(objId);
                 }
-                avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-                avRecordTypeIndex.save();
             }
+            config.setBooleanValue(true);
+            avRecordTypeIndex.save();
             configLocalDao.updateConfig(config, _context);
         }
 
         config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+        AVAccountIndex avAccountIndex = new AVAccountIndex();
+        avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+        avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
         if (config != null && !config.getBooleanValue()) {
             if (!TextUtils.isEmpty(config.getObjectID())) {
-                AVAccountIndex avAccountIndex = new AVAccountIndex();
                 avAccountIndex.setObjectId(config.getObjectID());
-                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
-                avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-                avAccountIndex.save();
-                config.setBooleanValue(true);
             } else {
                 AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
                 query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
@@ -100,15 +94,14 @@ public class SyncManager extends BaseManager {
                 if (list.size() > 0) {
                     objId = list.get(0).getObjectId();
                 }
-                AVAccountIndex avAccountIndex = new AVAccountIndex();
-                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
                 if (!TextUtils.isEmpty(objId)) {
                     avAccountIndex.setObjectId(config.getObjectID());
                     config.setObjectID(objId);
                 }
                 avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-                avAccountIndex.save();
             }
+            avAccountIndex.save();
+            config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
         }
 
