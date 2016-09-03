@@ -141,6 +141,7 @@ public class SyncManager extends BaseManager {
             } else {
                 AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
                 query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                query.whereEqualTo(AVRecordType.RECORD_TYPE_ID, recordType.getRecordTypeID());
                 List<AVRecordType> list = query.find();
                 String objId = null;
                 if (list.size() > 0) {
@@ -167,6 +168,7 @@ public class SyncManager extends BaseManager {
             } else {
                 AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
                 query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
+                query.whereEqualTo(AVAccount.ACCOUNT_ID, account.getAccountID());
                 List<AVAccount> list = query.find();
                 String objId = null;
                 if (list.size() > 0) {
