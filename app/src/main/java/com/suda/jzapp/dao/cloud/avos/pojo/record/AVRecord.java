@@ -13,7 +13,6 @@ import java.util.Date;
 @AVClassName("Record")
 public class AVRecord extends AVObject {
 
-
     public void setUser(AVUser user) {
         put(USER, user);
     }

@@ -1,5 +1,7 @@
 package com.suda.jzapp.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -22,5 +24,10 @@ public class DateTimeUtil {
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.getTime();
         return calendar.getTime().equals(date);
+    }
+
+    public static String fmCQLDate(Date date) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.'000Z'");
+        return format.format(date);
     }
 }

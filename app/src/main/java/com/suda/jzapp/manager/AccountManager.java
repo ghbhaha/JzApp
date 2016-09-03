@@ -416,7 +416,7 @@ public class AccountManager extends BaseManager {
             Config config = new Config();
             config.setObjectID(avAccountIndex.getObjectId());
             config.setKey(ACCOUNT_INDEX_UPDATE);
-            config.setValue("true");
+            config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
             accountLocalDao.updateAccountIndexByAccountIndex(_context, accountIndexDOs);
         }
@@ -434,7 +434,7 @@ public class AccountManager extends BaseManager {
         }
         if (canSync()) {
             final Config config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
-            if (config != null && "true".equals(config.getValue()) && list == null) {
+            if (config != null && config.getBooleanValue() && list == null) {
                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                 return;
             }
@@ -447,9 +447,9 @@ public class AccountManager extends BaseManager {
                     public void done(AVException e) {
                         getAvEx(e);
                         if (e == null) {
-                            config.setValue("true");
+                            config.setBooleanValue(true);
                         } else {
-                            config.setValue("false");
+                            config.setBooleanValue(false);
                         }
                         configLocalDao.updateConfig(config, _context);
                         sendEmptyMessage(handler, Constant.MSG_SUCCESS);
@@ -471,7 +471,7 @@ public class AccountManager extends BaseManager {
                             config = new Config();
                         }
                         config.setKey(ACCOUNT_INDEX_UPDATE);
-                        config.setValue("false");
+                        config.setBooleanValue(false);
                         configLocalDao.updateConfig(config, _context);
                     } else {
                         AVAccountIndex avAccountIndex = null;
@@ -494,9 +494,9 @@ public class AccountManager extends BaseManager {
                                 config.setObjectID(objId);
                                 config.setKey(ACCOUNT_INDEX_UPDATE);
                                 if (e == null) {
-                                    config.setValue("true");
+                                    config.setBooleanValue(true);
                                 } else {
-                                    config.setValue("false");
+                                    config.setBooleanValue(false);
                                 }
                                 configLocalDao.updateConfig(config, _context);
                                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);

@@ -243,7 +243,7 @@ public class RecordManager extends BaseManager {
 
         if (canSync()) {
             final Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
-            if (config != null && "true".equals(config.getValue()) && serviceSync) {
+            if (config != null && config.getBooleanValue() && serviceSync) {
                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                 return;
             }
@@ -257,9 +257,9 @@ public class RecordManager extends BaseManager {
                     public void done(AVException e) {
                         getAvEx(e);
                         if (e == null) {
-                            config.setValue("true");
+                            config.setBooleanValue(true);
                         } else {
-                            config.setValue("false");
+                            config.setBooleanValue(false);
                         }
                         configLocalDao.updateConfig(config, _context);
                         sendEmptyMessage(handler, Constant.MSG_SUCCESS);
@@ -281,7 +281,7 @@ public class RecordManager extends BaseManager {
                             config = new Config();
                         }
                         config.setKey(RECORD_INDEX_UPDATE);
-                        config.setValue("false");
+                        config.setBooleanValue(false);
                         configLocalDao.updateConfig(config, _context);
                     } else {
                         AVRecordTypeIndex avRecordTypeIndex = null;
@@ -302,9 +302,9 @@ public class RecordManager extends BaseManager {
                                 }
                                 config.setKey(RECORD_INDEX_UPDATE);
                                 if (e == null) {
-                                    config.setValue("true");
+                                    config.setBooleanValue(true);
                                 } else {
-                                    config.setValue("false");
+                                    config.setBooleanValue(false);
                                 }
                                 configLocalDao.updateConfig(config, _context);
                                 sendEmptyMessage(handler, Constant.MSG_SUCCESS);
@@ -639,7 +639,7 @@ public class RecordManager extends BaseManager {
             Config config = new Config();
             config.setObjectID(avRecordTypeIndex.getObjectId());
             config.setKey(RECORD_INDEX_UPDATE);
-            config.setValue("true");
+            config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
 
             String data = avRecordTypeIndex.getData();

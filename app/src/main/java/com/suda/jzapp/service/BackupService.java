@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.avos.avoscloud.AVException;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.manager.SyncManager;
 import com.suda.jzapp.misc.Constant;
@@ -40,13 +39,9 @@ public class BackupService extends Service {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        LogUtils.e(TAG, "START_BACK_UP_1");
-                        syncManager.forceBackup();
-                        stopSelf();
-                    } catch (AVException e) {
-                        LogUtils.getAvEx(e, BackupService.this);
-                    }
+                    LogUtils.e(TAG, "START_BACK_UP_1");
+                    syncManager.forceBackup();
+                    stopSelf();
                 }
             }).start();
         }

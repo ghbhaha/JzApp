@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSON;
+import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
@@ -22,14 +22,13 @@ import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
-import com.suda.jzapp.manager.domain.RecordTypeIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
+import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,29 +40,76 @@ public class SyncManager extends BaseManager {
         super(context);
     }
 
+    public void forceBackup() {
+        try {
+            forceBackup(new Date(System.currentTimeMillis()));
+        } catch (AVException r) {
+            AVAnalytics.onError(_context, r.toString());
+        }
+    }
+
     /**
      * 强制备份
      *
      * @throws AVException
      */
-    public void forceBackup() throws AVException {
+    public void forceBackup(Date date) throws AVException {
+
         Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
-        if (config != null && "false".equals(config.getValue())) {
-            AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
-            avRecordTypeIndex.setObjectId(config.getObjectID());
-            avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
-            avRecordTypeIndex.save();
-            config.setValue("true");
+        if (config != null && !config.getBooleanValue()) {
+            if (TextUtils.isEmpty(config.getObjectID())) {
+                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
+                avRecordTypeIndex.setObjectId(config.getObjectID());
+                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+                avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+                avRecordTypeIndex.save();
+                config.setBooleanValue(true);
+            } else {
+                AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
+                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                List<AVRecordTypeIndex> list = query.find();
+                String objId = null;
+                if (list.size() > 0) {
+                    objId = list.get(0).getObjectId();
+                }
+                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
+                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+                if (!TextUtils.isEmpty(objId)) {
+                    avRecordTypeIndex.setObjectId(config.getObjectID());
+                    config.setObjectID(objId);
+                }
+                avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+                avRecordTypeIndex.save();
+            }
             configLocalDao.updateConfig(config, _context);
         }
 
         config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
-        if (config != null && "false".equals(config.getValue())) {
-            AVAccountIndex avAccountIndex = new AVAccountIndex();
-            avAccountIndex.setObjectId(config.getObjectID());
-            avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
-            avAccountIndex.save();
-            config.setValue("true");
+        if (config != null && !config.getBooleanValue()) {
+            if (!TextUtils.isEmpty(config.getObjectID())) {
+                AVAccountIndex avAccountIndex = new AVAccountIndex();
+                avAccountIndex.setObjectId(config.getObjectID());
+                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+                avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+                avAccountIndex.save();
+                config.setBooleanValue(true);
+            } else {
+                AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
+                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                List<AVAccountIndex> list = query.find();
+                String objId = null;
+                if (list.size() > 0) {
+                    objId = list.get(0).getObjectId();
+                }
+                AVAccountIndex avAccountIndex = new AVAccountIndex();
+                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+                if (!TextUtils.isEmpty(objId)) {
+                    avAccountIndex.setObjectId(config.getObjectID());
+                    config.setObjectID(objId);
+                }
+                avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+                avAccountIndex.save();
+            }
             configLocalDao.updateConfig(config, _context);
         }
 
@@ -73,6 +119,7 @@ public class SyncManager extends BaseManager {
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
                 avRecord.setObjectId(record.getObjectID());
+                avRecord.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avRecord.save();
                 record.setSyncStatus(true);
             } else {
@@ -90,17 +137,19 @@ public class SyncManager extends BaseManager {
                     avRecord.setObjectId(objId);
                     record.setObjectID(objId);
                 }
+                avRecord.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avRecord.save();
                 record.setSyncStatus(true);
             }
             recordLocalDAO.updateOldRecord(_context, record);
         }
 
-        //备份Record
+        //备份RecordType
         List<RecordType> recordTypes = recordTypeDao.getNotSyncData(_context);
         for (final RecordType recordType : recordTypes) {
             if (!TextUtils.isEmpty(recordType.getObjectID())) {
                 AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
+                avRecordType.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avRecordType.save();
                 recordType.setSyncStatus(true);
             } else {
@@ -116,16 +165,19 @@ public class SyncManager extends BaseManager {
                     avRecordType.setObjectId(objId);
                     recordType.setObjectID(objId);
                 }
+                avRecordType.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avRecordType.save();
                 recordType.setSyncStatus(true);
             }
             recordTypeDao.updateRecordType(_context, recordType);
         }
 
+        //备份Account
         List<Account> accountList = accountLocalDao.getNotSyncData(_context);
         for (final Account account : accountList) {
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
+                avAccount.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avAccount.save();
                 account.setSyncStatus(true);
             } else {
@@ -141,6 +193,7 @@ public class SyncManager extends BaseManager {
                     avAccount.setObjectId(objId);
                     account.setObjectID(objId);
                 }
+                avAccount.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
                 avAccount.save();
                 account.setSyncStatus(true);
             }
@@ -220,7 +273,7 @@ public class SyncManager extends BaseManager {
 
         //更新排序
         if (updateRecordTypeIndex)
-            initRecordTypeIndex();
+            recordManager.initRecordTypeIndex();
         if (updateAccountIndex)
             accountManager.initAccountIndex();
     }
@@ -239,11 +292,13 @@ public class SyncManager extends BaseManager {
             @Override
             public void run() {
                 long lastSync = (long) SPUtils.get(_context, false, Constant.SP_LAST_SYNC_AT, 0l);
-                SPUtils.put(_context, false, Constant.SP_LAST_SYNC_AT, Calendar.getInstance().getTimeInMillis());
+                long newSync = System.currentTimeMillis();
+                SPUtils.put(_context, false, Constant.SP_LAST_SYNC_AT, newSync);
                 Date lastSyncDate = new Date(lastSync);
+                Date newSyncDate = new Date(newSync);
                 try {
-                    forceBackup();
                     forceRestore(lastSyncDate);
+                    forceBackup(newSyncDate);
                     sendEmptyMessage(handler, Constant.MSG_SUCCESS);
                 } catch (AVException a) {
                     SPUtils.put(_context, false, Constant.SP_LAST_SYNC_AT, lastSync);
@@ -254,39 +309,12 @@ public class SyncManager extends BaseManager {
         });
     }
 
-
-    /**
-     * 初始化记录类型索引数据
-     */
-    public void initRecordTypeIndex() throws AVException {
-        AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
-        query.whereEqualTo(AVRecordTypeIndex.USER, MyAVUser.getCurrentUser());
-        List<AVRecordTypeIndex> list = query.find();
-        if (list.size() > 0) {
-            AVRecordTypeIndex avRecordTypeIndex = list.get(0);
-            Config config = new Config();
-            config.setObjectID(avRecordTypeIndex.getObjectId());
-            config.setKey(RECORD_INDEX_UPDATE);
-            config.setValue("true");
-            configLocalDao.updateConfig(config, _context);
-
-            String data = avRecordTypeIndex.getData();
-            List<RecordTypeIndexDO> recordTypeIndexDOs = JSON.parseArray(data, RecordTypeIndexDO.class);
-            if (recordTypeIndexDOs.size() > 2) {
-                recordTypeDao.update2DelSysType(_context);
-                for (RecordTypeIndexDO recordTypeIndexDO : recordTypeIndexDOs) {
-                    recordTypeDao.updateRecordTypeIndex(_context, recordTypeIndexDO);
-                }
-            }
-        }
-    }
-
-
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
     RecordTypeLocalDao recordTypeDao = new RecordTypeLocalDao();
     ConfigLocalDao configLocalDao = new ConfigLocalDao();
     AccountLocalDao accountLocalDao = new AccountLocalDao();
     AccountManager accountManager = new AccountManager(_context);
+    RecordManager recordManager = new RecordManager(_context);
     private final static String RECORD_INDEX_UPDATE = "RECORD_INDEX_UPDATE";
     private final static String ACCOUNT_INDEX_UPDATE = "ACCOUNT_INDEX_UPDATE";
 }
