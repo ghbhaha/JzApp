@@ -206,8 +206,6 @@ public class SyncManager extends BaseManager {
      * @throws AVException
      */
     public void forceRestore(Date lastSyncDate) throws AVException {
-        boolean updateRecordTypeIndex = false;
-        boolean updateAccountIndex = false;
         //恢复RecordType
         AVQuery<AVRecordType> avRecordTypeAVQuery = AVQuery.getQuery(AVRecordType.class);
         avRecordTypeAVQuery.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
@@ -227,7 +225,6 @@ public class SyncManager extends BaseManager {
             recordType.setSyncStatus(true);
             recordType.setRecordDesc(avRecordType.getRecordDesc());
             recordTypeDao.createOrUpdateRecordType(_context, recordType);
-            updateRecordTypeIndex = true;
         }
 
         //恢复record
@@ -267,14 +264,11 @@ public class SyncManager extends BaseManager {
             account.setAccountName(avAccount.getAccountName());
             account.setSyncStatus(true);
             accountLocalDao.createOrUpdateAccount(_context, account);
-            updateAccountIndex = true;
         }
 
         //更新排序
-        if (updateRecordTypeIndex)
-            recordManager.initRecordTypeIndex();
-        if (updateAccountIndex)
-            accountManager.initAccountIndex();
+        recordManager.initRecordTypeIndex();
+        accountManager.initAccountIndex();
     }
 
     /**
