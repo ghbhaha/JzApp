@@ -164,8 +164,10 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
                             if (getActivity() != null)
                                 ((MainActivity) getActivity()).refreshAll();
                             SnackBarUtil.showSnackInfo(backGround, getActivity(), "同步完成");
-                        } else {
+                        } else if (msg.what == Constant.MSG_ERROR) {
                             SnackBarUtil.showSnackInfo(backGround, getActivity(), "同步失败，请检查网络");
+                        } else if (msg.what == Constant.MSG_SHORT) {
+                            SnackBarUtil.showSnackInfo(backGround, getActivity(), "手速太快了哦，待会再同步吧~");
                         }
                     }
                 });

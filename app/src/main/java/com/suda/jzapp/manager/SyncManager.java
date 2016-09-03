@@ -266,6 +266,11 @@ public class SyncManager extends BaseManager {
             sendEmptyMessage(handler, Constant.MSG_ERROR);
             return;
         }
+        if (System.currentTimeMillis() - ((long) SPUtils.get(_context, false, Constant.SP_LAST_SYNC_AT, 0l)) < 10 * 1000) {
+            sendEmptyMessage(handler, Constant.MSG_SHORT);
+            return;
+        }
+
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {

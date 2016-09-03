@@ -204,6 +204,7 @@ public class Constant {
 
     public final static int MSG_ERROR = 0;
     public final static int MSG_SUCCESS = 1;
+    public final static int MSG_SHORT = 2;
 
 
     public final static String[] ZHI_CHU_WORD = {"支出", "花去", "花了", "花费", "消费"};
@@ -220,5 +221,5 @@ public class Constant {
     public final static long TRANSFER_TYPE = 26L;
     public final static long CHANGE_TYPE = 27L;
 
-    public final static String NAV_IMG= "NAV_IMG.png" ;
+    public final static String NAV_IMG = "NAV_IMG.png";
 }
