@@ -1083,6 +1083,5 @@ public class RecordManager extends BaseManager {
     AccountManager accountManager = new AccountManager(_context);
 
     private final static String RECORD_INDEX_UPDATE = "RECORD_INDEX_UPDATE";
-    private final static String ACCOUNT_INDEX_UPDATE = "ACCOUNT_INDEX_UPDATE";
 
 }
