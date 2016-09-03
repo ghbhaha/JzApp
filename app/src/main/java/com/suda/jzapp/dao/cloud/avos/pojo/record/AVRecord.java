@@ -3,6 +3,7 @@ package com.suda.jzapp.dao.cloud.avos.pojo.record;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.suda.jzapp.util.DateTimeUtil;
 
 import java.util.Date;
 
@@ -93,12 +94,16 @@ public class AVRecord extends AVObject {
         put(RECORD_NAME, recordName);
     }
 
-    public int getIconID(){
+    public int getIconID() {
         return getInt(ICON_ID);
     }
 
-    public void setIconID(int iconID){
-        put(ICON_ID,iconID);
+    public void setIconID(int iconID) {
+        put(ICON_ID, iconID);
+    }
+
+    public void setUpdatedAt(Date date) {
+        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
     }
 
     public final static String USER = "User";

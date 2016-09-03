@@ -3,6 +3,9 @@ package com.suda.jzapp.dao.cloud.avos.pojo.record;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.suda.jzapp.util.DateTimeUtil;
+
+import java.util.Date;
 
 /**
  * Created by Suda on 2015/9/16.
@@ -68,6 +71,9 @@ public class AVRecordType extends AVObject {
         return getBoolean(RECORD_TYPE_IS_DEL);
     }
 
+    public void setUpdatedAt(Date date) {
+        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+    }
     public final static String USER = "User";
     public final static String RECORD_TYPE_ID = "RecordTypeID";
     public final static String RECORD_DESC = "RecordDesc";

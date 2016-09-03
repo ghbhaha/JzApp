@@ -3,6 +3,9 @@ package com.suda.jzapp.dao.cloud.avos.pojo.record;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.suda.jzapp.util.DateTimeUtil;
+
+import java.util.Date;
 
 /**
  * Created by ghbha on 2016/4/7.
@@ -24,6 +27,10 @@ public class AVRecordTypeIndex extends AVObject {
 
     public AVUser getUser() {
         return getAVUser(USER, AVUser.class);
+    }
+
+    public void setUpdatedAt(Date date) {
+        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
     }
 
     public final static String USER = "User";

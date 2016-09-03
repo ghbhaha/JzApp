@@ -24,7 +24,6 @@ import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.dao.local.record.RecordTypeLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
-import com.suda.jzapp.util.DateTimeUtil;
 import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
@@ -55,10 +54,8 @@ public class SyncManager extends BaseManager {
      */
     public void forceBackup(Date date) throws AVException {
         Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
-        AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
-        avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
-        avRecordTypeIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
         if (config != null && !config.getBooleanValue()) {
+            AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
             if (!TextUtils.isEmpty(config.getObjectID())) {
                 avRecordTypeIndex.setObjectId(config.getObjectID());
             } else {
@@ -74,16 +71,16 @@ public class SyncManager extends BaseManager {
                     config.setObjectID(objId);
                 }
             }
-            config.setBooleanValue(true);
+            avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+            avRecordTypeIndex.setUpdatedAt(date);
             avRecordTypeIndex.save();
+            config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
         }
 
         config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
-        AVAccountIndex avAccountIndex = new AVAccountIndex();
-        avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
-        avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
         if (config != null && !config.getBooleanValue()) {
+            AVAccountIndex avAccountIndex = new AVAccountIndex();
             if (!TextUtils.isEmpty(config.getObjectID())) {
                 avAccountIndex.setObjectId(config.getObjectID());
             } else {
@@ -99,7 +96,8 @@ public class SyncManager extends BaseManager {
                     config.setObjectID(objId);
                 }
             }
-            avAccountIndex.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+            avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+            avAccountIndex.setUpdatedAt(date);
             avAccountIndex.save();
             config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
@@ -126,7 +124,7 @@ public class SyncManager extends BaseManager {
                     record.setObjectID(objId);
                 }
             }
-            avRecord.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+            avRecord.setUpdatedAt(date);
             avRecord.save();
             record.setSyncStatus(true);
             recordLocalDAO.updateOldRecord(_context, record);
@@ -153,7 +151,7 @@ public class SyncManager extends BaseManager {
                     recordType.setObjectID(objId);
                 }
             }
-            avRecordType.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+            avRecordType.setUpdatedAt(date);
             avRecordType.save();
             recordType.setSyncStatus(true);
             recordTypeDao.updateRecordType(_context, recordType);
@@ -180,7 +178,7 @@ public class SyncManager extends BaseManager {
                     account.setObjectID(objId);
                 }
             }
-            avAccount.put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+            avAccount.setUpdatedAt(date);
             avAccount.save();
             account.setSyncStatus(true);
             accountLocalDao.updateAccount(_context, account);

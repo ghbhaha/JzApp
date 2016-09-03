@@ -4,6 +4,9 @@ import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
+import com.suda.jzapp.util.DateTimeUtil;
+
+import java.util.Date;
 
 /**
  * Created by Suda on 2015/9/16.
@@ -76,6 +79,9 @@ public class AVAccount extends AVObject {
         return getBoolean(ACCOUNT_IS_DEL);
     }
 
+    public void setUpdatedAt(Date date) {
+        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
+    }
 
     public final static String USER = "User";
     public final static String ACCOUNT_ID = "AccountID";
