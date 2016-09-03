@@ -196,7 +196,7 @@ public class AccountLocalDao extends BaseLocalDao {
         return accountTypeDao.queryBuilder().build().list();
     }
 
-    public List<Account> getNotSyncData(Context context) {
+    public List<Account> getNotBackData(Context context) {
         AccountDao accountDao = getDaoSession(context).getAccountDao();
         return accountDao.queryBuilder().where(AccountDao.Properties.SyncStatus.eq(false))
                 .list();

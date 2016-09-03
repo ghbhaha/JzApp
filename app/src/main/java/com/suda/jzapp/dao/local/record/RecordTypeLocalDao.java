@@ -160,7 +160,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
         return JSON.toJSONString(list1);
     }
 
-    public List<RecordType> getNotSyncData(Context context) {
+    public List<RecordType> getNotBackData(Context context) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         return recordTypeDao.queryBuilder().where(RecordTypeDao.Properties.SyncStatus.eq(false))
                 .where(RecordTypeDao.Properties.SysType.eq(false))

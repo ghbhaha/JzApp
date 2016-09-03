@@ -22,6 +22,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
 import com.suda.jzapp.manager.RecordManager;
+import com.suda.jzapp.manager.SyncManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.ImageUtil;
@@ -31,6 +32,7 @@ import com.suda.jzapp.util.SnackBarUtil;
 import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class UserActivity extends BaseActivity {
 
@@ -42,6 +44,7 @@ public class UserActivity extends BaseActivity {
         getSupportActionBar().setElevation(0);
         userManager = new UserManager(this);
         recordManager = new RecordManager(this);
+        syncManager = new SyncManager(this);
         initWidget();
     }
 
@@ -108,9 +111,33 @@ public class UserActivity extends BaseActivity {
     }
 
     public void logOut(View view) {
-        userManager.logOut();
-        setResult(RESULT_OK);
-        this.finish();
+        int notBackData = syncManager.getNotBackDataCount();
+        if (notBackData == 0) {
+            userManager.logOut();
+            setResult(RESULT_OK);
+            finish();
+            return;
+        }
+        final MaterialDialog materialDialog = new MaterialDialog(this);
+        materialDialog.setTitle("登出提示");
+        materialDialog.setMessage("检测到您有" + notBackData + "条数据未同步，建议您同步后再退出");
+        materialDialog.setNegativeButton("退出", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userManager.logOut();
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+        materialDialog.setPositiveButton("暂不退出", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialDialog.dismiss();
+            }
+        });
+        materialDialog.setCanceledOnTouchOutside(true);
+        materialDialog.show();
+
     }
 
     public void setHeadIcon(View view) {
@@ -163,6 +190,7 @@ public class UserActivity extends BaseActivity {
     private static final int REQUEST_SELECT_IMAGE = 1;
     private static final int REQUEST_CROP_IMAGE = 2;
 
+    private SyncManager syncManager;
     private RecordManager recordManager;
     private UserManager userManager;
     private CircleImageView mHeadIcon;

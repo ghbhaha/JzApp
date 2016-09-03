@@ -54,10 +54,9 @@ public class SyncManager extends BaseManager {
      * @throws AVException
      */
     public void forceBackup(Date date) throws AVException {
-
         Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
         if (config != null && !config.getBooleanValue()) {
-            if (TextUtils.isEmpty(config.getObjectID())) {
+            if (!TextUtils.isEmpty(config.getObjectID())) {
                 AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
                 avRecordTypeIndex.setObjectId(config.getObjectID());
                 avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
@@ -114,7 +113,7 @@ public class SyncManager extends BaseManager {
         }
 
         //备份Record
-        List<Record> records = recordLocalDAO.getNotSyncData(_context);
+        List<Record> records = recordLocalDAO.getNotBackData(_context);
         for (final Record record : records) {
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
@@ -145,7 +144,7 @@ public class SyncManager extends BaseManager {
         }
 
         //备份RecordType
-        List<RecordType> recordTypes = recordTypeDao.getNotSyncData(_context);
+        List<RecordType> recordTypes = recordTypeDao.getNotBackData(_context);
         for (final RecordType recordType : recordTypes) {
             if (!TextUtils.isEmpty(recordType.getObjectID())) {
                 AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
@@ -173,7 +172,7 @@ public class SyncManager extends BaseManager {
         }
 
         //备份Account
-        List<Account> accountList = accountLocalDao.getNotSyncData(_context);
+        List<Account> accountList = accountLocalDao.getNotBackData(_context);
         for (final Account account : accountList) {
             if (!TextUtils.isEmpty(account.getObjectID())) {
                 AVAccount avAccount = DataConvertUtil.convertAccount2AVAccount(account);
@@ -307,6 +306,23 @@ public class SyncManager extends BaseManager {
                 }
             }
         });
+    }
+
+    public int getNotBackDataCount() {
+        List<Record> records = recordLocalDAO.getNotBackData(_context);
+        List<RecordType> recordTypes = recordTypeDao.getNotBackData(_context);
+        List<Account> accountList = accountLocalDao.getNotBackData(_context);
+        Config config1 = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+        Config config2 = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
+        int notBackCount = 0;
+        notBackCount += records.size();
+        notBackCount += recordTypes.size();
+        notBackCount += accountList.size();
+        if (config1 != null && !config1.getBooleanValue())
+            notBackCount++;
+        if (config2 != null && !config1.getBooleanValue())
+            notBackCount++;
+        return notBackCount;
     }
 
     RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
