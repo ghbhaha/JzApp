@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/md_grey_100"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100">
 
     <ImageView
         android:id="@+id/background"
@@ -12,14 +12,11 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/account_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:overScrollMode="never"
-        android:id="@+id/account_all">
-
+        android:overScrollMode="never">
     </android.support.v7.widget.RecyclerView>
-
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/add_new_account"
@@ -32,6 +29,5 @@
         app:fab_colorNormal="@color/blue"
         app:fab_colorPressed="@color/blue"
         app:fab_colorRipple="@color/ripple" />
-
 
 </RelativeLayout>

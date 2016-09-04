@@ -53,135 +53,137 @@ public class SyncManager extends BaseManager {
      * @throws AVException
      */
     public void forceBackup(Date date) throws AVException {
-        Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
-        if (config != null && !config.getBooleanValue()) {
-            AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
-            if (!TextUtils.isEmpty(config.getObjectID())) {
-                avRecordTypeIndex.setObjectId(config.getObjectID());
-            } else {
-                AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
-                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
-                List<AVRecordTypeIndex> list = query.find();
-                String objId = null;
-                if (list.size() > 0) {
-                    objId = list.get(0).getObjectId();
-                }
-                if (!TextUtils.isEmpty(objId)) {
+        synchronized (SyncManager.class) {
+            Config config = configLocalDao.getConfigByKey(RECORD_INDEX_UPDATE, _context);
+            if (config != null && !config.getBooleanValue()) {
+                AVRecordTypeIndex avRecordTypeIndex = new AVRecordTypeIndex();
+                if (!TextUtils.isEmpty(config.getObjectID())) {
                     avRecordTypeIndex.setObjectId(config.getObjectID());
-                    config.setObjectID(objId);
+                } else {
+                    AVQuery<AVRecordTypeIndex> query = AVObject.getQuery(AVRecordTypeIndex.class);
+                    query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                    List<AVRecordTypeIndex> list = query.find();
+                    String objId = null;
+                    if (list.size() > 0) {
+                        objId = list.get(0).getObjectId();
+                    }
+                    if (!TextUtils.isEmpty(objId)) {
+                        avRecordTypeIndex.setObjectId(config.getObjectID());
+                        config.setObjectID(objId);
+                    }
                 }
+                avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
+                avRecordTypeIndex.setUpdatedAt(date);
+                avRecordTypeIndex.save();
+                config.setBooleanValue(true);
+                configLocalDao.updateConfig(config, _context);
             }
-            avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
-            avRecordTypeIndex.setUpdatedAt(date);
-            avRecordTypeIndex.save();
-            config.setBooleanValue(true);
-            configLocalDao.updateConfig(config, _context);
-        }
 
-        config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
-        if (config != null && !config.getBooleanValue()) {
-            AVAccountIndex avAccountIndex = new AVAccountIndex();
-            if (!TextUtils.isEmpty(config.getObjectID())) {
-                avAccountIndex.setObjectId(config.getObjectID());
-            } else {
-                AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
-                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
-                List<AVAccountIndex> list = query.find();
-                String objId = null;
-                if (list.size() > 0) {
-                    objId = list.get(0).getObjectId();
-                }
-                if (!TextUtils.isEmpty(objId)) {
+            config = configLocalDao.getConfigByKey(ACCOUNT_INDEX_UPDATE, _context);
+            if (config != null && !config.getBooleanValue()) {
+                AVAccountIndex avAccountIndex = new AVAccountIndex();
+                if (!TextUtils.isEmpty(config.getObjectID())) {
                     avAccountIndex.setObjectId(config.getObjectID());
-                    config.setObjectID(objId);
+                } else {
+                    AVQuery<AVAccountIndex> query = AVObject.getQuery(AVAccountIndex.class);
+                    query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                    List<AVAccountIndex> list = query.find();
+                    String objId = null;
+                    if (list.size() > 0) {
+                        objId = list.get(0).getObjectId();
+                    }
+                    if (!TextUtils.isEmpty(objId)) {
+                        avAccountIndex.setObjectId(config.getObjectID());
+                        config.setObjectID(objId);
+                    }
                 }
+                avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
+                avAccountIndex.setUpdatedAt(date);
+                avAccountIndex.save();
+                config.setBooleanValue(true);
+                configLocalDao.updateConfig(config, _context);
             }
-            avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
-            avAccountIndex.setUpdatedAt(date);
-            avAccountIndex.save();
-            config.setBooleanValue(true);
-            configLocalDao.updateConfig(config, _context);
-        }
 
-        //备份Record
-        List<Record> records = recordLocalDAO.getNotBackData(_context);
-        for (final Record record : records) {
-            AVRecord avRecord = null;
-            if (!TextUtils.isEmpty(record.getObjectID())) {
-                avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-            } else {
-                AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
-                query.whereEqualTo(AVRecord.RECORD_ID, record.getRecordId());
-                query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
-                List<AVRecord> list = query.find();
-                String objId = null;
-                if (list.size() > 0) {
-                    objId = list.get(0).getObjectId();
+            //备份Record
+            List<Record> records = recordLocalDAO.getNotBackData(_context);
+            for (final Record record : records) {
+                AVRecord avRecord = null;
+                if (!TextUtils.isEmpty(record.getObjectID())) {
+                    avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+                } else {
+                    AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
+                    query.whereEqualTo(AVRecord.RECORD_ID, record.getRecordId());
+                    query.whereEqualTo(AVRecord.USER, MyAVUser.getCurrentUser());
+                    List<AVRecord> list = query.find();
+                    String objId = null;
+                    if (list.size() > 0) {
+                        objId = list.get(0).getObjectId();
+                    }
+                    avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+                    if (!TextUtils.isEmpty(objId)) {
+                        avRecord.setObjectId(objId);
+                        record.setObjectID(objId);
+                    }
                 }
-                avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-                if (!TextUtils.isEmpty(objId)) {
-                    avRecord.setObjectId(objId);
-                    record.setObjectID(objId);
-                }
+                avRecord.setUpdatedAt(date);
+                avRecord.save();
+                record.setSyncStatus(true);
+                recordLocalDAO.updateOldRecord(_context, record);
             }
-            avRecord.setUpdatedAt(date);
-            avRecord.save();
-            record.setSyncStatus(true);
-            recordLocalDAO.updateOldRecord(_context, record);
-        }
 
-        //备份RecordType
-        List<RecordType> recordTypes = recordTypeDao.getNotBackData(_context);
-        for (final RecordType recordType : recordTypes) {
-            AVRecordType avRecordType = null;
-            if (!TextUtils.isEmpty(recordType.getObjectID())) {
-                avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-            } else {
-                AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
-                query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
-                query.whereEqualTo(AVRecordType.RECORD_TYPE_ID, recordType.getRecordTypeID());
-                List<AVRecordType> list = query.find();
-                String objId = null;
-                if (list.size() > 0) {
-                    objId = list.get(0).getObjectId();
+            //备份RecordType
+            List<RecordType> recordTypes = recordTypeDao.getNotBackData(_context);
+            for (final RecordType recordType : recordTypes) {
+                AVRecordType avRecordType = null;
+                if (!TextUtils.isEmpty(recordType.getObjectID())) {
+                    avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
+                } else {
+                    AVQuery<AVRecordType> query = AVObject.getQuery(AVRecordType.class);
+                    query.whereEqualTo(AVRecordType.USER, MyAVUser.getCurrentUser());
+                    query.whereEqualTo(AVRecordType.RECORD_TYPE_ID, recordType.getRecordTypeID());
+                    List<AVRecordType> list = query.find();
+                    String objId = null;
+                    if (list.size() > 0) {
+                        objId = list.get(0).getObjectId();
+                    }
+                    avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
+                    if (!TextUtils.isEmpty(objId)) {
+                        avRecordType.setObjectId(objId);
+                        recordType.setObjectID(objId);
+                    }
                 }
-                avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
-                if (!TextUtils.isEmpty(objId)) {
-                    avRecordType.setObjectId(objId);
-                    recordType.setObjectID(objId);
-                }
+                avRecordType.setUpdatedAt(date);
+                avRecordType.save();
+                recordType.setSyncStatus(true);
+                recordTypeDao.updateRecordType(_context, recordType);
             }
-            avRecordType.setUpdatedAt(date);
-            avRecordType.save();
-            recordType.setSyncStatus(true);
-            recordTypeDao.updateRecordType(_context, recordType);
-        }
 
-        //备份Account
-        List<Account> accountList = accountLocalDao.getNotBackData(_context);
-        for (final Account account : accountList) {
-            AVAccount avAccount = null;
-            if (!TextUtils.isEmpty(account.getObjectID())) {
-                avAccount = DataConvertUtil.convertAccount2AVAccount(account);
-            } else {
-                AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
-                query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
-                query.whereEqualTo(AVAccount.ACCOUNT_ID, account.getAccountID());
-                List<AVAccount> list = query.find();
-                String objId = null;
-                if (list.size() > 0) {
-                    objId = list.get(0).getObjectId();
+            //备份Account
+            List<Account> accountList = accountLocalDao.getNotBackData(_context);
+            for (final Account account : accountList) {
+                AVAccount avAccount = null;
+                if (!TextUtils.isEmpty(account.getObjectID())) {
+                    avAccount = DataConvertUtil.convertAccount2AVAccount(account);
+                } else {
+                    AVQuery<AVAccount> query = AVObject.getQuery(AVAccount.class);
+                    query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
+                    query.whereEqualTo(AVAccount.ACCOUNT_ID, account.getAccountID());
+                    List<AVAccount> list = query.find();
+                    String objId = null;
+                    if (list.size() > 0) {
+                        objId = list.get(0).getObjectId();
+                    }
+                    avAccount = DataConvertUtil.convertAccount2AVAccount(account);
+                    if (!TextUtils.isEmpty(objId)) {
+                        avAccount.setObjectId(objId);
+                        account.setObjectID(objId);
+                    }
                 }
-                avAccount = DataConvertUtil.convertAccount2AVAccount(account);
-                if (!TextUtils.isEmpty(objId)) {
-                    avAccount.setObjectId(objId);
-                    account.setObjectID(objId);
-                }
+                avAccount.setUpdatedAt(date);
+                avAccount.save();
+                account.setSyncStatus(true);
+                accountLocalDao.updateAccount(_context, account);
             }
-            avAccount.setUpdatedAt(date);
-            avAccount.save();
-            account.setSyncStatus(true);
-            accountLocalDao.updateAccount(_context, account);
         }
     }
 
