@@ -304,10 +304,14 @@ public class SyncManager extends BaseManager {
         notBackCount += records.size();
         notBackCount += recordTypes.size();
         notBackCount += accountList.size();
-        if (config1 != null && !config1.getBooleanValue())
-            notBackCount++;
-        if (config2 != null && !config1.getBooleanValue())
-            notBackCount++;
+        if (config1 != null) {
+            if (!config1.getBooleanValue())
+                notBackCount++;
+        }
+        if (config2 != null) {
+            if (!config2.getBooleanValue())
+                notBackCount++;
+        }
         return notBackCount;
     }
 
