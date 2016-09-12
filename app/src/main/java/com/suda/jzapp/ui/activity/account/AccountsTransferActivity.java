@@ -86,7 +86,7 @@ public class AccountsTransferActivity extends BaseActivity {
 
         mTvoOutAccountName.setText(accountDetailDO.getAccountName());
         String outMoney = MoneyUtil.getFormatMoneyStr(this, accountDetailDO.getAccountMoney());
-        mTvOutAccountLeftMoney.setText(TextUtils.isEmpty(ounMoney) ? "0.00" : outMoney);
+        mTvOutAccountLeftMoney.setText(TextUtils.isEmpty(outMoney) ? "0.00" : outMoney);
 
         mImgInAccountIcon.setImageResource(0);
         mTvInAccountName.setText("");
