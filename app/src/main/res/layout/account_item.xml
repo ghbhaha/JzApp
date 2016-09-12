@@ -88,8 +88,9 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/opt_layout"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -101,8 +102,14 @@
             android:id="@+id/account_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/edit_account"
             android:clickable="true"
-            android:text="交易流水" />
+            android:text="流水" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\t\t\t|\t\t\t"/>
 
         <TextView
             android:id="@+id/edit_account"
@@ -110,16 +117,22 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:text="修改账户" />
+            android:text="编辑" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\t\t\t|\t\t\t"/>
 
         <TextView
             android:id="@+id/transform"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/edit_account"
             android:clickable="true"
             android:text="转账" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>
