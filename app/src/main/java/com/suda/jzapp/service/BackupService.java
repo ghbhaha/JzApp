@@ -44,7 +44,8 @@ public class BackupService extends Service {
                     stopSelf();
                 }
             }).start();
-        }
+        } else
+            stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
