@@ -31,6 +31,14 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
+            android:key="vibrator_settings"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/vibrator_setting_off"
+            android:summaryOn="@string/vibrator_setting_on"
+            android:title="@string/vibrator_setting" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="@string/key_icon"
             android:layout="@layout/preference_item"
             android:summaryOff="@string/icon_type2"

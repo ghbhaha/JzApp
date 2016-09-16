@@ -77,6 +77,7 @@ public class SettingsActivity extends BaseActivity {
         private CheckBoxPreference mRemindCheck;
         private CheckBoxPreference mImmersiveCheck;
         private CheckBoxPreference mIconCheck;
+        private CheckBoxPreference mVibratorSettings;
         private MyPreferenceCategory mCommonCateGory;
 
         @Override
@@ -87,11 +88,14 @@ public class SettingsActivity extends BaseActivity {
             mRemindCheck = (CheckBoxPreference) findPreference(REMIND_SETTING);
             mImmersiveCheck = (CheckBoxPreference) findPreference(IMMERSIVE_STATUS_BAR);
             mIconCheck = (CheckBoxPreference) findPreference(ICON_TYPE);
+            mVibratorSettings = (CheckBoxPreference) findPreference(VIBRATOR_SETTINGS);
+
             mCommonCateGory = (MyPreferenceCategory) findPreference("common_settings");
 
             mRemindCheck.setOnPreferenceChangeListener(this);
             mGestureLockCheck.setOnPreferenceChangeListener(this);
             mIconCheck.setOnPreferenceChangeListener(this);
+            mVibratorSettings.setOnPreferenceChangeListener(this);
 
             mCommonCateGory.removePreference(mImmersiveCheck);
 //            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
@@ -165,6 +169,12 @@ public class SettingsActivity extends BaseActivity {
                     LauncherIconUtil.changeLauncherIcon(getActivity(), 1);
                 }
                 SnackBarUtil.showSnackInfo(getView(), getActivity(), "桌面图标需要退出后等一会才能生效哦~");
+            } else if (preference == mVibratorSettings) {
+                if (mVibratorSettings.isChecked()) {
+                    mVibratorSettings.setChecked(false);
+                } else {
+                    mVibratorSettings.setChecked(true);
+                }
             }
             return false;
         }
@@ -179,6 +189,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
+    public static final String VIBRATOR_SETTINGS = "vibrator_settings";
     public static final String ICON_TYPE = "key_icon";
     public static final String GESTURE_LOCK = "gesture_lock";
     public static final String REMIND_SETTING = "remind_setting";

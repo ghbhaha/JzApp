@@ -32,10 +32,12 @@ import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
+import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
 import com.suda.jzapp.util.MoneyUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.SnackBarUtil;
 import com.suda.jzapp.util.ThemeUtil;
 import com.suda.jzapp.view.MyCircleRectangleTextView;
@@ -57,7 +59,11 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         setMyContentView(false, R.layout.activity_create_or_edit_record);
         recordManager = new RecordManager(this);
         accountManager = new AccountManager(this);
-        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        useVibrator = (boolean) SPUtils.get(this, true, SettingsActivity.VIBRATOR_SETTINGS, true);
+        if (useVibrator)
+            mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
         initWidget();
 
         recordTypes = new ArrayList<>();
@@ -495,7 +501,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
 
     ////////////////////////////计算panel////////////////////////////////
     public void onClickPanel(View view) {
-        mVibrator.vibrate(10); //震动一下
+        if (useVibrator)
+            mVibrator.vibrate(10); //震动一下
         if (recordTypeAdapter.ismShake()) {
             recordTypeAdapter.setShake(false);
         }
@@ -716,6 +723,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private boolean saving = false;
 
     private Vibrator mVibrator;
+    private boolean useVibrator;
 
     public static final int REQUEST_CODE_ACCOUNT = 1;
     public static final int REQUEST_CODE_ADD_NEW_RECORD_TYPE = 2;

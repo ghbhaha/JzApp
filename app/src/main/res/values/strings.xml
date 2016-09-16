@@ -78,6 +78,10 @@
     <string name="gesture_settings">手势解锁</string>
     <string name="gesture_setting_on">手势解锁已开启</string>
     <string name="gesture_setting_off">手势解锁已关闭</string>
+    <string name="vibrator_setting">按键震动</string>
+    <string name="vibrator_setting_on">已开启</string>
+    <string name="vibrator_setting_off">已关闭</string>
+
     <string name="inMoney">本月收入\n%.2f</string>
     <string name="outMoney">本月支出\n%.2f</string>
 
