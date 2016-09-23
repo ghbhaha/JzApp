@@ -51,8 +51,9 @@ public class RecordLocalDAO extends BaseLocalDao {
 
     public void createOrUpdateRecord(Context context, Record record) {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
-        Record recordOld = getSingleData(recordDao.queryBuilder().whereOr(RecordDao.Properties.RecordId.eq(record.getRecordId())
-                , RecordDao.Properties.ObjectID.eq(record.getObjectID())).build().list());
+        Record recordOld = getSingleData(recordDao.queryBuilder()
+                .whereOr(RecordDao.Properties.RecordId.eq(record.getRecordId())
+                        , RecordDao.Properties.ObjectID.eq(record.getObjectID())).build().list());
         if (recordOld != null) {
             record.setId(recordOld.getId());
             updateOldRecord(context, record);
@@ -83,7 +84,6 @@ public class RecordLocalDAO extends BaseLocalDao {
     public void createNewRecord(Context context, Record record) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(record.getRecordDate());
-        record.setRecordDate(calendar.getTime());
         record.setYear(calendar.get(Calendar.YEAR));
         record.setMonth(calendar.get(Calendar.MONTH));
         record.setDay(calendar.get(Calendar.DAY_OF_MONTH));

@@ -102,9 +102,6 @@ public class AVRecord extends AVObject {
         put(ICON_ID, iconID);
     }
 
-    public void setUpdatedAt(Date date) {
-        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-    }
 
     public final static String USER = "User";
     public final static String ACCOUNT_ID = "AccountID";

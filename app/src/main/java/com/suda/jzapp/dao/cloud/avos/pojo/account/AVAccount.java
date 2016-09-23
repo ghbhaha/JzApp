@@ -79,9 +79,6 @@ public class AVAccount extends AVObject {
         return getBoolean(ACCOUNT_IS_DEL);
     }
 
-    public void setUpdatedAt(Date date) {
-        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-    }
 
     public final static String USER = "User";
     public final static String ACCOUNT_ID = "AccountID";

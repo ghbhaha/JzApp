@@ -74,7 +74,6 @@ public class SyncManager extends BaseManager {
                 }
             }
             avRecordTypeIndex.setData(recordTypeDao.getRecordTypeIndexInfo(_context));
-            avRecordTypeIndex.setUpdatedAt(date);
             avRecordTypeIndex.save();
             config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
@@ -99,7 +98,6 @@ public class SyncManager extends BaseManager {
                 }
             }
             avAccountIndex.setData(accountLocalDao.getAccountIndexInfo(_context));
-            avAccountIndex.setUpdatedAt(date);
             avAccountIndex.save();
             config.setBooleanValue(true);
             configLocalDao.updateConfig(config, _context);
@@ -111,6 +109,9 @@ public class SyncManager extends BaseManager {
             AVRecord avRecord = null;
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+                RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                avRecord.setIconID(recordType.getRecordIcon());
+                avRecord.setRecordName(recordType.getRecordDesc());
             } else {
                 AVQuery<AVRecord> query = AVObject.getQuery(AVRecord.class);
                 query.whereEqualTo(AVRecord.RECORD_ID, record.getRecordId());
@@ -121,12 +122,14 @@ public class SyncManager extends BaseManager {
                     objId = list.get(0).getObjectId();
                 }
                 avRecord = DataConvertUtil.convertRecord2AVRecord(record);
+                RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                avRecord.setIconID(recordType.getRecordIcon());
+                avRecord.setRecordName(recordType.getRecordDesc());
                 if (!TextUtils.isEmpty(objId)) {
                     avRecord.setObjectId(objId);
                     record.setObjectID(objId);
                 }
             }
-            avRecord.setUpdatedAt(date);
             avRecord.save();
             record.setSyncStatus(true);
             recordLocalDAO.updateOldRecord(_context, record);
@@ -153,7 +156,6 @@ public class SyncManager extends BaseManager {
                     recordType.setObjectID(objId);
                 }
             }
-            avRecordType.setUpdatedAt(date);
             avRecordType.save();
             recordType.setSyncStatus(true);
             recordTypeDao.updateRecordType(_context, recordType);
@@ -180,7 +182,6 @@ public class SyncManager extends BaseManager {
                     account.setObjectID(objId);
                 }
             }
-            avAccount.setUpdatedAt(date);
             avAccount.save();
             account.setSyncStatus(true);
             accountLocalDao.updateAccount(_context, account);

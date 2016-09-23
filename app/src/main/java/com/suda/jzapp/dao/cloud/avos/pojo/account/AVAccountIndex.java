@@ -29,9 +29,6 @@ public class AVAccountIndex extends AVObject {
         return getAVUser(USER, AVUser.class);
     }
 
-    public void setUpdatedAt(Date date) {
-        put(AVObject.UPDATED_AT, DateTimeUtil.fmCQLDate(date));
-    }
 
     public final static String USER = "User";
     public final static String DATA = "data";
