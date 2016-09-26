@@ -304,8 +304,10 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
 
     @Override
     public void reload(boolean needUpdateData) {
-        refreshPie();
-        refreshLineChart();
+        if (isAdded()) {
+            refreshPie();
+            refreshLineChart();
+        }
     }
 
 
