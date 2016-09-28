@@ -83,7 +83,21 @@ public class RecordManager extends BaseManager {
         record.setIsDel(false);
         if (canSync()) {
             final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-            RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+
+            final RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+            if (!recordType.getSyncStatus()) {
+                AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
+                avRecordType.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null) {
+                            recordType.setSyncStatus(true);
+                            recordTypeDao.updateRecordType(_context, recordType);
+                        }
+                    }
+                });
+            }
+
             avRecord.setIconID(recordType.getRecordIcon());
             avRecord.setRecordName(recordType.getRecordDesc());
             avRecord.setRecordIsDel(false);

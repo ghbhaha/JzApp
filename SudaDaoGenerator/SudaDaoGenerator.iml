@@ -31,6 +31,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="greendao-generator-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="freemarker-2.3.23" level="project" />
-    <orderEntry type="library" exported="" name="SudaDaoGenerator.greendao-example-generator-1.4.0-SNAPSHOT" level="project" />
   </component>
 </module>
