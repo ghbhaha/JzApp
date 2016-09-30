@@ -14,9 +14,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.domain.MonthReport;
 import com.suda.jzapp.misc.IntentConstant;
-import com.suda.jzapp.ui.activity.MainActivity;
-import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
-import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
+import com.suda.jzapp.ui.activity.system.GestureLockActivity;
 import com.suda.jzapp.util.MoneyUtil;
 
 /**
@@ -64,22 +62,30 @@ public class MyWidgetProvider extends AppWidgetProvider {
                     rv.setTextViewText(R.id.money_out, "月支出:" + MoneyUtil.getFormatMoneyStr(context, Math.abs(monthReport.getOutMoney())));
                     rv.setTextViewText(R.id.money_in, "月收入:" + MoneyUtil.getFormatMoneyStr(context, monthReport.getInMoney()));
 
-                    Intent intent = new Intent(context, CreateOrEditRecordActivity.class);
-                    PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
+                    Intent intent = new Intent(context, GestureLockActivity.class);
+                    intent.putExtra(IntentConstant.WIDGET_GO_ID, GestureLockActivity.GO_ADD_RECORD);
+                    intent.setAction(String.valueOf(System.currentTimeMillis()));
+                    PendingIntent pending = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     rv.setOnClickPendingIntent(R.id.add_new_record, pending);
 
-                    Intent intent2 = new Intent(context, RecordPieAnalysisActivity.class);
+                    Intent intent2 = new Intent(context, GestureLockActivity.class);
                     intent2.putExtra(IntentConstant.RECORD_OUT_IN, true);
-                    PendingIntent pending2 = PendingIntent.getActivity(context, 0, intent2, 0);
+                    intent2.putExtra(IntentConstant.WIDGET_GO_ID, GestureLockActivity.GO_ANALYSIS);
+                    intent2.setAction(String.valueOf(System.currentTimeMillis()));
+                    PendingIntent pending2 = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
                     rv.setOnClickPendingIntent(R.id.money_out, pending2);
 
-                    Intent intent3 = new Intent(context, RecordPieAnalysisActivity.class);
-                    intent3.putExtra(IntentConstant.RECORD_OUT_IN, false);
-                    PendingIntent pending3 = PendingIntent.getActivity(context, 0, intent3, 0);
+                    Intent intent3 = new Intent(context, GestureLockActivity.class);
+//                    intent3.putExtra(IntentConstant.RECORD_OUT_IN, true);
+                    intent3.putExtra(IntentConstant.WIDGET_GO_ID, GestureLockActivity.GO_ANALYSIS);
+                    intent3.setAction(String.valueOf(System.currentTimeMillis()));
+                    PendingIntent pending3 = PendingIntent.getActivity(context, 0, intent3, PendingIntent.FLAG_UPDATE_CURRENT);
                     rv.setOnClickPendingIntent(R.id.money_in, pending3);
 
-                    Intent intent4 = new Intent(context, MainActivity.class);
-                    PendingIntent pending4 = PendingIntent.getActivity(context, 0, intent4, 0);
+                    Intent intent4 = new Intent(context, GestureLockActivity.class);
+                    intent4.putExtra(IntentConstant.WIDGET_GO_ID, GestureLockActivity.GO_MAIN);
+                    intent4.setAction(String.valueOf(System.currentTimeMillis()));
+                    PendingIntent pending4 = PendingIntent.getActivity(context, 0, intent4, PendingIntent.FLAG_UPDATE_CURRENT);
                     rv.setOnClickPendingIntent(R.id.record_date_count, pending4);
 
                     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);

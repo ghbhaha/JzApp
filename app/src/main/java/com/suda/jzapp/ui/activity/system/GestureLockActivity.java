@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,8 +18,9 @@ import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.MainActivity;
+import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
+import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
-import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.view.gesturelockview.GestureLockViewGroup;
 
@@ -135,7 +137,29 @@ public class GestureLockActivity extends BaseActivity {
     }
 
     private void enterMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+        int goId = getIntent().getIntExtra(IntentConstant.WIDGET_GO_ID, GO_DEFAULT);
+        Class goClass = null;
+        switch (goId) {
+            case GO_MAIN:
+                goClass = MainActivity.class;
+                break;
+            case GO_ANALYSIS:
+                goClass = RecordPieAnalysisActivity.class;
+                break;
+            case GO_ADD_RECORD:
+                goClass = CreateOrEditRecordActivity.class;
+                break;
+            default:
+                goClass = MainActivity.class;
+        }
+        Intent intent = new Intent(this, goClass);
+        if (goId == GO_ANALYSIS) {
+
+            Log.e("xxxxxx", getIntent().getBooleanExtra(IntentConstant.RECORD_OUT_IN, false) + "");
+
+            intent.putExtra(IntentConstant.RECORD_OUT_IN,
+                    getIntent().getBooleanExtra(IntentConstant.RECORD_OUT_IN, false));
+        }
         startActivity(intent);
         finish();
     }
@@ -160,4 +184,10 @@ public class GestureLockActivity extends BaseActivity {
     private int mTryTime = 5;
 
     private static final int REQUEST_CODE_FORGET_GESTURE = 1;
+
+
+    public static final int GO_MAIN = 1;
+    public static final int GO_ANALYSIS = 2;
+    public static final int GO_ADD_RECORD = 3;
+    public static final int GO_DEFAULT = GO_MAIN;
 }

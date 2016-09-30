@@ -27,4 +27,6 @@ public class IntentConstant {
     public static final String VOICE_RECORD_TYPE = "VOICE_RECORD_TYPE";
 
     public static final String UPDATE_CHECK = "UPDATE_CHECK";
+
+    public static final String WIDGET_GO_ID = "WIDGET_GO_ID";
 }
