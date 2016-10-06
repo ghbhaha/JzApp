@@ -19,6 +19,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
+import com.suda.jzapp.dao.local.record.RecordLocalDAO;
 import com.suda.jzapp.manager.AccountManager;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.UserManager;
@@ -33,6 +34,8 @@ import com.suda.jzapp.util.ThreadPoolUtil;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class LoginActivity extends BaseActivity {
 
@@ -63,6 +66,8 @@ public class LoginActivity extends BaseActivity {
         mloginView = findViewById(R.id.login_view);
 
         loginBt = (Button) findViewById(R.id.login_bt);
+        if (forgetGesture)
+            loginBt.setText("清除手势");
 
         loginBt.setBackgroundColor(getColor(this, getMainTheme().getMainColorID()));
 
@@ -148,9 +153,9 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        boolean isEmail = false;
+
         final String user = mTitUserId.getText().toString();
-        String password = mTitPassWord.getText().toString();
+        final String password = mTitPassWord.getText().toString();
         if (TextUtils.isEmpty(user)) {
             mTilUserId.setError("请输入用户名或邮箱");
             return;
@@ -162,6 +167,36 @@ public class LoginActivity extends BaseActivity {
 
         hideKeyboard();
         loginBt.setClickable(false);
+        if (forgetGesture) {
+            login(user, password, false);
+            return;
+        }
+
+        RecordLocalDAO recordLocalDAO = new RecordLocalDAO();
+        if (recordLocalDAO.haveRecord(this)) {
+            final MaterialDialog materialDialog = new MaterialDialog(this);
+            materialDialog.setTitle("登陆提醒").setMessage("是否合并登陆前数据").
+                    setPositiveButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            materialDialog.dismiss();
+                            login(user, password, true);
+                        }
+                    }).setNegativeButton("确认", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    materialDialog.dismiss();
+                    login(user, password, false);
+                }
+            });
+            materialDialog.show();
+        } else {
+            login(user, password, true);
+        }
+    }
+
+    private void login(final String user, final String password, final boolean clearData) {
+        boolean isEmail = false;
         isEmail = isNameAddressFormat(user);
         userManager.login(isEmail ? null : user, password, isEmail ? user : null, new Handler() {
             @Override
@@ -175,7 +210,10 @@ public class LoginActivity extends BaseActivity {
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        userManager.logOut(false);
+                        if (clearData) {
+                            userManager.logOut(false, false);
+                        }
+
                         SnackBarUtil.showSnackInfo(mTilUserId, LoginActivity.this, "登录成功");
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -213,7 +251,6 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
-
     }
 
     @Override

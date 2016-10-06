@@ -356,4 +356,9 @@ public class RecordLocalDAO extends BaseLocalDao {
 
         return count;
     }
+
+    public boolean haveRecord(Context context) {
+        RecordDao recordDao = getDaoSession(context).getRecordDao();
+        return recordDao.queryBuilder().list().size() > 0;
+    }
 }

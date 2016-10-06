@@ -224,13 +224,16 @@ public class UserManager extends BaseManager {
      * 用户登出
      */
     public void logOut(boolean clearUser) {
+        logOut(clearUser, true);
+    }
+
+    public void logOut(boolean clearUser, boolean initDefault) {
         if (clearUser) {
             userLocalDao.clear(_context);
             MyAVUser.getCurrentUser().logOut();
         }
         recordLocalDAO.clearAllRecord(_context);
         accountLocalDao.clearAllAccount(_context);
-        recordTypeLocalDao.clearAllRecordType(_context);
         configLocalDao.initConfig(_context);
         accountLocalDao.initBudget(_context);
         SPUtils.put(_context, Constant.SP_GESTURE, "");
@@ -240,8 +243,11 @@ public class UserManager extends BaseManager {
         SPUtils.put(_context, Constant.SP_TIP_ROUND_EDIT_BUDGET, true);
         SPUtils.put(_context, true, SettingsActivity.GESTURE_LOCK, false);
         userHashMap.clear();
-        configLocalDao.initRecordType(_context);
-        configLocalDao.createDefaultAccount(_context);
+        if (initDefault) {
+            recordTypeLocalDao.clearAllRecordType(_context);
+            configLocalDao.initRecordType(_context);
+            configLocalDao.createDefaultAccount(_context);
+        }
     }
 
     public void setUserLink(List<String> list, final Handler handler) {

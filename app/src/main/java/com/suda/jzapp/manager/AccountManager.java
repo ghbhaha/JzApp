@@ -381,7 +381,6 @@ public class AccountManager extends BaseManager {
         query.whereEqualTo(AVAccount.USER, MyAVUser.getCurrentUser());
         List<AVAccount> list = query.find();
         if (list.size() > 0) {
-            accountLocalDao.clearAllAccount(_context);
             int i = 0;
             for (AVAccount avAccount : list) {
                 Account account = new Account();
