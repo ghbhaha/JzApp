@@ -246,4 +246,9 @@ public class AccountLocalDao extends BaseLocalDao {
         return JSON.toJSONString(list1);
     }
 
+    public int getAccountSize(Context context) {
+        AccountDao accountDao = getDaoSession(context).getAccountDao();
+        return accountDao.queryBuilder().where(AccountDao.Properties.IsDel.eq(false)).list().size();
+    }
+
 }

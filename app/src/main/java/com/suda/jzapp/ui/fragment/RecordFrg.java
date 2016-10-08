@@ -32,6 +32,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.Record;
+import com.suda.jzapp.dao.local.account.AccountLocalDao;
 import com.suda.jzapp.manager.RecordManager;
 import com.suda.jzapp.manager.SyncManager;
 import com.suda.jzapp.manager.domain.RecordDetailDO;
@@ -61,6 +62,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        accountLocalDao = new AccountLocalDao();
         mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         recordManager = new RecordManager(getActivity());
         syncManager = new SyncManager(getActivity());
@@ -106,8 +108,12 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
                     materialDialog.show();
                     return;
                 }
-                Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
-                getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
+                if (accountLocalDao.getAccountSize(getActivity()) == 0) {
+                    SnackBarUtil.showSnackInfo(backGround, getActivity(), "请新建一个账户");
+                } else {
+                    Intent intent = new Intent(getActivity(), CreateOrEditRecordActivity.class);
+                    getActivity().startActivityForResult(intent, MainActivity.REQUEST_RECORD);
+                }
             }
         });
 
@@ -119,20 +125,24 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         mAddRecordBt.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (NetworkUtil.checkNetwork(getActivity())) {
-                    mIatDialog.show();
-                    mVibrator.vibrate(50); //震动一下
+                if (accountLocalDao.getAccountSize(getActivity()) == 0) {
+                    SnackBarUtil.showSnackInfo(backGround, getActivity(), "请新建一个账户");
                 } else {
-                    final MaterialDialog materialDialog = new MaterialDialog(getActivity());
-                    materialDialog.setTitle("提示");
-                    materialDialog.setMessage("请连接网络哦");
-                    materialDialog.setNegativeButton(getResources().getString(R.string.ok), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            materialDialog.dismiss();
-                        }
-                    });
-                    materialDialog.show();
+                    if (NetworkUtil.checkNetwork(getActivity())) {
+                        mIatDialog.show();
+                        mVibrator.vibrate(50); //震动一下
+                    } else {
+                        final MaterialDialog materialDialog = new MaterialDialog(getActivity());
+                        materialDialog.setTitle("提示");
+                        materialDialog.setMessage("请连接网络哦");
+                        materialDialog.setNegativeButton(getResources().getString(R.string.ok), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                materialDialog.dismiss();
+                            }
+                        });
+                        materialDialog.show();
+                    }
                 }
                 return false;
             }
@@ -363,5 +373,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
      * 听写UI监听器
      */
     private RecognizerDialogListener mRecognizerDialogListener;
+
+    private AccountLocalDao accountLocalDao;
 
 }

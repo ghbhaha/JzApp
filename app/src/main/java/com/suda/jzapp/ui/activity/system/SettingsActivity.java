@@ -70,8 +70,10 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSettingsFragment.changeGestureCheckStatus();
-
+        if (mSettingsFragment != null)
+            mSettingsFragment.changeGestureCheckStatus();
+        else
+            finish();
     }
 
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
