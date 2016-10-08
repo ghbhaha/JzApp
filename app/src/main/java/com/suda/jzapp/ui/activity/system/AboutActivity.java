@@ -17,6 +17,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.misc.Constant;
+import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.util.AppUtil;
 import com.suda.jzapp.util.LauncherIconUtil;
 import com.suda.jzapp.util.SPUtils;
@@ -53,6 +54,20 @@ public class AboutActivity extends BaseActivity {
         ((CircleImageView) findViewById(R.id.appIcon)).setImageResource(LauncherIconUtil.getLauncherIcon(this));
         mTipDonate = findViewById(R.id.tip_donate);
         resetTipRound();
+    }
+
+
+    public void weibo(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://weibo.com/ghbhaha"));
+        startActivity(intent);
+    }
+
+    public void feedBack(View view) {
+        Intent intent = new Intent(this, WebActivity.class);
+        intent.putExtra(IntentConstant.WEB_URL, "http://form.mikecrm.com/P4zEp0");
+        intent.putExtra(IntentConstant.WEB_DESC, "反馈");
+        startActivity(intent);
     }
 
     public void donate(View view) {

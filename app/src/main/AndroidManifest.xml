@@ -27,22 +27,24 @@
         </activity>
 
         <activity-alias
-            android:name="com.suda.jzapp.MainActivity-icon2"
+            android:name=".MainActivity-icon2"
             android:enabled="false"
             android:icon="@mipmap/icon2"
             android:targetActivity=".ui.activity.system.GestureLockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.suda.jzapp.MainActivity-icon1"
+            android:name=".MainActivity-icon1"
             android:enabled="true"
             android:icon="@mipmap/icon1"
             android:targetActivity=".ui.activity.system.GestureLockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
@@ -129,12 +131,12 @@
             android:name=".ui.activity.user.QrCodeActivity"
             android:label="@string/title_activity_qrcode"
             android:theme="@style/AppTheme" />
-        <!--<activity-->
-        <!--android:name=".ui.activity.system.CaptureActivityAnyOrientation"-->
-        <!--android:screenOrientation="fullSensor"-->
-        <!--android:stateNotNeeded="true"-->
-        <!--android:theme="@style/zxing_CaptureTheme"-->
-        <!--android:windowSoftInputMode="stateAlwaysHidden" />-->
+        <!-- <activity -->
+        <!-- android:name=".ui.activity.system.CaptureActivityAnyOrientation" -->
+        <!-- android:screenOrientation="fullSensor" -->
+        <!-- android:stateNotNeeded="true" -->
+        <!-- android:theme="@style/zxing_CaptureTheme" -->
+        <!-- android:windowSoftInputMode="stateAlwaysHidden" /> -->
         <activity
             android:name=".ui.activity.account.AccountsTransferActivity"
             android:label="@string/title_activity_accounts_transfer"
@@ -149,9 +151,12 @@
         <activity
             android:name=".ui.activity.system.UpdateActivity"
             android:theme="@style/ThemeDialogStyle" />
-
-        <!--<activity android:name="com.avos.sns.SNSWebActivity" />-->
+        <activity
+            android:name=".ui.activity.system.WebActivity"
+            android:theme="@style/AppTheme" />
+        <!-- <activity android:name="com.avos.sns.SNSWebActivity" /> -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+
         <service android:name=".service.BackupService" />
 
         <receiver
@@ -165,7 +170,6 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
-
         <meta-data
             android:name="leancloud"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -179,7 +183,6 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".service.MyWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -190,6 +193,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/mywidget" />
         </receiver>
+
 
     </application>
 

@@ -29,4 +29,7 @@ public class IntentConstant {
     public static final String UPDATE_CHECK = "UPDATE_CHECK";
 
     public static final String WIDGET_GO_ID = "WIDGET_GO_ID";
+
+    public static final String WEB_URL = "WEB_URL";
+    public static final String WEB_DESC = "WEB_DESC";
 }

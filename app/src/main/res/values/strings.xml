@@ -44,6 +44,10 @@
     <string name="developer_icon1"><![CDATA[图标1设计]]></string>
     <string name="developer_icon2"><![CDATA[图标2设计]]></string>
     <string name="developer">开发者</string>
+    <string name="other">其他</string>
+    <string name="weibo">新浪微博</string>
+    <string name="feedback">建议反馈</string>
+    <string name="feedback_tip">让账单助手变得更棒</string>
     <string name="open_source_lis">开源协议</string>
     <string name="introduce_and_help">介绍与帮助</string>
     <string name="title_activity_login">登陆</string>
