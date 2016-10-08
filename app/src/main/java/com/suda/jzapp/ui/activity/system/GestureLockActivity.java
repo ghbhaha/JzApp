@@ -22,6 +22,7 @@ import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
 import com.suda.jzapp.util.SPUtils;
+import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.view.gesturelockview.GestureLockViewGroup;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +38,7 @@ public class GestureLockActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setMyContentView(R.layout.activity_gesture_lock);
+        StatusBarCompat.setStatusBarDarkMode(true, this);
         mGestureLockViewGroup = (GestureLockViewGroup) findViewById(R.id.id_gestureLockViewGroup);
         mForget = (TextView) findViewById(R.id.forget_secret);
         isSetting = getIntent().getBooleanExtra(IntentConstant.SETTING_MODE, false);

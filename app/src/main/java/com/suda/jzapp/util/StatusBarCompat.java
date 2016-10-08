@@ -5,6 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.TextUtils;
+import android.view.Window;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created by zhy on 15/9/21.
@@ -12,6 +17,29 @@ import android.os.Build;
 public class StatusBarCompat {
     private static final int INVALID_VAL = -1;
     private static final int COLOR_DEFAULT = Color.parseColor("#20000000");
+
+
+    public static void setStatusBarDarkMode(boolean darkmode, Activity activity) {
+        Class<? extends Window> clazz = activity.getWindow().getClass();
+        try {
+            Class<?> sysClass = Class.forName("android.os.SystemProperties");
+            Method getStringMethod = sysClass.getDeclaredMethod("get", String.class);
+            String miuiVer = (String) getStringMethod.invoke(sysClass, "ro.miui.ui.version.name");
+            if (!TextUtils.isEmpty(miuiVer)) {
+                int code = Integer.parseInt(miuiVer.replace("V", ""));
+                if (code >= 6) {
+                    int darkModeFlag = 0;
+                    Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+                    Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+                    darkModeFlag = field.getInt(layoutParams);
+                    Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+                    extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void compat(Activity activity, int statusColor) {
