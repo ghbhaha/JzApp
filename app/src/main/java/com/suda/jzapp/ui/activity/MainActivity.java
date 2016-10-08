@@ -89,19 +89,25 @@ public class MainActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO);
         }
-
+        showYiYan();
         updateWidget();
-        new SystemManager(this).getYiYan(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == Constant.MSG_SUCCESS) {
-                    ((TextView) findViewById(R.id.yiyan)).setText(msg.obj.toString());
-                }
-            }
-        });
+
         userManager = new UserManager(this);
         recordManager = new RecordManager(this);
         initWidget();
+    }
+
+    private void showYiYan() {
+        if ((boolean) SPUtils.get(this, true, "yi_yan", true)) {
+            new SystemManager(this).getYiYan(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    if (msg.what == Constant.MSG_SUCCESS) {
+                        ((TextView) findViewById(R.id.yiyan)).setText(msg.obj.toString());
+                    }
+                }
+            });
+        }
     }
 
     @Override

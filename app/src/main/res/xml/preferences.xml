@@ -46,7 +46,6 @@
             android:title="@string/icon_type" />
 
     </com.suda.jzapp.view.MyPreferenceCategory>
-
     <com.suda.jzapp.view.MyPreferenceCategory android:title="@string/security_settings">
 
         <CheckBoxPreference
@@ -55,7 +54,37 @@
             android:layout="@layout/preference_item"
             android:summaryOff="@string/gesture_setting_off"
             android:summaryOn="@string/gesture_setting_on"
-            android:title="@string/gesture_settings"/>
+            android:title="@string/gesture_settings" />
+
+    </com.suda.jzapp.view.MyPreferenceCategory>
+    <com.suda.jzapp.view.MyPreferenceCategory
+        android:key="common_settings"
+        android:title="@string/yi_yan_setting">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="yi_yan"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/yi_yan_setting_off"
+            android:summaryOn="@string/yi_yan_setting_on"
+            android:title="@string/yi_yan_setting" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="yi_yan"
+            android:key="yi_yan_sync_wifi"
+            android:layout="@layout/preference_item"
+            android:summaryOff="@string/immersive_status_bar_off"
+            android:summaryOn="@string/immersive_status_bar_on"
+            android:title="@string/yi_yan_setting_wifi" />
+
+        <PreferenceScreen
+            android:dependency="yi_yan"
+            android:key="yi_yan_custom"
+            android:layout="@layout/preference_item"
+            android:summary="@string/yi_yan_setting_custom_empty"
+            android:title="@string/yi_yan_setting_custom">
+
+        </PreferenceScreen>
 
     </com.suda.jzapp.view.MyPreferenceCategory>
 

@@ -18,8 +18,11 @@ import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.AppUtil;
 import com.suda.jzapp.util.NetworkUtil;
+import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,15 +67,25 @@ public class SystemManager extends BaseManager {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
             public void run() {
+
+                String cuntomYiyan = (String) SPUtils.get(_context, true, "yi_yan_custom", "");
+                if (!TextUtils.isEmpty(cuntomYiyan)) {
+                    sendMessage(handler, cuntomYiyan);
+                    return;
+                }
+
                 YiYan yiYan = configLocalDao.queryYiYan(_context);
                 if (yiYan != null) {
                     sendMessage(handler, yiYan.getContent());
                 }
 
-                String httpUrl1 = "https://api.lwl12.com/hitokoto/main/get?charset=utf-8";
-                String httpArg1 = "";
+                boolean syncWifi = (boolean) SPUtils.get(_context, true, "yi_yan_sync_wifi", true);
+
+                if (syncWifi && !NetworkUtil.checkWifi(_context))
+                    return;
+
                 try {
-                    String result1 = NetworkUtil.request(httpUrl1, httpArg1);
+                    String result1 = getYiYan();
                     if (!TextUtils.isEmpty(result1)) {
                         if (yiYan == null) {
                             sendMessage(handler, result1);
@@ -87,7 +100,32 @@ public class SystemManager extends BaseManager {
                 }
             }
         });
+    }
 
+    private String getYiYan() {
+        final String lwl12 = "https://api.lwl12.com/hitokoto/main/get?charset=utf-8";
+        final String bilibibi = "http://hitoapi.cc/sp/";
+        final String ad = "https://api.imjad.cn/hitokoto/?charset=utf-8&length=150&encode=json&fun=sync";
+        final String _853 = "http://hitokoto.bronya.net/rand/";
+        List<String> urls = new ArrayList<>();
+        urls.add(lwl12);
+        urls.add(bilibibi);
+        urls.add(ad);
+        urls.add(_853);
+        Collections.shuffle(urls);
+        String result1 = NetworkUtil.request(urls.get(0), "");
+        switch (urls.get(0)) {
+            case lwl12:
+                break;
+            case bilibibi:
+                result1 = JSON.parseObject(result1).getString("text");
+                break;
+            case ad:
+            case _853:
+                result1 = JSON.parseObject(result1).getString("hitokoto");
+                break;
+        }
+        return result1;
     }
 
 

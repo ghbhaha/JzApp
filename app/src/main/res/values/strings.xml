@@ -64,6 +64,12 @@
     <string name="export">数据导出</string>
     <string name="settings">设置</string>
     <string name="common_settings">常规设置</string>
+    <string name="yi_yan_setting">一言</string>
+    <string name="yi_yan_setting_on">加载页面显示一言</string>
+    <string name="yi_yan_setting_off">加载页面不显示一言</string>
+    <string name="yi_yan_setting_wifi">仅WIFI更新</string>
+    <string name="yi_yan_setting_custom">自定义</string>
+    <string name="yi_yan_setting_custom_empty">当前未设置</string>
     <string name="sync_setting">同步设置</string>
     <string name="sync_setting_on">仅WIFI下自动同步</string>
     <string name="sync_setting_off">有网络连接自动同步</string>

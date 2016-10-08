@@ -2,13 +2,19 @@ package com.suda.jzapp.ui.activity.system;
 
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
@@ -29,6 +35,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -79,6 +87,8 @@ public class SettingsActivity extends BaseActivity {
         private CheckBoxPreference mIconCheck;
         private CheckBoxPreference mVibratorSettings;
         private MyPreferenceCategory mCommonCateGory;
+        private PreferenceScreen mYiYanCustom;
+
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +106,55 @@ public class SettingsActivity extends BaseActivity {
             mGestureLockCheck.setOnPreferenceChangeListener(this);
             mIconCheck.setOnPreferenceChangeListener(this);
             mVibratorSettings.setOnPreferenceChangeListener(this);
+
+            mYiYanCustom = (PreferenceScreen) findPreference(YI_YAN_CUSTOM);
+
+            cuntomYiyan = (String) SPUtils.get(getActivity(), true, "yi_yan_custom", "");
+
+            if (TextUtils.isEmpty(cuntomYiyan)) {
+                mYiYanCustom.setSummary(R.string.yi_yan_setting_custom_empty);
+            } else {
+                mYiYanCustom.setSummary(cuntomYiyan);
+            }
+
+            mYiYanCustom.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final MaterialDialog materialDialog = new MaterialDialog(getActivity());
+                    materialDialog.setTitle(R.string.yi_yan_setting_custom);
+                    final EditText editText = new EditText(getActivity());
+                    editText.setText(cuntomYiyan);
+                    editText.setFocusable(true);
+                    editText.requestFocus();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            InputMethodManager inputManager =
+                                    (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            inputManager.showSoftInput(editText, 0);
+                        }
+                    }, 200);
+
+                    materialDialog.setContentView(editText);
+                    materialDialog.setNegativeButton(getResources().getString(R.string.ok), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cuntomYiyan = editText.getText().toString();
+                            if (TextUtils.isEmpty(cuntomYiyan)) {
+                                mYiYanCustom.setSummary(R.string.yi_yan_setting_custom_empty);
+                            } else {
+                                mYiYanCustom.setSummary(cuntomYiyan);
+                            }
+                            SPUtils.put(getActivity(), true, "yi_yan_custom", cuntomYiyan);
+                            materialDialog.dismiss();
+                        }
+                    });
+                    materialDialog.setCanceledOnTouchOutside(true);
+                    materialDialog.show();
+
+                    return false;
+                }
+            });
 
             mCommonCateGory.removePreference(mImmersiveCheck);
 //            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
@@ -193,7 +252,9 @@ public class SettingsActivity extends BaseActivity {
     public static final String ICON_TYPE = "key_icon";
     public static final String GESTURE_LOCK = "gesture_lock";
     public static final String REMIND_SETTING = "remind_setting";
+    public static final String YI_YAN_CUSTOM = "yi_yan_custom";
     public static final String IMMERSIVE_STATUS_BAR = "immersive_status_bar";
     public static final DateFormat format = new SimpleDateFormat("HH:mm");
     private SettingsFragment mSettingsFragment;
+    private static String cuntomYiyan;
 }

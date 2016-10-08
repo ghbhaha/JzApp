@@ -107,14 +107,16 @@ public class AnalysisFrg extends Fragment implements MainActivity.ReloadCallBack
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 List<LineChartDo> list = (List<LineChartDo>) msg.obj;
-                //添加支出
-                data.addDataSet(getLineDateSet(list, "支出", getResources().getColor(R.color.accent_red), 0));
-                //添加收入
-                data.addDataSet(getLineDateSet(list, "收入", getResources().getColor(R.color.accent_green), 1));
-                //添加结余
-                data.addDataSet(getLineDateSet(list, "结余", getResources().getColor(R.color.accent_blue), 2));
-                mLineChart.setData(data);
-                mLineChart.animateXY(500, 500);
+                if (isAdded()) {
+                    //添加支出
+                    data.addDataSet(getLineDateSet(list, "支出", getResources().getColor(R.color.accent_red), 0));
+                    //添加收入
+                    data.addDataSet(getLineDateSet(list, "收入", getResources().getColor(R.color.accent_green), 1));
+                    //添加结余
+                    data.addDataSet(getLineDateSet(list, "结余", getResources().getColor(R.color.accent_blue), 2));
+                    mLineChart.setData(data);
+                    mLineChart.animateXY(500, 500);
+                }
             }
         });
     }
