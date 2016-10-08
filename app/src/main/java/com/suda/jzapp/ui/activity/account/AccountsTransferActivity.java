@@ -138,7 +138,12 @@ public class AccountsTransferActivity extends BaseActivity {
                 }
 
                 if (!TextUtils.isEmpty(tmp)) {
-                    double money = Double.parseDouble(tmp);
+                    double money = 0.00;
+                    try {
+                        Double.parseDouble(tmp);
+                    } catch (Exception e) {
+
+                    }
                     if (money > Double.parseDouble(mTvOutAccountLeftMoney.getText().toString())) {
                         KeyBoardUtils.closeKeybord(eEtOutMoney, AccountsTransferActivity.this);
                         SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, getResources().getString(R.string.not_have_enough_money));

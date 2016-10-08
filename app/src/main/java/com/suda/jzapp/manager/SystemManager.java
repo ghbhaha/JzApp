@@ -3,6 +3,7 @@ package com.suda.jzapp.manager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -12,6 +13,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.suda.jzapp.dao.cloud.avos.pojo.system.AVUpdateCheck;
 import com.suda.jzapp.dao.greendao.Currency;
+import com.suda.jzapp.dao.greendao.YiYan;
 import com.suda.jzapp.dao.local.conf.ConfigLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.AppUtil;
@@ -56,6 +58,39 @@ public class SystemManager extends BaseManager {
         });
     }
 
+    public void getYiYan(final Handler handler) {
+
+
+        ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
+            @Override
+            public void run() {
+                YiYan yiYan = configLocalDao.queryYiYan(_context);
+                if (yiYan != null) {
+                    sendMessage(handler, yiYan.getContent());
+                }
+
+                String httpUrl1 = "https://api.lwl12.com/hitokoto/main/get?charset=utf-8";
+                String httpArg1 = "";
+                try {
+                    String result1 = NetworkUtil.request(httpUrl1, httpArg1);
+                    if (!TextUtils.isEmpty(result1)) {
+                        if (yiYan == null) {
+                            sendMessage(handler, result1);
+                            yiYan = new YiYan();
+                        }
+                        yiYan.setContent(result1);
+                        configLocalDao.insertNewYiYan(yiYan, _context);
+                    } else
+                        sendEmptyMessage(handler, Constant.MSG_ERROR);
+                } catch (Exception e) {
+                    Log.e("@@@@@@@@", e.toString());
+                }
+            }
+        });
+
+    }
+
+
     public void getCurrency() {
         ThreadPoolUtil.getThreadPoolService().execute(new Runnable() {
             @Override
@@ -73,12 +108,12 @@ public class SystemManager extends BaseManager {
                         String result = NetworkUtil.request(httpUrl, httpArg);
                         jo = JSON.parseObject(result);
                         jo = jo.getJSONObject("retData");
-                        Currency currency = JSON.parseObject(jo.toJSONString(),Currency.class);
-                        configLocalDao.updateCurrency(currency,_context);
+                        Currency currency = JSON.parseObject(jo.toJSONString(), Currency.class);
+                        configLocalDao.updateCurrency(currency, _context);
                         Log.e("sss", result);
                     }
                 } catch (Exception e) {
-                    Log.e("@@@@@@@@",e.toString());
+                    Log.e("@@@@@@@@", e.toString());
                 }
             }
         });

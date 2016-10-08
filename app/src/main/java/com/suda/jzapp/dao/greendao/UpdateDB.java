@@ -57,5 +57,8 @@ public class UpdateDB {
         if (oldVersion < 12) {
             CurrencyDao.createTable(db,false);
         }
+        if (oldVersion < 13) {
+            YiYanDao.createTable(db,false);
+        }
     }
 }

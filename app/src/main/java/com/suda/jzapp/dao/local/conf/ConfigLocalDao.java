@@ -9,6 +9,8 @@ import com.suda.jzapp.dao.greendao.ConfigDao;
 import com.suda.jzapp.dao.greendao.Currency;
 import com.suda.jzapp.dao.greendao.CurrencyDao;
 import com.suda.jzapp.dao.greendao.RecordType;
+import com.suda.jzapp.dao.greendao.YiYan;
+import com.suda.jzapp.dao.greendao.YiYanDao;
 import com.suda.jzapp.dao.local.BaseLocalDao;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.misc.Constant.AccountTypeConstant;
@@ -141,5 +143,15 @@ public class ConfigLocalDao extends BaseLocalDao {
         }
     }
 
+    public void insertNewYiYan(YiYan yiYan, Context context) {
+        YiYanDao yiYanDao = getDaoSession(context).getYiYanDao();
+        yiYanDao.deleteAll();
+        yiYanDao.insert(yiYan);
+    }
 
+
+    public YiYan queryYiYan(Context context) {
+        YiYanDao yiYanDao = getDaoSession(context).getYiYanDao();
+        return getSingleData(yiYanDao.loadAll());
+    }
 }

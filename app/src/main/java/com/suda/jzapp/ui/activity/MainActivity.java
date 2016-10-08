@@ -44,6 +44,7 @@ import com.suda.jzapp.R;
 import com.suda.jzapp.dao.cloud.avos.pojo.user.MyAVUser;
 import com.suda.jzapp.dao.greendao.User;
 import com.suda.jzapp.manager.RecordManager;
+import com.suda.jzapp.manager.SystemManager;
 import com.suda.jzapp.manager.UserManager;
 import com.suda.jzapp.manager.domain.OptDO;
 import com.suda.jzapp.misc.Constant;
@@ -90,7 +91,14 @@ public class MainActivity extends BaseActivity {
         }
 
         updateWidget();
-        //new SystemManager(this).getCurrency();
+        new SystemManager(this).getYiYan(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == Constant.MSG_SUCCESS) {
+                    ((TextView) findViewById(R.id.yiyan)).setText(msg.obj.toString());
+                }
+            }
+        });
         userManager = new UserManager(this);
         recordManager = new RecordManager(this);
         initWidget();
