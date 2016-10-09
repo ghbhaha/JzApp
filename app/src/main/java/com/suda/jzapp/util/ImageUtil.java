@@ -3,6 +3,8 @@ package com.suda.jzapp.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.Display;
+import android.view.WindowManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -48,8 +50,42 @@ public class ImageUtil {
     public static Bitmap getBitmapByImgName(Context context, String imgName) {
         String path = context.getApplicationContext().getFilesDir().getAbsolutePath();
         File f = new File(path, imgName);
-        if (f.exists())
-            return BitmapFactory.decodeFile(f.getAbsolutePath());
+        if (f.exists()) {
+            BitmapFactory.Options opt = new BitmapFactory.Options();
+            // 这个isjustdecodebounds很重要
+            opt.inJustDecodeBounds = true;
+            Bitmap bm = null;
+            bm = BitmapFactory.decodeFile(f.getAbsolutePath(), opt);
+            // 获取到这个图片的原始宽度和高度
+            int picWidth = opt.outWidth;
+            int picHeight = opt.outHeight;
+
+            // 获取屏的宽度和高度
+            WindowManager windowManager = (WindowManager) context
+                    .getSystemService(Context.WINDOW_SERVICE);
+            Display display = windowManager.getDefaultDisplay();
+            int screenWidth = display.getWidth();
+            int screenHeight = display.getHeight();
+
+            // isSampleSize是表示对图片的缩放程度，比如值为2图片的宽度和高度都变为以前的1/2
+            opt.inSampleSize = 1;
+            // 根据屏的大小和图片大小计算出缩放比例
+            if (picWidth > picHeight) {
+                if (picWidth > screenWidth)
+                    opt.inSampleSize = picWidth / screenWidth;
+            } else {
+                if (picHeight > screenHeight)
+                    opt.inSampleSize = picHeight / screenHeight;
+            }
+            // 这次再真正地生成一个有像素的，经过缩放了的bitmap
+            opt.inJustDecodeBounds = false;
+            if (bm != null && !bm.isRecycled())
+                bm.recycle();
+
+            bm = BitmapFactory.decodeFile(f.getAbsolutePath(), opt);
+            return bm;
+        }
+
         return null;
     }
 

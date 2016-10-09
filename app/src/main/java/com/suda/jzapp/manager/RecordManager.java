@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,7 +54,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
@@ -478,7 +478,7 @@ public class RecordManager extends BaseManager {
         recordDetailDOMonthFirst.setRecordDate(myDate.getDate());
         recordDetailDos.add(recordDetailDOMonthFirst);
         double todayAllInMoney, todayAllOutMoney = 0;
-        Map<Long, RecordType> recordTypeMap = new HashMap<>();
+        Map<Long, RecordType> recordTypeMap = new ArrayMap<>();
         for (MyDate date : dates) {
             todayAllInMoney = 0;
             todayAllOutMoney = 0;
@@ -526,9 +526,9 @@ public class RecordManager extends BaseManager {
             @Override
             public void run() {
 
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<String, Object> map = new ArrayMap<String, Object>();
                 List<RecordDetailDO> recordDetailDos = new ArrayList<>();
-                Map<Long, RecordType> recordTypeMap = new HashMap<>();
+                Map<Long, RecordType> recordTypeMap = new ArrayMap<>();
                 double outCount = 0;
                 double inCount = 0;
                 List<Record> records = recordLocalDAO.getRecordByMonthAndAccount(_context, accountID, startDate, endDate);
@@ -863,7 +863,7 @@ public class RecordManager extends BaseManager {
     public List<RecordDetailDO> getRecordsByRecordTypeIDAndMonth(long recordTypeID, int recordYear, int recordMonth) {
         List<Record> records = recordLocalDAO.getRecordsByRecordTypeIDAndMonth(_context, recordTypeID, recordYear, recordMonth);
         List<RecordDetailDO> recordDetailDOs = new ArrayList<>();
-        Map<Long, RecordType> recordTypeMap = new HashMap<>();
+        Map<Long, RecordType> recordTypeMap = new ArrayMap<>();
         for (Record record : records) {
             RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
             if (recordType == null) {
@@ -895,8 +895,8 @@ public class RecordManager extends BaseManager {
      */
     public void exportToExcel(long start, long end, Handler handler) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Map<Long, RecordType> recordTypeMap = new HashMap<>();
-        Map<Long, AccountDetailDO> accountHashMap = new HashMap<>();
+        Map<Long, RecordType> recordTypeMap = new ArrayMap<>();
+        Map<Long, AccountDetailDO> accountHashMap = new ArrayMap<>();
         List<Record> records = recordLocalDAO.getRecordByMonth(_context, start, end);
         List<ExcelRecord> excelRecords = new ArrayList<>();
         for (Record record : records) {
