@@ -61,7 +61,7 @@
         android:key="common_settings"
         android:title="@string/yi_yan_setting">
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="yi_yan"
             android:layout="@layout/preference_item"
             android:summaryOff="@string/yi_yan_setting_off"
