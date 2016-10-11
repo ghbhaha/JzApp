@@ -185,8 +185,6 @@ public class AccountsTransferActivity extends BaseActivity {
                 finish();
             }
         });
-
-
     }
 
     @Override
@@ -246,6 +244,4 @@ public class AccountsTransferActivity extends BaseActivity {
     private RecordManager recordManager;
 
     private int selectItem = 0;
-
-    boolean editOut = true;
 }
