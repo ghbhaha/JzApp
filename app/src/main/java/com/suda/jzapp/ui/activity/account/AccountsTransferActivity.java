@@ -140,7 +140,7 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(tmp)) {
                     double money = 0.00;
                     try {
-                        Double.parseDouble(tmp);
+                        money = Double.parseDouble(tmp);
                     } catch (Exception e) {
 
                     }
@@ -157,40 +157,6 @@ public class AccountsTransferActivity extends BaseActivity {
                 if (!eEtOutMoney.isFocused())
                     return;
                 eEtInMoney.setText(eEtOutMoney.getText());
-            }
-        });
-
-        eEtInMoney.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String tmp = s.toString();
-                if (tmp.contains(".")) {
-                    String[] strs = tmp.split("\\.");
-                    if (strs.length > 1 && strs[1].length() > 2) {
-                        eEtInMoney.setText(tmp.substring(0, tmp.length() - 1));
-                        eEtInMoney.setSelection(tmp.length() - 1);
-                    }
-                }
-                if (!TextUtils.isEmpty(tmp)) {
-                    double money = Double.parseDouble(tmp);
-                    if (money > Double.parseDouble(mTvOutAccountLeftMoney.getText().toString())) {
-                        KeyBoardUtils.closeKeybord(eEtInMoney, AccountsTransferActivity.this);
-                        SnackBarUtil.showSnackInfo(floatingActionButton, AccountsTransferActivity.this, getResources().getString(R.string.not_have_enough_money));
-                        eEtInMoney.setText(mTvOutAccountLeftMoney.getText());
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (eEtOutMoney.isFocused())
-                    return;
-                eEtOutMoney.setText(eEtInMoney.getText());
             }
         });
     }
