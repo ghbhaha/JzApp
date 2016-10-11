@@ -55,7 +55,7 @@ public class EditAccountActivity extends BaseActivity {
 
         findViewById(mEditType == PROP_TYPE_ACCOUNT_TYPE ? R.id.account_other_param : R.id.account_type_param).setVisibility(View.GONE);
 
-        if (mEditType!=PROP_TYPE_ACCOUNT_TYPE){
+        if (mEditType != PROP_TYPE_ACCOUNT_TYPE) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -74,7 +74,7 @@ public class EditAccountActivity extends BaseActivity {
             case PROP_TYPE_ACCOUNT_MONEY:
                 getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_money));
                 mEtProp.setText(String.format(getResources().getString(R.string.record_money_format), mMoney));
-                mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER |InputType.TYPE_NUMBER_FLAG_SIGNED| InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                mEtProp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 break;
             case PROP_TYPE_ACCOUNT_REMARK:
                 getSupportActionBar().setTitle(getResources().getString(R.string.edit_account_remark));
@@ -181,7 +181,14 @@ public class EditAccountActivity extends BaseActivity {
                 if (TextUtils.isEmpty(param))
                     param = "0.00";
 
-                final double money = Double.parseDouble(param);
+                double tempmoney = 0.00;
+                try {
+                    tempmoney = Double.parseDouble(param);
+                } catch (Exception e) {
+
+                }
+
+                final double money = tempmoney;
                 intent.putExtra(IntentConstant.EDIT_ACCOUNT_MONEY, money);
                 if (mAccountID > 0 && money - mMoney != 0) {
                     accountManager.updateAccountMoney(mAccountID, money - mMoney, new Handler() {
