@@ -61,6 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/in_tv"
             android:layout_marginRight="5dp"
+            android:gravity="right"
             android:ellipsize="end"
             android:singleLine="true"
             android:textSize="10sp"
