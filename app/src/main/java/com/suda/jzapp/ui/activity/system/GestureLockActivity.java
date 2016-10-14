@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v4.os.CancellationSignal;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -83,7 +84,7 @@ public class GestureLockActivity extends BaseActivity {
             if (!TextUtils.isEmpty(secret)) {
                 manager = FingerprintManagerCompat.from(this);
                 if (manager.isHardwareDetected()) {
-                    manager.authenticate(null, 0, null, new MyCallBack(), null);
+                    manager.authenticate(null, 0, mCancellationSignal, new MyCallBack(), null);
                     mTvTip.setText("使用指纹或者图案解锁");
                 }
             }
@@ -151,6 +152,7 @@ public class GestureLockActivity extends BaseActivity {
     }
 
     private void enterMain() {
+        mCancellationSignal.cancel();
         int goId = getIntent().getIntExtra(IntentConstant.WIDGET_GO_ID, GO_DEFAULT);
         Class goClass = null;
         switch (goId) {
@@ -229,6 +231,7 @@ public class GestureLockActivity extends BaseActivity {
     private TextView mTvTip, mForget;
     private String secret = "";
     private int mTryTime = 5;
+    private CancellationSignal mCancellationSignal = new CancellationSignal();
 
     private static final int REQUEST_CODE_FORGET_GESTURE = 1;
 
