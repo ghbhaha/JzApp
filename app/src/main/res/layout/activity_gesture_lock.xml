@@ -37,10 +37,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="请绘制解锁图案"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/forget_secret"

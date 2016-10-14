@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.suda.jzapp.BaseActivity;
 import com.suda.jzapp.R;
 import com.suda.jzapp.dao.greendao.User;
@@ -21,6 +24,7 @@ import com.suda.jzapp.ui.activity.MainActivity;
 import com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity;
 import com.suda.jzapp.ui.activity.record.RecordPieAnalysisActivity;
 import com.suda.jzapp.ui.activity.user.LoginActivity;
+import com.suda.jzapp.util.LogUtils;
 import com.suda.jzapp.util.SPUtils;
 import com.suda.jzapp.util.StatusBarCompat;
 import com.suda.jzapp.view.gesturelockview.GestureLockViewGroup;
@@ -43,6 +47,10 @@ public class GestureLockActivity extends BaseActivity {
         mForget = (TextView) findViewById(R.id.forget_secret);
         isSetting = getIntent().getBooleanExtra(IntentConstant.SETTING_MODE, false);
         mHeadImg = (CircleImageView) findViewById(R.id.profile_image);
+
+
+        mTvTip = (TextView) findViewById(R.id.setting_tips);
+        mTvTip.setText("请绘制解锁图案");
 
         new UserManager(this).getMe(new Handler() {
             @Override
@@ -72,17 +80,18 @@ public class GestureLockActivity extends BaseActivity {
         if (!isSetting) {
             secret = (String) SPUtils.get(this, Constant.SP_GESTURE, "");
             mGestureLockViewGroup.setAnswer(secret);
+            if (!TextUtils.isEmpty(secret)) {
+                manager = FingerprintManagerCompat.from(this);
+                if (manager.isHardwareDetected()) {
+                    manager.authenticate(null, 0, null, new MyCallBack(), null);
+                    mTvTip.setText("使用指纹或者图案解锁");
+                }
+            }
         }
 
         if (TextUtils.isEmpty(secret) && !isSetting) {
             enterMain();
         }
-
-        mTvTip = (TextView) findViewById(R.id.setting_tips);
-
-        mTvTip.setText("请绘制解锁图案");
-
-
         mGestureLockViewGroup.setIsSetting(isSetting);
         mGestureLockViewGroup.setUnMatchExceedBoundary(mTryTime);
         mGestureLockViewGroup
@@ -91,6 +100,7 @@ public class GestureLockActivity extends BaseActivity {
                     @Override
                     public void onUnmatchedExceedBoundary(int errorCode) {
                         if (errorCode == GestureLockViewGroup.CODE_IN_VALID) {
+                            YoYo.with(Techniques.Shake).duration(500).playOn(mTvTip);
                             mTvTip.setText("手势密码需要四位，请重新输入");
                         }
                         if (errorCode == GestureLockViewGroup.CODE_NOT_SAME) {
@@ -109,6 +119,7 @@ public class GestureLockActivity extends BaseActivity {
                     public void onGestureEvent(boolean matched) {
                         if (!matched) {
                             mTryTime--;
+                            YoYo.with(Techniques.Shake).duration(500).playOn(mTvTip);
                             mTvTip.setText("手势不匹配，请重新输入\n还可尝试" + mTryTime + "次");
                         } else
                             enterMain();
@@ -126,6 +137,7 @@ public class GestureLockActivity extends BaseActivity {
                                 mTvTip.setText("请再次绘制解锁图案");
                             } else {
                                 if (!value.equals(secret)) {
+                                    YoYo.with(Techniques.Shake).duration(500).playOn(mTvTip);
                                     mTvTip.setText("与上次绘制不一致，请重新输入");
                                 } else if (value.equals(secret)) {
                                     mTvTip.setText("录入成功");
@@ -178,6 +190,39 @@ public class GestureLockActivity extends BaseActivity {
         }
     }
 
+    public class MyCallBack extends FingerprintManagerCompat.AuthenticationCallback {
+        private static final String TAG = "MyCallBack";
+
+        // 当出现错误的时候回调此函数，比如多次尝试都失败了的时候，errString是错误信息
+        @Override
+        public void onAuthenticationError(int errMsgId, CharSequence errString) {
+            YoYo.with(Techniques.Shake).duration(500).playOn(mTvTip);
+            mTvTip.setText("指纹验证失败，请使用图案解锁");
+            LogUtils.d(TAG, "onAuthenticationError: " + errString);
+        }
+
+        // 当指纹验证失败的时候会回调此函数，失败之后允许多次尝试，失败次数过多会停止响应一段时间然后再停止sensor的工作
+        @Override
+        public void onAuthenticationFailed() {
+            mTvTip.setText("指纹验证失败，请重试");
+            YoYo.with(Techniques.Shake).duration(500).playOn(mTvTip);
+            LogUtils.d(TAG, "onAuthenticationFailed: " + "验证失败");
+        }
+
+        @Override
+        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
+            LogUtils.d(TAG, "onAuthenticationHelp: " + helpString);
+        }
+
+        // 当验证的指纹成功时会回调此函数，然后不再监听指纹sensor
+        @Override
+        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
+            LogUtils.d(TAG, "onAuthenticationSucceeded: " + "验证成功");
+            mTvTip.setText("指纹验证成功");
+            enterMain();
+        }
+    }
+
     private boolean isSetting = false;
     private GestureLockViewGroup mGestureLockViewGroup;
     private CircleImageView mHeadImg;
@@ -187,7 +232,7 @@ public class GestureLockActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_FORGET_GESTURE = 1;
 
-
+    private FingerprintManagerCompat manager;
     public static final int GO_MAIN = 1;
     public static final int GO_ANALYSIS = 2;
     public static final int GO_ADD_RECORD = 3;
