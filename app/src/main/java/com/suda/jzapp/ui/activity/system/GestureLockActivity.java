@@ -151,6 +151,19 @@ public class GestureLockActivity extends BaseActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCancellationSignal.cancel();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        if (!isSetting)
+            finish();
+    }
+
     private void enterMain() {
         mCancellationSignal.cancel();
         int goId = getIntent().getIntExtra(IntentConstant.WIDGET_GO_ID, GO_DEFAULT);

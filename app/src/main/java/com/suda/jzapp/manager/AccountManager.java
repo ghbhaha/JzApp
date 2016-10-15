@@ -23,6 +23,7 @@ import com.suda.jzapp.manager.domain.AccountDetailDO;
 import com.suda.jzapp.manager.domain.AccountIndexDO;
 import com.suda.jzapp.misc.Constant;
 import com.suda.jzapp.util.DataConvertUtil;
+import com.suda.jzapp.util.MoneyUtil;
 import com.suda.jzapp.util.ThreadPoolUtil;
 
 import java.util.ArrayList;
@@ -226,7 +227,7 @@ public class AccountManager extends BaseManager {
         Account account = accountLocalDao.getAccountByID(accountID, _context);
         if (account == null)
             return;
-        editAccount(EDIT_TYPE_ACCOUNT_MONEY, accountID, null, 0, account.getAccountMoney() + money, null, new Callback() {
+        editAccount(EDIT_TYPE_ACCOUNT_MONEY, accountID, null, 0, MoneyUtil.getFormatNum(account.getAccountMoney() + money), null, new Callback() {
             @Override
             public void doSth(boolean isSync, String objId) {
                 accountLocalDao.updateAccountMoney(accountID, money, isSync, objId, _context);
