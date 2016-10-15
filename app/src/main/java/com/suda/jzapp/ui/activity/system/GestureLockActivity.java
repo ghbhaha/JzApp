@@ -165,7 +165,6 @@ public class GestureLockActivity extends BaseActivity {
     }
 
     private void enterMain() {
-        mCancellationSignal.cancel();
         int goId = getIntent().getIntExtra(IntentConstant.WIDGET_GO_ID, GO_DEFAULT);
         Class goClass = null;
         switch (goId) {
