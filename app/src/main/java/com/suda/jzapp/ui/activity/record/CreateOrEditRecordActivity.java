@@ -236,7 +236,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 super.handleMessage(msg);
                 List<RemarkTip> remarkTips = ((List<RemarkTip>) msg.obj);
                 for (final RemarkTip tip : remarkTips) {
-                    MyCircleRectangleTextView myCircleRectangleTextView = new MyCircleRectangleTextView(CreateOrEditRecordActivity.this);
+                    View view = View.inflate(CreateOrEditRecordActivity.this, R.layout.remark_item, null);
+                    MyCircleRectangleTextView myCircleRectangleTextView = (MyCircleRectangleTextView)view.findViewById(R.id.remark);
                     myCircleRectangleTextView.setText(tip.getRemark());
                     myCircleRectangleTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -246,10 +247,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                             hideRemarkPanel();
                         }
                     });
-                    myCircleRectangleTextView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    mRemarkTipsFlow.addView(myCircleRectangleTextView);
-                    View view = new View(CreateOrEditRecordActivity.this);
-                    view.setLayoutParams(new LinearLayout.LayoutParams(10, LinearLayout.LayoutParams.WRAP_CONTENT));
+                    view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                     mRemarkTipsFlow.addView(view);
                 }
             }
@@ -308,7 +306,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         } else {
             mCurRecordType = recordType;
         }
-        if (recordType == null) {
+        if (recordType == null && !userSelect) {
             Account account = accountManager.getSuitAccount(mCurRecordType.getRecordTypeID());
             newRecord.setAccountID(account.getAccountID());
             mAccountTv.setText(account.getAccountName());
@@ -379,6 +377,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_ACCOUNT:
+                    userSelect = true;
                     newRecord.setAccountID(data.getLongExtra(IntentConstant.ACCOUNT_ID, 0));
                     mAccountTv.setText(accountManager.getAccountByID(newRecord.getAccountID()).getAccountName());
                     break;
@@ -731,5 +730,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private enum Opt {
         NULL, PLUS, MINUS, DEL, CLEAR, OK, EQUAL;
     }
+
+    private boolean userSelect = false;
 
 }

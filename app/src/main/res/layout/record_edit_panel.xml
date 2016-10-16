@@ -226,14 +226,19 @@
             android:text="经常使用"
             android:textColor="@color/blue" />
 
-        <com.wefika.flowlayout.FlowLayout
-            android:id="@+id/remark_tips"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="10dp">
+            android:layout_height="120dp"
+            android:layout_marginBottom="5dp">
 
-        </com.wefika.flowlayout.FlowLayout>
+            <com.wefika.flowlayout.FlowLayout
+                android:id="@+id/remark_tips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp">
 
+            </com.wefika.flowlayout.FlowLayout>
+        </ScrollView>
     </LinearLayout>
 
 
