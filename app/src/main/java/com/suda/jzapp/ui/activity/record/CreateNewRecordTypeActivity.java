@@ -91,6 +91,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
     }
 
     private void addNewRecord(final View view) {
+        view.setClickable(false);
         String recordName = mEtRecordName.getText().toString();
         if (TextUtils.isEmpty(recordName)) {
             SnackBarUtil.showSnackInfo(view, this, getString(R.string.please_enter_record_type_name));
@@ -114,6 +115,7 @@ public class CreateNewRecordTypeActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == Constant.MSG_ERROR) {
+                    view.setClickable(true);
                     SnackBarUtil.showSnackInfo(view, CreateNewRecordTypeActivity.this, getString(R.string.please_not_enter_same_record_type_name));
                 } else {
                     setResult(RESULT_OK);
