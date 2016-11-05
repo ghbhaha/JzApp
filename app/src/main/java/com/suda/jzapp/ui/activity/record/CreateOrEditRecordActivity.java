@@ -2,6 +2,7 @@ package com.suda.jzapp.ui.activity.record;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.os.Vibrator;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +37,7 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
+import com.suda.jzapp.util.DensityUtils;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
 import com.suda.jzapp.util.MoneyUtil;
@@ -54,7 +58,7 @@ import java.util.List;
 public class CreateOrEditRecordActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setMyContentView(false, R.layout.activity_create_or_edit_record);
         recordManager = new RecordManager(this);
@@ -124,9 +128,15 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                     Intent intent = new Intent(CreateOrEditRecordActivity.this, CreateNewRecordTypeActivity.class);
                     intent.putExtra(IntentConstant.RECORD_TYPE, recordTypes.get(0).getRecordType());
                     startActivityForResult(intent, REQUEST_CODE_ADD_NEW_RECORD_TYPE);
-                    return;
+                } else {
+                    int startLocations[] = new int[2];
+                    int endLocations[] = new int[2];
+                    ImageView icon = (ImageView) view.findViewById(R.id.record_icon);
+                    icon.getLocationInWindow(startLocations);
+                    typeIcon.getLocationInWindow(endLocations);
+                    createTranslationAnimations(position, icon, startLocations[0],
+                            endLocations[0], startLocations[1], endLocations[1]);
                 }
-                setCurRecordType(position);
             }
         });
 
@@ -189,8 +199,43 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         });
     }
 
+    private void createTranslationAnimations(final int pos, View view, float startX,
+                                             float endX, float startY, float endY) {
+        view.destroyDrawingCache();
+        view.setDrawingCacheEnabled(true);
+        final Bitmap cache = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        mMoveImage.setImageBitmap(cache);
+        Animation translateAnimation = new TranslateAnimation(startX,
+                endX, startY - DensityUtils.dp2px(this, 24), endY - DensityUtils.dp2px(this, 24));
+        translateAnimation.setDuration(250);
+        translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mMoveImage.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mMoveImage.setImageBitmap(null);
+                if (!cache.isRecycled())
+                    cache.recycle();
+                mMoveImage.setVisibility(View.GONE);
+                setCurRecordType(pos);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        mMoveImage.startAnimation(translateAnimation);
+    }
+
     @Override
     protected void initWidget() {
+        mMoveImage = (ImageView) findViewById(R.id.move_image);
         mRecordDr = (DragGridView) findViewById(R.id.record_item);
         panelBackView = findViewById(R.id.panel_color);
         panel = findViewById(R.id.panel);
@@ -237,7 +282,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 List<RemarkTip> remarkTips = ((List<RemarkTip>) msg.obj);
                 for (final RemarkTip tip : remarkTips) {
                     View view = View.inflate(CreateOrEditRecordActivity.this, R.layout.remark_item, null);
-                    MyCircleRectangleTextView myCircleRectangleTextView = (MyCircleRectangleTextView)view.findViewById(R.id.remark);
+                    MyCircleRectangleTextView myCircleRectangleTextView = (MyCircleRectangleTextView) view.findViewById(R.id.remark);
                     myCircleRectangleTextView.setText(tip.getRemark());
                     myCircleRectangleTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -720,6 +765,8 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
     private Record voiceRecord;
 
     private boolean saving = false;
+
+    private ImageView mMoveImage;
 
     private Vibrator mVibrator;
     private boolean useVibrator;

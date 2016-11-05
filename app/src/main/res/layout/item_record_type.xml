@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -14,27 +14,29 @@
             android:id="@+id/add_new_record"
             android:layout_width="@dimen/record_type_size"
             android:layout_height="@dimen/record_type_size"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="bottom"
             android:visibility="gone"
             app:myRoundImage="@drawable/ic_add_white" />
-
 
         <ImageView
             android:id="@+id/record_icon"
             android:layout_width="@dimen/record_type_size"
             android:layout_height="@dimen/record_type_size"
-            android:layout_marginTop="8dp"
+            android:layout_gravity="bottom"
             android:src="@drawable/icon_shouru_type_gongzi" />
-
 
         <ImageView
             android:id="@+id/delete"
             android:layout_width="@dimen/pay_type_del"
             android:layout_height="@dimen/pay_type_del"
-            android:layout_alignLeft="@+id/record_icon"
+            android:layout_gravity="left|top"
             android:src="@drawable/icon_paytype_delete" />
 
-    </RelativeLayout>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="48dp" />
+
+    </FrameLayout>
 
 
     <TextView

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,112 +7,130 @@
 
 
     <LinearLayout
-        android:id="@+id/record_type_ll"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/md_white_1000"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/shou_ru"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:onClick="switchZhiChuOrShouRu"
-            android:text="收"
-            android:textColor="@color/blue"
-            android:textSize="16sp" />
+        <LinearLayout
+            android:id="@+id/record_type_ll"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/md_white_1000"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/zhi_chu"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:onClick="switchZhiChuOrShouRu"
-            android:text="支"
-            android:textSize="16sp" />
+            <Button
+                android:id="@+id/shou_ru"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:onClick="switchZhiChuOrShouRu"
+                android:text="收"
+                android:textColor="@color/blue"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/zhi_chu"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:onClick="switchZhiChuOrShouRu"
+                android:text="支"
+                android:textSize="16sp" />
 
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_below="@+id/record_type_ll"
+                android:background="@color/md_white_1000">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/panel_back" />
+
+                <ImageView
+                    android:id="@+id/record_icon"
+                    android:layout_width="@dimen/record_type_size"
+                    android:layout_height="@dimen/record_type_size"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/icon_shouru_type_gongzi" />
+
+                <TextView
+                    android:id="@+id/record_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/record_icon"
+                    android:text="奖金"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="0.00"
+                    android:textSize="30sp" />
+            </RelativeLayout>
+
+
+            <com.suda.jzapp.view.draggrid.DragGridView
+                android:id="@+id/record_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/title"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="5"
+                android:verticalSpacing="10dp">
+
+            </com.suda.jzapp.view.draggrid.DragGridView>
+
+        </LinearLayout>
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:layout_below="@+id/record_type_ll"
-        android:background="@color/md_white_1000">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentTop="true"
-            android:background="@color/panel_back" />
-
-        <ImageView
-            android:id="@+id/record_icon"
-            android:layout_width="@dimen/record_type_size"
-            android:layout_height="@dimen/record_type_size"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_shouru_type_gongzi" />
-
-        <TextView
-            android:id="@+id/record_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/record_icon"
-            android:text="奖金"
-            android:textSize="20sp" />
-
-
-        <TextView
-            android:id="@+id/money_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="0.00"
-            android:textSize="30sp" />
-    </RelativeLayout>
-
-
-    <com.suda.jzapp.view.draggrid.DragGridView
-        android:id="@+id/record_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/title"
-        android:background="@color/panel_back"
-        android:cacheColorHint="@android:color/transparent"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="5"
-        android:verticalSpacing="10dp">
-
-    </com.suda.jzapp.view.draggrid.DragGridView>
+    <ImageView
+        android:id="@+id/move_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/panel"
         layout="@layout/record_edit_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_gravity="bottom" />
 
 
     <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
         android:id="@+id/progressBar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         app:mlpb_arrow_height="5dp"
         app:mlpb_arrow_width="10dp"
         app:mlpb_enable_circle_background="true"
         app:mlpb_progress_stoke_width="3dp"
         app:mlpb_show_arrow="true" />
 
-</RelativeLayout>
+</FrameLayout>
