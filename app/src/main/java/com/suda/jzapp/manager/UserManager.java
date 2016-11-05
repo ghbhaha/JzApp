@@ -207,10 +207,13 @@ public class UserManager extends BaseManager {
     }
 
     public String getCurUserName() {
-        if (MyAVUser.getCurrentUser() != null)
-            return MyAVUser.getCurrentUser().getUsername();
-        else
-            return null;
+        if (MyAVUser.getCurrentUser() != null) {
+            AVUser myAVUser = MyAVUser.getCurrentUser();
+            User user = userLocalDao.getUser(myAVUser.getObjectId(), _context);
+            if (user != null)
+                return user.getUserName();
+        }
+        return null;
     }
 
     /**
