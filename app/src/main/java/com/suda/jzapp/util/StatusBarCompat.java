@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 
 import java.lang.reflect.Field;
@@ -35,6 +36,8 @@ public class StatusBarCompat {
                     Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
                     extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
                 }
+            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                activity.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         } catch (Exception e) {
             e.printStackTrace();
