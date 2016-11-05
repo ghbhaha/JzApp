@@ -1,6 +1,7 @@
 package com.suda.jzapp.ui.activity.system;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +45,7 @@ public class GestureLockActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setMyContentView(R.layout.activity_gesture_lock);
         StatusBarCompat.setStatusBarDarkMode(true, this);
+
         mGestureLockViewGroup = (GestureLockViewGroup) findViewById(R.id.id_gestureLockViewGroup);
         mForget = (TextView) findViewById(R.id.forget_secret);
         isSetting = getIntent().getBooleanExtra(IntentConstant.SETTING_MODE, false);

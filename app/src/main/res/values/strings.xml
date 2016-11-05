@@ -10,9 +10,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_account">AccountActivity</string>
+    <string name="title_activity_edit_account_prop">AccountActivity</string>
     <string name="title_activity_create_or_edit_account">CreateOrEditAccountActivity</string>
-    <string name="title_activity_edit_account_prop">EditAccountProp</string>
+    <string name="title_activity_month_report">月报</string>
 
     <string name="account_title">我的账户</string>
     <string name="record_title">收入与支出</string>

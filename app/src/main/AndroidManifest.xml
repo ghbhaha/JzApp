@@ -68,6 +68,7 @@
             android:theme="@style/ThemeDialogStyle" />
         <activity
             android:name=".ui.activity.account.MonthReportActivity"
+            android:label="@string/title_activity_month_report"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.user.UserLinkActivity"

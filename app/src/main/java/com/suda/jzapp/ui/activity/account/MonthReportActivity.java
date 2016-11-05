@@ -148,7 +148,7 @@ public class MonthReportActivity extends BaseActivity {
                 }
                 //其中'吃饭'消费最多，共消费40。\n看来你是一个吃货呀
                 String outMoneyTip = "平均每天消费" + MoneyUtil.getFormatMoneyStr(MonthReportActivity.this,
-                         Math.abs(monthReport.getOutMoney() / getDayOfMonth()));
+                        Math.abs(monthReport.getOutMoney() / getDayOfMonth()));
                 if (!TextUtils.isEmpty(monthReport.getOutMaxType())) {
                     outMoneyTip += "\n其中'" + monthReport.getOutMaxType() + "'消费最多，共消费"
                             + MoneyUtil.getFormatMoneyStr(MonthReportActivity.this, monthReport.getOutMaxMoney());
