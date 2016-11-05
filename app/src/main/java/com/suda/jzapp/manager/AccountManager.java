@@ -396,7 +396,9 @@ public class AccountManager extends BaseManager {
                 account.setSyncStatus(true);
                 account.setIndex(i);
                 i++;
-                accountLocalDao.createNewAccount(account, _context);
+                Account oldAccount = accountLocalDao.getAccountByID(account.getAccountID(), _context);
+                if (oldAccount == null)
+                    accountLocalDao.createNewAccount(account, _context);
             }
         }
         initAccountIndex();

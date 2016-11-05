@@ -603,7 +603,9 @@ public class RecordManager extends BaseManager {
                 record.setRecordMoney(avRecord.getRecordMoney());
                 record.setRemark(avRecord.getRemark());
                 record.setSyncStatus(true);
-                recordLocalDAO.createNewRecord(_context, record);
+                Record oldRecord = recordLocalDAO.getRecordById(_context, record.getRecordId());
+                if (oldRecord == null)
+                    recordLocalDAO.createNewRecord(_context, record);
             }
         }
         if (pageIndex < pageCount) {
@@ -635,7 +637,9 @@ public class RecordManager extends BaseManager {
                 recordType.setOccupation(Constant.Occupation.ALL.getId());
                 recordType.setSyncStatus(true);
                 recordType.setRecordDesc(avRecordType.getRecordDesc());
-                recordTypeDao.createNewRecordType(_context, recordType);
+                RecordType oldRecordType = recordTypeDao.getRecordTypeById(_context, recordType.getId());
+                if (oldRecordType == null)
+                    recordTypeDao.createNewRecordType(_context, recordType);
             }
         }
         initRecordTypeIndex();
