@@ -74,9 +74,9 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:percent:24+'
     //leancloud
-    compile 'cn.leancloud.android:avoscloud-sdk:v3.+'
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.14.6'
     //avoscloud-push 为推送与实时聊天需要的包
-    compile('cn.leancloud.android:avoscloud-push:v3.+@aar') { transitive = true }
+    compile('cn.leancloud.android:avoscloud-push:v3.14.6@aar') { transitive = true }
     //GreenDao
     compile 'org.greenrobot:greendao:3.0.1'
     //友盟
