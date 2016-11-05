@@ -198,6 +198,8 @@ public class MainActivity extends BaseActivity {
                         Glide.with(MainActivity.this.getApplicationContext()).
                                 load(user.getHeadImage()).error(R.mipmap.suda)
                                 .into(headImg);
+                    } else {
+                        userManager.logOut(true);
                     }
                 }
             });

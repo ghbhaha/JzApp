@@ -418,6 +418,11 @@ public class UserManager extends BaseManager {
 
 
     public void queryUser(final String userName, final Handler handler) {
+        if (TextUtils.isEmpty(userName)) {
+            sendEmptyMessage(handler, Constant.MSG_ERROR);
+            return;
+        }
+
         final Message message = new Message();
         if (userHashMap.get(userName) != null) {
             message.what = Constant.MSG_SUCCESS;
