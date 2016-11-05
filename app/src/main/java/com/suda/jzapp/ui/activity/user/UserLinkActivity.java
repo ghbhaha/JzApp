@@ -186,7 +186,7 @@ public class UserLinkActivity extends BaseActivity implements MyMessageHandler.M
 //                        recordDetailDO.setIconId(avRecord.getIconID());
 //                        recordDetailDO.setRecordDesc(avRecord.getRecordName());
 //                        if (avRecord.getRecordTypeId() < 1000) {
-//                            RecordType recordType = recordTypeLocalDao.getRecordTypeById(UserLinkActivity.this, avRecord.getRecordTypeId());
+//                            RecordType recordType = recordTypeLocalDao.getRecordTypeByRecordTypeId(UserLinkActivity.this, avRecord.getRecordTypeId());
 //                            recordDetailDO.setIconId(recordType.getRecordIcon());
 //                            recordDetailDO.setRecordDesc(recordType.getRecordDesc());
 //                        }

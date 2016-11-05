@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_marginBottom="5dp"
@@ -7,96 +7,111 @@
     android:layout_marginRight="@dimen/card_margin_let_right"
     android:layout_marginTop="5dp"
     android:background="@drawable/card"
+    android:orientation="vertical"
     android:padding="5dp">
-
-    <ImageView
-        android:id="@+id/account_type_icon"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/card_margin_let_right"
-        android:layout_marginTop="@dimen/card_margin_let_right" />
-
-    <TextView
-        android:id="@+id/account_type_title"
-        android:layout_width="54dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/account_type_icon"
-        android:layout_marginLeft="@dimen/card_margin_let_right"
-        android:gravity="center"
-        android:text="网络账户 " />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/opt_layout"
-        android:layout_marginLeft="@dimen/card_margin_let_right"
-        android:layout_marginTop="@dimen/card_margin_let_right"
-        android:layout_toRightOf="@+id/account_type_icon">
-
-
-        <TextView
-            android:id="@+id/title_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="账户名称" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_name"
-            android:layout_toRightOf="@+id/title_name"
-            android:text="支付宝" />
-
-        <TextView
-            android:id="@+id/title_yu_e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
-            android:layout_marginTop="@dimen/card_margin_let_right"
-            android:clickable="true"
-            android:text="账户余额" />
-
-        <TextView
-            android:id="@+id/yu_e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_yu_e"
-            android:layout_toRightOf="@+id/title_yu_e"
-            android:text="￥100.00" />
-
-        <TextView
-            android:id="@+id/title_xiao_fei"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/yu_e"
-            android:layout_marginTop="@dimen/card_margin_let_right"
-            android:clickable="true"
-            android:text="今日消费" />
-
-        <TextView
-            android:id="@+id/xiao_fei"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title_xiao_fei"
-            android:layout_toRightOf="@+id/title_xiao_fei"
-            android:text="￥100.00" />
-    </RelativeLayout>
 
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/account_type_icon"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/card_margin_let_right"
+                android:layout_marginTop="@dimen/card_margin_let_right" />
+
+            <TextView
+                android:id="@+id/account_type_title"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/account_type_icon"
+                android:layout_marginLeft="@dimen/card_margin_let_right"
+                android:gravity="center"
+                android:text="网络账户 " />
+
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_above="@+id/opt_layout"
+            android:layout_marginLeft="@dimen/card_margin_let_right"
+            android:layout_marginTop="@dimen/card_margin_let_right"
+            android:layout_toRightOf="@+id/account_type_icon">
+
+            <TextView
+                android:id="@+id/title_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="账户名称" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_name"
+                android:layout_toRightOf="@+id/title_name"
+                android:text="支付宝" />
+
+            <TextView
+                android:id="@+id/title_yu_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginTop="@dimen/card_margin_let_right"
+                android:clickable="true"
+                android:text="账户余额" />
+
+            <TextView
+                android:id="@+id/yu_e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_yu_e"
+                android:layout_toRightOf="@+id/title_yu_e"
+                android:text="￥100.00" />
+
+            <TextView
+                android:id="@+id/title_xiao_fei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yu_e"
+                android:layout_marginTop="@dimen/card_margin_let_right"
+                android:clickable="true"
+                android:text="今日消费" />
+
+            <TextView
+                android:id="@+id/xiao_fei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title_xiao_fei"
+                android:layout_toRightOf="@+id/title_xiao_fei"
+                android:text="￥100.00" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/opt_layout"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/card_margin_let_right"
         android:layout_marginLeft="@dimen/card_margin_let_right"
-        android:layout_marginRight="@dimen/card_margin_let_right">
+        android:layout_marginRight="@dimen/card_margin_let_right"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/account_flow"
@@ -109,7 +124,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\t\t\t|\t\t\t"/>
+            android:text="\t\t\t|\t\t\t" />
 
         <TextView
             android:id="@+id/edit_account"
@@ -122,7 +137,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\t\t\t|\t\t\t"/>
+            android:text="\t\t\t|\t\t\t" />
 
         <TextView
             android:id="@+id/transform"
@@ -135,4 +150,4 @@
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -18,6 +18,8 @@ public class UserLocalDao extends BaseLocalDao {
 
     public User getUserByUserName(String userName, Context context) {
         UserDao userDao = getDaoSession(context).getUserDao();
+        if (userName == null)
+            userName = "";
         return getSingleData(userDao.queryBuilder().where(UserDao.Properties.UserName.eq(userName)).list());
     }
 

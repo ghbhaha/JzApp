@@ -84,7 +84,7 @@ public class RecordManager extends BaseManager {
         if (canSync()) {
             final AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
 
-            final RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+            final RecordType recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, avRecord.getRecordTypeId());
             if (!recordType.getSyncStatus()) {
                 AVRecordType avRecordType = DataConvertUtil.convertRecordType2AVRecordType(recordType);
                 avRecordType.saveInBackground(new SaveCallback() {
@@ -165,7 +165,7 @@ public class RecordManager extends BaseManager {
                 public void done(List<AVRecord> list, AVException e) {
                     if (e == null) {
                         AVRecord avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-                        RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                        RecordType recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, avRecord.getRecordTypeId());
                         avRecord.setIconID(recordType.getRecordIcon());
                         avRecord.setRecordName(recordType.getRecordDesc());
                         if (list.size() > 0) {
@@ -428,7 +428,7 @@ public class RecordManager extends BaseManager {
      * @return
      */
     public RecordType getRecordTypeByID(long id) {
-        return recordTypeDao.getRecordTypeById(_context, id);
+        return recordTypeDao.getRecordTypeByRecordTypeId(_context, id);
     }
 
     /**
@@ -490,7 +490,7 @@ public class RecordManager extends BaseManager {
             for (Record record : records) {
                 RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
                 if (recordType == null) {
-                    recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                    recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, record.getRecordTypeID());
                     recordTypeMap.put(record.getRecordTypeID(), recordType);
                 }
                 RecordDetailDO recordDetailDO = new RecordDetailDO();
@@ -535,7 +535,7 @@ public class RecordManager extends BaseManager {
                 for (Record record : records) {
                     RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
                     if (recordType == null) {
-                        recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                        recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, record.getRecordTypeID());
                         recordTypeMap.put(record.getRecordTypeID(), recordType);
                     }
                     RecordDetailDO recordDetailDO = new RecordDetailDO();
@@ -637,7 +637,7 @@ public class RecordManager extends BaseManager {
                 recordType.setOccupation(Constant.Occupation.ALL.getId());
                 recordType.setSyncStatus(true);
                 recordType.setRecordDesc(avRecordType.getRecordDesc());
-                RecordType oldRecordType = recordTypeDao.getRecordTypeById(_context, recordType.getId());
+                RecordType oldRecordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, recordType.getRecordTypeID(), true);
                 if (oldRecordType == null)
                     recordTypeDao.createNewRecordType(_context, recordType);
             }
@@ -871,7 +871,7 @@ public class RecordManager extends BaseManager {
         for (Record record : records) {
             RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
             if (recordType == null) {
-                recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, record.getRecordTypeID());
                 recordTypeMap.put(record.getRecordTypeID(), recordType);
             }
             RecordDetailDO recordDetailDO = new RecordDetailDO();
@@ -907,7 +907,7 @@ public class RecordManager extends BaseManager {
             ExcelRecord excelRecord = new ExcelRecord();
             RecordType recordType = recordTypeMap.get(record.getRecordTypeID());
             if (recordType == null) {
-                recordType = recordTypeDao.getRecordTypeById(_context, record.getRecordTypeID());
+                recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, record.getRecordTypeID());
                 recordTypeMap.put(record.getRecordTypeID(), recordType);
             }
 

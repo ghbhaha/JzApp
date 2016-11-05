@@ -109,7 +109,7 @@ public class SyncManager extends BaseManager {
             AVRecord avRecord = null;
             if (!TextUtils.isEmpty(record.getObjectID())) {
                 avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-                RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                RecordType recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, avRecord.getRecordTypeId());
                 avRecord.setIconID(recordType.getRecordIcon());
                 avRecord.setRecordName(recordType.getRecordDesc());
             } else {
@@ -122,7 +122,7 @@ public class SyncManager extends BaseManager {
                     objId = list.get(0).getObjectId();
                 }
                 avRecord = DataConvertUtil.convertRecord2AVRecord(record);
-                RecordType recordType = recordTypeDao.getRecordTypeById(_context, avRecord.getRecordTypeId());
+                RecordType recordType = recordTypeDao.getRecordTypeByRecordTypeId(_context, avRecord.getRecordTypeId());
                 avRecord.setIconID(recordType.getRecordIcon());
                 avRecord.setRecordName(recordType.getRecordDesc());
                 if (!TextUtils.isEmpty(objId)) {

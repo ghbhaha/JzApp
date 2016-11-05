@@ -50,7 +50,7 @@ public class RecordTypeLocalDao extends BaseLocalDao {
 
     public void updateRecordTypeIndex(Context context, RecordTypeIndexDO recordTypeIndexDO) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
-        RecordType recordType = getRecordTypeById(context, recordTypeIndexDO.getRecordTypeID());
+        RecordType recordType = getRecordTypeByRecordTypeId(context, recordTypeIndexDO.getRecordTypeID());
         if (recordType == null)
             return;
         if (recordType.getSysType()) {
@@ -87,16 +87,21 @@ public class RecordTypeLocalDao extends BaseLocalDao {
                 .list();
     }
 
-    public RecordType getRecordTypeById(Context context, long id) {
+    public RecordType getRecordTypeByRecordTypeId(Context context, long id) {
+        return getRecordTypeByRecordTypeId(context, id, false);
+    }
+
+    public RecordType getRecordTypeByRecordTypeId(Context context, long id, boolean canNull) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();
         RecordType recordType = getSingleData(recordTypeDao.queryBuilder()
                 .where(RecordTypeDao.Properties.RecordTypeID.eq(id))
                 .build()
                 .list());
-        if (recordType == null)
+        if (recordType == null && !canNull)
             recordType = new RecordType(0L, 0L, "一般", Constant.RecordType.ZUICHU.getId(), true, Constant.RecordTypeConstant.ICON_TYPE_YI_BAN, 0, Constant.Sex.ALL.getId(), Constant.Occupation.ALL.getId(), true, false, "");
         return recordType;
     }
+
 
     public RecordType getRecordTypeByNameAndType(Context context, String name, int recordType) {
         RecordTypeDao recordTypeDao = getDaoSession(context).getRecordTypeDao();

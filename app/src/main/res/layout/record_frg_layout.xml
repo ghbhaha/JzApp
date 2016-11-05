@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_grey_100">
-
 
     <ImageView
         android:id="@+id/background"
@@ -38,26 +37,32 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/null_tip"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/add_new_record"
-        android:gravity="center"
-        android:text="现在就踏出第一步吧\n∠( °ω°)／"
-        android:visibility="gone" />
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical">
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/add_new_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white"
-        app:fab_colorNormal="@color/blue"
-        app:fab_colorPressed="@color/blue"
-        app:fab_colorRipple="@color/ripple" />
+        <TextView
+            android:id="@+id/null_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/add_new_record"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="现在就踏出第一步吧\n∠( °ω°)／"
+            android:visibility="gone" />
 
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/add_new_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_add_white"
+            app:fab_colorNormal="@color/blue"
+            app:fab_colorPressed="@color/blue"
+            app:fab_colorRipple="@color/ripple" />
 
-</RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
