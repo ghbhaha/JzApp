@@ -264,7 +264,6 @@ public class GestureLockViewGroup extends RelativeLayout {
                 if (child != null) {
                     int cId = child.getId();
                     if (!mChoose.contains(cId)) {
-                        mChoose.add(cId);
                         child.setMode(Mode.STATUS_FINGER_ON);
                         if (mOnGestureLockViewListener != null)
                             mOnGestureLockViewListener.onBlockSelected(cId);
@@ -272,15 +271,46 @@ public class GestureLockViewGroup extends RelativeLayout {
                         mLastPathX = child.getLeft() / 2 + child.getRight() / 2;
                         mLastPathY = child.getTop() / 2 + child.getBottom() / 2;
 
-                        if (mChoose.size() == 1)// 当前添加为第一个
+                        if (mChoose.size() == 0)// 当前添加为第一个
                         {
                             mPath.moveTo(mLastPathX, mLastPathY);
                         } else
                         // 非第一个，将两者使用线连上
                         {
+                            //判断经过点
+                            //求二维数组坐标
+                            int before = mChoose.get(mChoose.size() - 1);
+                            int x1 = (before - 1) / mCount;
+                            int y1 = (before - 1) % mCount;
+                            int x2 = (cId - 1) / mCount;
+                            int y2 = (cId - 1) % mCount;
+                            //三种情况 一条直线 一条竖线 45度角
+                            int xP = x1;
+                            int yP = y1;
+                            int startX = x1 - x2 < 0 ? x1 : x2;
+                            int endX = x1 - x2 < 0 ? x2 : x1;
+                            int startY = y1 - y2 < 0 ? y1 : y2;
+                            int endY = y1 - y2 < 0 ? y2 : y1;
+                            if (x1 == x2) {
+                                for (int i = startY + 1; i < endY; i++) {
+                                    yP = yP + (y1 - y2 > 0 ? -1 : 1);
+                                    addPoint(xP, yP);
+                                }
+                            } else if (y1 == y2) {
+                                for (int i = startX + 1; i < endX; i++) {
+                                    xP = xP + (x1 - x2 > 0 ? -1 : 1);
+                                    addPoint(xP, yP);
+                                }
+                            } else if ((Math.abs(y1 - y2) == Math.abs(x1 - x2))) {
+                                for (int i = startX + 1; i < endX; i++) {
+                                    xP = xP + (x1 - x2 > 0 ? -1 : 1);
+                                    yP = yP + (y1 - y2 > 0 ? -1 : 1);
+                                    addPoint(xP, yP);
+                                }
+                            }
                             mPath.lineTo(mLastPathX, mLastPathY);
                         }
-
+                        mChoose.add(cId);
                     }
                 }
                 // 指引线的终点
@@ -340,6 +370,16 @@ public class GestureLockViewGroup extends RelativeLayout {
         }
         invalidate();
         return true;
+    }
+
+    private void addPoint(int x, int y) {
+        int point = x * mCount + y + 1;
+        if (!mChoose.contains(point)) {
+            mChoose.add(point);
+            mGestureLockViews[point - 1].setMode(Mode.STATUS_FINGER_ON);
+            if (mOnGestureLockViewListener != null)
+                mOnGestureLockViewListener.onBlockSelected(point);
+        }
     }
 
     private void changeItemMode() {
