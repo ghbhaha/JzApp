@@ -20,7 +20,7 @@ public abstract class BaseLocalDao {
 
     protected DaoSession getDaoSession(Context ctx) {
         if (_daoSession == null) {
-            _daoSession = getDaoMaster(ctx).newSession();
+            _daoSession = getDaoMaster(ctx.getApplicationContext()).newSession();
         }
 
         return _daoSession;

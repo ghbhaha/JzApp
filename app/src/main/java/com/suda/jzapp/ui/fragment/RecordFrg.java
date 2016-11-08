@@ -235,11 +235,7 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
         nullTipTv.setTextColor(mainColor);
         footTv.setTextColor(mainColor);
         footTv.setOnClickListener(null);
-        if (recordDetailDOs.size() > 0) {
-
-        }
         nullTipTv.setVisibility(recordDetailDOs.size() > 0 ? View.GONE : View.VISIBLE);
-        footTv.setVisibility(recordDetailDOs.size() == 0 ? View.GONE : View.VISIBLE);
         DateFormat format1 = new SimpleDateFormat("yyyy年MM月dd日");
         if (MyAVUser.getCurrentUser() != null) {
 
@@ -287,15 +283,16 @@ public class RecordFrg extends Fragment implements MainActivity.ReloadCallBack {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-
                 if (msg.what == Constant.MSG_SUCCESS) {
-                    curPage++;
                     if (((List<RecordDetailDO>) msg.obj).size() == 0) {
-                        return;
+                        if (recordDetailDOs.size() > 0)
+                            footTv.setVisibility(View.VISIBLE);
+                    } else {
+                        recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
+                        mRecordAdapter.notifyDataSetChanged();
+                        isRefresh = false;
                     }
-                    isRefresh = false;
-                    recordDetailDOs.addAll((List<RecordDetailDO>) msg.obj);
-                    mRecordAdapter.notifyDataSetChanged();
+                    curPage++;
                 }
             }
         });
