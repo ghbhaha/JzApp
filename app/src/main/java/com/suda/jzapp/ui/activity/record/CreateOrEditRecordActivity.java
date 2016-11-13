@@ -37,7 +37,6 @@ import com.suda.jzapp.misc.IntentConstant;
 import com.suda.jzapp.ui.activity.account.SelectAccountActivity;
 import com.suda.jzapp.ui.activity.system.SettingsActivity;
 import com.suda.jzapp.ui.adapter.RecordTypeAdapter;
-import com.suda.jzapp.util.DensityUtils;
 import com.suda.jzapp.util.IconTypeUtil;
 import com.suda.jzapp.util.KeyBoardUtils;
 import com.suda.jzapp.util.MoneyUtil;
@@ -206,8 +205,9 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         final Bitmap cache = Bitmap.createBitmap(view.getDrawingCache());
         view.setDrawingCacheEnabled(false);
         mMoveImage.setImageBitmap(cache);
+        ImageView icon = (ImageView) view.findViewById(R.id.record_icon);
         Animation translateAnimation = new TranslateAnimation(startX,
-                endX, startY - DensityUtils.dp2px(this, 24), endY - DensityUtils.dp2px(this, 24));
+                endX, startY - icon.getWidth() / 2, endY - icon.getWidth() / 2);
         translateAnimation.setDuration(250);
         translateAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
