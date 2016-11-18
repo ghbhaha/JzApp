@@ -76,8 +76,8 @@ public class AboutActivity extends BaseActivity {
             intent.setData(Uri.parse("https://qr.alipay.com/apqiqql0hgh5pmv54d"));
             startActivity(intent);
         } catch (Exception e) {
-            intent.setData(Uri.parse("http://d.alipay.com"));
-            startActivity(intent);
+//            intent.setData(Uri.parse("http://d.alipay.com"));
+//            startActivity(intent);
         }
 
         ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
