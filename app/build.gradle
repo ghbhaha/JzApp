@@ -12,6 +12,10 @@ android {
         }
     }
 
+    Properties props = new Properties()
+    props.load(new FileInputStream('/Users/guhaibo/AndroidStudioProjects/as/JzApp/app/signing.properties'))
+
+
     defaultConfig {
         applicationId "com.suda.jzapp"
         minSdkVersion 16
@@ -20,6 +24,10 @@ android {
         versionName "1.40"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
+        buildConfigField "String", "LEANCOULD_APPID", props['LEANCOULD_APPID']
+        buildConfigField "String", "LEANCOULD_APPKEY", props['LEANCOULD_APPKEY']
+        buildConfigField "String", "XUNFEI_APPID", props['XUNFEI_APPID']
+
     }
 
     packagingOptions {
@@ -34,10 +42,10 @@ android {
 
     signingConfigs {
         myConfig {
-            storeFile file("suda.jks")
-            storePassword "19940318"
-            keyAlias "suda"
-            keyPassword "19940318"
+            storeFile file('/Users/guhaibo/AndroidStudioProjects/as/JzApp/app/suda.jks')
+            storePassword props['KEY_PASSWORD']
+            keyAlias props['KEY_ALIAS']
+            keyPassword props['KEYSTORE_PASSWORD']
         }
     }
 
