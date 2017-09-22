@@ -535,6 +535,10 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, monthOfYear);
         calendar.set(Calendar.DATE, dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
         setRecordDate(calendar.getTime());
     }
 

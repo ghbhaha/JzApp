@@ -16,8 +16,8 @@ android {
         applicationId "com.suda.jzapp"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 33
-        versionName "1.30"
+        versionCode 34
+        versionName "1.40"
         buildConfigField "boolean", "RELEASE", "false"
         buildConfigField "boolean", "USERLINK", "false"
     }
@@ -75,6 +75,7 @@ dependencies {
     compile 'com.android.support:percent:24+'
     //leancloud
     compile 'cn.leancloud.android:avoscloud-sdk:v3.14.6'
+    compile ('cn.leancloud.android:avoscloud-statistics:v3.14.6')
     //avoscloud-push 为推送与实时聊天需要的包
     compile('cn.leancloud.android:avoscloud-push:v3.14.6@aar') { transitive = true }
     //GreenDao
@@ -101,7 +102,6 @@ dependencies {
     //    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     //compile files('libs/avoscloud-sns-v3.14.6.jar')
     //compile files('libs/qq.sdk.1.6.1.jar')
-    compile files('libs/avoscloud-statistics-v3.14.3.jar')
     compile files('libs/Msc.jar')
     compile files('libs/Sunflower.jar')
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class RecordAdapter extends BaseAdapter {
         recordLocalDAO = new RecordLocalDAO();
         recordManager = new RecordManager(context);
         accountManager = new AccountManager(context);
-        recordDetailDOMap = new HashMap<>();
+        recordDetailDOMap = new ArrayMap<>();
         this.recordFrg = recordFrg;
     }
 
