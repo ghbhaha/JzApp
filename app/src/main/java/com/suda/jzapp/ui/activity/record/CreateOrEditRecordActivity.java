@@ -53,6 +53,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 
 public class CreateOrEditRecordActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -281,7 +283,7 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                 super.handleMessage(msg);
                 List<RemarkTip> remarkTips = ((List<RemarkTip>) msg.obj);
                 for (final RemarkTip tip : remarkTips) {
-                    View view = View.inflate(CreateOrEditRecordActivity.this, R.layout.remark_item, null);
+                    final View view = View.inflate(CreateOrEditRecordActivity.this, R.layout.remark_item, null);
                     MyCircleRectangleTextView myCircleRectangleTextView = (MyCircleRectangleTextView) view.findViewById(R.id.remark);
                     myCircleRectangleTextView.setText(tip.getRemark());
                     myCircleRectangleTextView.setOnClickListener(new View.OnClickListener() {
@@ -290,6 +292,31 @@ public class CreateOrEditRecordActivity extends BaseActivity implements DatePick
                             etRemark.setText(tip.getRemark());
                             newRecord.setRemark(tip.getRemark());
                             hideRemarkPanel();
+                        }
+                    });
+
+                    myCircleRectangleTextView.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+
+                            final MaterialDialog materialDialog = new MaterialDialog(CreateOrEditRecordActivity.this);
+                            materialDialog.setTitle(String.format(getString(R.string.delete_remark),tip.getRemark()))
+                                    .setMessage("")
+                                    .setPositiveButton(getString(R.string.ok), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            mRemarkTipsFlow.removeView(view);
+                                            recordManager.deleteRemarkTip(tip.getId());
+                                            materialDialog.dismiss();
+                                         }
+                                    })
+                                    .setNegativeButton(getString(R.string.cancel), new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            materialDialog.dismiss();
+                                        }
+                                    }).show();
+                            return true;
                         }
                     });
                     view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

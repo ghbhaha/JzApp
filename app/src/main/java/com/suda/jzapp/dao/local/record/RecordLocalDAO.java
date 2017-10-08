@@ -324,6 +324,11 @@ public class RecordLocalDAO extends BaseLocalDao {
         return getSingleData(remarkTipDao.queryBuilder().where(RemarkTipDao.Properties.Remark.eq(remark)).list());
     }
 
+    public void deleteRemarkTip(Context context, long id) {
+        RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
+        remarkTipDao.queryBuilder().where(RemarkTipDao.Properties.Id.eq(id)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
     public List<RemarkTip> selectRemarkTips(Context context) {
         RemarkTipDao remarkTipDao = getDaoSession(context).getRemarkTipDao();
         return remarkTipDao.queryBuilder().where(RemarkTipDao.Properties.IsDel.eq(false)).where(RemarkTipDao.Properties.UseTimes.ge(2))
@@ -361,4 +366,6 @@ public class RecordLocalDAO extends BaseLocalDao {
         RecordDao recordDao = getDaoSession(context).getRecordDao();
         return recordDao.queryBuilder().list().size() > 0;
     }
+
+
 }

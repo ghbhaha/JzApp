@@ -759,6 +759,14 @@ public class RecordManager extends BaseManager {
     }
 
     /**
+     * 删除备注
+     * @param id
+     */
+    public void deleteRemarkTip(long id){
+        recordLocalDAO.deleteRemarkTip(_context,id);
+    }
+
+    /**
      * 转账
      *
      * @param outAccountId
