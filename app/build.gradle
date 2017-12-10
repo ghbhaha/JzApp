@@ -57,14 +57,14 @@ android {
         release {
             signingConfig  signingConfigs.myConfig
             buildConfigField "boolean", "RELEASE", "true"
-
+            multiDexEnabled true
 //            minifyEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
             //debuggable true
-           // multiDexEnabled true
+            multiDexEnabled true
             zipAlignEnabled true
         }
     }
@@ -86,10 +86,10 @@ dependencies {
     compile 'com.android.support:design:26+'
     compile 'com.android.support:percent:26+'
     //leancloud
-    compile 'cn.leancloud.android:avoscloud-sdk:v3.14.6'
-    compile 'cn.leancloud.android:avoscloud-statistics:v3.14.6'
+    compile 'cn.leancloud.android:avoscloud-sdk:v4.6.1'
+    compile 'cn.leancloud.android:avoscloud-statistics:v4.6.1'
     //avoscloud-push 为推送与实时聊天需要的包
-    compile('cn.leancloud.android:avoscloud-push:v3.14.6@aar') { transitive = true }
+    compile('cn.leancloud.android:avoscloud-push:v4.6.1@aar') { transitive = true }
     //GreenDao
     compile 'org.greenrobot:greendao:3.2.2'
     //友盟
@@ -116,4 +116,7 @@ dependencies {
     //compile files('libs/qq.sdk.1.6.1.jar')
     compile files('libs/Msc.jar')
     compile files('libs/Sunflower.jar')
+
+    //multidex
+    compile 'com.android.support:multidex:1.0.1'
 }

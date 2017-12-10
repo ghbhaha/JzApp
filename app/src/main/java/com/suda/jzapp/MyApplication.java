@@ -1,6 +1,6 @@
 package com.suda.jzapp;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
@@ -15,7 +15,7 @@ import com.suda.jzapp.util.SPUtils;
 /**
  * Created by Suda on 2015/9/16.
  */
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

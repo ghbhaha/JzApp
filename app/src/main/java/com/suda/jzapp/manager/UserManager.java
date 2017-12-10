@@ -365,7 +365,7 @@ public class UserManager extends BaseManager {
                 List<String> users = new ArrayList<String>();
                 users.add(fromUser);
                 users.add(toUser);
-                query.whereContainsAll(Conversation.COLUMN_MEMBERS, users);
+                query.whereContainsAll(Conversation.MEMBERS, users);
                 query.findInBackground(new AVIMConversationQueryCallback() {
                     @Override
                     public void done(List<AVIMConversation> list, AVIMException e) {
