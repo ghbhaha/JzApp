@@ -20,7 +20,7 @@ public class AccountDao extends AbstractDao<Account, Long> {
     /**
      * Properties of entity Account.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property AccountID = new Property(1, Long.class, "AccountID", false, "ACCOUNT_ID");
@@ -35,7 +35,7 @@ public class AccountDao extends AbstractDao<Account, Long> {
         public final static Property Index = new Property(10, Integer.class, "Index", false, "INDEX");
         public final static Property CreatedAt = new Property(11, java.util.Date.class, "createdAt", false, "CREATED_AT");
         public final static Property UpdatedAt = new Property(12, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
-    };
+    }
 
 
     public AccountDao(DaoConfig config) {
@@ -266,6 +266,11 @@ public class AccountDao extends AbstractDao<Account, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(Account entity) {
+        return entity.getId() != null;
     }
 
     @Override

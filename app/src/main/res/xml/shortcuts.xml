@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="settings"
+        android:enabled="true"
+        android:icon="@mipmap/icon1"
+        android:shortcutShortLabel="@string/add_record">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.suda.jzapp"
+            android:targetClass="com.suda.jzapp.ui.activity.record.CreateOrEditRecordActivity" />
+    </shortcut>
+</shortcuts>

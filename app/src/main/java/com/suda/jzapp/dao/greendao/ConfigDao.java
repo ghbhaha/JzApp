@@ -20,7 +20,7 @@ public class ConfigDao extends AbstractDao<Config, Long> {
     /**
      * Properties of entity Config.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Key = new Property(1, String.class, "key", false, "KEY");
@@ -28,7 +28,7 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         public final static Property ObjectID = new Property(3, String.class, "ObjectID", false, "OBJECT_ID");
         public final static Property CreatedAt = new Property(4, java.util.Date.class, "createdAt", false, "CREATED_AT");
         public final static Property UpdatedAt = new Property(5, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
-    };
+    }
 
 
     public ConfigDao(DaoConfig config) {
@@ -168,6 +168,11 @@ public class ConfigDao extends AbstractDao<Config, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(Config entity) {
+        return entity.getId() != null;
     }
 
     @Override

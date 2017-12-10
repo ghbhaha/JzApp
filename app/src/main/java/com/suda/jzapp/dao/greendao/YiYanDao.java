@@ -20,10 +20,10 @@ public class YiYanDao extends AbstractDao<YiYan, Void> {
     /**
      * Properties of entity YiYan.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Content = new Property(0, String.class, "content", false, "CONTENT");
-    };
+    }
 
 
     public YiYanDao(DaoConfig config) {
@@ -94,6 +94,12 @@ public class YiYanDao extends AbstractDao<YiYan, Void> {
     @Override
     public Void getKey(YiYan entity) {
         return null;
+    }
+
+    @Override
+    public boolean hasKey(YiYan entity) {
+        // TODO
+        return false;
     }
 
     @Override

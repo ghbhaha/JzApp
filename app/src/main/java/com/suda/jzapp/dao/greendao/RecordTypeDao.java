@@ -20,7 +20,7 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
     /**
      * Properties of entity RecordType.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property RecordTypeID = new Property(1, Long.class, "RecordTypeID", false, "RECORD_TYPE_ID");
@@ -36,7 +36,7 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
         public final static Property ObjectID = new Property(11, String.class, "ObjectID", false, "OBJECT_ID");
         public final static Property CreatedAt = new Property(12, java.util.Date.class, "createdAt", false, "CREATED_AT");
         public final static Property UpdatedAt = new Property(13, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
-    };
+    }
 
 
     public RecordTypeDao(DaoConfig config) {
@@ -280,6 +280,11 @@ public class RecordTypeDao extends AbstractDao<RecordType, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(RecordType entity) {
+        return entity.getId() != null;
     }
 
     @Override

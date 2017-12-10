@@ -20,7 +20,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
     /**
      * Properties of entity Record.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property RecordId = new Property(1, Long.class, "RecordId", false, "RECORD_ID");
@@ -38,7 +38,7 @@ public class RecordDao extends AbstractDao<Record, Long> {
         public final static Property Day = new Property(13, Integer.class, "day", false, "DAY");
         public final static Property CreatedAt = new Property(14, java.util.Date.class, "createdAt", false, "CREATED_AT");
         public final static Property UpdatedAt = new Property(15, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
-    };
+    }
 
 
     public RecordDao(DaoConfig config) {
@@ -308,6 +308,11 @@ public class RecordDao extends AbstractDao<Record, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(Record entity) {
+        return entity.getId() != null;
     }
 
     @Override

@@ -20,13 +20,13 @@ public class AccountTypeDao extends AbstractDao<AccountType, Long> {
     /**
      * Properties of entity AccountType.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property AccountTypeID = new Property(1, Integer.class, "AccountTypeID", false, "ACCOUNT_TYPE_ID");
         public final static Property AccountDesc = new Property(2, String.class, "AccountDesc", false, "ACCOUNT_DESC");
         public final static Property AccountIcon = new Property(3, Integer.class, "AccountIcon", false, "ACCOUNT_ICON");
-    };
+    }
 
 
     public AccountTypeDao(DaoConfig config) {
@@ -140,6 +140,11 @@ public class AccountTypeDao extends AbstractDao<AccountType, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(AccountType entity) {
+        return entity.getId() != null;
     }
 
     @Override

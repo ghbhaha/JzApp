@@ -20,14 +20,14 @@ public class CurrencyDao extends AbstractDao<Currency, Long> {
     /**
      * Properties of entity Currency.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property FromCurrency = new Property(1, String.class, "fromCurrency", false, "FROM_CURRENCY");
         public final static Property ToCurrency = new Property(2, String.class, "toCurrency", false, "TO_CURRENCY");
         public final static Property Currency = new Property(3, Double.class, "currency", false, "CURRENCY");
         public final static Property LastUpdate = new Property(4, java.util.Date.class, "lastUpdate", false, "LAST_UPDATE");
-    };
+    }
 
 
     public CurrencyDao(DaoConfig config) {
@@ -154,6 +154,11 @@ public class CurrencyDao extends AbstractDao<Currency, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(Currency entity) {
+        return entity.getId() != null;
     }
 
     @Override

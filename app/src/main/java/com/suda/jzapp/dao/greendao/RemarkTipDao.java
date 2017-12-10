@@ -20,14 +20,14 @@ public class RemarkTipDao extends AbstractDao<RemarkTip, Long> {
     /**
      * Properties of entity RemarkTip.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property UseTimes = new Property(1, Integer.class, "useTimes", false, "USE_TIMES");
         public final static Property Remark = new Property(2, String.class, "remark", false, "REMARK");
         public final static Property SyncStatus = new Property(3, Boolean.class, "SyncStatus", false, "SYNC_STATUS");
         public final static Property IsDel = new Property(4, Boolean.class, "isDel", false, "IS_DEL");
-    };
+    }
 
 
     public RemarkTipDao(DaoConfig config) {
@@ -154,6 +154,11 @@ public class RemarkTipDao extends AbstractDao<RemarkTip, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(RemarkTip entity) {
+        return entity.getId() != null;
     }
 
     @Override

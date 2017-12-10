@@ -9,6 +9,9 @@ import org.greenrobot.greendao.annotation.*;
 @Entity
 public class RecordType implements java.io.Serializable {
 
+
+    public static final long serialVersionUID = 2L;
+
     @Id
     private Long id;
     private Long RecordTypeID;

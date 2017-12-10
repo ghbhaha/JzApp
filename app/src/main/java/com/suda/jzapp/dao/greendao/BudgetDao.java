@@ -20,13 +20,13 @@ public class BudgetDao extends AbstractDao<Budget, Long> {
     /**
      * Properties of entity Budget.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property BudgetMoney = new Property(1, Double.class, "budgetMoney", false, "BUDGET_MONEY");
         public final static Property CreatedAt = new Property(2, java.util.Date.class, "createdAt", false, "CREATED_AT");
         public final static Property UpdatedAt = new Property(3, java.util.Date.class, "updatedAt", false, "UPDATED_AT");
-    };
+    }
 
 
     public BudgetDao(DaoConfig config) {
@@ -140,6 +140,11 @@ public class BudgetDao extends AbstractDao<Budget, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(Budget entity) {
+        return entity.getId() != null;
     }
 
     @Override
