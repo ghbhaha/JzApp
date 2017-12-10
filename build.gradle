@@ -9,8 +9,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
     }
     tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
 }
